@@ -6,8 +6,10 @@ import { Footer } from '../../layout/footer/footer';
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [Header,Footer],
+  imports: [Header, Footer],
   templateUrl: './home.html',
   styleUrl: './home.scss',
 })
-export class Home {}
+export class Home {
+  constructor() { }
+}
