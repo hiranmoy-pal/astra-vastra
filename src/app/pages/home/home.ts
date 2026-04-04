@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { Header } from '../../layout/header/header';
 import { Footer } from '../../layout/footer/footer';
+import { Theme } from '../../core/services/theme/theme';
 
 @Component({
   selector: 'app-home',
@@ -11,5 +12,5 @@ import { Footer } from '../../layout/footer/footer';
   styleUrl: './home.scss',
 })
 export class Home {
-  constructor() { }
+  constructor(public themeService: Theme) { }
 }
