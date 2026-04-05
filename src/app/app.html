@@ -1,1 +1,14 @@
+<div class="toast-container">
+  <div class="toast"
+       *ngFor="let t of toastService.toasts()"
+       [class]="t.type">
+    {{ t.message }}
+  </div>
+</div>
+
+<div class="global-loader" *ngIf="loadingService.loading()">
+  <div class="loader-content">
+    <img src="assets/Images/fav.png" alt="Astra Vastra Logo" />
+  </div>
+</div>
 <router-outlet />

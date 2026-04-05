@@ -4,7 +4,7 @@
         <div class="header__top">
 
             <h1 class="header__logo">
-                <a href="/">
+                <a routerLink="/home">
                     <img src="assets/Images/fav.png" alt="Astra Vastra Logo">
                 </a>
             </h1>
@@ -20,18 +20,117 @@
                     <i class="fa" [ngClass]="themeService.theme() === 'dark' ? 'fa-sun-o' : 'fa-moon-o'"></i>
                 </button>
 
-                <button class="icon-btn" aria-label="Wishlist">
-                    <i class="fa fa-heart"></i>
-                </button>
+                <a routerLink="/login"><button class="icon-btn" aria-label="Wishlist">
+                        <i class="fa fa-heart"></i>
+                    </button></a>
 
-                <button class="icon-btn cart" aria-label="Shopping cart">
-                    <i class="fa fa-shopping-cart"></i>
-                    <span class="badge">3</span>
-                </button>
+                <a routerLink="/login"><button class="icon-btn cart" aria-label="Shopping cart">
+                        <i class="fa fa-shopping-cart"></i>
+                        <span class="badge">3</span>
+                    </button></a>
 
-                <button class="icon-btn" aria-label="User profile">
-                    <i class="fa fa-user"></i>
-                </button>
+                <div class="profile-dropdown" (mouseleave)="closeProfile()">
+
+                    <button class="icon-btn" aria-label="User profile" (mouseenter)="openProfile()">
+                        <i class="fa fa-user"></i>
+                    </button>
+
+                    <div class="profile-menu" [class.show]="isProfileOpen">
+
+                        <ul class="profile-list">
+                            <li class="login-item">
+                                <a routerLink="/login">Login / Register</a>
+                            </li>
+
+                            <li class="divider"></li>
+
+                            <li>
+                                <a href="#">
+                                    <span class="left">
+                                        <i class="fa fa-user"></i>
+                                        <span class="label">My Profile</span>
+                                    </span>
+                                </a>
+                            </li>
+
+                            <li>
+                                <a href="#">
+                                    <span class="left">
+                                        <i class="fa fa-bolt"></i>
+                                        <span class="label">SuperCoin Zone</span>
+                                    </span>
+                                </a>
+                            </li>
+
+                            <li>
+                                <a href="#">
+                                    <span class="left">
+                                        <i class="fa fa-star-o"></i>
+                                        <span class="label">Plus Zone</span>
+                                    </span>
+                                </a>
+                            </li>
+
+                            <li>
+                                <a href="#">
+                                    <span class="left">
+                                        <i class="fa fa-shopping-bag"></i>
+                                        <span class="label">Orders</span>
+                                    </span>
+                                </a>
+                            </li>
+
+                            <li>
+                                <a href="#">
+                                    <span class="left">
+                                        <i class="fa fa-heart"></i>
+                                        <span class="label">Wishlist</span>
+                                    </span>
+                                </a>
+                            </li>
+
+                            <li>
+                                <a href="#">
+                                    <span class="left">
+                                        <i class="fa fa-tag"></i>
+                                        <span class="label">Coupons</span>
+                                    </span>
+                                </a>
+                            </li>
+
+                            <li>
+                                <a href="#">
+                                    <span class="left">
+                                        <i class="fa fa-credit-card"></i>
+                                        <span class="label">Gift Cards</span>
+                                    </span>
+                                </a>
+                            </li>
+
+                            <li>
+                                <a href="#">
+                                    <span class="left">
+                                        <i class="fa fa-bell"></i>
+                                        <span class="label">Notifications</span>
+                                    </span>
+                                </a>
+                            </li>
+
+                            <li class="divider"></li>
+
+                            <li>
+                                <a href="#">
+                                    <span class="left">
+                                        <i class="fa fa-power-off"></i>
+                                        <span class="label">Logout</span>
+                                    </span>
+                                </a>
+                            </li>
+
+                        </ul>
+
+                    </div>
+                </div>
 
             </div>
         </div>
@@ -39,78 +138,154 @@
 
         <nav class="header__nav" aria-label="Main navigation" (mouseleave)="clearMenu()">
             <ul class="nav-list">
-                <li class="nav-item" (mouseenter)="setMenu('collections')">Collections <span>▾</span></li>
-                <li class="nav-item" (mouseenter)="setMenu('new')">New Arrivals <span>▾</span></li>
-                <li class="nav-item" (mouseenter)="setMenu('best')">Best Sellers <span>▾</span></li>
-                <li class="nav-item" (mouseenter)="setMenu('designers')">Designers <span>▾</span></li>
-                <li class="nav-item" (mouseenter)="setMenu('collections')">Collections <span>▾</span></li>
-                <li class="nav-item" (mouseenter)="setMenu('new')">New Arrivals <span>▾</span></li>
-                <li class="nav-item" (mouseenter)="setMenu('best')">Best Sellers <span>▾</span></li>
-                <li class="nav-item" (mouseenter)="setMenu('designers')">Designers <span>▾</span></li>
+                <li class="nav-item">
+                    <a routerLink="/" (mouseenter)="setMenu('collections')">Collections <span>▾</span></a>
+                </li>
+                <li class="nav-item"><a (mouseenter)="setMenu('new')">New Arrivals <span>▾</span></a></li>
+                <li class="nav-item">
+                    <a routerLink="/" (mouseenter)="setMenu('best')">Best Sellers <span>▾</span></a>
+                </li>
+                <li class="nav-item"><a (mouseenter)="setMenu('designers')">Designers <span>▾</span></a></li>
+                <li class="nav-item">
+                    <a routerLink="/" (mouseenter)="setMenu('collections')">Collections <span>▾</span></a>
+                </li>
+                <li class="nav-item"><a (mouseenter)="setMenu('new')">New Arrivals <span>▾</span></a></li>
+                <li class="nav-item">
+                    <a routerLink="/" (mouseenter)="setMenu('best')">Best Sellers <span>▾</span></a>
+                </li>
+                <li class="nav-item"><a (mouseenter)="setMenu('designers')">Designers <span>▾</span></a></li>
+
             </ul>
 
             <div class="mega-menu" [class.show]="menu">
                 <div class="mega-menu__container">
                     <div class="mega-content " [class.active]="menu === 'collections'" id="collections">
                         <div class="mega-column">
-                            <h4>Footwear</h4>
-                            <a>Sports Shoes</a>
-                            <a>Casual Shoes</a>
-                            <a>Sports Shoes</a>
-                            <a>Casual Shoes</a>
-                            <a>Sports Shoes</a>
-                            <a>Casual Shoes</a>
+                            <h4><a routerLink="">Footwear</a></h4>
+                            <a routerLink="">Sports Shoes</a>
+                            <a routerLink="">Casual Shoes</a>
+                            <a routerLink="">Sports Shoes</a>
+                            <a routerLink="">Casual Shoes</a>
+                            <a routerLink="">Sports Shoes</a>
+                            <a routerLink="">Casual Shoes</a>
                         </div>
 
                         <div class="mega-column">
-                            <h4>Clothing</h4>
-                            <a>T-Shirts</a>
-                            <a>Shirts</a>
-                            <a>Sports Shoes</a>
-                            <a>Casual Shoes</a>
-                            <a>Sports Shoes</a>
-                            <a>Casual Shoes</a>
+                            <h4><a routerLink="">Footwear</a></h4>
+                            <a routerLink="">Sports Shoes</a>
+                            <a routerLink="">Casual Shoes</a>
+                            <a routerLink="">Sports Shoes</a>
+                            <a routerLink="">Casual Shoes</a>
+                            <a routerLink="">Sports Shoes</a>
+                            <a routerLink="">Casual Shoes</a>
                         </div>
                         <div class="mega-column">
-                            <h4>Clothing</h4>
-                            <a>T-Shirts</a>
-                            <a>Shirts</a>
-                            <a>Sports Shoes</a>
-                            <a>Casual Shoes</a>
-                            <a>Sports Shoes</a>
-                            <a>Casual Shoes</a>
+                            <h4><a routerLink="">Footwear</a></h4>
+                            <a routerLink="">Sports Shoes</a>
+                            <a routerLink="">Casual Shoes</a>
+                            <a routerLink="">Sports Shoes</a>
+                            <a routerLink="">Casual Shoes</a>
+                            <a routerLink="">Sports Shoes</a>
+                            <a routerLink="">Casual Shoes</a>
                         </div>
                         <div class="mega-column">
-                            <h4>Clothing</h4>
-                            <a>T-Shirts</a>
-                            <a>Shirts</a>
-                            <a>Sports Shoes</a>
-                            <a>Casual Shoes</a>
-                            <a>Sports Shoes</a>
-                            <a>Casual Shoes</a>
+                            <h4><a routerLink="">Footwear</a></h4>
+                            <a routerLink="">Sports Shoes</a>
+                            <a routerLink="">Casual Shoes</a>
+                            <a routerLink="">Sports Shoes</a>
+                            <a routerLink="">Casual Shoes</a>
+                            <a routerLink="">Sports Shoes</a>
+                            <a routerLink="">Casual Shoes</a>
+                        </div>
+                        <div class="mega-column">
+                            <h4><a routerLink="">Footwear</a></h4>
+                            <a routerLink="">Sports Shoes</a>
+                            <a routerLink="">Casual Shoes</a>
+                            <a routerLink="">Sports Shoes</a>
+                            <a routerLink="">Casual Shoes</a>
+                            <a routerLink="">Sports Shoes</a>
+                            <a routerLink="">Casual Shoes</a>
+                        </div>
+                        <div class="mega-column">
+                            <h4><a routerLink="">Footwear</a></h4>
+                            <a routerLink="">Sports Shoes</a>
+                            <a routerLink="">Casual Shoes</a>
+                            <a routerLink="">Sports Shoes</a>
+                            <a routerLink="">Casual Shoes</a>
+                            <a routerLink="">Sports Shoes</a>
+                            <a routerLink="">Casual Shoes</a>
                         </div>
                     </div>
 
                     <div class="mega-content" [class.active]="menu === 'new'" id="new">
                         <div class="mega-column">
-                            <h4>Trending</h4>
-                            <a>Latest Shoes</a>
-                            <a>New Fashion</a>
+                            <h4><a routerLink="">Footwear</a></h4>
+                            <a routerLink="">Sports Shoes</a>
+                            <a routerLink="">Casual Shoes</a>
+                            <a routerLink="">Sports Shoes</a>
+                            <a routerLink="">Casual Shoes</a>
+                            <a routerLink="">Sports Shoes</a>
+                            <a routerLink="">Casual Shoes</a>
+                        </div>
+                        <div class="mega-column">
+                            <h4><a routerLink="">Footwear</a></h4>
+                            <a routerLink="">Sports Shoes</a>
+                            <a routerLink="">Casual Shoes</a>
+                            <a routerLink="">Sports Shoes</a>
+                            <a routerLink="">Casual Shoes</a>
+                            <a routerLink="">Sports Shoes</a>
+                            <a routerLink="">Casual Shoes</a>
                         </div>
                     </div>
 
                     <div class="mega-content" [class.active]="menu === 'best'" id="best">
                         <div class="mega-column">
-                            <h4>Popular</h4>
-                            <a>Top Items</a>
+                            <h4><a routerLink="">Footwear</a></h4>
+                            <a routerLink="">Sports Shoes</a>
+                            <a routerLink="">Casual Shoes</a>
+                            <a routerLink="">Sports Shoes</a>
+                            <a routerLink="">Casual Shoes</a>
+                            <a routerLink="">Sports Shoes</a>
+                            <a routerLink="">Casual Shoes</a>
+                        </div>
+                        <div class="mega-column">
+                            <h4><a routerLink="">Footwear</a></h4>
+                            <a routerLink="">Sports Shoes</a>
+                            <a routerLink="">Casual Shoes</a>
+                            <a routerLink="">Sports Shoes</a>
+                            <a routerLink="">Casual Shoes</a>
+                            <a routerLink="">Sports Shoes</a>
+                            <a routerLink="">Casual Shoes</a>
                         </div>
                     </div>
 
                     <div class="mega-content" [class.active]="menu === 'designers'" id="designers">
                         <div class="mega-column">
-                            <h4>Luxury</h4>
-                            <a>Gucci</a>
-                            <a>Prada</a>
+                            <h4><a routerLink="">Footwear</a></h4>
+                            <a routerLink="">Sports Shoes</a>
+                            <a routerLink="">Casual Shoes</a>
+                            <a routerLink="">Sports Shoes</a>
+                            <a routerLink="">Casual Shoes</a>
+                            <a routerLink="">Sports Shoes</a>
+                            <a routerLink="">Casual Shoes</a>
+                        </div>
+                        <div class="mega-column">
+                            <h4><a routerLink="">Footwear</a></h4>
+                            <a routerLink="">Sports Shoes</a>
+                            <a routerLink="">Casual Shoes</a>
+                            <a routerLink="">Sports Shoes</a>
+                            <a routerLink="">Casual Shoes</a>
+                            <a routerLink="">Sports Shoes</a>
+                            <a routerLink="">Casual Shoes</a>
+                        </div>
+                        <div class="mega-column">
+                            <h4><a routerLink="">Footwear</a></h4>
+                            <a routerLink="">Sports Shoes</a>
+                            <a routerLink="">Casual Shoes</a>
+                            <a routerLink="">Sports Shoes</a>
+                            <a routerLink="">Casual Shoes</a>
+                            <a routerLink="">Sports Shoes</a>
+                            <a routerLink="">Casual Shoes</a>
                         </div>
                     </div>
 
