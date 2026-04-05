@@ -2,33 +2,21 @@
   --primary: #720036;
   --primary-light: #97144d;
   --primary-soft: rgba(114, 0, 54, 0.08);
-
   --background: #fff7f9;
   --surface: #ffffff;
   --surface-elevated: #fff1f4;
-
   --text-primary: #24181b;
   --text-secondary: #6b4a52;
   --text-tertiery: #ffffff;
-
   --border: #f0d9df;
   --outline: #d8b6be;
-
   --hover-soft: rgba(114, 0, 54, 0.06);
   --hover-medium: rgba(114, 0, 54, 0.12);
   --active: rgba(114, 0, 54, 0.18);
-
   --card-bg: #ffffff;
-
   --shadow-soft: 0 4px 20px rgba(114, 0, 54, 0.06);
   --shadow-medium: 0 8px 30px rgba(114, 0, 54, 0.12);
-
-  --hero-gradient: radial-gradient(circle,
-      #fdf1f6 0%,
-      #fde8f1 30%,
-      #f8eef8 60%,
-      #f3f7ff 100%);
-
+  --hero-gradient: radial-gradient(circle, #f6e8ff 0, #ffedfb 24%, #fdeff3 42%, #f1f6fe 60%, #ffd3f4 85%, #fbd7e1 100%);
   --font-headline: 'Manrope', sans-serif;
   --font-body: 'Inter', sans-serif;
 }
@@ -55,7 +43,6 @@ body {
   background: var(--background);
   color: var(--text-primary);
   font-family: var(--font-body);
-
   transition: background 0.3s ease, color 0.3s ease;
 }
 

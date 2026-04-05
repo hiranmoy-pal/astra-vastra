@@ -1,5 +1,157 @@
 <app-header></app-header>
-<div class="page">
-  home page works fine!
-</div>
+
+<main class="home">
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="container hero__content">
+
+      <div class="hero__text">
+        <p class="hero__tag">CURATED COLLECTION 2024</p>
+
+        <h1 class="hero__title">
+          The Art of <br />
+          <span class="gradient-text">Fluidity.</span>
+        </h1>
+
+        <p class="hero__desc">
+          Experience a digital marketplace where luxury meets enterprise reliability.
+          Curated for the modern professional.
+        </p>
+
+        <div class="hero__actions">
+          <a routerLink=""><button class="btn primary"> Shop Collections</button></a>
+          <a routerLink="/"><button class="btn link">
+              View Lookbook <i class="fa fa-arrow-right"></i>
+            </button></a>
+        </div>
+      </div>
+
+      <div class="hero__image">
+        <div class="image-card">
+          <img
+            src="https://rukminim2.flixcart.com/image/612/612/xif0q/sari/s/y/w/free-tiranga9601-smc-sareemall-unstitched-original-imah8eqbkzewzq6z.jpeg?q=70"
+            alt="Hero" />
+
+          <div class="image-card__info">
+            <p class="tag">New Arrival</p>
+            <p class="title">Linear Sculpture Dress</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Banner Section -->
+  <section class="banner">
+    <div class="container">
+      <swiper-container #swiperRefBanner class="banner__swiper" init="false">
+        <swiper-slide *ngFor="let img of banners">
+          <img [src]="img" class="banner-img" />
+        </swiper-slide>
+      </swiper-container>
+    </div>
+  </section>
+
+  <!-- BRANDS -->
+  <!-- <section class="brands">
+    <div class="container">
+      <p class="brands__title">FEATURED IN THE ENTERPRISE ECOSYSTEM</p>
+
+      <div class="brands__list">
+        <span>LUMINA</span>
+        <span>VELVET</span>
+        <span>AURA</span>
+        <span>PRISM</span>
+        <span>ORBIT</span>
+      </div>
+    </div>
+  </section> -->
+
+
+  <!-- TRENDING CATEGORIES -->
+  <!-- <section class="categories">
+    <div class="container">
+
+      <div class="section-header">
+        <div>
+          <h2>Trending Categories</h2>
+          <p>Discover the niches shaping the future of retail.</p>
+        </div>
+        <a href="#">Explore All →</a>
+      </div>
+
+      <div class="categories__grid">
+
+        <article class="category large">
+          <img src="https://picsum.photos/600/800" alt="">
+          <div class="overlay">
+            <h3>Essential Silhouettes</h3>
+            <button class="btn small">Shop Now</button>
+          </div>
+        </article>
+
+        <article class="category">
+          <img src="https://picsum.photos/600/500" alt="">
+          <div class="overlay">
+            <h3>Curated Tech</h3>
+          </div>
+        </article>
+
+        <article class="category">
+          <img src="https://picsum.photos/500/500" alt="">
+          <div class="overlay">
+            <h3>Atelier Home</h3>
+          </div>
+        </article>
+
+        <article class="category">
+          <img src="https://picsum.photos/500/500" alt="">
+          <div class="overlay">
+            <h3>Elemental Care</h3>
+          </div>
+        </article>
+
+      </div>
+    </div>
+  </section> -->
+
+
+  <!-- PRODUCTS -->
+  <!-- <section class="products">
+    <div class="container">
+
+      <div class="section-header center">
+        <h2>Trending Pieces</h2>
+        <span class="underline"></span>
+      </div>
+
+      <div class="products__grid">
+
+        <article class="product" *ngFor="let item of [1,2,3,4]">
+
+          <div class="product__image">
+            <img src="https://picsum.photos/400/600" alt="">
+            <button class="add-btn">ADD TO CART</button>
+          </div>
+
+          <div class="product__info">
+            <p class="category">STUDIO COLLECTION</p>
+            <h4>Architectural Blazer</h4>
+
+            <div class="price">
+              <span class="new">$180</span>
+              <span class="old">$230</span>
+            </div>
+          </div>
+
+        </article>
+
+      </div>
+    </div>
+  </section> -->
+
+</main>
+
 <app-footer></app-footer>
