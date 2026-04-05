@@ -1,34 +1,70 @@
-/* You can add global styles to this file, and also import other style files */
 :root {
-  --primary: #7b1e3a;
-  --background: #f4eff1;
+  --primary: #720036;
+  --primary-light: #97144d;
+  --primary-soft: rgba(114, 0, 54, 0.08);
+
+  --background: #fff7f9;
   --surface: #ffffff;
+  --surface-elevated: #fff1f4;
 
-  --text-primary: #2b1a1d;
-  --text-secondary: #6d5c60;
+  --text-primary: #24181b;
+  --text-secondary: #6b4a52;
+  --text-tertiery: #ffffff;
 
-  --border: #e6dadd;
-  --card-bg: #efe7e9;
+  --border: #f0d9df;
+  --outline: #d8b6be;
+
+  --hover-soft: rgba(114, 0, 54, 0.06);
+  --hover-medium: rgba(114, 0, 54, 0.12);
+  --active: rgba(114, 0, 54, 0.18);
+
+  --card-bg: #ffffff;
+
+  --shadow-soft: 0 4px 20px rgba(114, 0, 54, 0.06);
+  --shadow-medium: 0 8px 30px rgba(114, 0, 54, 0.12);
+
+  --hero-gradient: radial-gradient(circle,
+      #fdf1f6 0%,
+      #fde8f1 30%,
+      #f8eef8 60%,
+      #f3f7ff 100%);
+
+  --font-headline: 'Manrope', sans-serif;
+  --font-body: 'Inter', sans-serif;
 }
 
 .dark-theme {
-  --background: #121212;
-  --surface: #1e1e1e;
+  --background: #181314;
+  --surface: #211a1c;
+  --surface-elevated: #2a2224;
 
   --text-primary: #ffffff;
-  --text-secondary: #aaaaaa;
+  --text-secondary: #c4a8ae;
 
-  --border: #333;
-  --card-bg: #2a2a2a;
+  --border: #3a2f32;
+
+  --hover-soft: rgba(255, 177, 197, 0.08);
+  --hover-medium: rgba(255, 177, 197, 0.16);
+
+  --card-bg: #211a1c;
+
+  --shadow-soft: 0 4px 20px rgba(0, 0, 0, 0.4);
+
+  --hero-gradient: radial-gradient(circle,
+      #2a1a22 0%,
+      #1f1a22 40%,
+      #1a1f2a 100%);
 }
 
 body {
   margin: 0;
   background: var(--background);
   color: var(--text-primary);
-  font-family: 'Inter', sans-serif;
+  font-family: var(--font-body);
+
+  transition: background 0.3s ease, color 0.3s ease;
 }
 
-h1, h2, h3 {
-  font-family: 'Manrope', sans-serif;
+* {
+  transition: background 0.25s ease, color 0.25s ease, border-color 0.25s ease;
 }

@@ -1,37 +1,34 @@
 <header class="header">
     <div class="header__container">
 
-        <!-- TOP -->
         <div class="header__top">
 
-            <!-- LOGO -->
             <h1 class="header__logo">
                 <a href="/">
-                    <img src="favicon.ico" alt="Astra Vastra Logo">
+                    <img src="assets/Images/fav.png" alt="Astra Vastra Logo">
                 </a>
             </h1>
 
-            <!-- SEARCH -->
             <form class="header__search" role="search">
                 <i class="fa fa-search"></i>
                 <input type="search" placeholder="Search curated items..." />
             </form>
 
-            <!-- ACTIONS -->
             <div class="header__actions">
 
-                <!-- Wishlist -->
+                <button class="icon-btn" (click)="themeService.toggleTheme()" aria-label="Toggle theme">
+                    <i class="fa" [ngClass]="themeService.theme() === 'dark' ? 'fa-sun-o' : 'fa-moon-o'"></i>
+                </button>
+
                 <button class="icon-btn" aria-label="Wishlist">
                     <i class="fa fa-heart"></i>
                 </button>
 
-                <!-- Cart -->
                 <button class="icon-btn cart" aria-label="Shopping cart">
                     <i class="fa fa-shopping-cart"></i>
                     <span class="badge">3</span>
                 </button>
 
-                <!-- Profile -->
                 <button class="icon-btn" aria-label="User profile">
                     <i class="fa fa-user"></i>
                 </button>
@@ -39,86 +36,87 @@
             </div>
         </div>
 
-        <!-- NAV -->
 
-        <nav class="header__nav" aria-label="Main navigation">
+        <nav class="header__nav" aria-label="Main navigation" (mouseleave)="clearMenu()">
             <ul class="nav-list">
                 <li class="nav-item" (mouseenter)="setMenu('collections')">Collections <span>▾</span></li>
                 <li class="nav-item" (mouseenter)="setMenu('new')">New Arrivals <span>▾</span></li>
                 <li class="nav-item" (mouseenter)="setMenu('best')">Best Sellers <span>▾</span></li>
                 <li class="nav-item" (mouseenter)="setMenu('designers')">Designers <span>▾</span></li>
+                <li class="nav-item" (mouseenter)="setMenu('collections')">Collections <span>▾</span></li>
+                <li class="nav-item" (mouseenter)="setMenu('new')">New Arrivals <span>▾</span></li>
+                <li class="nav-item" (mouseenter)="setMenu('best')">Best Sellers <span>▾</span></li>
+                <li class="nav-item" (mouseenter)="setMenu('designers')">Designers <span>▾</span></li>
             </ul>
+
+            <div class="mega-menu" [class.show]="menu">
+                <div class="mega-menu__container">
+                    <div class="mega-content " [class.active]="menu === 'collections'" id="collections">
+                        <div class="mega-column">
+                            <h4>Footwear</h4>
+                            <a>Sports Shoes</a>
+                            <a>Casual Shoes</a>
+                            <a>Sports Shoes</a>
+                            <a>Casual Shoes</a>
+                            <a>Sports Shoes</a>
+                            <a>Casual Shoes</a>
+                        </div>
+
+                        <div class="mega-column">
+                            <h4>Clothing</h4>
+                            <a>T-Shirts</a>
+                            <a>Shirts</a>
+                            <a>Sports Shoes</a>
+                            <a>Casual Shoes</a>
+                            <a>Sports Shoes</a>
+                            <a>Casual Shoes</a>
+                        </div>
+                        <div class="mega-column">
+                            <h4>Clothing</h4>
+                            <a>T-Shirts</a>
+                            <a>Shirts</a>
+                            <a>Sports Shoes</a>
+                            <a>Casual Shoes</a>
+                            <a>Sports Shoes</a>
+                            <a>Casual Shoes</a>
+                        </div>
+                        <div class="mega-column">
+                            <h4>Clothing</h4>
+                            <a>T-Shirts</a>
+                            <a>Shirts</a>
+                            <a>Sports Shoes</a>
+                            <a>Casual Shoes</a>
+                            <a>Sports Shoes</a>
+                            <a>Casual Shoes</a>
+                        </div>
+                    </div>
+
+                    <div class="mega-content" [class.active]="menu === 'new'" id="new">
+                        <div class="mega-column">
+                            <h4>Trending</h4>
+                            <a>Latest Shoes</a>
+                            <a>New Fashion</a>
+                        </div>
+                    </div>
+
+                    <div class="mega-content" [class.active]="menu === 'best'" id="best">
+                        <div class="mega-column">
+                            <h4>Popular</h4>
+                            <a>Top Items</a>
+                        </div>
+                    </div>
+
+                    <div class="mega-content" [class.active]="menu === 'designers'" id="designers">
+                        <div class="mega-column">
+                            <h4>Luxury</h4>
+                            <a>Gucci</a>
+                            <a>Prada</a>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
         </nav>
     </div>
-    <div class="mega-menu" [class.show]="menu" (mouseleave)="clearMenu()">
-        <div class="mega-menu__container">
-            <!-- Collections -->
-            <div class="mega-content " [class.active]="menu === 'collections'" id="collections">
-                <div class="mega-column">
-                    <h4>Footwear</h4>
-                    <a>Sports Shoes</a>
-                    <a>Casual Shoes</a>
-                    <a>Sports Shoes</a>
-                    <a>Casual Shoes</a>
-                    <a>Sports Shoes</a>
-                    <a>Casual Shoes</a>
-                </div>
 
-                <div class="mega-column">
-                    <h4>Clothing</h4>
-                    <a>T-Shirts</a>
-                    <a>Shirts</a>
-                    <a>Sports Shoes</a>
-                    <a>Casual Shoes</a>
-                    <a>Sports Shoes</a>
-                    <a>Casual Shoes</a>
-                </div>
-                <div class="mega-column">
-                    <h4>Clothing</h4>
-                    <a>T-Shirts</a>
-                    <a>Shirts</a>
-                    <a>Sports Shoes</a>
-                    <a>Casual Shoes</a>
-                    <a>Sports Shoes</a>
-                    <a>Casual Shoes</a>
-                </div>
-                <div class="mega-column">
-                    <h4>Clothing</h4>
-                    <a>T-Shirts</a>
-                    <a>Shirts</a>
-                    <a>Sports Shoes</a>
-                    <a>Casual Shoes</a>
-                    <a>Sports Shoes</a>
-                    <a>Casual Shoes</a>
-                </div>
-            </div>
-
-            <!-- New Arrivals -->
-            <div class="mega-content" [class.active]="menu === 'new'" id="new">
-                <div class="mega-column">
-                    <h4>Trending</h4>
-                    <a>Latest Shoes</a>
-                    <a>New Fashion</a>
-                </div>
-            </div>
-
-            <!-- Best Sellers -->
-            <div class="mega-content" [class.active]="menu === 'best'" id="best">
-                <div class="mega-column">
-                    <h4>Popular</h4>
-                    <a>Top Items</a>
-                </div>
-            </div>
-
-            <!-- Designers -->
-            <div class="mega-content" [class.active]="menu === 'designers'" id="designers">
-                <div class="mega-column">
-                    <h4>Luxury</h4>
-                    <a>Gucci</a>
-                    <a>Prada</a>
-                </div>
-            </div>
-
-        </div>
-    </div>
 </header>

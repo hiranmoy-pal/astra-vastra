@@ -2,8 +2,8 @@
     position: sticky;
     top: 0;
     z-index: 1000;
-
-    background: var(--background);
+    background: var(--surface);
+    box-shadow: var(--shadow-soft);
     border-bottom: 1px solid var(--border);
 
     &__container {
@@ -30,7 +30,7 @@
         }
 
         img {
-            height: 42px;
+            height: 100px;
             width: auto;
             object-fit: contain;
 
@@ -42,24 +42,23 @@
         }
     }
 
-    /* 🔥 SEARCH BAR */
     &__search {
         flex: 1;
         max-width: 600px;
         margin: 0 40px;
-
         display: flex;
         align-items: center;
-
-        background: #e6dadd;
         padding: 12px 20px;
-        border-radius: 999px;
-
         transition: all 0.25s ease;
+        background: var(--surface-elevated);
+        border: 1px solid transparent;
+        border-radius: 40px;
+        box-sizing: border-box;
 
         &:focus-within {
             background: var(--surface);
-            box-shadow: 0 0 0 2px rgba(123, 30, 58, 0.15);
+            border-color: var(--primary-light);
+            box-shadow: 0 0 0 3px var(--hover-soft);
         }
 
         input {
@@ -71,7 +70,6 @@
             color: var(--text-primary);
         }
 
-        /* 🔥 FONT AWESOME SEARCH ICON */
         i {
             margin-right: 10px;
             font-size: 16px;
@@ -85,55 +83,56 @@
         gap: 20px;
     }
 
-    /* 🔥 ICON BUTTON FIXED FOR <i> */
     .icon-btn {
         border: none;
         background: transparent;
         cursor: pointer;
         position: relative;
-        color: var(--primary);
-
         display: grid;
         place-items: center;
-
         width: 40px;
         height: 40px;
         border-radius: 50%;
-
         transition: all 0.2s ease;
+        color: var(--text-primary);
 
         &:hover {
-            background: var(--card-bg);
+            background: var(--hover-soft);
+            color: var(--primary);
             transform: translateY(-1px);
         }
 
-        /* 🔥 THIS IS THE IMPORTANT CHANGE */
+        &:active {
+            background: var(--active);
+        }
+
         i {
             font-size: 18px;
             line-height: 1;
+            transition: transform 0.3s ease;
+
+            &:hover {
+                transform: rotate(20deg);
+            }
         }
+
     }
 
     .badge {
         position: absolute;
         top: -4px;
         right: -6px;
-
-        background: var(--primary);
-        color: #fff;
-
+        background: var(--primary-light);
+        color: var(--text-tertiery);
         width: 18px;
         height: 18px;
         font-size: 10px;
-
         display: flex;
         align-items: center;
         justify-content: center;
-
         border-radius: 50%;
     }
 
-    /* NAV */
     &__nav {
         display: flex;
         justify-content: center;
@@ -150,27 +149,23 @@
 
     .nav-item {
         padding: 8px 16px;
-        border-radius: 12px;
         cursor: pointer;
-
         display: flex;
         align-items: center;
         gap: 6px;
-
         color: var(--text-secondary);
         font-weight: 500;
-
         transition: all 0.2s ease;
+        border-radius: 999px;
 
         &:hover {
-            background: var(--card-bg);
+            background: var(--hover-soft);
             color: var(--primary);
         }
 
         &.active {
-            background: var(--card-bg);
+            background: var(--hover-medium);
             color: var(--primary);
-            font-weight: 600;
         }
     }
 
@@ -179,32 +174,39 @@
         top: 100%;
         left: 0;
         width: 100%;
-
         background: var(--surface);
+        box-shadow: var(--shadow-medium);
         border-top: 1px solid var(--border);
-
         opacity: 0;
         visibility: hidden;
-
         transition: all 0.25s ease;
         z-index: 999;
     }
 
-    /* 🔥 CONTROL VIA ANGULAR */
     .mega-menu.show {
         opacity: 1;
         visibility: visible;
     }
 
-    /* INNER ALIGNMENT */
     .mega-menu__container {
         max-width: 1400px;
-        margin: auto;
+        margin: 0 auto;
         padding: 24px;
         display: flex;
+        gap: 40px;
+        max-height: 400px;
+        overflow-y: auto;
     }
 
-    /* CONTENT SWITCH */
+    .mega-menu__container::-webkit-scrollbar {
+        width: 6px;
+    }
+
+    .mega-menu__container::-webkit-scrollbar-thumb {
+        background: var(--border);
+        border-radius: 10px;
+    }
+
     .mega-content {
         display: none;
         gap: 40px;
@@ -214,7 +216,6 @@
         display: flex;
     }
 
-    /* COLUMN */
     .mega-column {
         min-width: 180px;
 
@@ -226,11 +227,95 @@
         a {
             display: block;
             margin-bottom: 6px;
-            color: var(--text-secondary);
 
             &:hover {
+                background: var(--hover-soft);
                 color: var(--primary);
             }
+        }
+    }
+}
+
+/* =========================
+   TABLET + MOBILE
+========================= */
+@media (max-width: 1024px) {
+    .header {
+
+        &__top {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            height: auto;
+            padding: 0;
+            gap: 0;
+        }
+
+        &__logo {
+            order: 1;
+            flex: 0 0 auto;
+        }
+
+        &__actions {
+            order: 2;
+            margin-left: auto;
+            flex: 0 0 auto;
+            gap: 2px
+        }
+
+        &__search {
+            order: 3;
+            flex: 0 0 100%;
+            width: 100%;
+            max-width: 100%;
+            margin-left: 0;
+            margin-right: 0;
+            padding: 10px 16px;
+            border-radius: 999px;
+        }
+
+        &__nav {
+            justify-content: flex-start;
+            overflow-x: auto;
+            padding: 10px 0;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .nav-list {
+            flex-wrap: nowrap;
+            gap: 12px;
+        }
+
+        .nav-item {
+            flex: 0 0 auto;
+            white-space: nowrap;
+        }
+    }
+}
+
+@media (max-width: 768px) {
+
+    .header {
+        &__logo img {
+            height: 50px;
+        }
+
+        .icon-btn {
+            width: 36px;
+            height: 36px;
+
+            i {
+                font-size: 16px;
+            }
+        }
+
+        &__search {
+            padding: 8px 14px;
+        }
+
+        .nav-item {
+            padding: 6px 12px;
+            font-size: 13px;
         }
     }
 }
