@@ -5,20 +5,16 @@
   <!-- HERO -->
   <section class="hero">
     <div class="container hero__content">
-
       <div class="hero__text">
         <p class="hero__tag">CURATED COLLECTION 2024</p>
-
         <h1 class="hero__title">
           The Art of <br />
           <span class="gradient-text">Fluidity.</span>
         </h1>
-
         <p class="hero__desc">
           Experience a digital marketplace where luxury meets enterprise reliability.
           Curated for the modern professional.
         </p>
-
         <div class="hero__actions">
           <a routerLink=""><button class="btn primary"> Shop Collections</button></a>
           <a routerLink="/"><button class="btn link">
@@ -26,20 +22,17 @@
             </button></a>
         </div>
       </div>
-
       <div class="hero__image">
         <div class="image-card">
           <img
             src="https://rukminim2.flixcart.com/image/612/612/xif0q/sari/s/y/w/free-tiranga9601-smc-sareemall-unstitched-original-imah8eqbkzewzq6z.jpeg?q=70"
             alt="Hero" />
-
           <div class="image-card__info">
             <p class="tag">New Arrival</p>
             <p class="title">Linear Sculpture Dress</p>
           </div>
         </div>
       </div>
-
     </div>
   </section>
 
@@ -50,107 +43,51 @@
         <swiper-slide *ngFor="let img of banners">
           <img [src]="img" class="banner-img" />
         </swiper-slide>
+        <!-- <div class="swiper-pagination"></div> -->
       </swiper-container>
+      <div class="swiper-button-prev"></div>
+      <div class="swiper-button-next"></div>
     </div>
   </section>
 
   <!-- BRANDS -->
-  <!-- <section class="brands">
+  <section class="brands">
     <div class="container">
-      <p class="brands__title">FEATURED IN THE ENTERPRISE ECOSYSTEM</p>
-
-      <div class="brands__list">
-        <span>LUMINA</span>
-        <span>VELVET</span>
-        <span>AURA</span>
-        <span>PRISM</span>
-        <span>ORBIT</span>
-      </div>
+      <p class="brands__title">
+        FEATURED IN THE ENTERPRISE ECOSYSTEM
+      </p>
+      <swiper-container #swiperRefBrand class="brands__swiper" init="false">
+        <swiper-slide *ngFor="let brand of brands">
+          <div class="brand-item">
+            {{ brand }}
+          </div>
+        </swiper-slide>
+      </swiper-container>
     </div>
-  </section> -->
+  </section>
 
 
   <!-- TRENDING CATEGORIES -->
-  <!-- <section class="categories">
+  <section class="category">
     <div class="container">
-
-      <div class="section-header">
-        <div>
-          <h2>Trending Categories</h2>
-          <p>Discover the niches shaping the future of retail.</p>
-        </div>
-        <a href="#">Explore All →</a>
-      </div>
-
-      <div class="categories__grid">
-
-        <article class="category large">
-          <img src="https://picsum.photos/600/800" alt="">
-          <div class="overlay">
-            <h3>Essential Silhouettes</h3>
-            <button class="btn small">Shop Now</button>
+      <header class="category__header">
+        <h2>Shop By Category</h2>
+      </header>
+      <div class="category__grid">
+        <a class="category-card" *ngFor="let item of categories" href="#">
+          <div class="category-card__image">
+            <img [src]="item.image" alt="{{ item.title }}" />
           </div>
-        </article>
-
-        <article class="category">
-          <img src="https://picsum.photos/600/500" alt="">
-          <div class="overlay">
-            <h3>Curated Tech</h3>
+          <div class="category-card__content">
+            <h3>{{ item.title }}</h3>
+            <p class="offer">{{ item.offer }}</p>
           </div>
-        </article>
-
-        <article class="category">
-          <img src="https://picsum.photos/500/500" alt="">
-          <div class="overlay">
-            <h3>Atelier Home</h3>
-          </div>
-        </article>
-
-        <article class="category">
-          <img src="https://picsum.photos/500/500" alt="">
-          <div class="overlay">
-            <h3>Elemental Care</h3>
-          </div>
-        </article>
-
+        </a>
       </div>
     </div>
-  </section> -->
-
+  </section>
 
   <!-- PRODUCTS -->
-  <!-- <section class="products">
-    <div class="container">
-
-      <div class="section-header center">
-        <h2>Trending Pieces</h2>
-        <span class="underline"></span>
-      </div>
-
-      <div class="products__grid">
-
-        <article class="product" *ngFor="let item of [1,2,3,4]">
-
-          <div class="product__image">
-            <img src="https://picsum.photos/400/600" alt="">
-            <button class="add-btn">ADD TO CART</button>
-          </div>
-
-          <div class="product__info">
-            <p class="category">STUDIO COLLECTION</p>
-            <h4>Architectural Blazer</h4>
-
-            <div class="price">
-              <span class="new">$180</span>
-              <span class="old">$230</span>
-            </div>
-          </div>
-
-        </article>
-
-      </div>
-    </div>
-  </section> -->
 
 </main>
 
