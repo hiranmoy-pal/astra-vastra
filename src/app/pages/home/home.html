@@ -89,6 +89,48 @@
 
   <!-- PRODUCTS -->
 
+  <section class="trending">
+    <div class="container">
+      <header class="trending__header">
+        <h2>Trending Products</h2>
+      </header>
+      <div class="trending__grid">
+        <article class="product-card" *ngFor="let product of products" (mouseenter)="startSwiper($event)"
+          (mouseleave)="resetSwiper($event)">
+          <div class="product-card__media">
+            <img class="product-card__image default" [src]="product.images[0]" [alt]="product.name" loading="lazy" />
+            <swiper-container class="product-card__swiper" init="false">
+              <swiper-slide *ngFor="let img of product.images">
+                <img [src]="img" [alt]="product.name" loading="lazy" />
+              </swiper-slide>
+            </swiper-container>
+            <span class="product-card__rating">
+              {{ product.rating }}
+              <i class="fa fa-star"></i>
+              <span class="count">| {{ product.count }}</span>
+            </span>
+            <button class="product-card__wishlist" type="button" aria-label="Add to wishlist">
+              <i class="fa fa-heart"></i>
+            </button>
+          </div>
+
+          <div class="product-card__content">
+            <h3 class="brand">{{ product.brand }}</h3>
+            <p class="name">{{ product.name }}</p>
+            <div class="price">
+              <span class="current">₹{{ product.price }}</span>
+              <span class="original">₹{{ product.original }}</span>
+              <span class="discount">{{ product.discount }}</span>
+            </div>
+            <p class="size">Sizes: {{ product.size }}</p>
+          </div>
+
+        </article>
+
+      </div>
+    </div>
+  </section>
+
 </main>
 
 <app-footer></app-footer>
