@@ -1,1 +1,128 @@
-<p>login works!</p>
+<main class="auth">
+    <section class="auth__container" *ngIf="showLogin">
+        <header class="auth__header">
+            <h1 class="auth__title">Login / Signup</h1>
+            <p class="auth__subtitle">
+                Experience commerce with editorial soul.
+            </p>
+        </header>
+
+        <form class="auth__form">
+            <div class="form-group">
+                <label for="userInput">Email</label>
+
+                <input id="userInput" type="text" name="userInput" placeholder="Enter Email" required />
+            </div>
+
+            <div class="form-checkbox">
+                <input type="checkbox" id="agree" name="agree" />
+                <label for="agree">
+                    I agree to the <a href="#">Privacy Policy</a> and
+                    <a href="#">Terms & Conditions</a>.
+                </label>
+            </div>
+
+            <button type="submit" class="btn-primary" (click)="openOtp()">
+                Get One-Time Password
+            </button>
+
+            <div class="auth__info">
+                <span>✔</span>
+                <p>
+                    Secure biometric login is available on the mobile application for
+                    verified enterprise accounts.
+                </p>
+            </div>
+        </form>
+
+        <footer class="auth__footer">
+            <a href="#">Forgot Password?</a>
+            <a href="#">Privacy Center</a>
+        </footer>
+    </section>
+    <section class="auth__container auth__otp" *ngIf="showOtp">
+        <div class="auth__back">
+            ← Back
+        </div>
+        <header class="auth__header">
+            <h1 class="auth__title">Verify with OTP</h1>
+            <p class="auth__subtitle">
+                A 6-digit code has been sent to your email/phone number.
+            </p>
+        </header>
+
+        <form class="auth__form otp-form">
+            <div class="otp-group">
+                <input type="text" maxlength="1" *ngFor="let i of [0,1,2,3,4,5]" />
+            </div>
+            <div class="otp-resend">
+                <p>Resend OTP in <span>00:59</span></p>
+                <button type="button" class="link-btn">Resend OTP</button>
+            </div>
+            <button class="btn-primary otp-btn">
+                Verify & Continue
+            </button>
+        </form>
+
+        <div class="otp-help">
+            HAVING TROUBLE LOGGING IN?
+            <a href="#">GET HELP</a>
+        </div>
+
+    </section>
+
+    <section class="auth__container auth__register" *ngIf="showRegister">
+        <header class="auth__header">
+            <h1 class="auth__title">Create Your Account</h1>
+            <p class="auth__subtitle">
+                Join our exclusive network of curators.
+            </p>
+        </header>
+
+        <form class="auth__form register-form">
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label>First Name</label>
+                    <input type="text" placeholder="E.g. Julian" />
+                </div>
+
+                <div class="form-group">
+                    <label>Last Name</label>
+                    <input type="text" placeholder="E.g. Voss" />
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Mobile Number</label>
+                <input type="text" placeholder="+1 (555) 000-0000" />
+            </div>
+
+            <div class="form-group">
+                <label>Email Address</label>
+                <input type="email" placeholder="julian@example.com" />
+            </div>
+
+            <div class="form-group">
+                <label>Gender</label>
+
+                <div class="gender-group">
+                    <button type="button">Male</button>
+                    <button type="button">Female</button>
+                    <button type="button">Other</button>
+                </div>
+            </div>
+
+            <button class="btn-primary register-btn">
+                Register & Continue
+            </button>
+
+        </form>
+
+        <div class="register-footer">
+            Already have an account?
+            <a>Log in here</a>
+        </div>
+    </section>
+
+</main>
