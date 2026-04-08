@@ -1,0 +1,73 @@
+<app-header></app-header>
+<main class="profile">
+
+    <div class="profile__container">
+
+        <!-- LEFT PANEL -->
+        <app-profile-menu></app-profile-menu>
+
+        <!-- RIGHT PANEL -->
+        <section class="profile__content">
+
+            <div class="profile__header">
+                <h1>Personal Profile</h1>
+
+                <button *ngIf="!isEdit" (click)="enableEdit()">
+                    Edit Info
+                </button>
+            </div>
+
+            <form class="profile__card" [formGroup]="form">
+
+                <div class="form-grid">
+
+                    <div class="form-group">
+                        <label>First Name</label>
+                        <input formControlName="firstName" [readonly]="!isEdit" />
+                    </div>
+
+                    <div class="form-group">
+                        <label>Last Name</label>
+                        <input formControlName="lastName" [readonly]="!isEdit" />
+                    </div>
+
+                    <div class="form-group">
+                        <label>Gender</label>
+                        <input formControlName="gender" [readonly]="!isEdit" />
+                    </div>
+
+                    <div class="form-group">
+                        <label>Date of Birth</label>
+                        <input type="date" formControlName="dob" [readonly]="!isEdit" />
+                    </div>
+
+                    <div class="form-group">
+                        <label>Mobile Number</label>
+                        <input formControlName="mobile" [readonly]="!isEdit" />
+                    </div>
+
+                    <div class="form-group">
+                        <label>Email Address</label>
+                        <input formControlName="email" readonly />
+                    </div>
+
+                </div>
+
+                <div class="form-group full">
+                    <label>Location</label>
+                    <input formControlName="location" [readonly]="!isEdit" />
+                </div>
+
+                <div class="profile__actions" *ngIf="isEdit">
+                    <button type="button" class="btn-primary" (click)="save()">Save Changes</button>
+                    <button type="button" class="btn-secondary" (click)="cancel()">Cancel</button>
+                </div>
+
+            </form>
+
+        </section>
+
+    </div>
+
+</main>
+<app-footer></app-footer>

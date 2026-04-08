@@ -20,11 +20,11 @@
                     <i class="fa" [ngClass]="themeService.theme() === 'dark' ? 'fa-sun-o' : 'fa-moon-o'"></i>
                 </button>
 
-                <a routerLink="/login"><button class="icon-btn" aria-label="Wishlist">
+                <a routerLink="/wishlist"><button class="icon-btn" aria-label="Wishlist">
                         <i class="fa fa-heart"></i>
                     </button></a>
 
-                <a routerLink="/login"><button class="icon-btn cart" aria-label="Shopping cart">
+                <a routerLink="/"><button class="icon-btn cart" aria-label="Shopping cart">
                         <i class="fa fa-shopping-cart"></i>
                         <span class="badge">3</span>
                     </button></a>
@@ -45,10 +45,19 @@
                             <li class="divider"></li>
 
                             <li>
-                                <a href="#">
+                                <a routerLink="/profile">
                                     <span class="left">
                                         <i class="fa fa-user"></i>
                                         <span class="label">My Profile</span>
+                                    </span>
+                                </a>
+                            </li>
+
+                             <li>
+                                <a routerLink="/address">
+                                    <span class="left">
+                                        <i class="fa fa-map-marker"></i>
+                                        <span class="label">Manage Address</span>
                                     </span>
                                 </a>
                             </li>

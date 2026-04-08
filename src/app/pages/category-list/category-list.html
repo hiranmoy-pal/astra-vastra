@@ -1,0 +1,29 @@
+<app-header></app-header>
+<nav class="breadcrumb">
+    <div class="container">
+        <a href="/">Home</a>
+        <span>›</span>
+        <span class="active">Category</span>
+    </div>
+</nav>
+<main class="main">
+    <section class="category">
+        <div class="container">
+            <header class="category__header">
+                <h2>Shop By Category</h2>
+            </header>
+            <div class="category__grid">
+                <a class="category-card" *ngFor="let item of categories" routerLink="">
+                    <div class="category-card__image">
+                        <img [src]="item.image" alt="{{ item.title }}" />
+                    </div>
+                    <div class="category-card__content">
+                        <h3>{{ item.title }}</h3>
+                        <p class="offer">{{ item.offer }}</p>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </section>
+</main>
+<app-footer></app-footer>

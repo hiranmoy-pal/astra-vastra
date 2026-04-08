@@ -1,0 +1,78 @@
+<app-header></app-header>
+
+<main class="main">
+    <section class="trending">
+        <div class="container">
+            <header class="trending__header">
+                <h2>Checkout Your Favorite One</h2>
+            </header>
+            <div class="trending__grid">
+                <article class="product-card" *ngFor="let product of products" (mouseenter)="startSwiper($event)"
+                    (mouseleave)="resetSwiper($event)">
+                    <div class="product-card__media">
+                        <img class="product-card__image default" [src]="product.images[0]" [alt]="product.name"
+                            loading="lazy" />
+                        <swiper-container class="product-card__swiper">
+                            <swiper-slide *ngFor="let img of product.images">
+                                <img [src]="img" [alt]="product.name" loading="lazy" />
+                            </swiper-slide>
+                        </swiper-container>
+                        <span class="product-card__rating">
+                            {{ product.rating }}
+                            <i class="fa fa-star"></i>
+                            <span class="count">| {{ product.count }}</span>
+                        </span>
+                        <button class="product-card__wishlist" type="button" aria-label="Add to wishlist">
+                            <i class="fa fa-close"></i>
+                        </button>
+                    </div>
+
+                    <div class="product-card__content">
+                        <h3 class="brand">{{ product.brand }}</h3>
+                        <p class="name">{{ product.name }}</p>
+                        <div class="price">
+                            <span class="current">₹{{ product.price }}</span>
+                            <span class="original">₹{{ product.original }}</span>
+                            <span class="discount">{{ product.discount }}</span>
+                        </div>
+                        <p class="size">Sizes: {{ product.size }}</p>
+                    </div>
+
+                    <a routerLink="" style="text-decoration: none;">
+                        <button class="product-card__cart">
+                            <i class="fa fa-shopping-cart"></i>
+                            <span>Move to Cart</span>
+                        </button>
+                    </a>
+
+                </article>
+
+            </div>
+        </div>
+    </section>
+    
+    <section class="explore">
+        <div class="container">
+            <div class="explore__card">
+
+                <div class="explore__icon">
+                    ✨
+                </div>
+
+                <h2 class="explore__title">Continue the Search</h2>
+
+                <p class="explore__desc">
+                    Discover our latest editorial collections and find more
+                    pieces to add to your curation.
+                </p>
+
+                <button class="explore__btn">
+                    Explore Collections →
+                </button>
+
+            </div>
+        </div>
+    </section>
+</main>
+
+<app-footer></app-footer>

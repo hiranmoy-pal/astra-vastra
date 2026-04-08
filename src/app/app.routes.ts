@@ -17,6 +17,26 @@ export const routes: Routes = [
             import('./pages/login/login').then(m => m.Login),
     },
     {
+        path: 'category',
+        loadComponent: () =>
+            import('./pages/category-list/category-list').then(m => m.CategoryList),
+    },
+    {
+        path: 'wishlist',
+        loadComponent: () =>
+            import('./pages/wishlist/wishlist').then(m => m.Wishlist),
+    },
+    {
+        path: 'profile',
+        loadComponent: () =>
+            import('./pages/profile/profile').then(m => m.Profile),
+    },
+    {
+        path: 'address',
+        loadComponent: () =>
+            import('./pages/address/address').then(m => m.Address),
+    },
+    {
         path: '**',
         redirectTo: ''
     }

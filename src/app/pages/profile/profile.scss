@@ -1,0 +1,141 @@
+/* =========================
+   PROFILE LAYOUT
+========================= */
+
+.profile {
+    padding: 2rem;
+    background: var(--hero-gradient);
+    min-height: 100vh;
+
+    &__container {
+        display: grid;
+        grid-template-columns: 260px 1fr;
+        gap: 2rem;
+    }
+
+    &__content {
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+    }
+
+    &__header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        h1 {
+            font-size: 26px;
+            font-weight: 700;
+        }
+
+        button {
+            background: var(--primary-soft);
+            border: none;
+            padding: 8px 14px;
+            border-radius: 8px;
+            color: var(--primary);
+            font-weight: 600;
+            cursor: pointer;
+        }
+    }
+
+    &__card {
+        background: var(--surface);
+        padding: 2rem;
+        border-radius: 18px;
+        box-shadow: var(--shadow-soft);
+    }
+
+    &__actions {
+        margin-top: 1.5rem;
+        display: flex;
+        gap: 10px;
+    }
+}
+
+/* =========================
+   FORM
+========================= */
+
+.form-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.2rem;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+
+    &.full {
+        margin-top: 1rem;
+    }
+
+    label {
+        font-size: 12px;
+        font-weight: 600;
+        color: var(--text-secondary);
+    }
+
+    input {
+        height: 44px;
+        padding: 0 12px;
+        border-radius: 10px;
+        border: 1px solid var(--border);
+        background: var(--surface-elevated);
+        font-size: 14px;
+
+        transition: all 0.2s ease;
+
+        &:focus {
+            outline: none;
+            border-color: var(--primary);
+            background: var(--surface);
+        }
+    }
+
+    input[readonly] {
+        background: transparent;
+        border: 1px dashed var(--border);
+        color: var(--text-secondary);
+        cursor: default;
+    }
+}
+
+/* =========================
+   BUTTONS
+========================= */
+
+.btn-primary {
+    padding: 10px 16px;
+    border-radius: 10px;
+    border: none;
+    background: var(--primary);
+    color: var(--text-tertiery);
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.btn-secondary {
+    padding: 10px 16px;
+    border-radius: 10px;
+    border: 1px solid var(--border);
+    background: transparent;
+    cursor: pointer;
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media (max-width: 768px) {
+    .profile__container {
+        grid-template-columns: 1fr;
+    }
+
+    .form-grid {
+        grid-template-columns: 1fr;
+    }
+}

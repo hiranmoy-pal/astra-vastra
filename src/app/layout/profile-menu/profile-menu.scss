@@ -1,0 +1,53 @@
+.profile-sidebar {
+    background: var(--surface);
+    border-radius: 16px;
+    padding: 1.5rem;
+    box-shadow: var(--shadow-soft);
+
+    &__user {
+        text-align: center;
+        margin-bottom: 1.5rem;
+
+        .avatar {
+            width: 60px;
+            height: 60px;
+            background: var(--primary-soft);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: auto;
+            font-size: 24px;
+        }
+
+        h3 {
+            margin-top: 10px;
+            font-size: 16px;
+        }
+    }
+
+    &__menu {
+        list-style: none;
+        padding: 0;
+
+        li {
+            padding: 10px;
+            cursor: pointer;
+            border-radius: 8px;
+            font-size: 14px;
+
+            &:hover {
+                background: var(--hover-soft);
+            }
+
+            &.active {
+                color: var(--primary);
+                font-weight: 700;
+            }
+
+            &.danger {
+                color: red;
+            }
+        }
+    }
+}
