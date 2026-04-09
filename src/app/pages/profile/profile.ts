@@ -30,7 +30,8 @@ export class Profile {
     dob: ['1995-01-01'],
     mobile: ['9876543210'],
     email: ['julianne@mail.com'],
-    location: ['Kolkata']
+    location: ['Kolkata'],
+    pincode: ['700044']
   });
 
 

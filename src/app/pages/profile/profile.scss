@@ -1,22 +1,30 @@
 /* =========================
    PROFILE LAYOUT
 ========================= */
-
 .profile {
-    padding: 2rem;
+
+    display: flex;
+    flex-direction: column;
+    padding: 1.5rem 2rem;
     background: var(--hero-gradient);
-    min-height: 100vh;
+    flex: 1;
+    height: 100%;
+    max-height: 100%;
 
     &__container {
+        flex: 1;
         display: grid;
-        grid-template-columns: 260px 1fr;
+        grid-template-columns: 260px minmax(0, 1fr);
         gap: 2rem;
+        align-items: start;
     }
 
     &__content {
         display: flex;
         flex-direction: column;
         gap: 1.5rem;
+        min-width: 0;
+
     }
 
     &__header {
@@ -30,25 +38,32 @@
         }
 
         button {
-            background: var(--primary-soft);
+            background: var(--background);
             border: none;
             padding: 8px 14px;
             border-radius: 8px;
-            color: var(--primary);
+            color: var(--text-primary);
             font-weight: 600;
             cursor: pointer;
+
+            &:hover {
+                background: var(--primary-light);
+                color: var(--text-tertiery);
+            }
         }
     }
 
     &__card {
-        background: var(--surface);
-        padding: 2rem;
+        background: var(--category-card-bg);
+        padding: 1rem;
         border-radius: 18px;
         box-shadow: var(--shadow-soft);
+        width: 100%;
     }
 
     &__actions {
-        margin-top: 1.5rem;
+        margin-top: 1rem;
+        margin-left: 20px;
         display: flex;
         gap: 10px;
     }
@@ -60,18 +75,15 @@
 
 .form-grid {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 1.2rem;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1.5rem;
+    margin: 0 20px;
 }
 
 .form-group {
     display: flex;
     flex-direction: column;
-    gap: 4px;
-
-    &.full {
-        margin-top: 1rem;
-    }
+    gap: 6px;
 
     label {
         font-size: 12px;
@@ -80,17 +92,15 @@
     }
 
     input {
-        height: 44px;
+        height: 46px;
         padding: 0 12px;
         border-radius: 10px;
         border: 1px solid var(--border);
         background: var(--surface-elevated);
+        color: var(--text-secondary);
         font-size: 14px;
 
-        transition: all 0.2s ease;
-
         &:focus {
-            outline: none;
             border-color: var(--primary);
             background: var(--surface);
         }
@@ -98,9 +108,20 @@
 
     input[readonly] {
         background: transparent;
-        border: 1px dashed var(--border);
-        color: var(--text-secondary);
-        cursor: default;
+        border: none;
+        border-bottom: 1px dashed var(--border);
+        padding-left: 0;
+        color: var(--text-primary);
+    }
+}
+
+.profile__actions {
+    margin-top: 2rem;
+    display: flex;
+    gap: 12px;
+
+    button {
+        min-width: 140px;
     }
 }
 
@@ -116,14 +137,24 @@
     color: var(--text-tertiery);
     font-weight: 600;
     cursor: pointer;
+
+    &:hover {
+        background: var(--primary-light);
+    }
 }
 
 .btn-secondary {
     padding: 10px 16px;
     border-radius: 10px;
+    background: var(--surface);
+    color: var(--text-primary);
     border: 1px solid var(--border);
-    background: transparent;
     cursor: pointer;
+
+    &:hover {
+        border: 1px solid var(--primary);
+        background: var(--primary-soft);
+    }
 }
 
 /* =========================
@@ -131,11 +162,30 @@
 ========================= */
 
 @media (max-width: 768px) {
+    .profile {
+        height: auto;
+        padding: 0.5rem 0.5rem;
+    }
+
+    app-profile-menu {
+        display: none;
+    }
+
+    .profile__card {
+        width: auto;
+    }
+
     .profile__container {
         grid-template-columns: 1fr;
+        height: auto;
+    }
+
+    .profile__content {
+        overflow: visible;
     }
 
     .form-grid {
         grid-template-columns: 1fr;
     }
+
 }

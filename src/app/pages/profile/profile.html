@@ -51,11 +51,16 @@
                         <input formControlName="email" readonly />
                     </div>
 
-                </div>
+                    <div class="form-group">
+                        <label>Location</label>
+                        <input formControlName="location" [readonly]="!isEdit" />
+                    </div>
 
-                <div class="form-group full">
-                    <label>Location</label>
-                    <input formControlName="location" [readonly]="!isEdit" />
+                    <div class="form-group">
+                        <label>Pincode</label>
+                        <input formControlName="pincode" [readonly]="!isEdit" />
+                    </div>
+
                 </div>
 
                 <div class="profile__actions" *ngIf="isEdit">

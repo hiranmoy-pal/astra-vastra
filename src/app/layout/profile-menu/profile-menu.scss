@@ -1,8 +1,10 @@
 .profile-sidebar {
-    background: var(--surface);
+    background: var(--category-bg);
     border-radius: 16px;
     padding: 1.5rem;
     box-shadow: var(--shadow-soft);
+    height: 100%;
+    overflow: hidden;
 
     &__user {
         text-align: center;
@@ -41,7 +43,7 @@
             }
 
             &.active {
-                color: var(--primary);
+                color: var(--primary-light);
                 font-weight: 700;
             }
 
