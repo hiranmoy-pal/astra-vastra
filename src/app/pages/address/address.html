@@ -5,6 +5,130 @@
         <app-profile-menu></app-profile-menu>
 
         <!-- RIGHT PANEL -->
+        <section class="profile__content address">
+            <div class="address__header">
+                <div>
+                    <h1>Manage Address</h1>
+                    <p>Add, edit, or remove your delivery locations.</p>
+                </div>
+
+                <button class="btn-primary add-btn" (click)="openAdd()">
+                    <i class="fa fa-plus"></i>
+                    Add New Address
+                </button>
+            </div>
+            <div class="address__list">
+                <article class="address-card" *ngFor="let item of addresses">
+                    <div class="address-card__icon">
+                        <i class="fa" [ngClass]="item.type === 'home' ? 'fa-home' : 'fa-building'"></i>
+                    </div>
+                    <div class="address-card__content">
+                        <div class="top">
+                            <h3>{{ item.name }}</h3>
+                            <span class="tag">
+                                {{ item.type | uppercase }}
+                            </span>
+                            <span *ngIf="item.default" class="badge">DEFAULT</span>
+                        </div>
+                        <p class="address-line">
+                            {{ item.address }}
+                        </p>
+                        <div class="meta">
+                            <span><i class="fa fa-phone"></i> {{ item.phone }}</span>
+                        </div>
+                    </div>
+                    <div class="address-card__actions">
+                        <button class="edit" (click)="openAdd()">
+                            <i class="fa fa-pencil"></i> Edit
+                        </button>
+                        <button class="delete">
+                            <i class="fa fa-trash"></i> Delete
+                        </button>
+                    </div>
+                </article>
+            </div>
+        </section>
 
     </div>
 </main>
+
+<app-footer></app-footer>
+
+<!-- MODAL -->
+<div class="address-modal" *ngIf="isModalOpen">
+    <div class="address-modal__backdrop" (click)="closeModal()"></div>
+    <div class="address-modal__container">
+        <h2>{{ isEditMode ? 'Edit Address' : 'Add New Address' }}</h2>
+        <form [formGroup]="addressForm" class="address-form">
+            <div class="modal-body">
+                <div class="form-wrapper">
+                    <div class="form-row">
+                        <div class="form-group floating">
+                            <label>Full Name</label>
+                            <input formControlName="name" placeholder="Enter your full name" />
+                        </div>
+                        <div class="form-group floating">
+                            <label>Mobile Number</label>
+                            <input formControlName="phone" placeholder="+91 9876543210" />
+                        </div>
+                    </div>
+                    <div class="form-group full floating">
+                        <label>Address</label>
+                        <textarea formControlName="address" placeholder="Enter full address"></textarea>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group floating">
+                            <label>City</label>
+                            <input formControlName="city" placeholder="Enter city" />
+                        </div>
+                        <div class="form-group floating">
+                            <label>State</label>
+                            <select formControlName="state">
+                                <option value="">Select State</option>
+                                <option>West Bengal</option>
+                                <option>Delhi</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group floating">
+                            <label>Pincode</label>
+                            <input formControlName="pincode" placeholder="Enter pincode" />
+                        </div>
+                        <div class="form-group floating">
+                            <label>Landmark</label>
+                            <input formControlName="landmark" placeholder="Optional" />
+                        </div>
+                        <div class="form-group floating">
+                            <label>Address Type</label>
+                            <div class="radio-group">
+                                <label>
+                                    <input type="radio" value="home" formControlName="type" />
+                                    Home
+                                </label>
+                                <label>
+                                    <input type="radio" value="office" formControlName="type" />
+                                    Office
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" formControlName="default" />
+                            Set as default address
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-actions">
+                <button type="button" class="btn-primary" (click)="saveAddress()">
+                    Save Address
+                </button>
+                <button type="button" class="btn-secondary" (click)="closeModal()">
+                    Cancel
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
