@@ -37,6 +37,41 @@ export const routes: Routes = [
             import('./pages/address/address').then(m => m.Address),
     },
     {
+        path: 'product-review',
+        loadComponent: () =>
+            import('./pages/produt-review/produt-review').then(m => m.ProdutReview),
+    },
+    {
+        path: 'ordered-list',
+        loadComponent: () =>
+            import('./pages/ordered-list/ordered-list').then(m => m.OrderedList),
+    },
+    {
+        path: 'cart',
+        loadComponent: () =>
+            import('./pages/cart/cart').then(m => m.Cart),
+    },
+    {
+        path: 'order-details',
+        loadComponent: () =>
+            import('./pages/order-details/order-details').then(m => m.OrderDetails),
+    },
+    {
+        path: 'checkout',
+        loadComponent: () =>
+            import('./pages/order-place-checkout/order-place-checkout').then(m => m.OrderPlaceCheckout),
+    },
+    {
+        path: 'product-list',
+        loadComponent: () =>
+            import('./pages/product-list/product-list').then(m => m.ProductList),
+    },
+    {
+        path: 'product-details',
+        loadComponent: () =>
+            import('./pages/product-details/product-details').then(m => m.ProductDetails),
+    },
+    {
         path: '**',
         redirectTo: ''
     }
