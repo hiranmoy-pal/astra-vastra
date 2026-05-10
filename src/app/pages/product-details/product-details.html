@@ -452,17 +452,10 @@
 
             <!-- REVIEWS -->
             <section class="reviews-section">
-
                 <div class="section-header">
-
                     <h2>
                         Ratings & Reviews
                     </h2>
-
-                    <button>
-                        Rate Product
-                    </button>
-
                 </div>
 
                 <!-- SUMMARY -->
@@ -492,68 +485,56 @@
                     </div>
 
                     <!-- RIGHT -->
-                    <div class="rating-bars">
+                    <div class="rating-breakdown">
+                        <div class="rating-breakdown__item">
+                            <span class="rating-breakdown__label">5 Stars</span>
 
-                        <div class="bar-row">
-
-                            <span>5</span>
-
-                            <div class="bar">
-                                <div class="fill fill-75"></div>
+                            <div class="rating-breakdown__bar">
+                                <div class="rating-breakdown__fill" style="width: 82%;"></div>
                             </div>
 
-                            <span>1824</span>
-
+                            <span class="rating-breakdown__value">82%</span>
                         </div>
 
-                        <div class="bar-row">
+                        <div class="rating-breakdown__item">
+                            <span class="rating-breakdown__label">4 Stars</span>
 
-                            <span>4</span>
-
-                            <div class="bar">
-                                <div class="fill fill-15"></div>
+                            <div class="rating-breakdown__bar">
+                                <div class="rating-breakdown__fill" style="width: 12%;"></div>
                             </div>
 
-                            <span>350</span>
-
+                            <span class="rating-breakdown__value">12%</span>
                         </div>
 
-                        <div class="bar-row">
+                        <div class="rating-breakdown__item">
+                            <span class="rating-breakdown__label">3 Stars</span>
 
-                            <span>3</span>
-
-                            <div class="bar">
-                                <div class="fill fill-5"></div>
+                            <div class="rating-breakdown__bar">
+                                <div class="rating-breakdown__fill" style="width: 4%;"></div>
                             </div>
 
-                            <span>120</span>
-
+                            <span class="rating-breakdown__value">4%</span>
                         </div>
 
-                        <div class="bar-row">
+                        <div class="rating-breakdown__item">
+                            <span class="rating-breakdown__label">2 Stars</span>
 
-                            <span>2</span>
-
-                            <div class="bar">
-                                <div class="fill fill-3"></div>
+                            <div class="rating-breakdown__bar">
+                                <div class="rating-breakdown__fill" style="width: 1%;"></div>
                             </div>
 
-                            <span>75</span>
-
+                            <span class="rating-breakdown__value">1%</span>
                         </div>
 
-                        <div class="bar-row">
+                        <div class="rating-breakdown__item">
+                            <span class="rating-breakdown__label">1 Star</span>
 
-                            <span>1</span>
-
-                            <div class="bar">
-                                <div class="fill fill-2"></div>
+                            <div class="rating-breakdown__bar">
+                                <div class="rating-breakdown__fill" style="width: 1%;"></div>
                             </div>
 
-                            <span>45</span>
-
+                            <span class="rating-breakdown__value">1%</span>
                         </div>
-
                     </div>
 
                 </div>
@@ -657,54 +638,108 @@
 
     </section>
 
+    <!-- Similar Product -->
+    <section class="trending similar_product">
+        <div class="container">
+            <header class="trending__header">
+                <h2>Explore More</h2>
+            </header>
+            <swiper-container class="trending-swiper" #swiperSimilarProduct init="false">
+                <swiper-slide *ngFor="let product of products">
 
+                    <article class="product-card" (mouseenter)="startSwiper($event)" (mouseleave)="resetSwiper($event)">
+                        <div class="product-card__media">
+                            <img class="product-card__image default" [src]="product.images[0]" [alt]="product.name"
+                                loading="lazy" />
+                            <swiper-container class="product-card__swiper">
+                                <swiper-slide *ngFor="let img of product.images">
+                                    <img [src]="img" [alt]="product.name" loading="lazy" />
+                                </swiper-slide>
+                            </swiper-container>
+                            <span class="product-card__rating">
+                                {{ product.rating }}
+                                <i class="fa fa-star"></i>
+                                <span class="count">| {{ product.count }}</span>
+                            </span>
+                            <button class="product-card__wishlist" type="button" aria-label="Add to wishlist">
+                                <i class="fa fa-heart"></i>
+                            </button>
+                        </div>
+
+                        <div class="product-card__content">
+                            <h3 class="brand">{{ product.brand }}</h3>
+                            <p class="name">{{ product.name }}</p>
+                            <div class="price">
+                                <span class="current">₹{{ product.price }}</span>
+                                <span class="original">₹{{ product.original }}</span>
+                                <span class="discount">{{ product.discount }}</span>
+                            </div>
+                            <p class="size">Sizes: {{ product.size }}</p>
+                        </div>
+
+                        <a routerLink="" style="text-decoration: none;">
+                            <button class="product-card__cart">
+                                <i class="fa fa-shopping-cart"></i>
+                                <span>Add to Cart</span>
+                            </button>
+                        </a>
+
+                    </article>
+                </swiper-slide>
+
+            </swiper-container>
+        </div>
+    </section>
 
     <!-- EXPLORE MORE -->
-    <section class="explore-section">
+    <section class="trending">
+        <div class="container">
+            <header class="trending__header">
+                <h2>Explore More</h2>
+            </header>
+            <div class="trending__grid">
+                <article class="product-card" *ngFor="let product of products" (mouseenter)="startSwiper($event)"
+                    (mouseleave)="resetSwiper($event)">
+                    <div class="product-card__media">
+                        <img class="product-card__image default" [src]="product.images[0]" [alt]="product.name"
+                            loading="lazy" />
+                        <swiper-container class="product-card__swiper">
+                            <swiper-slide *ngFor="let img of product.images">
+                                <img [src]="img" [alt]="product.name" loading="lazy" />
+                            </swiper-slide>
+                        </swiper-container>
+                        <span class="product-card__rating">
+                            {{ product.rating }}
+                            <i class="fa fa-star"></i>
+                            <span class="count">| {{ product.count }}</span>
+                        </span>
+                        <button class="product-card__wishlist" type="button" aria-label="Add to wishlist">
+                            <i class="fa fa-heart"></i>
+                        </button>
+                    </div>
 
-        <div class="section-header">
+                    <div class="product-card__content">
+                        <h3 class="brand">{{ product.brand }}</h3>
+                        <p class="name">{{ product.name }}</p>
+                        <div class="price">
+                            <span class="current">₹{{ product.price }}</span>
+                            <span class="original">₹{{ product.original }}</span>
+                            <span class="discount">{{ product.discount }}</span>
+                        </div>
+                        <p class="size">Sizes: {{ product.size }}</p>
+                    </div>
 
-            <h2>
-                Explore More
-            </h2>
+                    <a routerLink="" style="text-decoration: none;">
+                        <button class="product-card__cart">
+                            <i class="fa fa-shopping-cart"></i>
+                            <span>Add to Cart</span>
+                        </button>
+                    </a>
 
-            <div class="explore-nav">
-
-                <button>
-                    <i class="fa fa-angle-left"></i>
-                </button>
-
-                <button>
-                    <i class="fa fa-angle-right"></i>
-                </button>
+                </article>
 
             </div>
-
         </div>
-
-        <div class="explore-grid">
-
-            <article class="explore-card">
-
-                <figure>
-
-                    <img src="https://rukminim1.flixcart.com/image/1536/1536/xif0q/shoe/5/2/q/-original-imahgcs8chzjtsmz.jpeg?q=90"
-                        alt="">
-
-                </figure>
-
-                <h3>
-                    Midnight Black Tee
-                </h3>
-
-                <p>
-                    ₹1,299
-                </p>
-
-            </article>
-
-        </div>
-
     </section>
 
     <!-- TRUST -->

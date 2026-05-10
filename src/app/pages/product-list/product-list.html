@@ -1,3 +1,440 @@
 <app-header></app-header>
+<main class="product-list-page">
 
+    <!-- =========================
+        PAGE HEADER
+    ========================== -->
+
+    <section class="collection-header">
+
+        <nav class="breadcrumb">
+
+            <a href="#">
+                Home
+            </a>
+
+            <span>/</span>
+
+            <a href="#">
+                Women's Collections
+            </a>
+
+        </nav>
+
+        <div class="collection-header__content">
+
+            <div>
+
+                <h1>
+                    The Autumn Edit
+                </h1>
+
+                <p>
+                    Explore our curated selection of artisanal garments designed for the modern transition.
+                    Precision-crafted with sustainable textiles.
+                </p>
+
+            </div>
+
+            <div class="collection-meta">
+
+                <span class="product-count">
+                    1,248 Products
+                </span>
+
+                <button class="sort-btn">
+
+                    Sort by :
+                    <strong>
+                        Popularity
+                    </strong>
+
+                    <i class="fa fa-angle-down"></i>
+
+                </button>
+
+            </div>
+
+        </div>
+
+    </section>
+
+    <!-- =========================
+        MAIN LAYOUT
+    ========================== -->
+
+    <section class="catalog-layout">
+
+        <!-- =========================
+            FILTER SIDEBAR
+        ========================== -->
+
+        <aside class="filters-sidebar">
+
+            <!-- FILTER HEADER -->
+            <div class="filters-top">
+
+                <h2>
+                    Filters
+                </h2>
+
+                <button class="clear-btn">
+                    Clear All
+                </button>
+
+            </div>
+
+            <!-- CATEGORY -->
+            <section class="filter-group">
+
+                <button class="filter-title">
+
+                    <span>
+                        Category
+                    </span>
+
+                    <i class="fa fa-angle-down"></i>
+
+                </button>
+
+                <div class="filter-options">
+
+                    <label class="filter-option" *ngFor="let item of categories">
+
+                        <div class="checkbox-wrapper">
+
+                            <input type="checkbox" [(ngModel)]="item.selected">
+
+                            <span class="checkmark"></span>
+
+                        </div>
+
+                        <span class="label">
+                            {{ item.name }}
+                        </span>
+
+                        <small>
+                            {{ item.count }}
+                        </small>
+
+                    </label>
+
+                </div>
+
+            </section>
+
+            <!-- BRAND -->
+            <section class="filter-group">
+
+                <button class="filter-title">
+
+                    <span>
+                        Brand
+                    </span>
+
+                    <i class="fa fa-angle-down"></i>
+
+                </button>
+
+                <div class="filter-options">
+
+                    <label class="filter-option" *ngFor="let item of brands">
+
+                        <div class="checkbox-wrapper">
+
+                            <input type="checkbox" [(ngModel)]="item.selected">
+
+                            <span class="checkmark"></span>
+
+                        </div>
+
+                        <span class="label">
+                            {{ item.name }}
+                        </span>
+
+                        <small>
+                            {{ item.count }}
+                        </small>
+
+                    </label>
+
+                </div>
+
+            </section>
+
+            <!-- GENDER -->
+            <section class="filter-group">
+
+                <button class="filter-title">
+
+                    <span>
+                        Gender
+                    </span>
+
+                    <i class="fa fa-angle-down"></i>
+
+                </button>
+
+                <div class="filter-options">
+
+                    <label class="filter-option" *ngFor="let item of genders">
+
+                        <div class="checkbox-wrapper">
+
+                            <input type="checkbox" [(ngModel)]="item.selected">
+
+                            <span class="checkmark"></span>
+
+                        </div>
+
+                        <span class="label">
+                            {{ item.name }}
+                        </span>
+
+                        <small>
+                            {{ item.count }}
+                        </small>
+
+                    </label>
+
+                </div>
+
+            </section>
+
+            <!-- COLOR -->
+            <section class="filter-group">
+
+                <button class="filter-title">
+
+                    <span>
+                        Color
+                    </span>
+
+                    <i class="fa fa-angle-down"></i>
+
+                </button>
+
+                <div class="filter-options">
+
+                    <label class="filter-option" *ngFor="let item of colors">
+
+                        <div class="checkbox-wrapper">
+
+                            <input type="checkbox" [(ngModel)]="item.selected">
+
+                            <span class="checkmark"></span>
+
+                        </div>
+
+                        <span class="color-dot" [style.background]="item.code"></span>
+
+                        <span class="label">
+                            {{ item.name }}
+                        </span>
+
+                        <small>
+                            {{ item.count }}
+                        </small>
+
+                    </label>
+
+                </div>
+
+            </section>
+
+            <!-- SIZE -->
+            <section class="filter-group">
+
+                <button class="filter-title">
+
+                    <span>
+                        Size
+                    </span>
+
+                    <i class="fa fa-angle-down"></i>
+
+                </button>
+
+                <div class="sizes-grid">
+
+                    <button *ngFor="let size of sizes" [class.active]="size.selected" (click)="toggleSize(size)">
+
+                        {{ size.name }}
+
+                    </button>
+
+                </div>
+
+            </section>
+
+            <!-- PRICE RANGE -->
+            <section class="filter-group">
+
+                <button class="filter-title">
+
+                    <span>
+                        Price Range
+                    </span>
+
+                    <i class="fa fa-angle-down"></i>
+
+                </button>
+
+                <div class="price-slider">
+
+                    <div class="price-values">
+
+                        <span>
+                            ₹{{ minPrice }}
+                        </span>
+
+                        <span>
+                            ₹{{ maxPrice }}
+                        </span>
+
+                    </div>
+
+                    <input type="range" min="0" max="5000" [(ngModel)]="minPrice">
+
+                    <input type="range" min="0" max="10000" [(ngModel)]="maxPrice">
+
+                </div>
+
+            </section>
+
+            <!-- CUSTOMER RATING -->
+            <section class="filter-group">
+
+                <button class="filter-title">
+
+                    <span>
+                        Customer Rating
+                    </span>
+
+                    <i class="fa fa-angle-down"></i>
+
+                </button>
+
+                <div class="filter-options">
+
+                    <label class="filter-option" *ngFor="let item of ratings">
+
+                        <div class="checkbox-wrapper">
+
+                            <input type="checkbox" [(ngModel)]="item.selected">
+
+                            <span class="checkmark"></span>
+
+                        </div>
+
+                        <div class="rating-stars">
+
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+
+                        </div>
+
+                        <span class="label">
+                            {{ item.name }}
+                        </span>
+
+                    </label>
+
+                </div>
+
+            </section>
+
+            <!-- DISCOUNT -->
+            <section class="filter-group">
+
+                <button class="filter-title">
+
+                    <span>
+                        Discount
+                    </span>
+
+                    <i class="fa fa-angle-down"></i>
+
+                </button>
+
+                <div class="filter-options">
+
+                    <label class="radio-option" *ngFor="let item of discounts">
+
+                        <input type="radio" name="discount" [value]="item.value" [(ngModel)]="selectedDiscount">
+
+                        <span class="radio-circle"></span>
+
+                        <span class="label">
+                            {{ item.label }}
+                        </span>
+
+                    </label>
+
+                </div>
+
+            </section>
+
+        </aside>
+
+        <!-- =========================
+            PRODUCT GRID
+        ========================== -->
+
+        <section class="trending">
+            <div class="container">
+                <header class="trending__header">
+                    <h2>Explore More</h2>
+                </header>
+                <div class="trending__grid">
+                    <article class="product-card" *ngFor="let product of products" (mouseenter)="startSwiper($event)"
+                        (mouseleave)="resetSwiper($event)">
+                        <div class="product-card__media">
+                            <img class="product-card__image default" [src]="product.images[0]" [alt]="product.name"
+                                loading="lazy" />
+                            <swiper-container class="product-card__swiper">
+                                <swiper-slide *ngFor="let img of product.images">
+                                    <img [src]="img" [alt]="product.name" loading="lazy" />
+                                </swiper-slide>
+                            </swiper-container>
+                            <span class="product-card__rating">
+                                {{ product.rating }}
+                                <i class="fa fa-star"></i>
+                                <span class="count">| {{ product.count }}</span>
+                            </span>
+                            <button class="product-card__wishlist" type="button" aria-label="Add to wishlist">
+                                <i class="fa fa-heart"></i>
+                            </button>
+                        </div>
+
+                        <div class="product-card__content">
+                            <h3 class="brand">{{ product.brand }}</h3>
+                            <p class="name">{{ product.name }}</p>
+                            <div class="price">
+                                <span class="current">₹{{ product.price }}</span>
+                                <span class="original">₹{{ product.original }}</span>
+                                <span class="discount">{{ product.discount }}</span>
+                            </div>
+                            <p class="size">Sizes: {{ product.size }}</p>
+                        </div>
+
+                        <a routerLink="" style="text-decoration: none;">
+                            <button class="product-card__cart">
+                                <i class="fa fa-shopping-cart"></i>
+                                <span>Add to Cart</span>
+                            </button>
+                        </a>
+
+                    </article>
+
+                </div>
+            </div>
+        </section>
+
+
+    </section>
+
+</main>
 <app-footer></app-footer>
