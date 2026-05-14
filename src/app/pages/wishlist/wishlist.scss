@@ -3,7 +3,7 @@
     background: var(--hero-gradient);
 
     .trending {
-        padding: 10px 0;
+        padding: 10px;
         background: var(--category-bg);
         max-width: 98%;
 
@@ -346,7 +346,7 @@
 
     @media (max-width: 768px) {
         .trending__grid {
-            grid-template-columns: repeat(2, 1fr);
+            grid-template-columns: repeat(1, 1fr);
         }
 
         .product-card {
