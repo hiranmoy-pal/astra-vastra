@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, CUSTOM_ELEMENTS_SCHEMA, ElementRef, Inject, OnInit, PLATFORM_ID, signal, ViewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, CUSTOM_ELEMENTS_SCHEMA, ElementRef, Inject, OnInit, PLATFORM_ID, signal, ViewChild } from '@angular/core';
 import { Header } from '../../layout/header/header';
 import { Footer } from '../../layout/footer/footer';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
@@ -22,33 +22,9 @@ import { Loading } from '../../core/services/loading/loading';
 export class ProductDetails implements OnInit, AfterViewInit {
   hoverTimers = new WeakMap<any, any>();
   @ViewChild('swiperSimilarProduct') swiperSimilarProduct!: ElementRef;
-
-  trendingSwiperConfig = signal({
-    navigation: false,
-    pagination: false,
-    breakpoints: {
-      0: {
-        slidesPerView: 1.2,
-        spaceBetween: 12
-      },
-
-      768: {
-        slidesPerView: 3.2,
-        spaceBetween: 16
-      },
-
-      1024: {
-        slidesPerView: 4.2,
-        spaceBetween: 20
-      },
-
-      1400: {
-        slidesPerView: 4.4,
-        spaceBetween: 20
-      }
-    }
-  });
-
+  @ViewChild('mainSwiper') mainSwiper!: ElementRef;
+  @ViewChild('thumbSwiper') thumbSwiper!: ElementRef;
+  activeIndex = 0;
   products = [
     {
       brand: 'Keepfit',
@@ -204,12 +180,80 @@ export class ProductDetails implements OnInit, AfterViewInit {
       ]
     }
   ];
+  images = [
+    'https://rukminim1.flixcart.com/image/1536/1536/xif0q/shoe/5/2/q/-original-imahgcs8chzjtsmz.jpeg?q=90',
+    'https://images.unsplash.com/photo-1542291026-7eec264c27ff?q=80&w=1200',
+    'https://images.unsplash.com/photo-1600185365483-26d7a4cc7519?q=80&w=1200',
+    'https://images.unsplash.com/photo-1608231387042-66d1773070a5?q=80&w=1200',
+    'https://rukminim1.flixcart.com/image/1536/1536/xif0q/shoe/5/2/q/-original-imahgcs8chzjtsmz.jpeg?q=90',
+    'https://images.unsplash.com/photo-1542291026-7eec264c27ff?q=80&w=1200',
+    'https://images.unsplash.com/photo-1600185365483-26d7a4cc7519?q=80&w=1200',
+    'https://images.unsplash.com/photo-1608231387042-66d1773070a5?q=80&w=1200'
+  ];
+
+  trendingSwiperConfig = signal({
+    navigation: true,
+    pagination: false,
+    breakpoints: {
+      0: {
+        slidesPerView: 1.2,
+        spaceBetween: 12
+      },
+
+      768: {
+        slidesPerView: 3.2,
+        spaceBetween: 16
+      },
+
+      1024: {
+        slidesPerView: 4.2,
+        spaceBetween: 20
+      },
+
+      1400: {
+        slidesPerView: 4.4,
+        spaceBetween: 20
+      }
+    }
+  });
+
+  mainSwiperConfig = signal({
+    slidesPerView: 1,
+    loop: true,
+    autoplay: {
+      delay: 2500,
+      disableOnInteraction: false
+    },
+    navigation: {
+      nextEl: '.gallery-next',
+      prevEl: '.gallery-prev'
+    }
+  });
+
+  thumbSwiperConfig = signal({
+    direction: 'vertical',
+    spaceBetween: 12,
+    watchSlidesProgress: true,
+    breakpoints: {
+      0: {
+        direction: 'horizontal',
+        slidesPerView: 4
+      },
+
+      768: {
+        direction: 'vertical',
+        slidesPerView: 4
+      }
+    }
+  });
+
 
   constructor(
     public themeService: Theme,
     public toastService: Toast,
     public loadingService: Loading,
     @Inject(PLATFORM_ID) private platformId: Object,
+    private cdr: ChangeDetectorRef
   ) { }
 
 
@@ -225,6 +269,23 @@ export class ProductDetails implements OnInit, AfterViewInit {
       setTimeout(() => {
         Object.assign(this.swiperSimilarProduct.nativeElement, this.trendingSwiperConfig());
         this.swiperSimilarProduct.nativeElement.initialize();
+
+        Object.assign(this.mainSwiper.nativeElement, this.mainSwiperConfig());
+        this.mainSwiper.nativeElement.initialize();
+
+        Object.assign(this.thumbSwiper.nativeElement, this.thumbSwiperConfig());
+        this.thumbSwiper.nativeElement.initialize();
+
+        const mainSwiperEl = this.mainSwiper.nativeElement.swiper;
+        mainSwiperEl.on('realIndexChange', () => {
+
+          this.activeIndex = mainSwiperEl.realIndex;
+          this.thumbSwiper.nativeElement.swiper.slideTo(
+            this.activeIndex
+          );
+          this.cdr.detectChanges();
+        });
+
       }, 400);
     }
   }
@@ -287,4 +348,10 @@ export class ProductDetails implements OnInit, AfterViewInit {
       swiper.slideToLoop(0, 0);
     }
   }
+
+  goToSlide(index: number) {
+    this.activeIndex = index;
+    this.mainSwiper.nativeElement.swiper.slideToLoop(index);
+  }
+
 }
