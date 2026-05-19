@@ -5,7 +5,6 @@
      GALLERY SECTION
     ======================================= -->
         <section class="gallery-section">
-            <!-- THUMBNAILS -->
             <aside class="thumbnail-list">
                 <swiper-container #thumbSwiper class="thumb-swiper" init="false">
                     <swiper-slide *ngFor="let image of images; let i = index">
@@ -15,7 +14,6 @@
                     </swiper-slide>
                 </swiper-container>
             </aside>
-            <!-- MAIN IMAGE -->
             <figure class="main-image">
                 <swiper-container #mainSwiper class="main-swiper" init="false">
                     <swiper-slide *ngFor="let image of images">
