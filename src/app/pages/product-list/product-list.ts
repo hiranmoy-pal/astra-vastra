@@ -19,8 +19,10 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 export class ProductList implements OnInit, AfterViewInit {
   hoverTimers = new WeakMap<any, any>();
   selectedDiscount = 25;
-  minPrice = 250;
-  maxPrice = 1200;
+  minPrice = 3000;
+  maxPrice = 18000;
+  maxRange = 20000;
+  isFilterOpen: boolean = false;
 
   categories = [
     { name: 'Evening Wear', count: 142, selected: false },
@@ -458,5 +460,21 @@ export class ProductList implements OnInit, AfterViewInit {
       swiper.autoplay.stop();
       swiper.slideToLoop(0, 0);
     }
+  }
+
+  onMinPriceChange() {
+
+    if (this.minPrice > this.maxPrice - 100) {
+      this.minPrice = this.maxPrice - 100;
+    }
+
+  }
+
+  onMaxPriceChange() {
+
+    if (this.maxPrice < this.minPrice + 100) {
+      this.maxPrice = this.minPrice + 100;
+    }
+
   }
 }

@@ -7,34 +7,21 @@
 
     <section class="collection-header">
 
-        <nav class="breadcrumb">
-
-            <a href="#">
-                Home
-            </a>
-
-            <span>/</span>
-
-            <a href="#">
-                Women's Collections
-            </a>
-
-        </nav>
-
         <div class="collection-header__content">
 
-            <div>
+            <nav class="breadcrumb">
 
-                <h1>
-                    The Autumn Edit
-                </h1>
+                <a href="#">
+                    Home
+                </a>
 
-                <p>
-                    Explore our curated selection of artisanal garments designed for the modern transition.
-                    Precision-crafted with sustainable textiles.
-                </p>
+                <span>/</span>
 
-            </div>
+                <a href="#">
+                    Women's Collections
+                </a>
+
+            </nav>
 
             <div class="collection-meta">
 
@@ -65,62 +52,52 @@
 
     <section class="catalog-layout">
 
+        <!-- MOBILE FILTER BAR -->
+
+        <div class="mobile-filter-bar">
+
+            <button class="mobile-filter-btn" (click)="isFilterOpen = true">
+
+                <i class="fa fa-sliders"></i>
+
+                <span>
+                    Filters
+                </span>
+
+            </button>
+
+        </div>
+
         <!-- =========================
             FILTER SIDEBAR
         ========================== -->
 
-        <aside class="filters-sidebar">
-
+        <aside class="filters-sidebar" [class.active]="isFilterOpen">
             <!-- FILTER HEADER -->
             <div class="filters-top">
-
-                <h2>
-                    Filters
-                </h2>
-
-                <button class="clear-btn">
-                    Clear All
+                <h2>Filters</h2>
+                <button class="mobile-close-filter" (click)="isFilterOpen = false">
+                    <i class="fa fa-times"></i>
                 </button>
-
+                <button class="clear-btn"> Clear All </button>
             </div>
-
             <!-- CATEGORY -->
             <section class="filter-group">
-
                 <button class="filter-title">
-
-                    <span>
-                        Category
-                    </span>
-
+                    <span> Category</span>
                     <i class="fa fa-angle-down"></i>
-
                 </button>
-
                 <div class="filter-options">
-
                     <label class="filter-option" *ngFor="let item of categories">
-
                         <div class="checkbox-wrapper">
-
                             <input type="checkbox" [(ngModel)]="item.selected">
-
                             <span class="checkmark"></span>
-
                         </div>
+                        <span class="label">{{ item.name }} </span>
 
-                        <span class="label">
-                            {{ item.name }}
-                        </span>
-
-                        <small>
-                            {{ item.count }}
-                        </small>
-
+                        <small> {{ item.count }} </small>
                     </label>
-
                 </div>
-
             </section>
 
             <!-- BRAND -->
@@ -282,21 +259,29 @@
 
                 <div class="price-slider">
 
-                    <div class="price-values">
+                    <div class="slider-track"></div>
 
-                        <span>
-                            ₹{{ minPrice }}
-                        </span>
-
-                        <span>
-                            ₹{{ maxPrice }}
-                        </span>
-
+                    <div class="slider-range" [style.left.%]="(minPrice / maxRange) * 100"
+                        [style.right.%]="100 - ((maxPrice / maxRange) * 100)">
                     </div>
 
-                    <input type="range" min="0" max="5000" [(ngModel)]="minPrice">
+                    <!-- MIN -->
+                    <input type="range" min="0" [max]="maxRange" [(ngModel)]="minPrice" (input)="onMinPriceChange()">
 
-                    <input type="range" min="0" max="10000" [(ngModel)]="maxPrice">
+                    <!-- MAX -->
+                    <input type="range" min="0" [max]="maxRange" [(ngModel)]="maxPrice" (input)="onMaxPriceChange()">
+
+                </div>
+
+                <div class="price-values">
+
+                    <span>
+                        ₹{{ minPrice }}
+                    </span>
+
+                    <span>
+                        ₹{{ maxPrice }}
+                    </span>
 
                 </div>
 
@@ -379,47 +364,48 @@
 
         </aside>
 
+        <div class="filter-overlay" [class.active]="isFilterOpen" (click)="isFilterOpen = false">
+        </div>
+
         <!-- =========================
             PRODUCT GRID
         ========================== -->
 
         <section class="trending">
             <div class="container">
-                <header class="trending__header">
-                    <h2>Explore More</h2>
-                </header>
                 <div class="trending__grid">
                     <article class="product-card" *ngFor="let product of products" (mouseenter)="startSwiper($event)"
                         (mouseleave)="resetSwiper($event)">
-                        <div class="product-card__media">
-                            <img class="product-card__image default" [src]="product.images[0]" [alt]="product.name"
-                                loading="lazy" />
-                            <swiper-container class="product-card__swiper">
-                                <swiper-slide *ngFor="let img of product.images">
-                                    <img [src]="img" [alt]="product.name" loading="lazy" />
-                                </swiper-slide>
-                            </swiper-container>
-                            <span class="product-card__rating">
-                                {{ product.rating }}
-                                <i class="fa fa-star"></i>
-                                <span class="count">| {{ product.count }}</span>
-                            </span>
-                            <button class="product-card__wishlist" type="button" aria-label="Add to wishlist">
-                                <i class="fa fa-heart"></i>
-                            </button>
-                        </div>
-
-                        <div class="product-card__content">
-                            <h3 class="brand">{{ product.brand }}</h3>
-                            <p class="name">{{ product.name }}</p>
-                            <div class="price">
-                                <span class="current">₹{{ product.price }}</span>
-                                <span class="original">₹{{ product.original }}</span>
-                                <span class="discount">{{ product.discount }}</span>
+                        <a routerLink="/product-details" style="text-decoration: none;">
+                            <div class="product-card__media">
+                                <img class="product-card__image default" [src]="product.images[0]" [alt]="product.name"
+                                    loading="lazy" />
+                                <swiper-container class="product-card__swiper">
+                                    <swiper-slide *ngFor="let img of product.images">
+                                        <img [src]="img" [alt]="product.name" loading="lazy" />
+                                    </swiper-slide>
+                                </swiper-container>
+                                <span class="product-card__rating">
+                                    {{ product.rating }}
+                                    <i class="fa fa-star"></i>
+                                    <span class="count">| {{ product.count }}</span>
+                                </span>
+                                <button class="product-card__wishlist" type="button" aria-label="Add to wishlist">
+                                    <i class="fa fa-heart"></i>
+                                </button>
                             </div>
-                            <p class="size">Sizes: {{ product.size }}</p>
-                        </div>
 
+                            <div class="product-card__content">
+                                <h3 class="brand">{{ product.brand }}</h3>
+                                <p class="name">{{ product.name }}</p>
+                                <div class="price">
+                                    <span class="current">₹{{ product.price }}</span>
+                                    <span class="original">₹{{ product.original }}</span>
+                                    <span class="discount">{{ product.discount }}</span>
+                                </div>
+                                <p class="size">Sizes: {{ product.size }}</p>
+                            </div>
+                        </a>
                         <a routerLink="" style="text-decoration: none;">
                             <button class="product-card__cart">
                                 <i class="fa fa-shopping-cart"></i>
