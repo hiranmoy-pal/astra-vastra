@@ -2,9 +2,9 @@
     position: sticky;
     top: 0;
     z-index: 1000;
-    background: var(--surface);
-    box-shadow: var(--shadow-soft);
-    border-bottom: 1px solid var(--border);
+    background: var(--header-background);
+    box-shadow: var(--header-shadow-soft);
+    border-bottom: 1px solid var(--header-border);
 
     &__container {
         max-width: 1400px;
@@ -50,15 +50,15 @@
         align-items: center;
         padding: 12px 20px;
         transition: all 0.25s ease;
-        background: var(--surface-elevated);
+        background: var(--header-search-background);
         border: 1px solid transparent;
         border-radius: 40px;
         box-sizing: border-box;
 
         &:focus-within {
-            background: var(--surface);
-            border-color: var(--primary-light);
-            box-shadow: 0 0 0 3px var(--hover-soft);
+            background: var(--header-search-focus-background);
+            border-color: var(--header-search-focus-border);
+            box-shadow: 0 0 0 3px var(--header-search-focus-box-shadow);
         }
 
         input {
@@ -67,7 +67,7 @@
             width: 100%;
             outline: none;
             font-size: 14px;
-            color: var(--text-primary);
+            color: var(--header-search-input-text);
         }
 
         i {
@@ -98,16 +98,16 @@
         height: 40px;
         border-radius: 50%;
         transition: all 0.2s ease;
-        color: var(--text-primary);
+        color: var(--header-action-icon-btn);
 
         &:hover {
-            background: var(--hover-soft);
-            color: var(--primary);
+            background: var(--header-action-icon-btn-hover-background);
+            color: var(--header-action-icon-btn-hover-color);
             transform: translateY(-1px);
         }
 
         &:active {
-            background: var(--active);
+            background: var(--header-action-icon-btn-active-background);
         }
 
         i {
@@ -126,8 +126,8 @@
         position: absolute;
         top: -4px;
         right: -6px;
-        background: var(--primary-light);
-        color: var(--text-tertiery);
+        background: var(--header-action-icon-btn-badge-background);
+        color: var(--header-action-icon-btn-badge-color);
         width: 18px;
         height: 18px;
         font-size: 10px;
@@ -163,17 +163,17 @@
 
         a {
             text-decoration: none;
-            color: var(--text-secondary);
+            color: var(--header-nav-item-text);
         }
 
         &:hover {
-            background: var(--hover-soft);
-            color: var(--primary);
+            background: var(--header-nav-item-text-hover-background);
+            color: var(--header-nav-item-text-hover-color);
         }
 
         &.active {
-            background: var(--hover-medium);
-            color: var(--primary);
+            background: var(--header-nav-item-text-active-background);
+            color: var(--header-nav-item-text-active-color);
         }
     }
 }
@@ -191,11 +191,11 @@
         border-radius: 999px;
         cursor: pointer;
         transition: all 0.2s ease;
-        color: var(--text-primary);
+        color: var(--header-nav-profile-trigger-color);
 
         &:hover {
-            background: var(--hover-soft);
-            color: var(--primary);
+            background: var(--header-nav-profile-trigger-hover-background);
+            color: var(--header-nav-profile-trigger-hover-color);
         }
 
         i {
@@ -214,10 +214,10 @@
         top: 100%;
         right: 0;
         width: 260px;
-        background: var(--surface);
-        border: 1px solid var(--border);
+        background: var(--header-nav-profile-menu-background);
+        border: 1px solid var(--header-nav-profile-menu-border);
         border-radius: 12px;
-        box-shadow: var(--shadow-medium);
+        box-shadow: var(--header-nav-profile-menu-box-shadow);
         padding: 8px 0;
         opacity: 0;
         transform: translateY(10px);
@@ -244,7 +244,7 @@
         justify-content: space-between;
         padding: 10px 16px;
         text-decoration: none;
-        color: var(--text-primary);
+        color: var(--header-nav-profile-list-text);
         font-size: 14px;
         transition: all 0.2s ease;
 
@@ -256,7 +256,7 @@
 
         i {
             font-size: 16px;
-            color: var(--primary);
+            color: var(--header-nav-profile-list-icon);
             min-width: 18px;
             text-align: center;
         }
@@ -267,14 +267,18 @@
         }
 
         &:hover {
-            background: var(--hover-soft);
-            color: var(--primary);
+            background: var(--header-nav-profile-list-text-hover-background);
+            color: var(--header-nav-profile-list-text-hover);
+
+            i {
+                color: var(--header-nav-profile-list-icon-hover);
+            }
         }
     }
 
     .divider {
         height: 1px;
-        background: var(--border);
+        background: var(--header-border);
         margin: 6px 0;
     }
 }
@@ -289,15 +293,15 @@
         border-radius: 999px;
         font-weight: 600;
         font-size: 14px;
-        background: var(--primary);
-        color: var(--text-tertiery);
+        background: var(--header-nav-profile-list-login-item-background);
+        color: var(--header-nav-profile-list-login-item);
         transition: all 0.25s ease;
 
         &:hover {
-            background: var(--primary-light);
+            background: var(--header-nav-profile-list-login-item-hover-background);
             transform: translateY(-1px);
-            color: var(--text-tertiery);
-            box-shadow: var(--shadow-soft);
+            color: var(--header-nav-profile-list-login-item-hover);
+            box-shadow: var(--header-nav-profile-list-login-item-hover-box-shadow);
         }
 
         &:active {
@@ -311,7 +315,7 @@
     position: fixed;
     inset: 0;
     z-index: 9999;
-    background: var(--surface);
+    background: var(--header-modal-suchipatra-background);
     overflow-y: auto;
     transform: translateY(-100%);
     opacity: 0;
@@ -330,8 +334,8 @@
     position: sticky;
     top: 0;
     z-index: 10;
-    background: var(--surface);
-    border-bottom: 1px solid var(--border);
+    background: var(--header-modal-suchipatra-background);
+    border-bottom: 1px solid var(--header-border);
 }
 
 .inner-content {
@@ -350,7 +354,7 @@
 .heading {
     font-size: 1.1rem;
     font-weight: 800;
-    color: var(--text-primary);
+    color: var(--header-modal-suchipatra-heading-text);
 }
 
 .close-btn {
@@ -360,13 +364,12 @@
     border-radius: 50%;
     background: transparent;
     cursor: pointer;
-    color: var(--text-primary);
+    color: var(--header-modal-suchipatra-close-btn);
     transition: 0.2s ease;
 
     &:hover {
-        background: var(--hover-soft);
-
-        color: var(--primary);
+        background: var(--header-modal-suchipatra-close-btn-hover-background);
+        color: var(--header-modal-suchipatra-close-btn-hover);
     }
 
     i {
@@ -385,11 +388,21 @@
     min-width: 0;
 }
 
+
 .list-heading {
     margin: 0 0 1rem;
     font-size: 1rem;
     font-weight: 800;
-    color: var(--text-primary);
+    color: var(--header-modal-suchipatra-item-text);
+
+    a {
+        text-decoration: none;
+        color: var(--header-modal-suchipatra-item-text);
+
+        &:hover {
+            color: var(--header-modal-suchipatra-item-text-hover);
+        }
+    }
 }
 
 .menu-list {
@@ -400,13 +413,13 @@
 
 .item {
     text-decoration: none;
-    color: var(--text-secondary);
+    color: var(--header-modal-suchipatra-item-text);
     font-size: 0.88rem;
     line-height: 1.4;
     transition: 0.2s ease;
 
     &:hover {
-        color: var(--primary);
+        color: var(--header-modal-suchipatra-item-text-hover);
     }
 
     .title {

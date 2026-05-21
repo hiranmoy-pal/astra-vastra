@@ -24,6 +24,56 @@
   --category-title: #1f3c88;
   --category-text: #222;
   --category-offer: #d32f2f;
+
+  // ***************** Header color start *****************\\
+  --header-background: #ffffff;
+  --header-shadow-soft: 0 4px 20px rgba(114, 0, 54, 0.06);
+  --header-border: #f0d9df;
+  --header-search-background: #fff1f4;
+  --header-search-focus-background: #ffffff;
+  --header-search-focus-border: #97144d;
+  --header-search-focus-box-shadow: rgba(114, 0, 54, 0.06);
+  --header-search-input-text: #24181b;
+  --header-action-icon-btn: #24181b;
+  --header-action-icon-btn-hover-background: rgba(114, 0, 54, 0.06);
+  --header-action-icon-btn-hover-color: #720036;
+  --header-action-icon-btn-active-background: rgba(114, 0, 54, 0.18);
+  --header-action-icon-btn-badge-background: #97144d;
+  --header-action-icon-btn-badge-color: #ffffff;
+  --header-nav-item-text: #6b4a52;
+  --header-nav-item-text-hover-color: #720036;
+  --header-nav-item-text-hover-background: rgba(114, 0, 54, 0.06);
+  --header-nav-item-text-active-color: #720036;
+  --header-nav-item-text-active-background: rgba(114, 0, 54, 0.12);
+  --header-nav-profile-trigger-color: #24181b;
+  --header-nav-profile-trigger-hover-color: #720036;
+  --header-nav-profile-trigger-hover-background: rgba(114, 0, 54, 0.06);
+  --header-nav-profile-menu-background: #ffffff;
+  --header-nav-profile-menu-border: #f0d9df;
+  --header-nav-profile-menu-box-shadow: 0 8px 30px rgba(114, 0, 54, 0.12);
+  --header-nav-profile-list-text: #24181b;
+  --header-nav-profile-list-text-hover: #720036;
+  --header-nav-profile-list-text-hover-background: rgba(114, 0, 54, 0.06);
+  --header-nav-profile-list-icon: #720036;
+  --header-nav-profile-list-icon-hover: #97144d;
+  --header-nav-profile-list-login-item: #fff;
+  --header-nav-profile-list-login-item-background: #720036;
+  --header-nav-profile-list-login-item-hover: #fff;
+  --header-nav-profile-list-login-item-hover-background: #97144d;
+  --header-nav-profile-list-login-item-hover-box-shadow: 0 4px 20px rgba(114, 0, 54, 0.06);
+  --header-modal-suchipatra-background: radial-gradient(circle, #f6e8ff 0, #ffedfb 24%, #fdeff3 42%, #f1f6fe 60%, #ffd3f4 85%, #fbd7e1 100%);
+  --header-modal-suchipatra-heading-text: #24181b;
+  --header-modal-suchipatra-close-btn: #24181b;
+  --header-modal-suchipatra-close-btn-hover-background: rgba(114, 0, 54, 0.06);
+  --header-modal-suchipatra-close-btn-hover: #720036;
+  --header-modal-suchipatra-item-text: #6b4a52;
+  --header-modal-suchipatra-item-text-hover: #720036;
+  // ***************** Header color end *****************\\
+
+  // ***************** footer color start*****************\\
+
+  // ***************** footer color end*****************\\
+
 }
 
 .dark-theme {
@@ -46,6 +96,56 @@
   --category-title: #8ab4f8;
   --category-text: #e0e0e0;
   --category-offer: #ff6b6b;
+
+  // ***************** Header color start *****************\\
+  --header-background: #211a1c;
+  --header-shadow-soft: 0 4px 20px rgba(0, 0, 0, 0.4);
+  --header-border: #3a2f32;
+  --header-search-background: #2a2224;
+  --header-search-focus-background: #211a1c;
+  --header-search-focus-border: #97144d;
+  --header-search-focus-box-shadow: rgba(255, 177, 197, 0.08);
+  --header-search-input-text: #ffffff;
+  --header-action-icon-btn: #ffffff;
+  --header-action-icon-btn-hover-background: rgba(255, 177, 197, 0.08);
+  --header-action-icon-btn-hover-color: #720036;
+  --header-action-icon-btn-active-background: rgba(114, 0, 54, 0.18);
+  --header-action-icon-btn-badge-background: #97144d;
+  --header-action-icon-btn-badge-color: #ffffff;
+  --header-nav-item-text: #c4a8ae;
+  --header-nav-item-text-hover-color: #720036;
+  --header-nav-item-text-hover-background: rgba(255, 177, 197, 0.08);
+  --header-nav-item-text-active-color: #720036;
+  --header-nav-item-text-active-background: rgba(255, 177, 197, 0.16);
+  --header-nav-profile-trigger-color: #ffffff;
+  --header-nav-profile-trigger-hover-color: #720036;
+  --header-nav-profile-trigger-hover-background: rgba(255, 177, 197, 0.08);
+  --header-nav-profile-menu-background: #211a1c;
+  --header-nav-profile-menu-border: #3a2f32;
+  --header-nav-profile-menu-box-shadow: 0 8px 30px rgba(114, 0, 54, 0.12);
+  --header-nav-profile-list-text: #ffffff;
+  --header-nav-profile-list-text-hover: #720036;
+  --header-nav-profile-list-text-hover-background: rgba(255, 177, 197, 0.08);
+  --header-nav-profile-list-icon: #720036;
+  --header-nav-profile-list-icon-hover: #97144d;
+  --header-nav-profile-list-login-item: #fff;
+  --header-nav-profile-list-login-item-background: #720036;
+  --header-nav-profile-list-login-item-hover: #fff;
+  --header-nav-profile-list-login-item-hover-background: #97144d;
+  --header-nav-profile-list-login-item-hover-box-shadow: rgba(255, 177, 197, 0.08);
+  --header-modal-suchipatra-background: radial-gradient(circle, #2a1a22 0%, #1f1a22 40%, #1a1f2a 100%);
+  --header-modal-suchipatra-heading-text: #ffffff;
+  --header-modal-suchipatra-close-btn: #ffffff;
+  --header-modal-suchipatra-close-btn-hover-background: rgba(255, 177, 197, 0.08);
+  --header-modal-suchipatra-close-btn-hover: #720036;
+  --header-modal-suchipatra-item-text: #c4a8ae;
+  --header-modal-suchipatra-item-text-hover: #720036;
+  // ***************** Header color end *****************\\
+
+  // ***************** footer color start*****************\\
+  
+  // ***************** footer color end*****************\\
+
 }
 
 body {
