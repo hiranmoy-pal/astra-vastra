@@ -1,6 +1,6 @@
 .footer {
-    background: var(--hero-gradient);
-    border-top: 1px solid var(--border);
+    background: var(--footer-background);
+    border-top: 1px solid var(--footer-border);
     padding: 60px 0 30px;
 
     &__container {
@@ -35,7 +35,7 @@
 
         margin-bottom: 16px;
 
-        color: var(--text-primary);
+        color: var(--footer-title);
     }
 
     &__list {
@@ -49,11 +49,11 @@
         a {
             text-decoration: none;
             font-size: 14px;
-            color: var(--text-secondary);
+            color: var(--footer-list-text);
             transition: all 0.2s ease;
 
             &:hover {
-                color: var(--primary-light);
+                color: var(--footer-list-text-hover);
             }
         }
     }
@@ -68,13 +68,13 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            background: var(--primary);
-            color: var(--text-tertiery);
+            background: var(--footer-social-background);
+            color: var(--footer-social);
             border-radius: 8px;
             transition: all 0.25s ease;
 
             &:hover {
-                background: var(--primary-light);
+                background: var(--footer-social-background-hover);
                 transform: translateY(-2px);
             }
         }
@@ -90,25 +90,25 @@
 
         i {
             font-size: 24px;
-            color: var(--border);
+            color: var(--footer-border);
         }
 
         h5 {
             margin: 0;
             font-size: 13px;
             font-weight: 700;
-            color: var(--text-primary);
+            color: var(--footer-title);
         }
 
         p {
             margin: 2px 0 0;
             font-size: 12px;
-            color: var(--text-secondary);
+            color: var(--footer-list-text);
         }
     }
 
     &__popular {
-        border-top: 1px solid var(--border);
+        border-top: 1px solid var(--footer-border);
         padding-top: 30px;
         margin-bottom: 20px;
     }
@@ -120,16 +120,16 @@
         font-size: 13px;
 
         a {
-            color: var(--text-secondary);
+            color: var(--footer-list-text);
             text-decoration: none;
 
             &:hover {
-                color: var(--primary);
+                color: var(--footer-social-background);
             }
         }
 
         span {
-            color: var(--border);
+            color: var(--footer-border);
         }
     }
 
@@ -138,7 +138,7 @@
 
         p {
             font-size: 12px;
-            color: var(--text-secondary);
+            color: var(--footer-list-text);
         }
     }
 }

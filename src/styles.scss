@@ -16,7 +16,15 @@
   --card-bg: #ffffff;
   --shadow-soft: 0 4px 20px rgba(114, 0, 54, 0.06);
   --shadow-medium: 0 8px 30px rgba(114, 0, 54, 0.12);
-  --hero-gradient: radial-gradient(circle, #f6e8ff 0, #ffedfb 24%, #fdeff3 42%, #f1f6fe 60%, #ffd3f4 85%, #fbd7e1 100%);
+  --hero-gradient: radial-gradient(
+    circle,
+    #f6e8ff 0,
+    #ffedfb 24%,
+    #fdeff3 42%,
+    #f1f6fe 60%,
+    #ffd3f4 85%,
+    #fbd7e1 100%
+  );
   --font-headline: 'Manrope', sans-serif;
   --font-body: 'Inter', sans-serif;
   --category-bg: #f5f5f5;
@@ -61,7 +69,15 @@
   --header-nav-profile-list-login-item-hover: #fff;
   --header-nav-profile-list-login-item-hover-background: #97144d;
   --header-nav-profile-list-login-item-hover-box-shadow: 0 4px 20px rgba(114, 0, 54, 0.06);
-  --header-modal-suchipatra-background: radial-gradient(circle, #f6e8ff 0, #ffedfb 24%, #fdeff3 42%, #f1f6fe 60%, #ffd3f4 85%, #fbd7e1 100%);
+  --header-modal-suchipatra-background: radial-gradient(
+    circle,
+    #f6e8ff 0,
+    #ffedfb 24%,
+    #fdeff3 42%,
+    #f1f6fe 60%,
+    #ffd3f4 85%,
+    #fbd7e1 100%
+  );
   --header-modal-suchipatra-heading-text: #24181b;
   --header-modal-suchipatra-close-btn: #24181b;
   --header-modal-suchipatra-close-btn-hover-background: rgba(114, 0, 54, 0.06);
@@ -71,9 +87,23 @@
   // ***************** Header color end *****************\\
 
   // ***************** footer color start*****************\\
-
+  --footer-background: radial-gradient(
+    circle,
+    #f6e8ff 0,
+    #ffedfb 24%,
+    #fdeff3 42%,
+    #f1f6fe 60%,
+    #ffd3f4 85%,
+    #fbd7e1 100%
+  );
+  --footer-border: #f0d9df;
+  --footer-title: #24181b;
+  --footer-list-text: #6b4a52;
+  --footer-list-text-hover: #97144d;
+  --footer-social-background: #720036;
+  --footer-social: #ffffff;
+  --footer-social-background-hover: #97144d;
   // ***************** footer color end*****************\\
-
 }
 
 .dark-theme {
@@ -87,10 +117,7 @@
   --hover-medium: rgba(255, 177, 197, 0.16);
   --card-bg: #211a1c;
   --shadow-soft: 0 4px 20px rgba(0, 0, 0, 0.4);
-  --hero-gradient: radial-gradient(circle,
-      #2a1a22 0%,
-      #1f1a22 40%,
-      #1a1f2a 100%);
+  --hero-gradient: radial-gradient(circle, #2a1a22 0%, #1f1a22 40%, #1a1f2a 100%);
   --category-bg: #121212;
   --category-card-bg: #0f172a;
   --category-title: #8ab4f8;
@@ -133,7 +160,12 @@
   --header-nav-profile-list-login-item-hover: #fff;
   --header-nav-profile-list-login-item-hover-background: #97144d;
   --header-nav-profile-list-login-item-hover-box-shadow: rgba(255, 177, 197, 0.08);
-  --header-modal-suchipatra-background: radial-gradient(circle, #2a1a22 0%, #1f1a22 40%, #1a1f2a 100%);
+  --header-modal-suchipatra-background: radial-gradient(
+    circle,
+    #2a1a22 0%,
+    #1f1a22 40%,
+    #1a1f2a 100%
+  );
   --header-modal-suchipatra-heading-text: #ffffff;
   --header-modal-suchipatra-close-btn: #ffffff;
   --header-modal-suchipatra-close-btn-hover-background: rgba(255, 177, 197, 0.08);
@@ -143,9 +175,15 @@
   // ***************** Header color end *****************\\
 
   // ***************** footer color start*****************\\
-  
+  --footer-background: radial-gradient(circle, #2a1a22 0%, #1f1a22 40%, #1a1f2a 100%);
+  --footer-border: #3a2f32;
+  --footer-title: #ffffff;
+  --footer-list-text: #c4a8ae;
+  --footer-list-text-hover: #97144d;
+  --footer-social-background: #720036;
+  --footer-social: #ffffff;
+  --footer-social-background-hover: #97144d;
   // ***************** footer color end*****************\\
-
 }
 
 body {
@@ -153,11 +191,16 @@ body {
   background: var(--background);
   color: var(--text-primary);
   font-family: var(--font-body);
-  transition: background 0.3s ease, color 0.3s ease;
+  transition:
+    background 0.3s ease,
+    color 0.3s ease;
 }
 
 * {
-  transition: background 0.25s ease, color 0.25s ease, border-color 0.25s ease;
+  transition:
+    background 0.25s ease,
+    color 0.25s ease,
+    border-color 0.25s ease;
 }
 
 body.modal-open {
