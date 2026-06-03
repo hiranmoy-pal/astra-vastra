@@ -1,45 +1,52 @@
 <app-header></app-header>
+
 <main class="order-details-page">
 
     <!-- Header -->
-    <header class="order-header">
+<header class="order-header">
 
-        <div class="order-header__left">
+    <div class="order-header__left">
 
-            <nav class="breadcrumb">
-                <a href="#">Account</a>
-                <span>/</span>
+        <div class="order-header__top">
+            <button class="order-header__back">
+                <i class="fa fa-arrow-left"></i>
+            </button>
 
-                <a href="#">Orders</a>
-                <span>/</span>
+            <div>
+                <h1 class="order-header__title">Order Details</h1>
 
-                <strong>Details</strong>
-            </nav>
+                <div class="order-header__meta">
+                    <span class="order-header__id">
+                        #AE-9283401
+                    </span>
 
-            <h1 class="order-header__title">
-                Order #AE-9283401
-            </h1>
+                    <span class="status-badge">
+                        <span class="status-badge__dot"></span>
+                        Delivered
+                    </span>
 
-            <p class="order-header__date">
-                Placed on October 24, 2024 at 2:14 PM
-            </p>
-
+                    <p class="order-header__date">
+                        Placed October 24, 2024 at 2:14 PM
+                    </p>
+                </div>
+            </div>
         </div>
 
-        <div class="order-header__right">
+    </div>
 
-            <span class="status-badge">
-                Delivered
-            </span>
-
-            <button class="invoice-btn">
+    <div class="order-header__actions">
+          <button class="invoice-btn">
                 <i class="fa fa-file-text-o"></i>
                 Download Invoice
             </button>
+            <button class="help-btn">
+                <i class="fa fa-question-circle-o"></i>
+                Need Help
+            </button>
 
-        </div>
+    </div>
 
-    </header>
+</header>
 
     <!-- Layout -->
     <section class="order-layout">
@@ -47,233 +54,163 @@
         <!-- Main Content -->
         <section class="order-main">
 
-            <!-- Delivery Tracker -->
-            <section class="tracker-card">
+            <!-- Delivery Journey -->
+            <section class="journey-card">
 
-                <div class="tracker-card__icon">
-                    <i class="fa fa-truck"></i>
+                <h2 class="section-title">Delivery Journey</h2>
+
+                <div class="journey-eta">
+                    <i class="fa fa-map-marker"></i>
+                    <div>
+                        <div class="journey-eta__title">Delivered on Oct 27, 2024</div>
+                        <div class="journey-eta__address">422 Artisan Way, Tribeca, New York, NY 10013</div>
+                    </div>
                 </div>
 
-                <h2 class="section-title">
-                    Delivery Journey
-                </h2>
+                <div class="journey-track">
+                    <div class="journey-line"></div>
+                    <div class="journey-progress" style="height: 100%;"></div>
 
-                <div class="tracker">
-
-                    <div class="tracker__line"></div>
-
-                    <!-- Step -->
-                    <div class="tracker-step tracker-step--completed">
-
-                        <div class="tracker-step__circle">
+                    <!-- Step 1 -->
+                    <div class="journey-step">
+                        <div class="step-node step-node--completed">
                             <i class="fa fa-check"></i>
                         </div>
-
-                        <div class="tracker-step__content">
-                            <h3>Order Placed</h3>
-                            <p>Oct 24, 14:14</p>
+                        <div class="step-card step-card--completed">
+                            <div class="step-card__top">
+                                <span class="step-card__title">Order Placed</span>
+                                <span class="step-card__time">Oct 24, 2:14 PM</span>
+                            </div>
+                            <div class="step-card__desc">Payment confirmed. We got your order!</div>
                         </div>
-
                     </div>
 
-                    <!-- Step -->
-                    <div class="tracker-step tracker-step--completed">
-
-                        <div class="tracker-step__circle">
+                    <!-- Step 2 -->
+                    <div class="journey-step">
+                        <div class="step-node step-node--completed">
                             <i class="fa fa-check"></i>
                         </div>
-
-                        <div class="tracker-step__content">
-                            <h3>Confirmed</h3>
-                            <p>Oct 24, 16:45</p>
+                        <div class="step-card step-card--completed">
+                            <div class="step-card__top">
+                                <span class="step-card__title">Confirmed</span>
+                                <span class="step-card__time">Oct 24, 4:45 PM</span>
+                            </div>
+                            <div class="step-card__desc">Items picked and quality checked.</div>
                         </div>
-
                     </div>
 
-                    <!-- Step -->
-                    <div class="tracker-step tracker-step--completed">
-
-                        <div class="tracker-step__circle">
+                    <!-- Step 3 -->
+                    <div class="journey-step">
+                        <div class="step-node step-node--completed">
                             <i class="fa fa-check"></i>
                         </div>
-
-                        <div class="tracker-step__content">
-                            <h3>Shipped</h3>
-                            <p>Oct 25, 09:20</p>
+                        <div class="step-card step-card--completed">
+                            <div class="step-card__top">
+                                <span class="step-card__title">Shipped</span>
+                                <span class="step-card__time">Oct 25, 9:20 AM</span>
+                            </div>
+                            <div class="step-card__desc">Handed to BlueDart · TRK482910231</div>
                         </div>
-
                     </div>
 
-                    <!-- Step -->
-                    <div class="tracker-step tracker-step--completed">
-
-                        <div class="tracker-step__circle">
+                    <!-- Step 4 -->
+                    <div class="journey-step">
+                        <div class="step-node step-node--completed">
                             <i class="fa fa-check"></i>
                         </div>
-
-                        <div class="tracker-step__content">
-                            <h3>Out For Delivery</h3>
-                            <p>Oct 27, 08:12</p>
+                        <div class="step-card step-card--completed">
+                            <div class="step-card__top">
+                                <span class="step-card__title">Out For Delivery</span>
+                                <span class="step-card__time">Oct 27, 8:12 AM</span>
+                            </div>
+                            <div class="step-card__desc">Rider was on the way to your address.</div>
                         </div>
-
                     </div>
 
-                    <!-- Step -->
-                    <div class="tracker-step tracker-step--active">
-
-                        <div class="tracker-step__circle">
-                            <i class="fa fa-check-circle"></i>
+                    <!-- Step 5 — Active/Final -->
+                    <div class="journey-step">
+                        <div class="step-node step-node--active">
+                            <i class="fa fa-home"></i>
                         </div>
-
-                        <div class="tracker-step__content">
-                            <h3>Delivered</h3>
-                            <p>Oct 27, 13:40</p>
+                        <div class="step-card step-card--active">
+                            <div class="step-card__top">
+                                <span class="step-card__title">Delivered</span>
+                                <span class="step-card__time">Oct 27, 1:40 PM</span>
+                            </div>
+                            <div class="step-card__desc">Package received at your address.</div>
                         </div>
-
                     </div>
 
                 </div>
-
             </section>
 
             <!-- Order Items -->
             <section class="order-items">
-
                 <div class="section-header">
-                    <h2 class="section-title">
-                        Order Items (2)
-                    </h2>
+                    <h2 class="section-title">Order Items (2)</h2>
                 </div>
 
-                <!-- Product -->
                 <article class="order-item">
-
                     <figure class="order-item__image">
                         <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuDYilIKUGsNluA6iZyXxNY7YMWvS_xVmLu0argXa-GL3r4w9n9OLnjVAFIH6PX9GtJehGhPPUdbFoRcgVlgwlDiaw2rUCAoLEY42NcTV6FPXP1-Prv-3cwN3nw2wl8gTWN3g93p4JMD19N_KGASNZdqKP9AvaecUfDnevg-Z8UqVkvzjfq4ICysAIcN5Rd44ubQ5ICiX89DyaJeIMhmjnWhGAU0ZqM4RTteQ--BR1OhO3Vwtb-zzmXbuH6Zu-Ceo1SuEOR7qTEYjpU"
                             alt="Archive Wool Overcoat" />
                     </figure>
-
                     <div class="order-item__content">
-
                         <div class="order-item__top">
-
                             <div>
-                                <h3 class="order-item__title">
-                                    Archive Wool Overcoat
-                                </h3>
-
+                                <h3 class="order-item__title">Archive Wool Overcoat</h3>
                                 <div class="order-item__meta">
-
-                                    <p>
-                                        <span class="color-dot"></span>
-                                        Slate Grey
-                                    </p>
-
+                                    <p><span class="color-dot"></span>Slate Grey</p>
                                     <p>Size: EU 50 (M)</p>
-
                                     <p>Qty: 1</p>
-
                                 </div>
-
                                 <div class="item-status">
                                     <i class="fa fa-check-circle"></i>
                                     Delivered
                                 </div>
                             </div>
-
-                            <span class="order-item__price">
-                                $845.00
-                            </span>
-
+                            <span class="order-item__price">$845.00</span>
                         </div>
-
                         <div class="order-item__actions">
-
-                            <button>
-                                Track Item
-                            </button>
-
-                            <button>
-                                Buy Again
-                            </button>
-
+                            <button>Track Item</button>
+                            <button>Buy Again</button>
                         </div>
-
                     </div>
-
                 </article>
 
-                <!-- Product -->
                 <article class="order-item">
-
                     <figure class="order-item__image">
                         <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuC8x_i09uXIZnrkIW7LDQFdTaSXC3cjFd7QuNLmXGvG-xNSaCz5-UNYwNxkDruGjpXXB8yYrW0m1GEsu5MIoJxFQjYjRchfhIQkpO6-TqKD2mqIs9zFV-RFtJSyY0-zCS8Dy5xWzQn7nfKDKPXx5lQNs4WGsXVdiWfUM4UJXs95YsOvorY9pwcTgJBuFtd2M8RcmcouIVLwZt0J4JxvZcwG96yRzSU-xxPkBlcgn6csB8Pkqwzmi1GLkpnjln-Vit7FmDVPyoo6tIc"
                             alt="Nightfall Silk Scarf" />
                     </figure>
-
                     <div class="order-item__content">
-
                         <div class="order-item__top">
-
                             <div>
-                                <h3 class="order-item__title">
-                                    Nightfall Silk Scarf
-                                </h3>
-
+                                <h3 class="order-item__title">Nightfall Silk Scarf</h3>
                                 <div class="order-item__meta">
-
-                                    <p>
-                                        <span class="color-dot color-dot--black"></span>
-                                        Obsidian
-                                    </p>
-
+                                    <p><span class="color-dot color-dot--black"></span>Obsidian</p>
                                     <p>One Size</p>
-
                                     <p>Qty: 1</p>
-
                                 </div>
-
                                 <div class="item-status">
                                     <i class="fa fa-check-circle"></i>
                                     Delivered
                                 </div>
                             </div>
-
-                            <span class="order-item__price">
-                                $120.00
-                            </span>
-
+                            <span class="order-item__price">$120.00</span>
                         </div>
-
                         <div class="order-item__actions">
-
-                            <button>
-                                Track Item
-                            </button>
-
-                            <button>
-                                Buy Again
-                            </button>
-
+                            <button>Track Item</button>
+                            <button>Buy Again</button>
                         </div>
-
                     </div>
-
                 </article>
-
             </section>
 
             <!-- Feedback -->
             <section class="feedback-card">
-
-                <h2 class="feedback-card__title">
-                    How Was Your Atelier Experience?
-                </h2>
-
-                <p class="feedback-card__subtitle">
-                    Your feedback helps us curate a better collection.
-                </p>
-
+                <h2 class="feedback-card__title">How Was Your Atelier Experience?</h2>
+                <p class="feedback-card__subtitle">Your feedback helps us curate a better collection.</p>
                 <div class="rating-stars">
                     <i class="fa fa-star active"></i>
                     <i class="fa fa-star active"></i>
@@ -281,21 +218,11 @@
                     <i class="fa fa-star active"></i>
                     <i class="fa fa-star-o"></i>
                 </div>
-
                 <div class="feedback-form">
-
-                    <label>
-                        Comments
-                    </label>
-
+                    <label>Comments</label>
                     <textarea placeholder="Share your thoughts on the quality, fit and delivery..."></textarea>
-
                 </div>
-
-                <button class="submit-feedback-btn">
-                    Submit Feedback
-                </button>
-
+                <button class="submit-feedback-btn">Submit Feedback</button>
             </section>
 
         </section>
@@ -303,118 +230,69 @@
         <!-- Sidebar -->
         <aside class="order-sidebar">
 
-            <!-- Shipping -->
             <section class="info-card">
-
                 <div class="info-card__header">
                     <i class="fa fa-map-marker"></i>
-
-                    <h3>
-                        Shipping Address
-                    </h3>
+                    <h3>Shipping Address</h3>
                 </div>
-
                 <div class="info-card__content">
-
                     <p><strong>Julian Sterling</strong></p>
-
                     <p>422 Artisan Way, Suite 800</p>
-
                     <p>Tribeca, New York, NY 10013</p>
-
                     <p>United States</p>
-
-                    <p class="muted">
-                        +1 (555) 928-1002
-                    </p>
-
+                    <p class="muted">+1 (555) 928-1002</p>
                 </div>
-
             </section>
 
-            <!-- Billing -->
             <section class="info-card">
-
                 <div class="info-card__header">
                     <i class="fa fa-credit-card"></i>
-
-                    <h3>
-                        Payment & Billing
-                    </h3>
+                    <h3>Payment & Billing</h3>
                 </div>
-
                 <div class="info-card__content">
-
                     <div class="payment-method">
-                        <div class="payment-method__card">
-                            VISA
-                        </div>
-
-                        <p>
-                            Visa ending in 4492
-                        </p>
+                        <div class="payment-method__card">VISA</div>
+                        <p>Visa ending in 4492</p>
                     </div>
-
                     <div class="billing-address">
                         <p>Julian Sterling</p>
-
                         <p>422 Artisan Way, Suite 800</p>
-
                         <p>NY 10013</p>
                     </div>
-
                 </div>
-
             </section>
 
-            <!-- Summary -->
             <section class="summary-card">
-
-                <h3 class="summary-card__title">
-                    Order Summary
-                </h3>
-
+                <h3 class="summary-card__title">Order Summary</h3>
                 <div class="summary-list">
-
                     <div class="summary-row">
                         <span>Subtotal</span>
                         <strong>$965.00</strong>
                     </div>
-
                     <div class="summary-row">
                         <span>Shipping (Express)</span>
                         <strong>$25.00</strong>
                     </div>
-
                     <div class="summary-row">
                         <span>Estimated Taxes</span>
                         <strong>$82.02</strong>
                     </div>
-
                     <div class="summary-row summary-row--discount">
                         <span>Atelier Rewards Discount</span>
                         <strong>-$50.00</strong>
                     </div>
-
                 </div>
-
                 <div class="summary-total">
-
                     <span>Total</span>
-
                     <h4>$1,022.02</h4>
-
                 </div>
-
                 <button class="help-btn">
                     <i class="fa fa-question-circle-o"></i>
                     Need Help With This Order?
                 </button>
-
             </section>
 
         </aside>
-
     </section>
 
 </main>

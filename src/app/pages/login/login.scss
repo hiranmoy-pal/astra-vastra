@@ -3,16 +3,16 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    background: var(--hero-gradient);
+    background: var(--login-page-bg);
 
     &__container {
         width: 100%;
         max-width: 500px;
-        background: var(--category-card-bg);
+        background: var(--login-page-container-bg);
         padding: 2rem;
         margin: 0 0.8rem;
         border-radius: 16px;
-        box-shadow: var(--shadow-soft);
+        box-shadow: var(--login-page-shadow-soft);
     }
 
     &__header {
@@ -20,13 +20,14 @@
     }
 
     &__title {
-        font-family: var(--font-headline);
+        font-family: var(--login-page-font-headline);
         font-size: 1.8rem;
         margin: 0;
+        color: var(--login-page-text-primary);
     }
 
     &__subtitle {
-        color: var(--text-secondary);
+        color: var(--login-page-text-secondary);
         margin-top: 0.4rem;
         font-size: 0.95rem;
     }
@@ -41,14 +42,14 @@
         display: flex;
         gap: 0.6rem;
         align-items: flex-start;
-        background: var(--surface-elevated);
+        background: var(--login-page-surface-elevated);
         padding: 0.8rem;
         border-radius: 10px;
         font-size: 0.85rem;
-        color: var(--text-secondary);
+        color: var(--login-page-text-secondary);
 
         span {
-            color: var(--primary);
+            color: var(--login-page-primary);
             font-weight: bold;
         }
     }
@@ -60,16 +61,18 @@
         font-size: 0.85rem;
 
         a {
-            color: var(--text-secondary);
+            color: var(--login-page-text-secondary);
             text-decoration: none;
             font-weight: 700;
 
             &:hover {
-                color: var(--primary);
+                color: var(--login-page-primary);
             }
         }
     }
 }
+
+/* ================= FORM GROUP ================= */
 
 .form-group {
     display: flex;
@@ -80,23 +83,27 @@
         font-size: 0.9rem;
         font-weight: 700;
         text-transform: uppercase;
-        color: var(--text-secondary);
+        color: var(--login-page-text-secondary);
     }
 
     input {
         padding: 0.9rem;
         border-radius: 10px;
-        border: 1px solid var(--border);
-        background: var(--surface-elevated);
+        border: 1px solid var(--login-page-border);
+        background: var(--login-page-surface-elevated);
         font-size: 0.95rem;
+        color: var(--login-page-text-primary);
+        font-family: var(--login-page-font-body);
 
         &:focus {
             outline: none;
-            border-color: var(--primary);
-            background: var(--surface);
+            border-color: var(--login-page-primary);
+            background: var(--login-page-surface);
         }
     }
 }
+
+/* ================= CHECKBOX ================= */
 
 .form-checkbox {
     display: flex;
@@ -109,27 +116,30 @@
     }
 
     label {
-        color: var(--text-secondary);
+        color: var(--login-page-text-secondary);
 
         a {
-            color: var(--primary);
+            color: var(--login-page-primary);
             text-decoration: none;
             font-weight: 700;
         }
     }
 }
 
+/* ================= PRIMARY BUTTON ================= */
+
 .btn-primary {
-    background: var(--primary);
-    color: var(--text-tertiery);
+    background: var(--login-page-primary);
+    color: var(--login-page-text-on-primary);
     padding: 0.9rem;
     border-radius: 10px;
     border: none;
     font-weight: 600;
     cursor: pointer;
+    font-family: var(--login-page-font-body);
 
     &:hover {
-        background: var(--primary-light);
+        background: var(--login-page-primary-light);
     }
 
     &:disabled {
@@ -138,8 +148,7 @@
     }
 }
 
-
-/* OTP SCREEN */
+/* ================= OTP SCREEN ================= */
 
 .auth__otp {
     display: flex;
@@ -150,7 +159,7 @@
 .auth__back {
     font-size: 0.9rem;
     font-weight: 600;
-    color: var(--primary);
+    color: var(--login-page-primary);
     cursor: pointer;
     width: fit-content;
 
@@ -158,7 +167,6 @@
         opacity: 0.8;
     }
 }
-
 
 .otp-group {
     display: grid;
@@ -172,30 +180,31 @@
         height: 46px;
         border-radius: 10px;
         border: none;
-        background: #e9d3d8;
+        background: var(--login-page-otp-input-bg);
         text-align: center;
         font-size: 1.1rem;
         font-weight: 700;
+        color: var(--login-page-text-primary);
         transition: all 0.2s ease;
 
         &:focus {
             outline: none;
-            background: var(--surface);
-            border: 2px solid var(--primary);
+            background: var(--login-page-surface);
+            border: 2px solid var(--login-page-primary);
             transform: scale(1.05);
         }
     }
 }
 
-/* RESEND */
+/* ================= RESEND ================= */
 
 .otp-resend {
     text-align: center;
     font-size: 0.9rem;
-    color: var(--text-secondary);
+    color: var(--login-page-text-secondary);
 
     span {
-        color: var(--primary);
+        color: var(--login-page-primary);
         font-weight: 600;
     }
 
@@ -203,13 +212,13 @@
         margin-top: 0.3rem;
         background: none;
         border: none;
-        color: var(--text-secondary);
+        color: var(--login-page-text-secondary);
         font-weight: 700;
         letter-spacing: 1px;
         cursor: pointer;
 
         &:hover {
-            color: var(--primary);
+            color: var(--login-page-primary);
         }
     }
 }
@@ -226,20 +235,17 @@
     text-align: center;
     font-size: 0.8rem;
     letter-spacing: 1px;
-    color: var(--text-secondary);
+    color: var(--login-page-text-secondary);
 
     a {
         margin-left: 6px;
-        color: var(--primary);
+        color: var(--login-page-primary);
         font-weight: 700;
         text-decoration: none;
     }
 }
 
-
-/* =========================
-   REGISTER SCREEN
-========================= */
+/* ================= REGISTER SCREEN ================= */
 
 .auth__register {
     display: flex;
@@ -257,8 +263,9 @@
 }
 
 .register-form input {
-    background: var(--text-tertiery);
+    background: var(--login-page-input-bg);
     border: none;
+    color: var(--login-page-text-primary);
 }
 
 .gender-group {
@@ -270,20 +277,21 @@
         flex: 1;
         padding: 0.7rem;
         border-radius: 10px;
-        border: 1px solid var(--border);
-        background: var(--category-offer);
+        border: 1px solid var(--login-page-border);
+        background: var(--login-page-gender-btn-bg);
         font-weight: 600;
         cursor: pointer;
+        color: var(--login-page-text-on-primary);
         transition: all 0.2s ease;
 
         &:hover {
-            background: var(--primary);
+            background: var(--login-page-primary);
         }
 
         &.active {
-            background: var(--primary);
-            color: var(--text-tertiery);
-            border-color: var(--primary);
+            background: var(--login-page-primary);
+            color: var(--login-page-text-on-primary);
+            border-color: var(--login-page-primary);
         }
     }
 }
@@ -292,17 +300,17 @@
     margin-top: 1rem;
     height: 52px;
     border-radius: 12px;
-    box-shadow: var(--shadow-medium);
+    box-shadow: var(--login-page-shadow-medium);
 }
 
 .register-footer {
     margin-top: 1.2rem;
     text-align: center;
     font-size: 0.85rem;
-    color: var(--text-secondary);
+    color: var(--login-page-text-secondary);
 
     a {
-        color: var(--primary);
+        color: var(--login-page-primary);
         font-weight: 700;
         margin-left: 4px;
         cursor: pointer;
@@ -310,21 +318,12 @@
     }
 }
 
-
-/* RESPONSIVE */
+/* ================= RESPONSIVE ================= */
 
 @media (max-width: 480px) {
     .auth__container {
-        padding: 1rem;
-        border-radius: 12px;
-    }
-
-    .auth__title {
-        font-size: 1.5rem;
-    }
-
-    .auth__container {
         padding: 1.2rem;
+        border-radius: 12px;
     }
 
     .auth__header {
@@ -348,7 +347,6 @@
             font-size: 1rem;
         }
     }
-
 
     .otp-resend {
         p {

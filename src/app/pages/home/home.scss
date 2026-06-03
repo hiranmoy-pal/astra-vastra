@@ -1,6 +1,6 @@
 .home {
-    font-family: var(--font-body);
-    background: var(--hero-gradient);
+    font-family: var(--home-page-font-body);
+    background: var(--home-page-bg);
 
     /* ================= HERO SECTION ================= */
     .hero {
@@ -23,27 +23,27 @@
         }
 
         &__tag {
-            color: var(--primary);
+            color: var(--home-page-primary);
             letter-spacing: 3px;
             font-size: 11px;
             font-weight: 700;
         }
 
         &__title {
-            font-family: var(--font-headline);
+            font-family: var(--home-page-font-headline);
             font-size: 56px;
             line-height: 1.05;
             margin: 12px 0;
         }
 
         .gradient-text {
-            background: linear-gradient(90deg, var(--primary), var(--primary-light));
+            background: linear-gradient(90deg, var(--home-page-primary), var(--home-page-primary-light));
             -webkit-background-clip: text;
             color: transparent;
         }
 
         &__desc {
-            color: var(--text-secondary);
+            color: var(--home-page-text-secondary);
             font-size: 14px;
             line-height: 1.6;
             max-width: 420px;
@@ -69,12 +69,12 @@
             position: relative;
             border-radius: 24px;
             overflow: hidden;
-            border: 10px solid var(--text-tertiery);
+            border: 10px solid var(--home-page-text-on-primary);
             width: 260px;
             height: 320px;
-            transform: rotate(6deg); // ✅ initial tilt
+            transform: rotate(6deg);
             transition: all 0.5s ease;
-            box-shadow: var(--shadow-medium);
+            box-shadow: var(--home-page-shadow-medium);
 
             img {
                 width: 100%;
@@ -88,7 +88,7 @@
                 bottom: 14px;
                 left: 14px;
                 right: 14px;
-                background: var(--background);
+                background: var(--home-page-image-card-bg);
                 backdrop-filter: blur(6px);
                 padding: 10px;
                 border-radius: 10px;
@@ -96,21 +96,21 @@
 
             .tag {
                 font-size: 10px;
-                color: var(--primary);
+                color: var(--home-page-primary);
                 font-weight: 600;
             }
 
             .title {
                 font-size: 13px;
                 font-weight: 700;
-                color: var(--text-secondary);
+                color: var(--home-page-text-secondary);
             }
 
             &:hover {
-                transform: rotate(0deg) scale(1.02); // straighten + slight grow
+                transform: rotate(0deg) scale(1.02);
 
                 img {
-                    transform: scale(1.1); // zoom image
+                    transform: scale(1.1);
                 }
             }
         }
@@ -125,30 +125,28 @@
         font-size: 14px;
         transition: all 0.25s ease;
 
-
         &.primary {
-            background: var(--primary);
-            color: var(--text-tertiery);
-            box-shadow: var(--shadow-soft);
+            background: var(--home-page-btn-primary-bg);
+            color: var(--home-page-text-on-primary);
+            box-shadow: var(--home-page-shadow-soft);
 
             &:hover {
                 transform: translateY(-2px);
-                background: var(--primary-light);
+                background: var(--home-page-btn-primary-hover);
             }
         }
 
         &.link {
             background: transparent;
-            color: var(--text-primary);
+            color: var(--home-page-text-primary);
 
             &:hover {
-                color: var(--primary);
+                color: var(--home-page-primary);
             }
         }
     }
 
-    /* ================= Banner  ================= */
-
+    /* ================= BANNER ================= */
     .banner {
         position: relative;
         overflow: hidden;
@@ -187,11 +185,11 @@
     }
 
     .banner__swiper::part(bullet) {
-        background: var(--surface-elevated);
+        background: var(--home-page-banner-bullet);
     }
 
     .banner__swiper::part(bullet-active) {
-        background: var(--primary);
+        background: var(--home-page-banner-bullet-active);
     }
 
     .swiper-button-prev,
@@ -202,30 +200,29 @@
         z-index: 50;
         width: 20px;
         height: 20px;
-        border: 1px solid var(--primary);
+        border: 1px solid var(--home-page-swiper-btn-border);
         border-radius: 50%;
-        background: var(--text-tertiery);
+        background: var(--home-page-swiper-btn-bg);
         padding: 5px;
-        color: var(--primary);
+        color: var(--home-page-swiper-btn-color);
         font-weight: bold;
 
         &:hover {
-            color: var(--text-tertiery);
-            background: var(--primary);
+            color: var(--home-page-text-on-primary);
+            background: var(--home-page-primary);
         }
     }
 
-    /* ================= Brands  ================= */
-
+    /* ================= BRANDS ================= */
     .brands {
         padding: 40px 0;
-        background: var(--surface);
+        background: var(--home-page-brands-bg);
 
         &__title {
             text-align: center;
             font-size: 12px;
             letter-spacing: 3px;
-            color: var(--text-secondary);
+            color: var(--home-page-brands-title);
             font-weight: bold;
             margin-bottom: 50px;
         }
@@ -245,7 +242,7 @@
         .brand-item {
             font-size: 16px;
             font-weight: 600;
-            color: var(--text-secondary);
+            color: var(--home-page-brands-item);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -255,16 +252,15 @@
         }
 
         .brand-item:hover {
-            color: var(--primary);
+            color: var(--home-page-primary);
             opacity: 1;
         }
     }
 
-    /* ================= Category  ================= */
-
+    /* ================= CATEGORY ================= */
     .category {
         padding: 20px 0;
-        background: var(--category-bg);
+        background: var(--home-page-category-bg);
         max-width: 98%;
 
         &__header {
@@ -274,7 +270,7 @@
             h2 {
                 font-size: 36px;
                 font-weight: 700;
-                color: var(--category-title);
+                color: var(--home-page-category-title);
             }
         }
 
@@ -289,14 +285,14 @@
     .category-card {
         display: block;
         text-decoration: none;
-        background: var(--category-card-bg);
+        background: var(--home-page-category-card-bg);
         border-radius: 8px;
         overflow: hidden;
         transition: transform 0.3s ease;
 
         &:hover {
             transform: translateY(-5px);
-            background: var(--hero-gradient);
+            background: var(--home-page-category-card-hover-bg);
         }
 
         &__image {
@@ -323,30 +319,29 @@
             h3 {
                 font-size: 14px;
                 font-weight: 600;
-                color: var(--category-text);
+                color: var(--home-page-category-text);
                 margin-bottom: 6px;
             }
 
             .offer {
                 font-size: 18px;
                 font-weight: 700;
-                color: var(--category-offer);
+                color: var(--home-page-category-offer);
                 margin-bottom: 4px;
             }
 
             .cta {
                 font-size: 13px;
-                color: var(--category-text);
+                color: var(--home-page-category-text);
                 font-weight: 500;
             }
         }
     }
 
-    /* ================= Trending Product  ================= */
-
+    /* ================= TRENDING PRODUCTS ================= */
     .trending {
         padding: 60px 0;
-        background: var(--category-bg);
+        background: var(--home-page-category-bg);
         max-width: 98%;
 
         &__header {
@@ -356,7 +351,7 @@
             h2 {
                 font-size: 36px;
                 font-weight: 700;
-                color: var(--category-title);
+                color: var(--home-page-category-title);
             }
         }
 
@@ -368,15 +363,15 @@
     }
 
     .product-card {
-        background: var(--category-card-bg);
+        background: var(--home-page-category-card-bg);
         border-radius: 6px;
         overflow: hidden;
         cursor: pointer;
         transition: all 0.3s ease;
 
         &:hover {
-            background: var(--hero-gradient);
-            box-shadow: var(--shadow-soft);
+            background: var(--home-page-category-card-hover-bg);
+            box-shadow: var(--home-page-shadow-soft);
             transform: translateY(-5px);
         }
 
@@ -411,7 +406,6 @@
     .product-card__swiper swiper-slide {
         height: 100%;
     }
-
 
     .product-card__wishlist,
     .product-card__rating {
@@ -455,13 +449,12 @@
     }
 
     .product-card__swiper::part(bullet-active) {
-        background: var(--primary);
+        background: var(--home-page-swiper-bullet-active);
         opacity: 1;
     }
 
     .product-card__content {
         padding: 12px 10px 14px;
-
         display: flex;
         flex-direction: column;
         gap: 4px;
@@ -469,13 +462,13 @@
         .brand {
             font-size: 14px;
             font-weight: 700;
-            color: var(--category-text);
+            color: var(--home-page-category-text);
             letter-spacing: 0.2px;
         }
 
         .name {
             font-size: 13px;
-            color: var(--category-text);
+            color: var(--home-page-category-text);
             opacity: 0.7;
             display: -webkit-box;
             -webkit-line-clamp: 2;
@@ -492,17 +485,17 @@
 
             .current {
                 font-weight: 700;
-                color: var(--category-text);
+                color: var(--home-page-category-text);
             }
 
             .original {
                 text-decoration: line-through;
-                color: var(--category-text);
+                color: var(--home-page-category-text);
                 opacity: 0.5;
             }
 
             .discount {
-                color: var(--category-offer);
+                color: var(--home-page-category-offer);
                 font-weight: 600;
                 font-size: 12px;
             }
@@ -511,7 +504,7 @@
         .size {
             margin-top: 2px;
             font-size: 12px;
-            color: var(--category-text);
+            color: var(--home-page-category-text);
             opacity: 0.6;
         }
     }
@@ -520,8 +513,8 @@
         position: absolute;
         bottom: 8px;
         left: 8px;
-        background: var(--primary);
-        color: var(--text-tertiery);
+        background: var(--home-page-product-rating-bg);
+        color: var(--home-page-text-on-primary);
         padding: 2px 6px;
         font-size: 12px;
         border-radius: 4px;
@@ -547,15 +540,15 @@
         align-items: center;
         justify-content: center;
         background: transparent;
-        border: 1px solid var(--primary);
+        border: 1px solid var(--home-page-product-wishlist-border);
         cursor: pointer;
-        box-shadow: var(--shadow-soft);
+        box-shadow: var(--home-page-shadow-soft);
         transform: translateX(120%);
         opacity: 0;
         transition: all 0.35s ease;
 
         i {
-            color: var(--primary);
+            color: var(--home-page-product-wishlist-icon);
             font-size: 14px;
         }
     }
@@ -566,11 +559,11 @@
     }
 
     .product-card__wishlist:hover {
-        background: var(--primary);
-    }
+        background: var(--home-page-primary);
 
-    .product-card__wishlist:hover i {
-        color: var(--on-primary);
+        i {
+            color: var(--home-page-text-on-primary);
+        }
     }
 
     .product-card {
@@ -612,7 +605,6 @@
 
             .image-card {
                 transform: rotate(0);
-
                 width: 220px;
                 height: 280px;
             }

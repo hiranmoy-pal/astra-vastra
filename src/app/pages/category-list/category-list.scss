@@ -9,35 +9,34 @@
     }
 
     a {
-        color: var(--text-secondary);
+        color: var(--category-list-page-breadcrumb-link);
         text-decoration: none;
         font-weight: 500;
 
         &:hover {
-            color: var(--primary);
+            color: var(--category-list-page-primary);
         }
     }
 
     span {
-        color: var(--text-secondary);
+        color: var(--category-list-page-breadcrumb-link);
     }
 
     .active {
-        color: var(--text-primary);
+        color: var(--category-list-page-breadcrumb-active);
         font-weight: 600;
     }
 }
 
 .main {
-    font-family: var(--font-body);
-    background: var(--hero-gradient);
+    font-family: var(--category-list-page-font-body);
+    background: var(--category-list-page-body-bg);
 
-    /* ================= Category  ================= */
+    /* ================= Category ================= */
 
     .category {
-        padding: 20px 0;
-        background: var(--category-bg);
-        max-width: 98%;
+        max-width: 100%;
+        background: var(--category-list-page-bg);
 
         &__header {
             text-align: center;
@@ -46,7 +45,7 @@
             h2 {
                 font-size: 36px;
                 font-weight: 700;
-                color: var(--category-title);
+                color: var(--category-list-page-title);
             }
         }
 
@@ -58,17 +57,25 @@
         }
     }
 
+    .category .container {
+        width: 100%;
+        max-width: 100%;
+        padding: 0;
+    }
+
     .category-card {
         display: block;
         text-decoration: none;
-        background: var(--category-card-bg);
+        background: var(--category-list-page-card-bg);
         border-radius: 8px;
         overflow: hidden;
-        transition: transform 0.3s ease;
+        box-shadow: var(--category-list-page-card-shadow);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
 
         &:hover {
             transform: translateY(-5px);
-            background: var(--hero-gradient);
+            background: var(--category-list-page-card-hover-bg);
+            box-shadow: var(--category-list-page-card-shadow-hover);
         }
 
         &__image {
@@ -95,20 +102,20 @@
             h3 {
                 font-size: 14px;
                 font-weight: 600;
-                color: var(--category-text);
+                color: var(--category-list-page-text);
                 margin-bottom: 6px;
             }
 
             .offer {
                 font-size: 18px;
                 font-weight: 700;
-                color: var(--category-offer);
+                color: var(--category-list-page-offer);
                 margin-bottom: 4px;
             }
 
             .cta {
                 font-size: 13px;
-                color: var(--category-text);
+                color: var(--category-list-page-text);
                 font-weight: 500;
             }
         }
@@ -122,13 +129,9 @@
         }
     }
 
-    @media (max-width: 1024px) {}
-
     @media (max-width: 768px) {
-
         .category__grid {
             grid-template-columns: repeat(2, 1fr);
         }
-
     }
 }

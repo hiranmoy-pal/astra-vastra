@@ -3,7 +3,7 @@
     flex-direction: column;
     height: calc(100vh - 120px);
     padding: 1.5rem 2rem;
-    background: var(--hero-gradient);
+    background: var(--address-page-bg);
     overflow: hidden;
 
     &__container {
@@ -22,6 +22,10 @@
         padding-right: 6px;
     }
 
+    /* =========================
+       ADDRESS SECTION
+    ========================= */
+
     .address {
         display: flex;
         flex-direction: column;
@@ -39,7 +43,7 @@
 
             p {
                 font-size: 13px;
-                color: var(--text-secondary);
+                color: var(--address-line-color);
             }
 
             .add-btn {
@@ -57,35 +61,37 @@
     }
 
     /* =========================
-   ADDRESS CARD
-========================= */
+       ADDRESS CARD
+    ========================= */
 
     .address-card {
         display: flex;
         align-items: center;
         gap: 1.2rem;
         padding: 1.5rem;
-        border-radius: 16px;
-        background: var(--surface);
-        box-shadow: var(--shadow-soft);
-        transition: 0.2s ease;
+        border-radius: var(--address-card-radius);
+        background: var(--address-card-bg);
+        box-shadow: var(--address-card-shadow);
+        transition: all 0.25s ease;
 
         &:hover {
-            transform: translateY(-2px);
+            transform: translateY(-3px);
+            box-shadow: var(--address-card-shadow-hover);
         }
 
         &__icon {
             width: 50px;
             height: 50px;
             border-radius: 12px;
-            background: var(--primary-soft);
+            background: var(--address-icon-bg);
             display: flex;
             align-items: center;
             justify-content: center;
+            flex-shrink: 0;
 
             i {
                 font-size: 18px;
-                color: var(--primary);
+                color: var(--address-icon-color);
             }
         }
 
@@ -106,30 +112,33 @@
 
                 .tag {
                     font-size: 11px;
-                    padding: 2px 6px;
+                    padding: 2px 8px;
                     border-radius: 6px;
-                    background: var(--surface-elevated);
+                    background: var(--address-tag-bg);
+                    color: var(--address-tag-color);
                     font-weight: 600;
                 }
 
                 .badge {
                     font-size: 10px;
-                    padding: 2px 6px;
+                    padding: 2px 8px;
                     border-radius: 6px;
-                    background: green;
-                    color: white;
+                    background: var(--address-badge-bg);
+                    color: var(--address-badge-color);
+                    font-weight: 700;
+                    letter-spacing: 0.4px;
                 }
             }
 
             .address-line {
                 font-size: 13px;
-                color: var(--text-secondary);
+                color: var(--address-line-color);
                 margin-bottom: 6px;
             }
 
             .meta {
                 font-size: 12px;
-                color: var(--text-secondary);
+                color: var(--address-meta-color);
 
                 i {
                     margin-right: 4px;
@@ -140,12 +149,14 @@
         &__actions {
             display: flex;
             gap: 10px;
+            flex-shrink: 0;
 
             button {
                 border: none;
-                padding: 6px 10px;
+                padding: 7px 12px;
                 border-radius: 8px;
                 font-size: 13px;
+                font-weight: 600;
                 cursor: pointer;
                 display: flex;
                 align-items: center;
@@ -153,74 +164,60 @@
             }
 
             .edit {
-                background: var(--surface-elevated);
+                background: var(--address-edit-bg);
+                color: var(--address-edit-color);
+                transition: 0.2s ease;
+
+                &:hover {
+                    background: var(--address-edit-hover-bg);
+                }
             }
 
             .delete {
-                color: red;
-                background: transparent;
+                background: var(--address-delete-bg);
+                color: var(--address-delete-color);
+                transition: 0.2s ease;
+
+                &:hover {
+                    background: var(--address-delete-hover-bg);
+                }
             }
         }
     }
 
+    /* =========================
+       PRIMARY BUTTON (inside profile)
+    ========================= */
 
     .btn-primary {
         padding: 10px 16px;
         border-radius: 10px;
         border: none;
-        background: var(--primary);
-        color: var(--text-tertiery);
+        background: var(--address-btn-primary-bg);
+        color: var(--address-btn-primary-color);
         font-weight: 600;
         cursor: pointer;
         display: inline-flex;
         align-items: center;
         gap: 6px;
-
-        box-shadow: var(--shadow-soft);
+        box-shadow: var(--address-card-shadow);
         transition: all 0.25s ease;
 
         &:hover {
-            background: var(--primary-light);
+            background: var(--address-btn-primary-hover);
             transform: translateY(-1px);
-            box-shadow: var(--shadow-medium);
+            box-shadow: var(--address-card-shadow-hover);
         }
 
         &:active {
             transform: scale(0.98);
         }
     }
-
-    .address-card__actions .edit {
-        background: var(--surface-elevated);
-        color: var(--text-primary);
-        transition: 0.2s ease;
-
-        &:hover {
-            background: var(--hover-medium);
-        }
-    }
-
-    .address-card__actions .delete {
-        background: rgba(255, 0, 0, 0.08);
-        color: #d32f2f;
-        transition: 0.2s ease;
-
-        &:hover {
-            background: rgba(255, 0, 0, 0.15);
-        }
-    }
-
-    .address-card {
-        transition: all 0.25s ease;
-
-        &:hover {
-            transform: translateY(-3px);
-            box-shadow: var(--shadow-medium);
-        }
-    }
-
-
 }
+
+/* =========================
+   ADDRESS MODAL
+========================= */
 
 .address-modal {
     position: fixed;
@@ -231,116 +228,178 @@
     align-items: center;
     padding: 20px;
     overscroll-behavior: contain;
+
+    &__backdrop {
+        position: absolute;
+        inset: 0;
+        background: var(--address-modal-backdrop);
+    }
+
+    &__container {
+        position: relative;
+        width: 100%;
+        max-width: 650px;
+        z-index: 2;
+        max-height: calc(100vh - 60px);
+
+        /* ── three-row flex: header | scrollable body | sticky footer ── */
+        display: flex;
+        flex-direction: column;
+
+        border-radius: 20px;
+        background: var(--address-modal-bg);
+        overflow: hidden;
+        /* clip the rounded corners */
+        box-shadow: var(--address-card-shadow-hover);
+    }
 }
 
-.address-modal__backdrop {
-    position: absolute;
-    inset: 0;
-    background: rgba(0, 0, 0, 0.45);
+/* =========================
+   MODAL HEADER  (sticky top)
+========================= */
 
+.modal-header {
+    flex-shrink: 0;
+    /* never squash */
+    padding: 20px 24px 16px;
+    border-bottom: 1px solid var(--border);
+    background: var(--address-modal-bg);
+
+    h2 {
+        margin: 0;
+        font-size: 20px;
+        font-weight: 800;
+        color: var(--text-primary);
+    }
+
+    p {
+        margin: 4px 0 0;
+        font-size: 13px;
+        color: var(--address-line-color);
+    }
 }
 
-.address-modal__container {
-    width: 100%;
-    max-width: 650px;
-    z-index: 2;
-    height: auto;
-    max-height: calc(100vh - 80px);
-    display: flex;
-    flex-direction: column;
-    border-radius: 16px;
-    background: var(--hero-gradient);
-    overflow-y: scroll;
+/* keep the old h2 rule working if modal-header isn't added in HTML */
+.address-modal__container>h2 {
+    flex-shrink: 0;
+    padding: 20px 24px 16px;
+    margin: 0;
+    font-size: 20px;
+    font-weight: 800;
+    border-bottom: 1px solid var(--border);
+    background: var(--address-modal-bg);
 }
 
-.address-modal__container h2 {
-    padding: 20px 24px 10px;
-    font-size: 22px;
-    font-weight: 700;
-}
-
-.modal-body {
-    flex: 1;
-    padding: 1.5rem;
-    min-height: 0;
-    -webkit-overflow-scrolling: touch;
-}
-
-.address-form {
-    display: flex;
-    flex-direction: column;
-    gap: 1.2rem;
-    height: 100%;
-}
+/* =========================
+   MODAL BODY  (scrollable)
+========================= */
 
 .modal-body {
     flex: 1;
     overflow-y: auto;
-    padding: 1rem;
+    padding: 1.5rem 1.5rem 1rem;
     display: flex;
     justify-content: center;
     -webkit-overflow-scrolling: touch;
+    scrollbar-width: thin;
+    scrollbar-color: var(--address-icon-color) transparent;
+
+    &::-webkit-scrollbar {
+        width: 4px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+        background: var(--address-icon-color);
+        border-radius: 10px;
+    }
 }
+
+/* =========================
+   FORM WRAPPER
+========================= */
 
 .form-wrapper {
     width: 100%;
     max-width: 520px;
     display: flex;
     flex-direction: column;
-    gap: 1.2rem;
+    gap: 1.4rem;
 }
 
+.address-form {
+    display: contents;
+    /* let modal-body / modal-actions be direct flex children of container */
+}
+
+/* =========================
+   FORM ROW & GROUPS
+========================= */
+
 .form-row {
-
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    /* 🔥 2 columns */
-    gap: 16px;
-
-
-    .form-group {
-        flex: 1;
-        min-width: 0;
-    }
+    display: contents;
+    /* each form-group sits as its own full-width row */
 }
 
 .form-group {
-
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
+    display: grid;
+    grid-template-columns: 130px 1fr;
+    align-items: center;
+    gap: 12px;
 
     label {
-        font-size: 12px;
+        font-size: 13px;
         font-weight: 600;
-        color: var(--text-secondary);
+        color: var(--address-line-color);
+        white-space: nowrap;
     }
 
     input,
     select,
     textarea {
-        width: 90%;
-        padding: 12px 14px;
+        padding: 10px 14px;
         border-radius: 10px;
-        border: 1px solid var(--border);
-        background: var(--category-card-bg);
+        border: 1.5px solid var(--border);
+        background: var(--address-input-bg);
         color: var(--text-primary);
         font-size: 14px;
-        transition: all 0.25s ease;
+        font-family: inherit;
+        transition: all 0.2s ease;
+
+        &::placeholder {
+            color: var(--address-meta-color);
+            opacity: 0.7;
+        }
     }
 
     input:focus,
     select:focus,
     textarea:focus {
-        border-color: var(--primary);
-        box-shadow: 0 0 0 3px rgba(114, 0, 54, 0.12);
-        background: var(--surface);
+        border-color: var(--address-icon-color);
+        box-shadow: var(--address-input-focus-shadow);
+        background: var(--address-input-focus-bg);
         outline: none;
     }
 
+    select {
+        appearance: none;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%236b4a52' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+        background-repeat: no-repeat;
+        background-position: right 14px center;
+        padding-right: 36px;
+        cursor: pointer;
+    }
+
     textarea {
-        min-height: 100px;
+        min-height: 90px;
         resize: none;
+        line-height: 1.6;
+        align-self: start;
+    }
+
+    /* label aligns to top for textarea rows */
+    &:has(textarea) label {
+        align-self: start;
+        padding-top: 11px;
     }
 
     &.full {
@@ -348,171 +407,447 @@
     }
 }
 
+/* =========================
+   RADIO GROUP  (address type)
+========================= */
+
 .radio-group {
-    width: 100%;
     display: flex;
-    gap: 20px;
-    align-items: center;
-    margin-top: 6px;
+    gap: 10px;
+    flex-wrap: wrap;
+
+    label {
+        display: flex;
+        align-items: center;
+        gap: 7px;
+        padding: 8px 16px;
+        border-radius: 10px;
+        border: 1.5px solid var(--border);
+        background: var(--address-input-bg);
+        cursor: pointer;
+        font-size: 13px;
+        font-weight: 600;
+        text-transform: none;
+        letter-spacing: 0;
+        color: var(--text-primary);
+        transition: all 0.2s ease;
+
+        input[type="radio"] {
+            width: auto;
+            accent-color: var(--address-icon-color);
+            cursor: pointer;
+        }
+
+        &:has(input:checked) {
+            border-color: var(--address-icon-color);
+            background: var(--address-icon-bg);
+            color: var(--address-icon-color);
+        }
+    }
 }
+
+/* =========================
+   CHECKBOX
+========================= */
 
 .checkbox {
-    font-size: 13px;
+    display: grid;
+    grid-template-columns: 130px 1fr;
+    align-items: center;
+    gap: 12px;
+
+    /* empty left cell to align with form-group inputs */
+    &::before {
+        content: '';
+    }
+
+    label {
+        display: flex;
+        align-items: center;
+        gap: 9px;
+        font-size: 13px;
+        font-weight: 500;
+        color: var(--text-primary);
+        cursor: pointer;
+        text-transform: none;
+        letter-spacing: 0;
+
+        input[type="checkbox"] {
+            width: 16px;
+            height: 16px;
+            accent-color: var(--address-icon-color);
+            cursor: pointer;
+            border-radius: 4px;
+            flex-shrink: 0;
+        }
+    }
 }
+
+/* =========================
+   MODAL ACTIONS  (sticky bottom)
+========================= */
 
 .modal-actions {
-    position: static;
-    bottom: 0;
-    left: 0;
-    right: 0;
+    flex-shrink: 0;
+    /* never squash */
     display: flex;
     justify-content: flex-end;
-    gap: 12px;
-    padding: 16px 20px;
+    gap: 10px;
+    padding: 14px 20px;
     border-top: 1px solid var(--border);
-    background: var(--surface);
+    background: var(--address-modal-actions-bg);
+    border-radius: 0 0 20px 20px;
 }
 
+/* =========================
+   BUTTONS
+========================= */
+
 .btn-primary {
-    background: var(--primary);
-    color: white;
+    background: var(--address-btn-primary-bg);
+    color: var(--address-btn-primary-color);
     border: none;
-    padding: 10px 18px;
-    border-radius: 8px;
-    font-weight: 600;
+    padding: 10px 20px;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: 700;
     cursor: pointer;
-    &:hover{
-        background: var(--primary-light);
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    transition: all 0.25s ease;
+
+    &:hover {
+        background: var(--address-btn-primary-hover);
+        transform: translateY(-1px);
+    }
+
+    &:active {
+        transform: scale(0.97);
     }
 }
 
 .btn-secondary {
-    background: var(--surface-elevated);
-    border: 1px solid var(--border);
-    color: var(--text-primary);
-    padding: 10px 18px;
-    border-radius: 8px;
+    background: var(--address-btn-secondary-bg);
+    border: 1.5px solid var(--address-btn-secondary-border);
+    color: var(--address-btn-secondary-color);
+    padding: 10px 20px;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: 600;
     cursor: pointer;
+    transition: all 0.2s ease;
+
+    &:hover {
+        border-color: var(--address-icon-color);
+        color: var(--address-icon-color);
+    }
 }
 
+/* =========================
+   RESPONSIVE — TABLET  (iPad)
+========================= */
 
-@media (max-width: 768px) {
+@media (max-width: 992px) {
 
     .profile {
         height: auto;
         overflow: visible;
-        padding: 1rem;
-    }
+        padding: 1.2rem 1.5rem;
 
-    .profile__container {
-        grid-template-columns: 1fr;
-        gap: 1.2rem;
+        &__container {
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
+        }
+
+        &__content {
+            height: auto;
+            overflow: visible;
+        }
     }
 
     app-profile-menu {
         display: none;
     }
 
-    .profile__content {
-        height: auto;
-        overflow: visible;
-        min-width: 0;
-    }
-
+    /* Header */
     .address__header {
-        flex-direction: column;
-        align-items: flex-start;
+        flex-wrap: wrap;
         gap: 12px;
 
         h1 {
-            font-size: 22px;
+            font-size: 24px;
+        }
+
+        .add-btn {
+            padding: 10px 18px;
+            font-size: 14px;
+        }
+    }
+
+    /* Card stays horizontal on iPad, just tighter */
+    .address-card {
+        padding: 1.2rem;
+        gap: 1rem;
+
+        &__icon {
+            width: 44px;
+            height: 44px;
+        }
+
+        &__content h3 {
+            font-size: 15px;
+        }
+    }
+
+    /* Modal — centred sheet, a bit narrower */
+    .address-modal {
+        padding: 24px;
+
+        &__container {
+            max-width: 580px;
+            max-height: calc(100vh - 60px);
+        }
+    }
+
+    /* Form: label above input on iPad (more breathing room) */
+    .form-group {
+        grid-template-columns: 1fr;
+        gap: 5px;
+
+        &:has(textarea) label {
+            padding-top: 0;
+            align-self: auto;
+        }
+    }
+
+    .checkbox {
+        grid-template-columns: 1fr;
+
+        &::before {
+            display: none;
+        }
+    }
+}
+
+/* =========================
+   RESPONSIVE — MOBILE
+========================= */
+
+@media (max-width: 768px) {
+
+    .profile {
+        padding: 1rem;
+    }
+
+    /* ── Address Header ── */
+    .address__header {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 14px;
+
+        div {
+            h1 {
+                font-size: 22px;
+                font-weight: 800;
+                margin: 0 0 4px;
+            }
+
+            p {
+                font-size: 12px;
+                margin: 0;
+            }
         }
 
         .add-btn {
             width: 100%;
             justify-content: center;
-            padding: 12px;
+            padding: 13px;
             font-size: 14px;
+            border-radius: 12px;
         }
     }
 
+    /* ── Address Card ── */
     .address-card {
         flex-direction: column;
-        align-items: flex-start;
-        gap: 1rem;
-        padding: 1.2rem;
-    }
+        align-items: stretch;
+        gap: 0;
+        padding: 0;
+        border-radius: 16px;
+        overflow: hidden;
 
-    .address-card__icon {
-        width: 40px;
-        height: 40px;
-    }
-
-    .address-card__content {
-        width: 100%;
-
-        .top {
-            flex-wrap: wrap;
-            gap: 6px;
+        /* top strip: icon + name row */
+        &__icon {
+            display: none;
+            /* hidden on mobile, saves space */
         }
 
-        h3 {
-            font-size: 15px;
+        &__content {
+            width: 100%;
+            padding: 0rem 1rem 0.75rem;
+
+            .top {
+                flex-wrap: wrap;
+                align-items: center;
+                gap: 6px;
+                margin-bottom: 6px;
+
+                h3 {
+                    font-size: 15px;
+                    font-weight: 700;
+                }
+
+                .tag {
+                    font-size: 10px;
+                    padding: 2px 7px;
+                }
+
+                .badge {
+                    font-size: 9px;
+                    padding: 2px 7px;
+                }
+            }
+
+            .address-line {
+                font-size: 13px;
+                line-height: 1.5;
+                margin-bottom: 6px;
+            }
+
+            .meta {
+                font-size: 12px;
+            }
         }
 
-        .address-line {
-            font-size: 12px;
+        /* actions sit in a bottom bar inside the card */
+        &__actions {
+            width: 100%;
+            display: flex;
+            gap: 0;
+
+            button {
+                flex: 1;
+                justify-content: center;
+                padding: 10px 8px;
+                border-radius: 0;
+                font-size: 13px;
+
+                &.edit {
+                    border-right: 1px solid var(--border);
+                }
+            }
         }
     }
 
-    .address-card__actions {
-        width: 100%;
-        display: flex;
-        gap: 8px;
-        flex-wrap: wrap;
-        justify-content: space-between;
-    }
-
-    .address-card__actions button {
-        flex: 1;
-        min-width: 100px;
-        justify-content: center;
-        padding: 8px;
-    }
-
+    /* ── Modal — bottom sheet ── */
     .address-modal {
-        padding: 20px;
+        padding: 0;
+        align-items: flex-end;
+
+        &__backdrop {
+            background: rgba(0, 0, 0, 0.55);
+        }
+
+        &__container {
+            width: 100%;
+            max-width: 100%;
+            max-height: 94vh;
+            border-radius: 24px 24px 0 0;
+            box-shadow: 0 -8px 40px rgba(0, 0, 0, 0.18);
+        }
     }
 
-    .address-modal__container {
-        width: 100%;
-        max-width: 100%;
-        height: auto;
-        border-radius: 14px;
-        display: flex;
-        flex-direction: column;
-        overflow: scroll;
+    /* drag handle hint */
+    .modal-header {
+        position: relative;
+        padding-top: 24px;
+
+        &::before {
+            content: '';
+            position: absolute;
+            top: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 36px;
+            height: 4px;
+            border-radius: 99px;
+            background: var(--border);
+        }
+
+        h2 {
+            font-size: 18px;
+        }
     }
 
-    .modal-actions {
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        flex-direction: column;
-        gap: 10px;
-        padding: 12px 16px;
-        background: var(--surface);
-        box-shadow: 0 -6px 16px rgba(0, 0, 0, 0.08);
+    .address-modal__container>h2 {
+        position: relative;
+        padding-top: 28px;
+        font-size: 18px;
+
+        &::before {
+            content: '';
+            position: absolute;
+            top: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 36px;
+            height: 4px;
+            border-radius: 99px;
+            background: var(--border);
+        }
     }
 
     .modal-body {
-        padding-bottom: 110px;
+        padding: 1rem 1rem 0.5rem;
     }
 
-
-    .form-row {
+    /* Form: label stacked above input */
+    .form-group {
         grid-template-columns: 1fr;
+        gap: 5px;
+
+        label {
+            font-size: 12px;
+        }
+
+        &:has(textarea) label {
+            padding-top: 0;
+            align-self: auto;
+        }
     }
 
+    .checkbox {
+        grid-template-columns: 1fr;
+        padding-bottom: 9rem;
+
+        &::before {
+            display: none;
+        }
+    }
+
+    .radio-group {
+        gap: 8px;
+
+        label {
+            padding: 8px 14px;
+            font-size: 13px;
+        }
+    }
+
+    /* Actions bar */
+    .modal-actions {
+        border-radius: 0;
+        padding: 12px 16px;
+        gap: 10px;
+
+        .btn-primary,
+        .btn-secondary {
+            flex: 1;
+            justify-content: center;
+            padding: 12px;
+            font-size: 14px;
+            border-radius: 12px;
+        }
+    }
 }

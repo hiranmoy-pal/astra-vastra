@@ -1,8 +1,8 @@
 .profile-sidebar {
-    background: var(--category-bg);
+    background: var(--profile-menu-bg);
     border-radius: 16px;
     padding: 1.5rem;
-    box-shadow: var(--shadow-soft);
+    box-shadow: var(--profile-menu-shadow);
     height: 100%;
     overflow: hidden;
 
@@ -13,7 +13,7 @@
         .avatar {
             width: 60px;
             height: 60px;
-            background: var(--primary-soft);
+            background: var(--profile-menu-avatar-bg);
             border-radius: 50%;
             display: flex;
             align-items: center;
@@ -25,6 +25,7 @@
         h3 {
             margin-top: 10px;
             font-size: 16px;
+            color: var(--profile-menu-title-color);
         }
     }
 
@@ -37,18 +38,19 @@
             cursor: pointer;
             border-radius: 8px;
             font-size: 14px;
+            color: var(--profile-menu-item-color);
 
             &:hover {
-                background: var(--hover-soft);
+                background: var(--profile-menu-item-hover);
             }
 
             &.active {
-                color: var(--primary-light);
+                color: var(--profile-menu-active-color);
                 font-weight: 700;
             }
 
             &.danger {
-                color: red;
+                color: var(--profile-menu-danger-color);
             }
         }
     }
