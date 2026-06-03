@@ -281,6 +281,111 @@
   --order-details-page-payment-card-bg: #24181b;
   /* Order Details Page end */
 
+  /* Checkout Page */
+  --checkout-page-font-body: 'Inter', sans-serif;
+  --checkout-page-font-headline: 'Manrope', sans-serif;
+  --checkout-page-primary: #720036;
+  --checkout-page-primary-light: #97144d;
+  --checkout-page-primary-soft: rgba(114, 0, 54, 0.08);
+  --checkout-page-text-primary: #24181b;
+  --checkout-page-text-secondary: #6b4a52;
+  --checkout-page-text-on-primary: #ffffff;
+  --checkout-page-surface: #ffffff;
+  --checkout-page-surface-elevated: #fff1f4;
+  --checkout-page-border: #f0d9df;
+  --checkout-page-shadow-soft: 0 4px 20px rgba(114, 0, 54, 0.06);
+  --checkout-page-address-tag-bg: #720036;
+  --checkout-page-address-tag-secondary: #fff1f4;
+  --checkout-page-free-text: #14804a;
+
+  /* Order List Page */
+  --order-list-page-font-body: 'Inter', sans-serif;
+  --order-list-page-font-headline: 'Manrope', sans-serif;
+  --order-list-page-primary: #720036;
+  --order-list-page-primary-light: #97144d;
+  --order-list-page-text-primary: #24181b;
+  --order-list-page-text-secondary: #6b4a52;
+  --order-list-page-text-on-primary: #ffffff;
+  --order-list-page-surface: #ffffff;
+  --order-list-page-surface-elevated: #fff1f4;
+  --order-list-page-border: #f0d9df;
+  --order-list-page-hover-soft: rgba(114, 0, 54, 0.06);
+  --order-list-page-shadow-soft: 0 4px 20px rgba(114, 0, 54, 0.06);
+  --order-list-page-shadow-medium: 0 8px 30px rgba(114, 0, 54, 0.12);
+  --order-list-page-status-delivered: #0d7a35;
+  --order-list-page-status-shipping: #b56b00;
+  --order-list-page-status-cancelled: #d32f2f;
+
+  /* Product Details Page */
+  --product-details-page-font-body: 'Inter', sans-serif;
+  --product-details-page-font-headline: 'Manrope', sans-serif;
+  --product-details-page-primary: #720036;
+  --product-details-page-primary-light: #97144d;
+  --product-details-page-primary-soft: rgba(114, 0, 54, 0.08);
+  --product-details-page-text-primary: #24181b;
+  --product-details-page-text-secondary: #6b4a52;
+  --product-details-page-text-on-primary: #ffffff;
+  --product-details-page-surface: #ffffff;
+  --product-details-page-surface-elevated: #fff1f4;
+  --product-details-page-background: #fff7f9;
+  --product-details-page-border: #f0d9df;
+  --product-details-page-outline: #d8b6be;
+  --product-details-page-hover-medium: rgba(114, 0, 54, 0.12);
+  --product-details-page-shadow-soft: 0 4px 20px rgba(114, 0, 54, 0.06);
+  --product-details-page-shadow-medium: 0 8px 30px rgba(114, 0, 54, 0.12);
+  --product-details-page-arrow-bg: rgba(255, 255, 255, 0.96);
+  --product-details-page-trending-bg: rgba(21, 101, 192, 0.08);
+  --product-details-page-trending-color: #1565c0;
+  --product-details-page-rating-bg: #2e7d32;
+  --product-details-page-discount-color: #2e7d32;
+  --product-details-page-free-delivery-color: #2e7d32;
+  --product-details-page-category-bg: #f5f5f5;
+  --product-details-page-category-card-bg: #ffe4b5;
+  --product-details-page-category-title: #1f3c88;
+  --product-details-page-category-text: #222222;
+  --product-details-page-category-offer: #d32f2f;
+  --product-details-page-card-hover-bg: radial-gradient(circle, #f6e8ff 0, #ffedfb 24%, #fdeff3 42%, #f1f6fe 60%, #ffd3f4 85%, #fbd7e1 100%);
+
+   /* ── Product List Page variables ── */
+  --product-list-page-bg:                  #fff7f9;
+  --product-list-page-breadcrumb-text:     #6b4a52;
+  --product-list-page-breadcrumb-hover:    #720036;
+  --product-list-page-header-title:        #24181b;
+  --product-list-page-header-desc:         #6b4a52;
+  --product-list-page-meta-text:           #6b4a52;
+  --product-list-page-sort-bg:             #ffffff;
+  --product-list-page-sort-border:         #f0d9df;
+  --product-list-page-sort-accent:         #720036;
+  --product-list-page-filter-border:       #f0d9df;
+  --product-list-page-filter-bg:           #ffffff;
+  --product-list-page-filter-title-color:  #24181b;
+  --product-list-page-filter-label:        #6b4a52;
+  --product-list-page-filter-label-hover:  #720036;
+  --product-list-page-filter-check-bg:     #ffffff;
+  --product-list-page-filter-check-active: #720036;
+  --product-list-page-filter-radio-active: #720036;
+  --product-list-page-filter-size-hover:   #720036;
+  --product-list-page-filter-size-soft:    rgba(114, 0, 54, 0.08);
+  --product-list-page-slider-track:        #f0d9df;
+  --product-list-page-slider-range:        #720036;
+  --product-list-page-slider-thumb:        #720036;
+  --product-list-page-slider-shadow:       0 4px 20px rgba(114, 0, 54, 0.06);
+  --product-list-page-slider-values:       #24181b;
+  --product-list-page-card-bg:             #ffe4b5;
+  --product-list-page-card-hover-bg:       var(--hero-gradient);
+  --product-list-page-card-shadow:         0 4px 20px rgba(114, 0, 54, 0.06);
+  --product-list-page-card-text:           #222222;
+  --product-list-page-card-offer:          #d32f2f;
+  --product-list-page-card-btn-bg:         #720036;
+  --product-list-page-card-btn-hover:      #97144d;
+  --product-list-page-section-bg:          #f5f5f5;
+  --product-list-page-section-title:       #1f3c88;
+  --product-list-page-mobile-sidebar-bg:   #fff7f9;
+  --product-list-page-mobile-overlay:      rgba(0, 0, 0, 0.45);
+  --product-list-page-mobile-close-bg:     #ffffff;
+  --product-list-page-mobile-filter-bg:    #ffffff;
+  --product-list-page-mobile-filter-border: #f0d9df;
+  --product-list-page-scrollbar:           #720036;
 }
 
 .dark-theme {
@@ -517,6 +622,105 @@
   --order-details-page-payment-card-bg: #ffffff;
   /* Order Details Page end */
 
+  /* Checkout Page */
+  --checkout-page-primary: #97144d;
+  --checkout-page-primary-light: #c4185e;
+  --checkout-page-primary-soft: rgba(255, 177, 197, 0.08);
+  --checkout-page-text-primary: #ffffff;
+  --checkout-page-text-secondary: #c4a8ae;
+  --checkout-page-text-on-primary: #ffffff;
+  --checkout-page-surface: #211a1c;
+  --checkout-page-surface-elevated: #2a2224;
+  --checkout-page-border: #3a2f32;
+  --checkout-page-shadow-soft: 0 4px 20px rgba(0, 0, 0, 0.4);
+  --checkout-page-address-tag-bg: #97144d;
+  --checkout-page-address-tag-secondary: #2a2224;
+  --checkout-page-free-text: #4ade80;
+
+  /* Order List Page */
+  --order-list-page-primary: #97144d;
+  --order-list-page-primary-light: #c4185e;
+  --order-list-page-text-primary: #ffffff;
+  --order-list-page-text-secondary: #c4a8ae;
+  --order-list-page-text-on-primary: #ffffff;
+  --order-list-page-surface: #211a1c;
+  --order-list-page-surface-elevated: #2a2224;
+  --order-list-page-border: #3a2f32;
+  --order-list-page-hover-soft: rgba(255, 177, 197, 0.08);
+  --order-list-page-shadow-soft: 0 4px 20px rgba(0, 0, 0, 0.4);
+  --order-list-page-shadow-medium: 0 8px 40px rgba(0, 0, 0, 0.6);
+  --order-list-page-status-delivered: #4ade80;
+  --order-list-page-status-shipping: #fbbf24;
+  --order-list-page-status-cancelled: #ff6b6b;
+
+  /* Product Details Page */
+  --product-details-page-primary: #97144d;
+  --product-details-page-primary-light: #c4185e;
+  --product-details-page-primary-soft: rgba(255, 177, 197, 0.08);
+  --product-details-page-text-primary: #ffffff;
+  --product-details-page-text-secondary: #c4a8ae;
+  --product-details-page-text-on-primary: #ffffff;
+  --product-details-page-surface: #211a1c;
+  --product-details-page-surface-elevated: #2a2224;
+  --product-details-page-background: #181314;
+  --product-details-page-border: #3a2f32;
+  --product-details-page-outline: #5a4a4e;
+  --product-details-page-hover-medium: rgba(255, 177, 197, 0.16);
+  --product-details-page-shadow-soft: 0 4px 20px rgba(0, 0, 0, 0.4);
+  --product-details-page-shadow-medium: 0 8px 40px rgba(0, 0, 0, 0.6);
+  --product-details-page-arrow-bg: rgba(33, 26, 28, 0.96);
+  --product-details-page-trending-bg: rgba(138, 180, 248, 0.08);
+  --product-details-page-trending-color: #8ab4f8;
+  --product-details-page-rating-bg: #1b5e20;
+  --product-details-page-discount-color: #4ade80;
+  --product-details-page-free-delivery-color: #4ade80;
+  --product-details-page-category-bg: #121212;
+  --product-details-page-category-card-bg: #0f172a;
+  --product-details-page-category-title: #8ab4f8;
+  --product-details-page-category-text: #e0e0e0;
+  --product-details-page-category-offer: #ff6b6b;
+  --product-details-page-card-hover-bg: radial-gradient(circle, #2a1a22 0%, #1f1a22 40%, #1a1f2a 100%);
+
+   /* ── Product List Page variables (dark) ── */
+  --product-list-page-bg:                  #181314;
+  --product-list-page-breadcrumb-text:     #c4a8ae;
+  --product-list-page-breadcrumb-hover:    #ff80ab;
+  --product-list-page-header-title:        #ffffff;
+  --product-list-page-header-desc:         #c4a8ae;
+  --product-list-page-meta-text:           #c4a8ae;
+  --product-list-page-sort-bg:             #211a1c;
+  --product-list-page-sort-border:         #3a2f32;
+  --product-list-page-sort-accent:         #ff80ab;
+  --product-list-page-filter-border:       #3a2f32;
+  --product-list-page-filter-bg:           #211a1c;
+  --product-list-page-filter-title-color:  #ffffff;
+  --product-list-page-filter-label:        #c4a8ae;
+  --product-list-page-filter-label-hover:  #ff80ab;
+  --product-list-page-filter-check-bg:     #211a1c;
+  --product-list-page-filter-check-active: #ff80ab;
+  --product-list-page-filter-radio-active: #ff80ab;
+  --product-list-page-filter-size-hover:   #ff80ab;
+  --product-list-page-filter-size-soft:    rgba(255, 128, 171, 0.12);
+  --product-list-page-slider-track:        #3a2f32;
+  --product-list-page-slider-range:        #ff80ab;
+  --product-list-page-slider-thumb:        #ff80ab;
+  --product-list-page-slider-shadow:       0 4px 20px rgba(0, 0, 0, 0.4);
+  --product-list-page-slider-values:       #ffffff;
+  --product-list-page-card-bg:             #0f172a;
+  --product-list-page-card-hover-bg:       var(--hero-gradient);
+  --product-list-page-card-shadow:         0 4px 20px rgba(0, 0, 0, 0.4);
+  --product-list-page-card-text:           #e0e0e0;
+  --product-list-page-card-offer:          #ff6b6b;
+  --product-list-page-card-btn-bg:         #97144d;
+  --product-list-page-card-btn-hover:      #b5175e;
+  --product-list-page-section-bg:          #121212;
+  --product-list-page-section-title:       #8ab4f8;
+  --product-list-page-mobile-sidebar-bg:   #181314;
+  --product-list-page-mobile-overlay:      rgba(0, 0, 0, 0.65);
+  --product-list-page-mobile-close-bg:     #211a1c;
+  --product-list-page-mobile-filter-bg:    #211a1c;
+  --product-list-page-mobile-filter-border: #3a2f32;
+  --product-list-page-scrollbar:           #ff80ab;
 }
 
 body {
