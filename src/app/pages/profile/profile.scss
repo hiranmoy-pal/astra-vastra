@@ -1,15 +1,13 @@
-/* =========================
-   PROFILE LAYOUT
-========================= */
-.profile {
+// profile.component.scss
 
+.profile {
     display: flex;
     flex-direction: column;
     padding: 1.5rem 2rem;
-    background: var(--hero-gradient);
+    background: var(--profile-page-hero-gradient);
     flex: 1;
-    height: 100%;
-    max-height: 100%;
+    min-height: 100vh; // ← ensures full height fill
+    box-sizing: border-box; // ← padding counted inside width
 
     &__container {
         flex: 1;
@@ -17,6 +15,8 @@
         grid-template-columns: 260px minmax(0, 1fr);
         gap: 2rem;
         align-items: start;
+        width: 100%; // ← fills parent
+        box-sizing: border-box;
     }
 
     &__content {
@@ -24,60 +24,63 @@
         flex-direction: column;
         gap: 1.5rem;
         min-width: 0;
-
+        width: 100%; // ← fills its grid cell
+        box-sizing: border-box;
     }
 
     &__header {
         display: flex;
         justify-content: space-between;
         align-items: center;
+        padding-right: 0; // ← no extra offset needed, parent handles it
 
         h1 {
             font-size: 26px;
             font-weight: 700;
+            color: var(--profile-page-text-primary);
         }
 
         button {
-            background: var(--background);
+            background: var(--profile-page-background);
             border: none;
             padding: 8px 14px;
             border-radius: 8px;
-            color: var(--text-primary);
+            color: var(--profile-page-text-primary);
             font-weight: 600;
             cursor: pointer;
+            transition: background 0.25s ease, color 0.25s ease;
 
             &:hover {
-                background: var(--primary-light);
-                color: var(--text-tertiery);
+                background: var(--profile-page-primary-light);
+                color: var(--profile-page-text-tertiary);
             }
         }
     }
 
     &__card {
-        background: var(--category-card-bg);
-        padding: 1rem;
+        background: var(--profile-page-category-card-bg);
+        padding: 1.5rem; // ← uniform padding all sides
         border-radius: 18px;
-        box-shadow: var(--shadow-soft);
+        box-shadow: var(--profile-page-shadow-soft);
         width: 100%;
+        box-sizing: border-box; // ← padding inside width, no overflow
     }
 
     &__actions {
-        margin-top: 1rem;
-        margin-left: 20px;
+        margin-top: 1.5rem;
         display: flex;
         gap: 10px;
+        // ← removed margin-left: 20px, form-grid margin handles alignment
     }
 }
 
-/* =========================
-   FORM
-========================= */
+// ─── FORM ─────────────────────────────────────────────────────────────────────
 
 .form-grid {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 1.5rem;
-    margin: 0 20px;
+    // ← removed margin: 0 20px — card padding handles the inset now
 }
 
 .form-group {
@@ -88,91 +91,80 @@
     label {
         font-size: 12px;
         font-weight: 600;
-        color: var(--text-secondary);
+        color: var(--profile-page-text-secondary);
     }
 
     input {
         height: 46px;
         padding: 0 12px;
         border-radius: 10px;
-        border: 1px solid var(--border);
-        background: var(--surface-elevated);
-        color: var(--text-secondary);
+        border: 1px solid var(--profile-page-border);
+        background: var(--profile-page-surface-elevated);
+        color: var(--profile-page-text-secondary);
         font-size: 14px;
+        width: 100%; // ← fills column, no overflow
+        box-sizing: border-box;
+        transition: border-color 0.25s ease, background 0.25s ease;
 
         &:focus {
-            border-color: var(--primary);
-            background: var(--surface);
+            outline: none;
+            border-color: var(--profile-page-primary);
+            background: var(--profile-page-surface);
         }
     }
 
     input[readonly] {
         background: transparent;
         border: none;
-        border-bottom: 1px dashed var(--border);
+        border-bottom: 1px dashed var(--profile-page-border);
+        border-radius: 0;
         padding-left: 0;
-        color: var(--text-primary);
+        color: var(--profile-page-text-primary);
     }
 }
 
-.profile__actions {
-    margin-top: 2rem;
-    display: flex;
-    gap: 12px;
-
-    button {
-        min-width: 140px;
-    }
-}
-
-/* =========================
-   BUTTONS
-========================= */
+// ─── BUTTONS ──────────────────────────────────────────────────────────────────
 
 .btn-primary {
     padding: 10px 16px;
     border-radius: 10px;
     border: none;
-    background: var(--primary);
-    color: var(--text-tertiery);
+    background: var(--profile-page-primary);
+    color: var(--profile-page-text-tertiary);
     font-weight: 600;
     cursor: pointer;
+    transition: background 0.25s ease;
 
     &:hover {
-        background: var(--primary-light);
+        background: var(--profile-page-primary-light);
     }
 }
 
 .btn-secondary {
     padding: 10px 16px;
     border-radius: 10px;
-    background: var(--surface);
-    color: var(--text-primary);
-    border: 1px solid var(--border);
+    background: var(--profile-page-surface);
+    color: var(--profile-page-text-primary);
+    border: 1px solid var(--profile-page-border);
     cursor: pointer;
+    transition: border-color 0.25s ease, background 0.25s ease;
 
     &:hover {
-        border: 1px solid var(--primary);
-        background: var(--primary-soft);
+        border-color: var(--profile-page-primary);
+        background: var(--profile-page-primary-soft);
     }
 }
 
-/* =========================
-   RESPONSIVE
-========================= */
+// ─── RESPONSIVE ───────────────────────────────────────────────────────────────
 
 @media (max-width: 768px) {
     .profile {
-        height: auto;
-        padding: 0.5rem 0.5rem;
+        padding: 0.75rem; // ← slightly more than 0.5rem for mobile breathing room
+        min-height: auto;
     }
 
     app-profile-menu {
         display: none;
-    }
-
-    .profile__card {
-        width: auto;
     }
 
     .profile__container {
@@ -184,8 +176,11 @@
         overflow: visible;
     }
 
+    .profile__card {
+        padding: 1rem;
+    }
+
     .form-grid {
         grid-template-columns: 1fr;
     }
-
 }
