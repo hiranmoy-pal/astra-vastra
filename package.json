@@ -10,7 +10,7 @@
     "serve:ssr:AstraVastra": "node dist/AstraVastra/server/server.mjs"
   },
   "private": true,
-  "packageManager": "npm@11.11.0",
+  "packageManager": "npm@11.11.0", 
   "dependencies": {
     "@angular/common": "^21.2.0",
     "@angular/compiler": "^21.2.0",
