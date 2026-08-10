@@ -6,6 +6,7 @@ import { Theme } from '../../core/services/theme/theme';
 import { Toast } from '../../core/services/toast/toast';
 import { Loading } from '../../core/services/loading/loading';
 import { RouterLink, RouterModule } from '@angular/router';
+import { Http } from '../../core/services/api/http';
 
 @Component({
   selector: 'app-home',
@@ -283,6 +284,7 @@ export class Home implements OnInit, AfterViewInit {
   });
 
   constructor(
+    private http: Http,
     public themeService: Theme,
     public toastService: Toast,
     public loadingService: Loading,
@@ -308,13 +310,11 @@ export class Home implements OnInit, AfterViewInit {
     }
   }
 
-  
+
   startSwiper(event: any) {
     const container = event.currentTarget;
     const swiperEl = container.querySelector('swiper-container');
-
     if (!swiperEl) return;
-
     if (!swiperEl.classList.contains('swiper-initialized')) {
       Object.assign(swiperEl, {
         loop: true,
@@ -327,7 +327,6 @@ export class Home implements OnInit, AfterViewInit {
           clickable: true
         }
       });
-
       swiperEl.initialize();
     }
 
