@@ -12,8 +12,16 @@ export class Http {
 
   constructor(private http: HttpClient) { }
 
-  getOtp(email: string) {
-    return this.http.post(this.baseUrl + '/api/authServices/getOtp', { email });
+  sentOtp(email: any) {
+    return this.http.post(this.baseUrl + '/api/authServices/sentOtp', email);
+  }
+
+  verifyOtp(payload: any) {
+    return this.http.post(this.baseUrl + '/api/authServices/verifyOtp', payload);
+  }
+
+  register(payload: any) {
+    return this.http.post(this.baseUrl + '/api/authServices/register', payload);
   }
 
 }
