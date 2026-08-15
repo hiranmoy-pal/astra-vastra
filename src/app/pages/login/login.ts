@@ -8,6 +8,7 @@ import { Http } from '../../core/services/api/http';
 import { Toast } from '../../core/services/toast/toast';
 import { Loading } from '../../core/services/loading/loading';
 import { interval, Subscription } from 'rxjs';
+import { Alert } from '../../core/services/alert/alert';
 
 @Component({
   selector: 'app-login',
@@ -18,6 +19,7 @@ import { interval, Subscription } from 'rxjs';
   templateUrl: './login.html',
   styleUrl: './login.scss',
 })
+
 export class Login implements OnInit, OnDestroy {
 
   showLogin: boolean = true;
@@ -47,7 +49,7 @@ export class Login implements OnInit, OnDestroy {
   };
 
   constructor(
-    private fb: FormBuilder, private authService: Http, public toastService: Toast, public loadingService: Loading, private router: Router
+    private fb: FormBuilder, private authService: Http, public toastService: Toast, public loadingService: Loading, private alertService: Alert, private router: Router
   ) {
     this.InitializeoginForm();
     this.initializeOtpForm();
@@ -220,7 +222,7 @@ export class Login implements OnInit, OnDestroy {
             this.showLogin = false;
             this.showOtp = false;
             this.showRegister = false;
-            // this.router.navigate(['/']);
+            this.router.navigate(['/']);
           } else {
             console.log('Verify OTP API response:', response);
             this.registerForm.patchValue({
@@ -390,7 +392,7 @@ export class Login implements OnInit, OnDestroy {
           this.showLogin = false;
           this.showOtp = false;
           this.showRegister = false;
-          // this.router.navigate(['/']);
+          this.router.navigate(['/']);
           this.toastService.show(response.message, 'success');
         } else {
           this.toastService.show(response.message, 'error');

@@ -1,7 +1,5 @@
 <div class="toast-container">
-  <div class="toast"
-       *ngFor="let t of toastService.toasts()"
-       [class]="t.type">
+  <div class="toast" *ngFor="let t of toastService.toasts()" [class]="t.type">
     {{ t.message }}
   </div>
 </div>
@@ -11,4 +9,24 @@
     <img src="assets/Images/av_logo.png" alt="Astra Vastra Logo" />
   </div>
 </div>
+
+@if (alertService.state().config; as config) {
+<div class="alert-overlay" (click)="alertService.close(false)">
+  <!-- Prevent clicks inside the dialog from closing the modal -->
+  <div class="alert-dialog" (click)="$event.stopPropagation()">
+    <h3 class="alert-title">{{ config.title }}</h3>
+    <p class="alert-message">{{ config.message }}</p>
+
+    <div class="alert-actions">
+      <button class="btn-cancel" (click)="alertService.close(false)">
+        {{ config.cancelText || 'Cancel' }}
+      </button>
+      <button class="btn-confirm" [class.danger]="config.isDanger" (click)="alertService.close(true)">
+        {{ config.confirmText || 'OK' }}
+      </button>
+    </div>
+  </div>
+</div>
+}
+
 <router-outlet />

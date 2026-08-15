@@ -3,6 +3,7 @@ import { RouterOutlet } from '@angular/router';
 import { Toast } from './core/services/toast/toast';
 import { CommonModule } from '@angular/common';
 import { Loading } from './core/services/loading/loading';
+import { Alert } from './core/services/alert/alert';
 
 @Component({
   selector: 'app-root',
@@ -16,7 +17,8 @@ export class App {
 
   constructor( 
     public toastService: Toast,
-    public loadingService: Loading
+    public loadingService: Loading,
+    public alertService: Alert
   ){
 
   }
