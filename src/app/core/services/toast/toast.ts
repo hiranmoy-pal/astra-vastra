@@ -3,15 +3,13 @@ import { Injectable, signal } from '@angular/core';
 export interface ToastModel {
   id: number;
   message: string;
-  type: 'success' | 'error' | 'info';
+  type: 'success' | 'error' | 'warning' | 'info';
 }
 
 @Injectable({
   providedIn: 'root',
 })
 export class Toast {
-
-
   private _toasts = signal<ToastModel[]>([]);
   toasts = this._toasts.asReadonly();
 

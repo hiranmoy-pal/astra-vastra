@@ -3,16 +3,16 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    background: var(--login-page-bg);
+    background: var(--hero-gradient);
 
     &__container {
         width: 100%;
         max-width: 500px;
-        background: var(--login-page-container-bg);
+        background: var(--category-card-bg);
         padding: 2rem;
         margin: 0 0.8rem;
         border-radius: 16px;
-        box-shadow: var(--login-page-shadow-soft);
+        box-shadow: var(--shadow-soft);
     }
 
     &__header {
@@ -20,14 +20,14 @@
     }
 
     &__title {
-        font-family: var(--login-page-font-headline);
+        font-family: var(--font-headline);
         font-size: 1.8rem;
         margin: 0;
-        color: var(--login-page-text-primary);
+        color: var(--text-primary);
     }
 
     &__subtitle {
-        color: var(--login-page-text-secondary);
+        color: var(--text-secondary);
         margin-top: 0.4rem;
         font-size: 0.95rem;
     }
@@ -42,14 +42,14 @@
         display: flex;
         gap: 0.6rem;
         align-items: flex-start;
-        background: var(--login-page-surface-elevated);
+        background: var(--surface-elevated);
         padding: 0.8rem;
         border-radius: 10px;
         font-size: 0.85rem;
-        color: var(--login-page-text-secondary);
+        color: var(--text-secondary);
 
         span {
-            color: var(--login-page-primary);
+            color: var(--primary);
             font-weight: bold;
         }
     }
@@ -61,12 +61,12 @@
         font-size: 0.85rem;
 
         a {
-            color: var(--login-page-text-secondary);
+            color: var(--text-secondary);
             text-decoration: none;
             font-weight: 700;
 
             &:hover {
-                color: var(--login-page-primary);
+                color: var(--primary);
             }
         }
     }
@@ -83,22 +83,22 @@
         font-size: 0.9rem;
         font-weight: 700;
         text-transform: uppercase;
-        color: var(--login-page-text-secondary);
+        color: var(--text-secondary);
     }
 
     input {
         padding: 0.9rem;
         border-radius: 10px;
-        border: 1px solid var(--login-page-border);
-        background: var(--login-page-surface-elevated);
+        border: 1px solid var(--border);
+        background: var(--surface-elevated);
         font-size: 0.95rem;
-        color: var(--login-page-text-primary);
-        font-family: var(--login-page-font-body);
+        color: var(--text-primary);
+        font-family: var(--font-body);
 
         &:focus {
             outline: none;
-            border-color: var(--login-page-primary);
-            background: var(--login-page-surface);
+            border-color: var(--primary);
+            background: var(--surface);
         }
     }
 
@@ -117,10 +117,10 @@
     }
 
     label {
-        color: var(--login-page-text-secondary);
+        color: var(--text-secondary);
 
         a {
-            color: var(--login-page-primary);
+            color: var(--primary);
             text-decoration: none;
             font-weight: 700;
         }
@@ -130,17 +130,17 @@
 /* ================= PRIMARY BUTTON ================= */
 
 .btn-primary {
-    background: var(--login-page-primary);
-    color: var(--login-page-text-on-primary);
+    background: var(--primary);
+    color: var(--text-tertiary);
     padding: 0.9rem;
     border-radius: 10px;
     border: none;
     font-weight: 600;
     cursor: pointer;
-    font-family: var(--login-page-font-body);
+    font-family: var(--font-body);
 
     &:hover {
-        background: var(--login-page-primary-light);
+        background: var(--primary-light);
     }
 
     &:disabled {
@@ -160,7 +160,7 @@
 .auth__back {
     font-size: 0.9rem;
     font-weight: 600;
-    color: var(--login-page-primary);
+    color: var(--primary);
     cursor: pointer;
     width: fit-content;
 
@@ -181,17 +181,17 @@
         height: 46px;
         border-radius: 10px;
         border: none;
-        background: var(--login-page-otp-input-bg);
+        background: var(--hover-medium);
         text-align: center;
         font-size: 1.1rem;
         font-weight: 700;
-        color: var(--login-page-text-primary);
+        color: var(--text-primary);
         transition: all 0.2s ease;
 
         &:focus {
             outline: none;
-            background: var(--login-page-surface);
-            border: 2px solid var(--login-page-primary);
+            background: var(--surface);
+            border: 2px solid var(--primary);
             transform: scale(1.05);
         }
     }
@@ -202,10 +202,10 @@
 .otp-resend {
     text-align: center;
     font-size: 0.9rem;
-    color: var(--login-page-text-secondary);
+    color: var(--text-secondary);
 
     span {
-        color: var(--login-page-primary);
+        color: var(--primary);
         font-weight: 600;
     }
 
@@ -213,13 +213,13 @@
         margin-top: 0.3rem;
         background: none;
         border: none;
-        color: var(--login-page-text-secondary);
+        color: var(--text-secondary);
         font-weight: 700;
         letter-spacing: 1px;
         cursor: pointer;
 
         &:hover {
-            color: var(--login-page-primary);
+            color: var(--primary);
         }
 
         &:disabled {
@@ -242,11 +242,11 @@
     text-align: center;
     font-size: 0.8rem;
     letter-spacing: 1px;
-    color: var(--login-page-text-secondary);
+    color: var(--text-secondary);
 
     a {
         margin-left: 6px;
-        color: var(--login-page-primary);
+        color: var(--primary);
         font-weight: 700;
         text-decoration: none;
     }
@@ -271,9 +271,9 @@
 }
 
 .register-form input {
-    background: var(--login-page-input-bg);
+    background: var(--surface);
     border: none;
-    color: var(--login-page-text-primary);
+    color: var(--text-primary);
 }
 
 .gender-group {
@@ -285,21 +285,21 @@
         flex: 1;
         padding: 0.7rem;
         border-radius: 10px;
-        border: 1px solid var(--login-page-border);
-        background: var(--login-page-gender-btn-bg);
+        border: 1px solid var(--border);
+        background: var(--danger);
         font-weight: 600;
         cursor: pointer;
-        color: var(--login-page-text-on-primary);
+        color: var(--text-tertiary);
         transition: all 0.2s ease;
 
         &:hover {
-            background: var(--login-page-primary);
+            background: var(--primary);
         }
 
         &.active {
-            background: var(--login-page-primary);
-            color: var(--login-page-text-on-primary);
-            border-color: var(--login-page-primary);
+            background: var(--primary);
+            color: var(--text-tertiary);
+            border-color: var(--primary);
         }
     }
 }
@@ -308,17 +308,17 @@
     margin-top: 1rem;
     height: 52px;
     border-radius: 12px;
-    box-shadow: var(--login-page-shadow-medium);
+    box-shadow: var(--shadow-medium);
 }
 
 .register-footer {
     margin-top: 1.2rem;
     text-align: center;
     font-size: 0.85rem;
-    color: var(--login-page-text-secondary);
+    color: var(--text-secondary);
 
     a {
-        color: var(--login-page-primary);
+        color: var(--primary);
         font-weight: 700;
         margin-left: 4px;
         cursor: pointer;
@@ -329,7 +329,7 @@
 .error {
     display: block;
     margin-top: 6px;
-    color: #d32f2f;
+    color: var(--danger);
     font-size: 12px;
     line-height: 1.4;
     font-weight: 400;

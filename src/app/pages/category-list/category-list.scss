@@ -9,34 +9,34 @@
     }
 
     a {
-        color: var(--category-list-page-breadcrumb-link);
+        color: var(--text-secondary);
         text-decoration: none;
         font-weight: 500;
 
         &:hover {
-            color: var(--category-list-page-primary);
+            color: var(--primary);
         }
     }
 
     span {
-        color: var(--category-list-page-breadcrumb-link);
+        color: var(--text-secondary);
     }
 
     .active {
-        color: var(--category-list-page-breadcrumb-active);
+        color: var(--text-primary);
         font-weight: 600;
     }
 }
 
 .main {
-    font-family: var(--category-list-page-font-body);
-    background: var(--category-list-page-body-bg);
+    font-family: var(--font-body);
+    background: var(--hero-gradient);
 
     /* ================= Category ================= */
 
     .category {
         max-width: 100%;
-        background: var(--category-list-page-bg);
+        background: var(--category-bg);
 
         &__header {
             text-align: center;
@@ -45,7 +45,7 @@
             h2 {
                 font-size: 36px;
                 font-weight: 700;
-                color: var(--category-list-page-title);
+                color: var(--category-title);
             }
         }
 
@@ -66,16 +66,16 @@
     .category-card {
         display: block;
         text-decoration: none;
-        background: var(--category-list-page-card-bg);
+        background: var(--category-card-bg);
         border-radius: 8px;
         overflow: hidden;
-        box-shadow: var(--category-list-page-card-shadow);
+        box-shadow: var(--shadow-soft);
         transition: transform 0.3s ease, box-shadow 0.3s ease;
 
         &:hover {
             transform: translateY(-5px);
-            background: var(--category-list-page-card-hover-bg);
-            box-shadow: var(--category-list-page-card-shadow-hover);
+            background: var(--hero-gradient);
+            box-shadow: var(--shadow-medium);
         }
 
         &__image {
@@ -102,20 +102,20 @@
             h3 {
                 font-size: 14px;
                 font-weight: 600;
-                color: var(--category-list-page-text);
+                color: var(--category-text);
                 margin-bottom: 6px;
             }
 
             .offer {
                 font-size: 18px;
                 font-weight: 700;
-                color: var(--category-list-page-offer);
+                color: var(--danger);
                 margin-bottom: 4px;
             }
 
             .cta {
                 font-size: 13px;
-                color: var(--category-list-page-text);
+                color: var(--category-text);
                 font-weight: 500;
             }
         }

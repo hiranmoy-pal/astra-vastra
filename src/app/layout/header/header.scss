@@ -2,9 +2,9 @@
     position: sticky;
     top: 0;
     z-index: 1000;
-    background: var(--header-background);
-    box-shadow: var(--header-shadow-soft);
-    border-bottom: 1px solid var(--header-border);
+    background: var(--surface);
+    box-shadow: var(--shadow-soft);
+    border-bottom: 1px solid var(--border);
 
     &__container {
         max-width: 1400px;
@@ -33,7 +33,6 @@
             height: 100px;
             width: auto;
             object-fit: contain;
-
             transition: opacity 0.2s ease;
 
             &:hover {
@@ -50,15 +49,15 @@
         align-items: center;
         padding: 12px 20px;
         transition: all 0.25s ease;
-        background: var(--header-search-background);
+        background: var(--surface-elevated);
         border: 1px solid transparent;
         border-radius: 40px;
         box-sizing: border-box;
 
         &:focus-within {
-            background: var(--header-search-focus-background);
-            border-color: var(--header-search-focus-border);
-            box-shadow: 0 0 0 3px var(--header-search-focus-box-shadow);
+            background: var(--surface);
+            border-color: var(--primary-light);
+            box-shadow: 0 0 0 3px var(--hover-soft);
         }
 
         input {
@@ -67,7 +66,7 @@
             width: 100%;
             outline: none;
             font-size: 14px;
-            color: var(--header-search-input-text);
+            color: var(--text-primary);
         }
 
         i {
@@ -98,16 +97,16 @@
         height: 40px;
         border-radius: 50%;
         transition: all 0.2s ease;
-        color: var(--header-action-icon-btn);
+        color: var(--text-primary);
 
         &:hover {
-            background: var(--header-action-icon-btn-hover-background);
-            color: var(--header-action-icon-btn-hover-color);
+            background: var(--hover-soft);
+            color: var(--primary);
             transform: translateY(-1px);
         }
 
         &:active {
-            background: var(--header-action-icon-btn-active-background);
+            background: var(--active);
         }
 
         i {
@@ -119,15 +118,14 @@
                 transform: rotate(20deg);
             }
         }
-
     }
 
     .badge {
         position: absolute;
         top: -4px;
         right: -6px;
-        background: var(--header-action-icon-btn-badge-background);
-        color: var(--header-action-icon-btn-badge-color);
+        background: var(--primary-light);
+        color: var(--text-tertiary);
         width: 18px;
         height: 18px;
         font-size: 10px;
@@ -163,17 +161,17 @@
 
         a {
             text-decoration: none;
-            color: var(--header-nav-item-text);
+            color: var(--text-secondary);
         }
 
         &:hover {
-            background: var(--header-nav-item-text-hover-background);
-            color: var(--header-nav-item-text-hover-color);
+            background: var(--hover-soft);
+            color: var(--primary);
         }
 
         &.active {
-            background: var(--header-nav-item-text-active-background);
-            color: var(--header-nav-item-text-active-color);
+            background: var(--hover-medium);
+            color: var(--primary);
         }
     }
 }
@@ -191,11 +189,11 @@
         border-radius: 999px;
         cursor: pointer;
         transition: all 0.2s ease;
-        color: var(--header-nav-profile-trigger-color);
+        color: var(--text-primary);
 
         &:hover {
-            background: var(--header-nav-profile-trigger-hover-background);
-            color: var(--header-nav-profile-trigger-hover-color);
+            background: var(--hover-soft);
+            color: var(--primary);
         }
 
         i {
@@ -214,10 +212,10 @@
         top: 100%;
         right: 0;
         width: 260px;
-        background: var(--header-nav-profile-menu-background);
-        border: 1px solid var(--header-nav-profile-menu-border);
+        background: var(--surface);
+        border: 1px solid var(--border);
         border-radius: 12px;
-        box-shadow: var(--header-nav-profile-menu-box-shadow);
+        box-shadow: var(--shadow-medium);
         padding: 8px 0;
         opacity: 0;
         transform: translateY(10px);
@@ -244,7 +242,7 @@
         justify-content: space-between;
         padding: 10px 16px;
         text-decoration: none;
-        color: var(--header-nav-profile-list-text);
+        color: var(--text-primary);
         font-size: 14px;
         transition: all 0.2s ease;
 
@@ -256,7 +254,7 @@
 
         i {
             font-size: 16px;
-            color: var(--header-nav-profile-list-icon);
+            color: var(--primary);
             min-width: 18px;
             text-align: center;
         }
@@ -267,18 +265,18 @@
         }
 
         &:hover {
-            background: var(--header-nav-profile-list-text-hover-background);
-            color: var(--header-nav-profile-list-text-hover);
+            background: var(--hover-soft);
+            color: var(--primary);
 
             i {
-                color: var(--header-nav-profile-list-icon-hover);
+                color: var(--primary-light);
             }
         }
     }
 
     .divider {
         height: 1px;
-        background: var(--header-border);
+        background: var(--border);
         margin: 6px 0;
     }
 }
@@ -293,15 +291,15 @@
         border-radius: 999px;
         font-weight: 600;
         font-size: 14px;
-        background: var(--header-nav-profile-list-login-item-background);
-        color: var(--header-nav-profile-list-login-item);
+        background: var(--primary);
+        color: var(--text-tertiary);
         transition: all 0.25s ease;
 
         &:hover {
-            background: var(--header-nav-profile-list-login-item-hover-background);
+            background: var(--primary-light);
             transform: translateY(-1px);
-            color: var(--header-nav-profile-list-login-item-hover);
-            box-shadow: var(--header-nav-profile-list-login-item-hover-box-shadow);
+            color: var(--text-tertiary);
+            box-shadow: var(--shadow-soft);
         }
 
         &:active {
@@ -315,7 +313,7 @@
     position: fixed;
     inset: 0;
     z-index: 9999;
-    background: var(--header-modal-suchipatra-background);
+    background: var(--hero-gradient);
     overflow-y: auto;
     transform: translateY(-100%);
     opacity: 0;
@@ -329,13 +327,12 @@
     }
 }
 
-
 .magtitle-heading {
     position: sticky;
     top: 0;
     z-index: 10;
-    background: var(--header-modal-suchipatra-background);
-    border-bottom: 1px solid var(--header-border);
+    background: var(--hero-gradient);
+    border-bottom: 1px solid var(--border);
 }
 
 .inner-content {
@@ -354,7 +351,7 @@
 .heading {
     font-size: 1.1rem;
     font-weight: 800;
-    color: var(--header-modal-suchipatra-heading-text);
+    color: var(--text-primary);
 }
 
 .close-btn {
@@ -364,12 +361,12 @@
     border-radius: 50%;
     background: transparent;
     cursor: pointer;
-    color: var(--header-modal-suchipatra-close-btn);
+    color: var(--text-primary);
     transition: 0.2s ease;
 
     &:hover {
-        background: var(--header-modal-suchipatra-close-btn-hover-background);
-        color: var(--header-modal-suchipatra-close-btn-hover);
+        background: var(--hover-soft);
+        color: var(--primary);
     }
 
     i {
@@ -388,19 +385,18 @@
     min-width: 0;
 }
 
-
 .list-heading {
     margin: 0 0 1rem;
     font-size: 1rem;
     font-weight: 800;
-    color: var(--header-modal-suchipatra-item-text);
+    color: var(--text-secondary);
 
     a {
         text-decoration: none;
-        color: var(--header-modal-suchipatra-item-text);
+        color: var(--text-secondary);
 
         &:hover {
-            color: var(--header-modal-suchipatra-item-text-hover);
+            color: var(--primary);
         }
     }
 }
@@ -413,13 +409,13 @@
 
 .item {
     text-decoration: none;
-    color: var(--header-modal-suchipatra-item-text);
+    color: var(--text-secondary);
     font-size: 0.88rem;
     line-height: 1.4;
     transition: 0.2s ease;
 
     &:hover {
-        color: var(--header-modal-suchipatra-item-text-hover);
+        color: var(--primary);
     }
 
     .title {
@@ -432,7 +428,6 @@
 ========================= */
 @media (max-width: 1024px) {
     .header {
-
         &__top {
             display: flex;
             flex-wrap: wrap;
@@ -489,7 +484,6 @@
 }
 
 @media (max-width: 768px) {
-
     .header {
         &__logo img {
             height: 50px;
@@ -520,7 +514,6 @@
 
     .seclist {
         grid-template-columns: repeat(2, 1fr);
-
         gap: 1.5rem;
     }
 
@@ -534,7 +527,6 @@
 }
 
 @media (max-width: 480px) {
-
     .seclist {
         grid-template-columns: 1fr;
     }

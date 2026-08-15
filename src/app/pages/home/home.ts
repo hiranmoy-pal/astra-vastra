@@ -292,7 +292,7 @@ export class Home implements OnInit, AfterViewInit {
   ) { }
 
   ngOnInit() {
-    this.toastService.show('Saved successfully', 'success');
+    this.toastService.show('Saved successfully', 'error');
     this.loadingService.show();
     setTimeout(() => {
       this.loadingService.hide();

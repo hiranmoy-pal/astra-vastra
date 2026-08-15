@@ -2,8 +2,8 @@
     max-width: 1280px;
     margin: 0 auto;
     padding: 0.75rem;
-    font-family: var(--order-details-page-font-body);
-    color: var(--order-details-page-text-primary);
+    font-family: var(--font-body);
+    color: var(--text-primary);
 }
 
 /* =========================
@@ -11,8 +11,8 @@
 ========================= */
 
 .order-header {
-    background: var(--order-details-page-surface);
-    border-bottom: 0.5px solid var(--order-details-page-border);
+    background: var(--surface);
+    border-bottom: 0.5px solid var(--border);
     padding: 1rem;
     margin-bottom: 1rem;
 
@@ -27,12 +27,12 @@
         width: 32px;
         height: 32px;
         border-radius: 8px;
-        border: 0.5px solid var(--order-details-page-border);
-        background: var(--order-details-page-surface-elevated);
+        border: 0.5px solid var(--border);
+        background: var(--surface-elevated);
         display: flex;
         align-items: center;
         justify-content: center;
-        color: var(--order-details-page-primary);
+        color: var(--primary);
         flex-shrink: 0;
         cursor: pointer;
         font-size: 16px;
@@ -41,17 +41,17 @@
     &__id {
         font-size: 11px;
         font-weight: 700;
-        color: var(--order-details-page-text-secondary);
+        color: var(--text-secondary);
         letter-spacing: 0.06em;
         text-transform: uppercase;
     }
 
     &__title {
-        font-family: var(--order-details-page-font-headline);
+        font-family: var(--font-headline);
         font-size: 1.4rem;
         font-weight: 800;
         line-height: 1.1;
-        color: var(--order-details-page-text-primary);
+        color: var(--text-primary);
         margin: 0 0 0.3rem;
     }
 
@@ -65,7 +65,7 @@
 
     &__date {
         font-size: 12px;
-        color: var(--order-details-page-text-secondary);
+        color: var(--text-secondary);
         margin: 0;
     }
 
@@ -83,14 +83,14 @@
     border-radius: 999px;
     font-size: 11px;
     font-weight: 700;
-    background: var(--order-details-page-primary-soft);
-    color: var(--order-details-page-primary);
+    background: var(--primary-soft);
+    color: var(--primary);
 
     &__dot {
         width: 6px;
         height: 6px;
         border-radius: 50%;
-        background: var(--order-details-page-primary);
+        background: var(--primary);
         flex-shrink: 0;
     }
 }
@@ -103,8 +103,8 @@
     gap: 6px;
     padding: 0.6rem 1rem;
     border-radius: 10px;
-    background: var(--order-details-page-primary);
-    color: var(--order-details-page-text-on-primary);
+    background: var(--primary);
+    color: var(--text-tertiary);
     font-size: 12px;
     font-weight: 700;
     border: none;
@@ -113,7 +113,7 @@
     transition: background 0.2s ease;
 
     &:hover {
-        background: var(--order-details-page-primary-light);
+        background: var(--primary-light);
     }
 }
 
@@ -130,19 +130,19 @@
     font-weight: 700;
     letter-spacing: 0.08em;
     text-transform: uppercase;
-    color: var(--order-details-page-text-secondary);
+    color: var(--text-secondary);
 
     a {
         color: inherit;
         text-decoration: none;
 
         &:hover {
-            color: var(--order-details-page-primary);
+            color: var(--primary);
         }
     }
 
     strong {
-        color: var(--order-details-page-primary);
+        color: var(--primary);
     }
 }
 
@@ -163,9 +163,9 @@
 .section-title {
     margin: 0 0 1rem;
     font-size: 1rem;
-    font-family: var(--order-details-page-font-headline);
+    font-family: var(--font-headline);
     font-weight: 800;
-    color: var(--order-details-page-text-primary);
+    color: var(--text-primary);
 }
 
 /* =========================
@@ -173,12 +173,12 @@
 ========================= */
 
 .journey-card {
-    background: var(--order-details-page-surface);
-    border: 1px solid var(--order-details-page-border);
+    background: var(--surface);
+    border: 1px solid var(--border);
     border-radius: 1rem;
     padding: 1rem;
     margin-bottom: 1rem;
-    box-shadow: var(--order-details-page-shadow-soft);
+    box-shadow: var(--shadow-soft);
     overflow: hidden;
 }
 
@@ -187,13 +187,13 @@
     align-items: flex-start;
     gap: 8px;
     padding: 0.6rem 0.75rem;
-    background: var(--order-details-page-primary-soft);
+    background: var(--primary-soft);
     border-radius: 10px;
     margin-bottom: 1.25rem;
 
     i {
         font-size: 15px;
-        color: var(--order-details-page-primary);
+        color: var(--primary);
         margin-top: 1px;
         flex-shrink: 0;
     }
@@ -201,13 +201,13 @@
     &__title {
         font-size: 12px;
         font-weight: 700;
-        color: var(--order-details-page-primary);
+        color: var(--primary);
         margin-bottom: 2px;
     }
 
     &__address {
         font-size: 11px;
-        color: var(--order-details-page-text-secondary);
+        color: var(--text-secondary);
     }
 }
 
@@ -222,7 +222,7 @@
     top: 12px;
     bottom: 12px;
     width: 2px;
-    background: var(--order-details-page-border);
+    background: var(--border);
     border-radius: 2px;
     z-index: 0;
 }
@@ -232,7 +232,7 @@
     left: 11px;
     top: 12px;
     width: 2px;
-    background: var(--order-details-page-primary);
+    background: var(--primary);
     border-radius: 2px;
     z-index: 1;
 }
@@ -257,36 +257,36 @@
     align-items: center;
     justify-content: center;
     font-size: 11px;
-    border: 2px solid var(--order-details-page-border);
-    background: var(--order-details-page-surface-elevated);
-    color: var(--order-details-page-text-secondary);
+    border: 2px solid var(--border);
+    background: var(--surface-elevated);
+    color: var(--text-secondary);
     z-index: 2;
     flex-shrink: 0;
 
     &--completed {
-        background: var(--order-details-page-primary);
-        border-color: var(--order-details-page-primary);
-        color: var(--order-details-page-text-on-primary);
+        background: var(--primary);
+        border-color: var(--primary);
+        color: var(--text-tertiary);
     }
 
     &--active {
-        background: var(--order-details-page-surface);
-        border-color: var(--order-details-page-primary);
-        color: var(--order-details-page-primary);
-        box-shadow: 0 0 0 4px var(--order-details-page-primary-soft);
+        background: var(--surface);
+        border-color: var(--primary);
+        color: var(--primary);
+        box-shadow: 0 0 0 4px var(--primary-soft);
     }
 
     &--pending {
-        background: var(--order-details-page-surface-elevated);
-        border-color: var(--order-details-page-border);
-        color: var(--order-details-page-text-secondary);
+        background: var(--surface-elevated);
+        border-color: var(--border);
+        color: var(--text-secondary);
     }
 }
 
 .step-card {
     border-radius: 10px;
     padding: 0.55rem 0.8rem;
-    border: 0.5px solid var(--order-details-page-border);
+    border: 0.5px solid var(--border);
 
     &__top {
         display: flex;
@@ -312,28 +312,28 @@
     }
 
     &--completed {
-        background: var(--order-details-page-primary-soft);
-        border-color: rgba(114, 0, 54, 0.12);
+        background: var(--primary-soft);
+        border-color: var(--primary-soft);
 
         .step-card__title {
-            color: var(--order-details-page-primary);
+            color: var(--primary);
         }
 
         .step-card__time {
-            color: var(--order-details-page-text-secondary);
+            color: var(--text-secondary);
         }
 
         .step-card__desc {
-            color: var(--order-details-page-text-secondary);
+            color: var(--text-secondary);
         }
     }
 
     &--active {
-        background: var(--order-details-page-primary);
-        border-color: var(--order-details-page-primary);
+        background: var(--primary);
+        border-color: var(--primary);
 
         .step-card__title {
-            color: var(--order-details-page-text-on-primary);
+            color: var(--text-tertiary);
         }
 
         .step-card__time {
@@ -346,18 +346,18 @@
     }
 
     &--pending {
-        background: var(--order-details-page-surface-elevated);
+        background: var(--surface-elevated);
 
         .step-card__title {
-            color: var(--order-details-page-text-secondary);
+            color: var(--text-secondary);
         }
 
         .step-card__time {
-            color: var(--order-details-page-border);
+            color: var(--border);
         }
 
         .step-card__desc {
-            color: var(--order-details-page-border);
+            color: var(--border);
         }
     }
 }
@@ -375,10 +375,10 @@
     gap: 1rem;
     padding: 1rem;
     margin-bottom: 0.75rem;
-    border: 1px solid var(--order-details-page-border);
+    border: 1px solid var(--border);
     border-radius: 1rem;
-    background: var(--order-details-page-surface);
-    box-shadow: var(--order-details-page-shadow-soft);
+    background: var(--surface);
+    box-shadow: var(--shadow-soft);
 
     &__image {
         width: 78px;
@@ -410,9 +410,9 @@
     &__title {
         margin: 0 0 0.45rem;
         font-size: 0.95rem;
-        font-family: var(--order-details-page-font-headline);
+        font-family: var(--font-headline);
         font-weight: 700;
-        color: var(--order-details-page-text-primary);
+        color: var(--text-primary);
     }
 
     &__meta {
@@ -423,14 +423,14 @@
         p {
             margin: 0;
             font-size: 0.75rem;
-            color: var(--order-details-page-text-secondary);
+            color: var(--text-secondary);
         }
     }
 
     &__price {
         font-size: 1rem;
         font-weight: 800;
-        color: var(--order-details-page-primary);
+        color: var(--primary);
         white-space: nowrap;
     }
 
@@ -445,7 +445,7 @@
             padding: 0;
             font-size: 0.68rem;
             font-weight: 700;
-            color: var(--order-details-page-primary);
+            color: var(--primary);
             text-transform: uppercase;
         }
     }
@@ -472,7 +472,7 @@
     margin-top: 0.7rem;
     font-size: 0.65rem;
     font-weight: 700;
-    color: var(--order-details-page-primary);
+    color: var(--primary);
     text-transform: uppercase;
 }
 
@@ -482,22 +482,22 @@
 
 .feedback-card {
     padding: 1rem;
-    border: 1px solid var(--order-details-page-border);
+    border: 1px solid var(--border);
     border-radius: 1rem;
-    background: var(--order-details-page-surface);
-    box-shadow: var(--order-details-page-shadow-soft);
+    background: var(--surface);
+    box-shadow: var(--shadow-soft);
 
     &__title {
         margin: 0 0 0.35rem;
         font-size: 1.15rem;
         font-weight: 800;
-        color: var(--order-details-page-text-primary);
+        color: var(--text-primary);
     }
 
     &__subtitle {
         margin: 0 0 1rem;
         font-size: 0.82rem;
-        color: var(--order-details-page-text-secondary);
+        color: var(--text-secondary);
     }
 }
 
@@ -509,10 +509,10 @@
     i {
         font-size: 1.1rem;
         cursor: pointer;
-        color: var(--order-details-page-outline);
+        color: var(--outline);
 
         &.active {
-            color: var(--order-details-page-primary);
+            color: var(--primary);
         }
     }
 }
@@ -527,7 +527,7 @@
         font-weight: 700;
         letter-spacing: 0.06em;
         text-transform: uppercase;
-        color: var(--order-details-page-text-primary);
+        color: var(--text-primary);
     }
 
     textarea {
@@ -536,15 +536,15 @@
         resize: vertical;
         padding: 0.6rem;
         border-radius: 0.8rem;
-        border: 1px solid var(--order-details-page-border);
-        background: var(--order-details-page-surface-elevated);
+        border: 1px solid var(--border);
+        background: var(--surface-elevated);
         font-size: 0.82rem;
-        color: var(--order-details-page-text-primary);
-        font-family: var(--order-details-page-font-body);
+        color: var(--text-primary);
+        font-family: var(--font-body);
         box-sizing: border-box;
 
         &:focus {
-            border-color: var(--order-details-page-primary);
+            border-color: var(--primary);
             outline: none;
         }
     }
@@ -553,8 +553,8 @@
 .submit-feedback-btn {
     padding: 0.75rem 1.25rem;
     border-radius: 0.8rem;
-    background: var(--order-details-page-primary);
-    color: var(--order-details-page-text-on-primary);
+    background: var(--primary);
+    color: var(--text-tertiary);
     font-size: 0.72rem;
     font-weight: 700;
     border: none;
@@ -563,7 +563,7 @@
     transition: background 0.2s ease;
 
     &:hover {
-        background: var(--order-details-page-primary-light);
+        background: var(--primary-light);
     }
 }
 
@@ -580,10 +580,10 @@
 .info-card,
 .summary-card {
     padding: 1rem;
-    border: 1px solid var(--order-details-page-border);
+    border: 1px solid var(--border);
     border-radius: 1rem;
-    background: var(--order-details-page-surface);
-    box-shadow: var(--order-details-page-shadow-soft);
+    background: var(--surface);
+    box-shadow: var(--shadow-soft);
 }
 
 .info-card {
@@ -595,7 +595,7 @@
 
         i {
             font-size: 0.95rem;
-            color: var(--order-details-page-primary);
+            color: var(--primary);
         }
 
         h3 {
@@ -604,7 +604,7 @@
             font-weight: 700;
             letter-spacing: 0.08em;
             text-transform: uppercase;
-            color: var(--order-details-page-text-primary);
+            color: var(--text-primary);
         }
     }
 
@@ -613,13 +613,13 @@
             margin: 0 0 0.35rem;
             font-size: 0.82rem;
             line-height: 1.5;
-            color: var(--order-details-page-text-primary);
+            color: var(--text-primary);
         }
 
         .muted {
             margin-top: 0.75rem;
             font-size: 0.75rem;
-            color: var(--order-details-page-text-secondary);
+            color: var(--text-secondary);
         }
     }
 }
@@ -636,8 +636,8 @@
         border-radius: 0.4rem;
         font-size: 0.6rem;
         font-weight: 700;
-        background: var(--order-details-page-payment-card-bg);
-        color: var(--order-details-page-text-on-primary);
+        background: var(--text-primary);
+        color: var(--text-tertiary);
         display: flex;
         align-items: center;
         justify-content: center;
@@ -646,13 +646,13 @@
     p {
         margin: 0;
         font-size: 0.8rem;
-        color: var(--order-details-page-text-primary);
+        color: var(--text-primary);
     }
 }
 
 .billing-address {
     font-size: 0.8rem;
-    color: var(--order-details-page-text-secondary);
+    color: var(--text-secondary);
 
     p {
         margin: 0 0 0.25rem;
@@ -668,7 +668,7 @@
         margin: 0 0 1rem;
         font-size: 1rem;
         font-weight: 800;
-        color: var(--order-details-page-text-primary);
+        color: var(--text-primary);
     }
 }
 
@@ -681,17 +681,17 @@
     justify-content: space-between;
     margin-bottom: 0.7rem;
     font-size: 0.82rem;
-    color: var(--order-details-page-text-secondary);
+    color: var(--text-secondary);
 
     strong {
-        color: var(--order-details-page-text-primary);
+        color: var(--text-primary);
     }
 
     &--discount {
-        color: var(--order-details-page-primary);
+        color: var(--primary);
 
         strong {
-            color: var(--order-details-page-primary);
+            color: var(--primary);
         }
     }
 }
@@ -701,19 +701,19 @@
     justify-content: space-between;
     align-items: flex-end;
     padding-top: 1rem;
-    border-top: 1px solid var(--order-details-page-border);
+    border-top: 1px solid var(--border);
 
     span {
         font-size: 0.82rem;
         font-weight: 700;
-        color: var(--order-details-page-text-primary);
+        color: var(--text-primary);
     }
 
     h4 {
         margin: 0;
         font-size: 1.4rem;
         font-weight: 800;
-        color: var(--order-details-page-primary);
+        color: var(--primary);
     }
 }
 
@@ -721,21 +721,21 @@
     width: 100%;
     padding: 0.75rem 0.6rem;
     border-radius: 0.8rem;
-    background: var(--order-details-page-help-btn-bg);
-    color: var(--order-details-page-text-primary);
+    background: var(--surface-elevated);
+    color: var(--text-primary);
     font-size: 0.72rem;
     font-weight: 700;
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 0.45rem;
-    border: 0.5px solid var(--order-details-page-border);
+    border: 0.5px solid var(--border);
     outline: none;
     cursor: pointer;
     transition: background 0.2s ease;
 
     &:hover {
-        background: var(--order-details-page-primary-soft);
+        background: var(--primary-soft);
     }
 }
 
@@ -752,8 +752,8 @@
         border-bottom: none;
         border-radius: 1rem;
         margin-bottom: 1.5rem;
-        border: 1px solid var(--order-details-page-border);
-        box-shadow: var(--order-details-page-shadow-soft);
+        border: 1px solid var(--border);
+        box-shadow: var(--shadow-soft);
 
         &__top {
             margin-bottom: 0.5rem;

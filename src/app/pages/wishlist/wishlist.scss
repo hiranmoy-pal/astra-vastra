@@ -2,13 +2,13 @@
 
 .main {
     font-family: var(--font-body);
-    background: var(--wishlist-page-hero-gradient);
+    background: var(--hero-gradient);
 
     // ─── TRENDING GRID ───────────────────────────────────────────────────────
 
     .trending {
         padding: 10px;
-        background: var(--wishlist-page-category-bg);
+        background: var(--category-bg);
         max-width: 98%;
 
         &__header {
@@ -18,7 +18,7 @@
             h2 {
                 font-size: 36px;
                 font-weight: 700;
-                color: var(--wishlist-page-category-title);
+                color: var(--category-title);
             }
         }
 
@@ -32,7 +32,7 @@
     // ─── PRODUCT CARD ────────────────────────────────────────────────────────
 
     .product-card {
-        background: var(--wishlist-page-category-card-bg);
+        background: var(--category-card-bg);
         border-radius: 6px;
         overflow: hidden;
         cursor: pointer;
@@ -42,8 +42,8 @@
         height: 100%;
 
         &:hover {
-            background: var(--wishlist-page-hero-gradient);
-            box-shadow: var(--wishlist-page-shadow-soft);
+            background: var(--hero-gradient);
+            box-shadow: var(--shadow-soft);
             transform: translateY(-5px);
         }
 
@@ -121,7 +121,7 @@
     }
 
     .product-card__swiper::part(bullet-active) {
-        background: var(--wishlist-page-primary);
+        background: var(--primary);
         opacity: 1;
     }
 
@@ -137,14 +137,14 @@
         .brand {
             font-size: 14px;
             font-weight: 700;
-            color: var(--wishlist-page-category-text);
+            color: var(--category-text);
             letter-spacing: 0.2px;
             margin-bottom: -10px;
         }
 
         .name {
             font-size: 13px;
-            color: var(--wishlist-page-category-text);
+            color: var(--category-text);
             opacity: 0.7;
             display: -webkit-box;
             -webkit-line-clamp: 2;
@@ -160,17 +160,17 @@
 
             .current {
                 font-weight: 700;
-                color: var(--wishlist-page-category-text);
+                color: var(--category-text);
             }
 
             .original {
                 text-decoration: line-through;
-                color: var(--wishlist-page-category-text);
+                color: var(--category-text);
                 opacity: 0.5;
             }
 
             .discount {
-                color: var(--wishlist-page-category-offer);
+                color: var(--danger);
                 font-weight: 600;
                 font-size: 12px;
             }
@@ -179,7 +179,7 @@
         .size {
             margin-top: 2px;
             font-size: 12px;
-            color: var(--wishlist-page-category-text);
+            color: var(--category-text);
             opacity: 0.6;
         }
     }
@@ -190,8 +190,8 @@
         position: absolute;
         bottom: 8px;
         left: 8px;
-        background: var(--wishlist-page-primary);
-        color: var(--wishlist-page-text-tertiary);
+        background: var(--primary);
+        color: var(--text-tertiary);
         padding: 2px 6px;
         font-size: 12px;
         border-radius: 4px;
@@ -219,15 +219,15 @@
         align-items: center;
         justify-content: center;
         background: transparent;
-        border: 1px solid var(--wishlist-page-primary);
+        border: 1px solid var(--primary);
         cursor: pointer;
-        box-shadow: var(--wishlist-page-shadow-soft);
+        box-shadow: var(--shadow-soft);
         transform: translateX(120%);
         opacity: 0;
         transition: all 0.35s ease;
 
         i {
-            color: var(--wishlist-page-primary);
+            color: var(--primary);
             font-size: 14px;
         }
     }
@@ -238,11 +238,11 @@
     }
 
     .product-card__wishlist:hover {
-        background: var(--wishlist-page-primary);
+        background: var(--primary);
     }
 
     .product-card__wishlist:hover i {
-        color: var(--wishlist-page-text-tertiary);
+        color: var(--text-tertiary);
     }
 
     .product-card {
@@ -260,10 +260,10 @@
         gap: 6px;
         width: 100%;
         padding: 12px;
-        background: var(--wishlist-page-primary);
-        color: var(--wishlist-page-text-tertiary);
+        background: var(--primary);
+        color: var(--text-tertiary);
         border: none;
-        border-top: 1px solid var(--wishlist-page-border);
+        border-top: 1px solid var(--border);
         cursor: pointer;
         font-size: 13px;
         font-weight: 700;
@@ -275,10 +275,10 @@
         }
 
         &:hover {
-            background: var(--wishlist-page-primary-light);
+            background: var(--primary-light);
             transform: translateY(-1px);
-            color: var(--wishlist-page-text-tertiary);
-            box-shadow: var(--wishlist-page-shadow-soft);
+            color: var(--text-tertiary);
+            box-shadow: var(--shadow-soft);
         }
     }
 
@@ -295,9 +295,9 @@
         &__card {
             text-align: center;
             padding: 40px 20px;
-            background: var(--wishlist-page-surface);
+            background: var(--surface);
             border-radius: 20px;
-            box-shadow: var(--wishlist-page-shadow-soft);
+            box-shadow: var(--shadow-soft);
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -306,18 +306,18 @@
 
         &__icon {
             font-size: 26px;
-            color: var(--wishlist-page-primary);
+            color: var(--primary);
         }
 
         &__title {
             font-size: 22px;
             font-weight: 700;
-            color: var(--wishlist-page-text-primary);
+            color: var(--text-primary);
         }
 
         &__desc {
             font-size: 14px;
-            color: var(--wishlist-page-text-secondary);
+            color: var(--text-secondary);
             max-width: 480px;
             line-height: 1.6;
         }
@@ -325,8 +325,8 @@
         &__btn {
             margin-top: 10px;
             padding: 10px 18px;
-            background: var(--wishlist-page-primary);
-            color: var(--wishlist-page-text-tertiary);
+            background: var(--primary);
+            color: var(--text-tertiary);
             border: none;
             border-radius: 10px;
             cursor: pointer;
@@ -338,7 +338,7 @@
             transition: all 0.25s ease;
 
             &:hover {
-                background: var(--wishlist-page-primary-light);
+                background: var(--primary-light);
                 transform: translateY(-2px);
             }
         }

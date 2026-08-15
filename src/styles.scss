@@ -1,884 +1,133 @@
 :root {
-    --primary: #720036;
-    --primary-light: #97144d;
-    --primary-soft: rgba(114, 0, 54, 0.08);
-    --background: #fff7f9;
-    --surface: #ffffff;
-    --surface-elevated: #fff1f4;
-    --text-primary: #24181b;
-    --text-secondary: #6b4a52;
-    --text-tertiery: #ffffff;
-    --border: #f0d9df;
-    --outline: #d8b6be;
-    --hover-soft: rgba(114, 0, 54, 0.06);
-    --hover-medium: rgba(114, 0, 54, 0.12);
-    --active: rgba(114, 0, 54, 0.18);
-    --card-bg: #ffffff;
-    --shadow-soft: 0 4px 20px rgba(114, 0, 54, 0.06);
-    --shadow-medium: 0 8px 30px rgba(114, 0, 54, 0.12);
-    --hero-gradient: radial-gradient(circle,
-            #f6e8ff 0,
-            #ffedfb 24%,
-            #fdeff3 42%,
-            #f1f6fe 60%,
-            #ffd3f4 85%,
-            #fbd7e1 100%);
-    --font-headline: 'Manrope', sans-serif;
-    --font-body: 'Inter', sans-serif;
-    --category-bg: #f5f5f5;
-    --category-card-bg: #ffe4b5;
-    --category-title: #1f3c88;
-    --category-text: #222;
-    --category-offer: #d32f2f;
+        /* =========================================
+         BASE TOKENS & BRAND COLORS
+        ========================================= */
+        --primary: #720036;
+        --primary-light: #97144d;
+        --primary-soft: rgba(114, 0, 54, 0.08);
 
-    // ***************** Header color start *****************\\
-    --header-background: #ffffff;
-    --header-shadow-soft: 0 4px 20px rgba(114, 0, 54, 0.06);
-    --header-border: #f0d9df;
-    --header-search-background: #fff1f4;
-    --header-search-focus-background: #ffffff;
-    --header-search-focus-border: #97144d;
-    --header-search-focus-box-shadow: rgba(114, 0, 54, 0.06);
-    --header-search-input-text: #24181b;
-    --header-action-icon-btn: #24181b;
-    --header-action-icon-btn-hover-background: rgba(114, 0, 54, 0.06);
-    --header-action-icon-btn-hover-color: #720036;
-    --header-action-icon-btn-active-background: rgba(114, 0, 54, 0.18);
-    --header-action-icon-btn-badge-background: #97144d;
-    --header-action-icon-btn-badge-color: #ffffff;
-    --header-nav-item-text: #6b4a52;
-    --header-nav-item-text-hover-color: #720036;
-    --header-nav-item-text-hover-background: rgba(114, 0, 54, 0.06);
-    --header-nav-item-text-active-color: #720036;
-    --header-nav-item-text-active-background: rgba(114, 0, 54, 0.12);
-    --header-nav-profile-trigger-color: #24181b;
-    --header-nav-profile-trigger-hover-color: #720036;
-    --header-nav-profile-trigger-hover-background: rgba(114, 0, 54, 0.06);
-    --header-nav-profile-menu-background: #ffffff;
-    --header-nav-profile-menu-border: #f0d9df;
-    --header-nav-profile-menu-box-shadow: 0 8px 30px rgba(114, 0, 54, 0.12);
-    --header-nav-profile-list-text: #24181b;
-    --header-nav-profile-list-text-hover: #720036;
-    --header-nav-profile-list-text-hover-background: rgba(114, 0, 54, 0.06);
-    --header-nav-profile-list-icon: #720036;
-    --header-nav-profile-list-icon-hover: #97144d;
-    --header-nav-profile-list-login-item: #fff;
-    --header-nav-profile-list-login-item-background: #720036;
-    --header-nav-profile-list-login-item-hover: #fff;
-    --header-nav-profile-list-login-item-hover-background: #97144d;
-    --header-nav-profile-list-login-item-hover-box-shadow: 0 4px 20px rgba(114, 0, 54, 0.06);
-    --header-modal-suchipatra-background: radial-gradient(circle,
-            #f6e8ff 0,
-            #ffedfb 24%,
-            #fdeff3 42%,
-            #f1f6fe 60%,
-            #ffd3f4 85%,
-            #fbd7e1 100%);
-    --header-modal-suchipatra-heading-text: #24181b;
-    --header-modal-suchipatra-close-btn: #24181b;
-    --header-modal-suchipatra-close-btn-hover-background: rgba(114, 0, 54, 0.06);
-    --header-modal-suchipatra-close-btn-hover: #720036;
-    --header-modal-suchipatra-item-text: #6b4a52;
-    --header-modal-suchipatra-item-text-hover: #720036;
-    // ***************** Header color end *****************\\
+        /* Backgrounds & Surfaces */
+        --background: #fff7f9;
+        --surface: #ffffff;
+        --surface-elevated: #fff1f4;
 
-    // ***************** footer color start*****************\\
-    --footer-background: radial-gradient(circle,
-            #f6e8ff 0,
-            #ffedfb 24%,
-            #fdeff3 42%,
-            #f1f6fe 60%,
-            #ffd3f4 85%,
-            #fbd7e1 100%);
-    --footer-border: #f0d9df;
-    --footer-title: #24181b;
-    --footer-list-text: #6b4a52;
-    --footer-list-text-hover: #97144d;
-    --footer-social-background: #720036;
-    --footer-social: #ffffff;
-    --footer-social-background-hover: #97144d;
-    // ***************** footer color end*****************\\
+        /* Category/Alt Surfaces */
+        --category-bg: #f5f5f5;
+        --category-card-bg: #ffe4b5;
 
-    /* Profile Menu - Light Theme start */
-    --profile-menu-bg: #f5f5f5;
-    --profile-menu-shadow: 0 4px 20px rgba(114, 0, 54, 0.06);
-    --profile-menu-avatar-bg: rgba(114, 0, 54, 0.08);
-    --profile-menu-title-color: #24181b;
-    --profile-menu-item-color: #24181b;
-    --profile-menu-item-hover: rgba(114, 0, 54, 0.06);
-    --profile-menu-active-color: #97144d;
-    --profile-menu-danger-color: #dc2626;
-    /* Profile Menu - Light Theme end */
+        /* Text Colors */
+        --text-primary: #24181b;
+        --text-secondary: #6b4a52;
+        --text-tertiary: #ffffff;
+        --category-title: #1f3c88;
+        --category-text: #222222;
 
-    /* ── Address variables start ── */
-    --address-page-bg: radial-gradient(circle,
-            #f6e8ff 0,
-            #ffedfb 24%,
-            #fdeff3 42%,
-            #f1f6fe 60%,
-            #ffd3f4 85%,
-            #fbd7e1 100%);
-    --address-card-bg: #ffffff;
-    --address-card-shadow: 0 4px 20px rgba(114, 0, 54, 0.06);
-    --address-card-shadow-hover: 0 8px 30px rgba(114, 0, 54, 0.12);
-    --address-card-radius: 16px;
-    --address-icon-bg: rgba(114, 0, 54, 0.08);
-    --address-icon-color: #720036;
-    --address-tag-bg: #fff1f4;
-    --address-tag-color: #24181b;
-    --address-badge-bg: #2e7d32;
-    --address-badge-color: #ffffff;
-    --address-line-color: #6b4a52;
-    --address-meta-color: #6b4a52;
-    --address-edit-bg: #fff1f4;
-    --address-edit-color: #24181b;
-    --address-edit-hover-bg: rgba(114, 0, 54, 0.12);
-    --address-delete-bg: rgba(255, 0, 0, 0.08);
-    --address-delete-color: #d32f2f;
-    --address-delete-hover-bg: rgba(255, 0, 0, 0.15);
-    --address-modal-backdrop: rgba(0, 0, 0, 0.45);
-    --address-modal-bg: radial-gradient(circle,
-            #f6e8ff 0,
-            #ffedfb 24%,
-            #fdeff3 42%,
-            #f1f6fe 60%,
-            #ffd3f4 85%,
-            #fbd7e1 100%);
-    --address-modal-actions-bg: #ffffff;
-    --address-modal-actions-shadow: 0 -6px 16px rgba(0, 0, 0, 0.08);
-    --address-input-bg: #ffe4b5;
-    --address-input-focus-bg: #ffffff;
-    --address-input-focus-shadow: 0 0 0 3px rgba(114, 0, 54, 0.12);
-    --address-btn-primary-bg: #720036;
-    --address-btn-primary-color: #ffffff;
-    --address-btn-primary-hover: #97144d;
-    --address-btn-secondary-bg: #fff1f4;
-    --address-btn-secondary-border: #f0d9df;
-    --address-btn-secondary-color: #24181b;
-    /* ── Address variables end ── */
+        /* =========================================
+       SEMANTIC STATUS COLORS (Errors, Success, etc.)
+    ========================================= */
+        --danger: #d32f2f;
+        --danger-hover: #b71c1c;
+        --danger-soft: rgba(211, 47, 47, 0.08);
 
-    /* ── Cart variables start ── */
-    --cart-page-bg: radial-gradient(circle,
-            #f6e8ff 0,
-            #ffedfb 24%,
-            #fdeff3 42%,
-            #f1f6fe 60%,
-            #ffd3f4 85%,
-            #fbd7e1 100%);
-    --cart-surface: #ffffff;
-    --cart-surface-elevated: #fff1f4;
-    --cart-border: #f0d9df;
-    --cart-shadow-soft: 0 4px 20px rgba(114, 0, 54, 0.06);
-    --cart-shadow-medium: 0 8px 30px rgba(114, 0, 54, 0.12);
-    --cart-item-bg: #ffffff;
-    --cart-item-image-bg: #fff1f4;
-    --cart-item-hover-shadow: 0 8px 30px rgba(114, 0, 54, 0.12);
-    --cart-quantity-bg: #fff1f4;
-    --cart-quantity-hover-bg: rgba(114, 0, 54, 0.06);
-    --cart-summary-bg: #ffffff;
-    --cart-summary-total-color: #720036;
-    --cart-promo-bg: #ffffff;
-    --cart-promo-input-bg: #fff1f4;
-    --cart-promo-btn-bg: #720036;
-    --cart-promo-btn-hover: #97144d;
-    --cart-checkout-gradient: linear-gradient(135deg, #720036, #97144d);
-    --cart-address-bg: #ffffff;
-    --cart-address-icon-bg: rgba(114, 0, 54, 0.06);
-    --cart-address-icon-color: #720036;
-    --cart-action-danger-color: #d32f2f;
-    --cart-secure-icon-color: #6b4a52;
-    --cart-discount-color: #720036;
-    /* ── Cart variables end ── */
+        --success: #14804a;
+        --warning: #b56b00;
+        --info: #1565c0;
 
-    /* Category List Page start*/
-    --category-list-page-bg: #f5f5f5;
-    --category-list-page-card-bg: #ffe4b5;
-    --category-list-page-title: #1f3c88;
-    --category-list-page-text: #222222;
-    --category-list-page-offer: #d32f2f;
-    --category-list-page-breadcrumb-link: #6b4a52;
-    --category-list-page-breadcrumb-active: #24181b;
-    --category-list-page-body-bg: radial-gradient(circle, #f6e8ff 0, #ffedfb 24%, #fdeff3 42%, #f1f6fe 60%, #ffd3f4 85%, #fbd7e1 100%);
-    --category-list-page-primary: #720036;
-    --category-list-page-card-hover-bg: radial-gradient(circle, #f6e8ff 0, #ffedfb 24%, #fdeff3 42%, #f1f6fe 60%, #ffd3f4 85%, #fbd7e1 100%);
-    --category-list-page-card-shadow: 0 4px 20px rgba(114, 0, 54, 0.06);
-    --category-list-page-card-shadow-hover: 0 8px 30px rgba(114, 0, 54, 0.12);
-    --category-list-page-font-body: 'Inter', sans-serif;
-    /* Category List Page end*/
+        /* =========================================
+       BORDERS, SHADOWS & STATES
+    ========================================= */
+        --border: #f0d9df;
+        --outline: #d8b6be;
 
-    /* Home Page start*/
-    --home-page-font-body: 'Inter', sans-serif;
-    --home-page-font-headline: 'Manrope', sans-serif;
-    --home-page-bg: radial-gradient(circle, #f6e8ff 0, #ffedfb 24%, #fdeff3 42%, #f1f6fe 60%, #ffd3f4 85%, #fbd7e1 100%);
-    --home-page-primary: #720036;
-    --home-page-primary-light: #97144d;
-    --home-page-text-primary: #24181b;
-    --home-page-text-secondary: #6b4a52;
-    --home-page-text-on-primary: #ffffff;
-    --home-page-surface: #ffffff;
-    --home-page-surface-elevated: #fff1f4;
-    --home-page-image-card-bg: #fff7f9;
-    --home-page-shadow-soft: 0 4px 20px rgba(114, 0, 54, 0.06);
-    --home-page-shadow-medium: 0 8px 30px rgba(114, 0, 54, 0.12);
-    --home-page-btn-primary-bg: #720036;
-    --home-page-btn-primary-hover: #97144d;
-    --home-page-banner-bullet: #fff1f4;
-    --home-page-banner-bullet-active: #720036;
-    --home-page-swiper-btn-border: #720036;
-    --home-page-swiper-btn-bg: #ffffff;
-    --home-page-swiper-btn-color: #720036;
-    --home-page-brands-bg: #ffffff;
-    --home-page-brands-title: #6b4a52;
-    --home-page-brands-item: #6b4a52;
-    --home-page-category-bg: #f5f5f5;
-    --home-page-category-card-bg: #ffe4b5;
-    --home-page-category-title: #1f3c88;
-    --home-page-category-text: #222222;
-    --home-page-category-offer: #d32f2f;
-    --home-page-category-card-hover-bg: radial-gradient(circle, #f6e8ff 0, #ffedfb 24%, #fdeff3 42%, #f1f6fe 60%, #ffd3f4 85%, #fbd7e1 100%);
-    --home-page-product-rating-bg: #720036;
-    --home-page-product-wishlist-border: #720036;
-    --home-page-product-wishlist-icon: #720036;
-    --home-page-swiper-bullet-active: #720036;
-    /* Home Page end*/
+        --hover-soft: rgba(114, 0, 54, 0.06);
+        --hover-medium: rgba(114, 0, 54, 0.12);
+        --active: rgba(114, 0, 54, 0.18);
 
-    /* Login Page start*/
-    --login-page-font-body: 'Inter', sans-serif;
-    --login-page-font-headline: 'Manrope', sans-serif;
-    --login-page-bg: radial-gradient(circle, #f6e8ff 0, #ffedfb 24%, #fdeff3 42%, #f1f6fe 60%, #ffd3f4 85%, #fbd7e1 100%);
-    --login-page-primary: #720036;
-    --login-page-primary-light: #97144d;
-    --login-page-text-primary: #24181b;
-    --login-page-text-secondary: #6b4a52;
-    --login-page-text-on-primary: #ffffff;
-    --login-page-surface: #ffffff;
-    --login-page-surface-elevated: #fff1f4;
-    --login-page-container-bg: #ffe4b5;
-    --login-page-border: #f0d9df;
-    --login-page-shadow-soft: 0 4px 20px rgba(114, 0, 54, 0.06);
-    --login-page-shadow-medium: 0 8px 30px rgba(114, 0, 54, 0.12);
-    --login-page-otp-input-bg: #e9d3d8;
-    --login-page-gender-btn-bg: #d32f2f;
-    --login-page-input-bg: #ffffff;
-    /* Login Page end*/
+        --shadow-soft: 0 4px 20px rgba(114, 0, 54, 0.06);
+        --shadow-medium: 0 8px 30px rgba(114, 0, 54, 0.12);
 
-    /* Order Details Page start */
-    --order-details-page-font-body: 'Inter', sans-serif;
-    --order-details-page-font-headline: 'Manrope', sans-serif;
-    --order-details-page-primary: #720036;
-    --order-details-page-primary-light: #97144d;
-    --order-details-page-primary-soft: rgba(114, 0, 54, 0.08);
-    --order-details-page-text-primary: #24181b;
-    --order-details-page-text-secondary: #6b4a52;
-    --order-details-page-text-on-primary: #ffffff;
-    --order-details-page-surface: #ffffff;
-    --order-details-page-surface-elevated: #fff1f4;
-    --order-details-page-border: #f0d9df;
-    --order-details-page-outline: #d8b6be;
-    --order-details-page-shadow-soft: 0 4px 20px rgba(114, 0, 54, 0.06);
-    --order-details-page-shadow-medium: 0 8px 30px rgba(114, 0, 54, 0.12);
-    --order-details-page-help-btn-bg: #fff1f4;
-    --order-details-page-payment-card-bg: #24181b;
-    /* Order Details Page end */
+        /* =========================================
+       TYPOGRAPHY & SPECIALS
+    ========================================= */
+        --font-headline: 'Manrope', sans-serif;
+        --font-body: 'Inter', sans-serif;
 
-    /* Checkout Page */
-    --checkout-page-font-body: 'Inter', sans-serif;
-    --checkout-page-font-headline: 'Manrope', sans-serif;
-    --checkout-page-primary: #720036;
-    --checkout-page-primary-light: #97144d;
-    --checkout-page-primary-soft: rgba(114, 0, 54, 0.08);
-    --checkout-page-text-primary: #24181b;
-    --checkout-page-text-secondary: #6b4a52;
-    --checkout-page-text-on-primary: #ffffff;
-    --checkout-page-surface: #ffffff;
-    --checkout-page-surface-elevated: #fff1f4;
-    --checkout-page-border: #f0d9df;
-    --checkout-page-shadow-soft: 0 4px 20px rgba(114, 0, 54, 0.06);
-    --checkout-page-address-tag-bg: #720036;
-    --checkout-page-address-tag-secondary: #fff1f4;
-    --checkout-page-free-text: #14804a;
-
-    /* Order List Page */
-    --order-list-page-font-body: 'Inter', sans-serif;
-    --order-list-page-font-headline: 'Manrope', sans-serif;
-    --order-list-page-primary: #720036;
-    --order-list-page-primary-light: #97144d;
-    --order-list-page-text-primary: #24181b;
-    --order-list-page-text-secondary: #6b4a52;
-    --order-list-page-text-on-primary: #ffffff;
-    --order-list-page-surface: #ffffff;
-    --order-list-page-surface-elevated: #fff1f4;
-    --order-list-page-border: #f0d9df;
-    --order-list-page-hover-soft: rgba(114, 0, 54, 0.06);
-    --order-list-page-shadow-soft: 0 4px 20px rgba(114, 0, 54, 0.06);
-    --order-list-page-shadow-medium: 0 8px 30px rgba(114, 0, 54, 0.12);
-    --order-list-page-status-delivered: #0d7a35;
-    --order-list-page-status-shipping: #b56b00;
-    --order-list-page-status-cancelled: #d32f2f;
-
-    /* Product Details Page */
-    --product-details-page-font-body: 'Inter', sans-serif;
-    --product-details-page-font-headline: 'Manrope', sans-serif;
-    --product-details-page-primary: #720036;
-    --product-details-page-primary-light: #97144d;
-    --product-details-page-primary-soft: rgba(114, 0, 54, 0.08);
-    --product-details-page-text-primary: #24181b;
-    --product-details-page-text-secondary: #6b4a52;
-    --product-details-page-text-on-primary: #ffffff;
-    --product-details-page-surface: #ffffff;
-    --product-details-page-surface-elevated: #fff1f4;
-    --product-details-page-background: #fff7f9;
-    --product-details-page-border: #f0d9df;
-    --product-details-page-outline: #d8b6be;
-    --product-details-page-hover-medium: rgba(114, 0, 54, 0.12);
-    --product-details-page-shadow-soft: 0 4px 20px rgba(114, 0, 54, 0.06);
-    --product-details-page-shadow-medium: 0 8px 30px rgba(114, 0, 54, 0.12);
-    --product-details-page-arrow-bg: rgba(255, 255, 255, 0.96);
-    --product-details-page-trending-bg: rgba(21, 101, 192, 0.08);
-    --product-details-page-trending-color: #1565c0;
-    --product-details-page-rating-bg: #2e7d32;
-    --product-details-page-discount-color: #2e7d32;
-    --product-details-page-free-delivery-color: #2e7d32;
-    --product-details-page-category-bg: #f5f5f5;
-    --product-details-page-category-card-bg: #ffe4b5;
-    --product-details-page-category-title: #1f3c88;
-    --product-details-page-category-text: #222222;
-    --product-details-page-category-offer: #d32f2f;
-    --product-details-page-card-hover-bg: radial-gradient(circle, #f6e8ff 0, #ffedfb 24%, #fdeff3 42%, #f1f6fe 60%, #ffd3f4 85%, #fbd7e1 100%);
-
-    /* ── Product List Page variables ── */
-    --product-list-page-bg: #fff7f9;
-    --product-list-page-breadcrumb-text: #6b4a52;
-    --product-list-page-breadcrumb-hover: #720036;
-    --product-list-page-header-title: #24181b;
-    --product-list-page-header-desc: #6b4a52;
-    --product-list-page-meta-text: #6b4a52;
-    --product-list-page-sort-bg: #ffffff;
-    --product-list-page-sort-border: #f0d9df;
-    --product-list-page-sort-accent: #720036;
-    --product-list-page-filter-border: #f0d9df;
-    --product-list-page-filter-bg: #ffffff;
-    --product-list-page-filter-title-color: #24181b;
-    --product-list-page-filter-label: #6b4a52;
-    --product-list-page-filter-label-hover: #720036;
-    --product-list-page-filter-check-bg: #ffffff;
-    --product-list-page-filter-check-active: #720036;
-    --product-list-page-filter-radio-active: #720036;
-    --product-list-page-filter-size-hover: #720036;
-    --product-list-page-filter-size-soft: rgba(114, 0, 54, 0.08);
-    --product-list-page-slider-track: #f0d9df;
-    --product-list-page-slider-range: #720036;
-    --product-list-page-slider-thumb: #720036;
-    --product-list-page-slider-shadow: 0 4px 20px rgba(114, 0, 54, 0.06);
-    --product-list-page-slider-values: #24181b;
-    --product-list-page-card-bg: #ffe4b5;
-    --product-list-page-card-hover-bg: var(--hero-gradient);
-    --product-list-page-card-shadow: 0 4px 20px rgba(114, 0, 54, 0.06);
-    --product-list-page-card-text: #222222;
-    --product-list-page-card-offer: #d32f2f;
-    --product-list-page-card-btn-bg: #720036;
-    --product-list-page-card-btn-hover: #97144d;
-    --product-list-page-section-bg: #f5f5f5;
-    --product-list-page-section-title: #1f3c88;
-    --product-list-page-mobile-sidebar-bg: #fff7f9;
-    --product-list-page-mobile-overlay: rgba(0, 0, 0, 0.45);
-    --product-list-page-mobile-close-bg: #ffffff;
-    --product-list-page-mobile-filter-bg: #ffffff;
-    --product-list-page-mobile-filter-border: #f0d9df;
-    --product-list-page-scrollbar: #720036;
-
-    // App component
-    --app-component-page-primary: #720036;
-    --app-component-page-primary-light: #97144d;
-    --app-component-page-text-tertiary: #ffffff;
-    --app-component-page-border: #f0d9df;
-    --app-component-page-shadow-medium: 0 8px 30px rgba(114, 0, 54, 0.12);
-    --app-component-page-surface: #ffffff;
-    // Wishlist
-    --wishlist-page-primary: #720036;
-    --wishlist-page-primary-light: #97144d;
-    --wishlist-page-text-primary: #24181b;
-    --wishlist-page-text-secondary: #6b4a52;
-    --wishlist-page-text-tertiary: #ffffff;
-    --wishlist-page-border: #f0d9df;
-    --wishlist-page-surface: #ffffff;
-    --wishlist-page-shadow-soft: 0 4px 20px rgba(114, 0, 54, 0.06);
-    --wishlist-page-category-bg: #f5f5f5;
-    --wishlist-page-category-card-bg: #ffe4b5;
-    --wishlist-page-category-title: #1f3c88;
-    --wishlist-page-category-text: #222222;
-    --wishlist-page-category-offer: #d32f2f;
-    --wishlist-page-hero-gradient: radial-gradient(circle,
-            #f6e8ff 0, #ffedfb 24%, #fdeff3 42%,
-            #f1f6fe 60%, #ffd3f4 85%, #fbd7e1 100%);
-
-    // product review
-    --product-review-page-primary: #720036;
-    --product-review-page-primary-light: #97144d;
-    --product-review-page-text-primary: #24181b;
-    --product-review-page-text-secondary: #6b4a52;
-    --product-review-page-text-tertiary: #ffffff;
-    --product-review-page-border: #f0d9df;
-    --product-review-page-surface: #ffffff;
-    --product-review-page-hover-soft: rgba(114, 0, 54, 0.06);
-    --product-review-page-hover-medium: rgba(114, 0, 54, 0.12);
-    --product-review-page-shadow-soft: 0 4px 20px rgba(114, 0, 54, 0.06);
-    --product-review-page-shadow-medium: 0 8px 30px rgba(114, 0, 54, 0.12);
-    --product-review-page-category-card-bg: #ffe4b5;
-
-    // Profile 
-    --profile-page-primary: #720036;
-    --profile-page-primary-light: #97144d;
-    --profile-page-primary-soft: rgba(114, 0, 54, 0.08);
-    --profile-page-background: #fff7f9;
-    --profile-page-surface: #ffffff;
-    --profile-page-surface-elevated: #fff1f4;
-    --profile-page-text-primary: #24181b;
-    --profile-page-text-secondary: #6b4a52;
-    --profile-page-text-tertiary: #ffffff;
-    --profile-page-border: #f0d9df;
-    --profile-page-shadow-soft: 0 4px 20px rgba(114, 0, 54, 0.06);
-    --profile-page-category-card-bg: #ffe4b5;
-    --profile-page-hero-gradient: radial-gradient(circle,
-            #f6e8ff 0, #ffedfb 24%, #fdeff3 42%,
-            #f1f6fe 60%, #ffd3f4 85%, #fbd7e1 100%);
-
-    --alert-overlay-bg: rgba(0, 0, 0, 0.45);
-    --alert-dialog-bg: #ffffff;
-    --alert-title: #24181b;
-    --alert-message: #6b4a52;
-    --alert-btn-cancel-bg: #fff1f4;
-    --alert-btn-cancel-text: #24181b;
-    --alert-btn-cancel-hover: rgba(114, 0, 54, 0.12);
-    --alert-btn-confirm-bg: #720036;
-    --alert-btn-confirm-text: #ffffff;
-    --alert-btn-confirm-hover: #97144d;
-    --alert-btn-danger-bg: #d32f2f;
-    --alert-btn-danger-hover: #b71c1c;
-    --alert-shadow: 0 8px 30px rgba(114, 0, 54, 0.15);
+        --hero-gradient: radial-gradient(circle, #f6e8ff 0, #ffedfb 24%, #fdeff3 42%, #f1f6fe 60%, #ffd3f4 85%, #fbd7e1 100%);
+        --overlay-bg: rgba(0, 0, 0, 0.45);
 }
 
 .dark-theme {
-    --background: #181314;
-    --surface: #211a1c;
-    --surface-elevated: #2a2224;
-    --text-primary: #ffffff;
-    --text-secondary: #c4a8ae;
-    --border: #3a2f32;
-    --hover-soft: rgba(255, 177, 197, 0.08);
-    --hover-medium: rgba(255, 177, 197, 0.16);
-    --card-bg: #211a1c;
-    --shadow-soft: 0 4px 20px rgba(0, 0, 0, 0.4);
-    --hero-gradient: radial-gradient(circle, #2a1a22 0%, #1f1a22 40%, #1a1f2a 100%);
-    --category-bg: #121212;
-    --category-card-bg: #0f172a;
-    --category-title: #8ab4f8;
-    --category-text: #e0e0e0;
-    --category-offer: #ff6b6b;
+        /* =========================================
+       BASE TOKENS & BRAND COLORS (DARK)
+    ========================================= */
+        --primary: #97144d;
+        --primary-light: #c4185e;
+        --primary-soft: rgba(255, 177, 197, 0.08);
 
-    // ***************** Header color start *****************\\
-    --header-background: #211a1c;
-    --header-shadow-soft: 0 4px 20px rgba(0, 0, 0, 0.4);
-    --header-border: #3a2f32;
-    --header-search-background: #2a2224;
-    --header-search-focus-background: #211a1c;
-    --header-search-focus-border: #97144d;
-    --header-search-focus-box-shadow: rgba(255, 177, 197, 0.08);
-    --header-search-input-text: #ffffff;
-    --header-action-icon-btn: #ffffff;
-    --header-action-icon-btn-hover-background: rgba(255, 177, 197, 0.08);
-    --header-action-icon-btn-hover-color: #720036;
-    --header-action-icon-btn-active-background: rgba(114, 0, 54, 0.18);
-    --header-action-icon-btn-badge-background: #97144d;
-    --header-action-icon-btn-badge-color: #ffffff;
-    --header-nav-item-text: #c4a8ae;
-    --header-nav-item-text-hover-color: #720036;
-    --header-nav-item-text-hover-background: rgba(255, 177, 197, 0.08);
-    --header-nav-item-text-active-color: #720036;
-    --header-nav-item-text-active-background: rgba(255, 177, 197, 0.16);
-    --header-nav-profile-trigger-color: #ffffff;
-    --header-nav-profile-trigger-hover-color: #720036;
-    --header-nav-profile-trigger-hover-background: rgba(255, 177, 197, 0.08);
-    --header-nav-profile-menu-background: #211a1c;
-    --header-nav-profile-menu-border: #3a2f32;
-    --header-nav-profile-menu-box-shadow: 0 8px 30px rgba(114, 0, 54, 0.12);
-    --header-nav-profile-list-text: #ffffff;
-    --header-nav-profile-list-text-hover: #720036;
-    --header-nav-profile-list-text-hover-background: rgba(255, 177, 197, 0.08);
-    --header-nav-profile-list-icon: #720036;
-    --header-nav-profile-list-icon-hover: #97144d;
-    --header-nav-profile-list-login-item: #fff;
-    --header-nav-profile-list-login-item-background: #720036;
-    --header-nav-profile-list-login-item-hover: #fff;
-    --header-nav-profile-list-login-item-hover-background: #97144d;
-    --header-nav-profile-list-login-item-hover-box-shadow: rgba(255, 177, 197, 0.08);
-    --header-modal-suchipatra-background: radial-gradient(circle,
-            #2a1a22 0%,
-            #1f1a22 40%,
-            #1a1f2a 100%);
-    --header-modal-suchipatra-heading-text: #ffffff;
-    --header-modal-suchipatra-close-btn: #ffffff;
-    --header-modal-suchipatra-close-btn-hover-background: rgba(255, 177, 197, 0.08);
-    --header-modal-suchipatra-close-btn-hover: #720036;
-    --header-modal-suchipatra-item-text: #c4a8ae;
-    --header-modal-suchipatra-item-text-hover: #720036;
-    // ***************** Header color end *****************\\
+        /* Backgrounds & Surfaces */
+        --background: #181314;
+        --surface: #211a1c;
+        --surface-elevated: #2a2224;
 
-    // ***************** footer color start*****************\\
-    --footer-background: radial-gradient(circle, #2a1a22 0%, #1f1a22 40%, #1a1f2a 100%);
-    --footer-border: #3a2f32;
-    --footer-title: #ffffff;
-    --footer-list-text: #c4a8ae;
-    --footer-list-text-hover: #97144d;
-    --footer-social-background: #720036;
-    --footer-social: #ffffff;
-    --footer-social-background-hover: #97144d;
-    // ***************** footer color end*****************\\
+        /* Category/Alt Surfaces */
+        --category-bg: #121212;
+        --category-card-bg: #0f172a;
 
-    /* Profile Menu - Dark Theme start*/
-    --profile-menu-bg: #121212;
-    --profile-menu-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
-    --profile-menu-avatar-bg: rgba(255, 177, 197, 0.12);
-    --profile-menu-title-color: #ffffff;
-    --profile-menu-item-color: #e0e0e0;
-    --profile-menu-item-hover: rgba(255, 177, 197, 0.08);
-    --profile-menu-active-color: #ffb1c5;
-    --profile-menu-danger-color: #ff6b6b;
-    /* Profile Menu - Dark Theme end*/
+        /* Text Colors */
+        --text-primary: #ffffff;
+        --text-secondary: #c4a8ae;
+        --text-tertiary: #ffffff;
+        --category-title: #8ab4f8;
+        --category-text: #e0e0e0;
 
-    /* ── Address variables (dark) start ── */
-    --address-page-bg: radial-gradient(circle, #2a1a22 0%, #1f1a22 40%, #1a1f2a 100%);
-    --address-card-bg: #211a1c;
-    --address-card-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
-    --address-card-shadow-hover: 0 8px 30px rgba(0, 0, 0, 0.6);
-    --address-icon-bg: rgba(255, 177, 197, 0.12);
-    --address-icon-color: #ff80ab;
-    --address-tag-bg: #2a2224;
-    --address-tag-color: #e0e0e0;
-    --address-badge-bg: #1b5e20;
-    --address-badge-color: #c8e6c9;
-    --address-line-color: #c4a8ae;
-    --address-meta-color: #c4a8ae;
-    --address-edit-bg: #2a2224;
-    --address-edit-color: #ffffff;
-    --address-edit-hover-bg: rgba(255, 177, 197, 0.16);
-    --address-delete-bg: rgba(255, 100, 100, 0.1);
-    --address-delete-color: #ff6b6b;
-    --address-delete-hover-bg: rgba(255, 100, 100, 0.2);
-    --address-modal-backdrop: rgba(0, 0, 0, 0.65);
-    --address-modal-bg: radial-gradient(circle, #2a1a22 0%, #1f1a22 40%, #1a1f2a 100%);
-    --address-modal-actions-bg: #211a1c;
-    --address-modal-actions-shadow: 0 -6px 16px rgba(0, 0, 0, 0.5);
-    --address-input-bg: #0f172a;
-    --address-input-focus-bg: #211a1c;
-    --address-input-focus-shadow: 0 0 0 3px rgba(255, 177, 197, 0.16);
-    --address-btn-primary-bg: #97144d;
-    --address-btn-primary-color: #ffffff;
-    --address-btn-primary-hover: #b5175e;
-    --address-btn-secondary-bg: #2a2224;
-    --address-btn-secondary-border: #3a2f32;
-    --address-btn-secondary-color: #ffffff;
-    /* ── Address variables (dark) end ── */
+        /* =========================================
+       SEMANTIC STATUS COLORS (DARK)
+    ========================================= */
+        --danger: #ff6b6b;
+        --danger-hover: #ff4c4c;
+        --danger-soft: rgba(255, 107, 107, 0.1);
 
-    /* ── Cart variables (dark) ── start */
-    --cart-page-bg: radial-gradient(circle, #2a1a22 0%, #1f1a22 40%, #1a1f2a 100%);
-    --cart-surface: #211a1c;
-    --cart-surface-elevated: #2a2224;
-    --cart-border: #3a2f32;
-    --cart-shadow-soft: 0 4px 20px rgba(0, 0, 0, 0.4);
-    --cart-shadow-medium: 0 8px 30px rgba(0, 0, 0, 0.6);
-    --cart-item-bg: #211a1c;
-    --cart-item-image-bg: #2a2224;
-    --cart-item-hover-shadow: 0 8px 30px rgba(0, 0, 0, 0.6);
-    --cart-quantity-bg: #2a2224;
-    --cart-quantity-hover-bg: rgba(255, 177, 197, 0.08);
-    --cart-summary-bg: #211a1c;
-    --cart-summary-total-color: #ff80ab;
-    --cart-promo-bg: #211a1c;
-    --cart-promo-input-bg: #2a2224;
-    --cart-promo-btn-bg: #97144d;
-    --cart-promo-btn-hover: #b5175e;
-    --cart-checkout-gradient: linear-gradient(135deg, #97144d, #b5175e);
-    --cart-address-bg: #211a1c;
-    --cart-address-icon-bg: rgba(255, 177, 197, 0.1);
-    --cart-address-icon-color: #ff80ab;
-    --cart-action-danger-color: #ff6b6b;
-    --cart-secure-icon-color: #c4a8ae;
-    --cart-discount-color: #ff80ab;
-    /* ── Cart variables (dark) end── */
+        --success: #4ade80;
+        --warning: #fbbf24;
+        --info: #8ab4f8;
 
-    /* Category List Page dark start */
-    --category-list-page-bg: #121212;
-    --category-list-page-card-bg: #0f172a;
-    --category-list-page-title: #8ab4f8;
-    --category-list-page-text: #e0e0e0;
-    --category-list-page-offer: #ff6b6b;
-    --category-list-page-breadcrumb-link: #c4a8ae;
-    --category-list-page-breadcrumb-active: #ffffff;
-    --category-list-page-body-bg: radial-gradient(circle, #2a1a22 0%, #1f1a22 40%, #1a1f2a 100%);
-    --category-list-page-primary: #97144d;
-    --category-list-page-card-hover-bg: radial-gradient(circle, #2a1a22 0%, #1f1a22 40%, #1a1f2a 100%);
-    --category-list-page-card-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
-    --category-list-page-card-shadow-hover: 0 8px 40px rgba(0, 0, 0, 0.6);
-    --category-list-page-font-body: 'Inter', sans-serif;
-    /* Category List Page dark end */
+        /* =========================================
+       BORDERS, SHADOWS & STATES (DARK)
+    ========================================= */
+        --border: #3a2f32;
+        --outline: #5a4a4e;
 
-    /* Home Page dark start*/
-    --home-page-bg: radial-gradient(circle, #2a1a22 0%, #1f1a22 40%, #1a1f2a 100%);
-    --home-page-primary: #97144d;
-    --home-page-primary-light: #c4185e;
-    --home-page-text-primary: #ffffff;
-    --home-page-text-secondary: #c4a8ae;
-    --home-page-text-on-primary: #ffffff;
-    --home-page-surface: #211a1c;
-    --home-page-surface-elevated: #2a2224;
-    --home-page-image-card-bg: #181314;
-    --home-page-shadow-soft: 0 4px 20px rgba(0, 0, 0, 0.4);
-    --home-page-shadow-medium: 0 8px 40px rgba(0, 0, 0, 0.6);
-    --home-page-btn-primary-bg: #97144d;
-    --home-page-btn-primary-hover: #c4185e;
-    --home-page-banner-bullet: #2a2224;
-    --home-page-banner-bullet-active: #97144d;
-    --home-page-swiper-btn-border: #97144d;
-    --home-page-swiper-btn-bg: #211a1c;
-    --home-page-swiper-btn-color: #97144d;
-    --home-page-brands-bg: #211a1c;
-    --home-page-brands-title: #c4a8ae;
-    --home-page-brands-item: #c4a8ae;
-    --home-page-category-bg: #121212;
-    --home-page-category-card-bg: #0f172a;
-    --home-page-category-title: #8ab4f8;
-    --home-page-category-text: #e0e0e0;
-    --home-page-category-offer: #ff6b6b;
-    --home-page-category-card-hover-bg: radial-gradient(circle, #2a1a22 0%, #1f1a22 40%, #1a1f2a 100%);
-    --home-page-product-rating-bg: #97144d;
-    --home-page-product-wishlist-border: #97144d;
-    --home-page-product-wishlist-icon: #97144d;
-    --home-page-swiper-bullet-active: #97144d;
-    /* Home Page dark end*/
+        --hover-soft: rgba(255, 177, 197, 0.08);
+        --hover-medium: rgba(255, 177, 197, 0.16);
+        --active: rgba(255, 177, 197, 0.24);
 
-    /* Login Page dark start*/
-    --login-page-bg: radial-gradient(circle, #2a1a22 0%, #1f1a22 40%, #1a1f2a 100%);
-    --login-page-primary: #97144d;
-    --login-page-primary-light: #c4185e;
-    --login-page-text-primary: #ffffff;
-    --login-page-text-secondary: #c4a8ae;
-    --login-page-text-on-primary: #ffffff;
-    --login-page-surface: #211a1c;
-    --login-page-surface-elevated: #2a2224;
-    --login-page-container-bg: #0f172a;
-    --login-page-border: #3a2f32;
-    --login-page-shadow-soft: 0 4px 20px rgba(0, 0, 0, 0.4);
-    --login-page-shadow-medium: 0 8px 40px rgba(0, 0, 0, 0.6);
-    --login-page-otp-input-bg: #2a1f22;
-    --login-page-gender-btn-bg: #ff6b6b;
-    --login-page-input-bg: #211a1c;
-    /* Login Page dark end*/
+        --shadow-soft: 0 4px 20px rgba(0, 0, 0, 0.4);
+        --shadow-medium: 0 8px 40px rgba(0, 0, 0, 0.6);
 
-    /* Order Details Page start */
-    --order-details-page-primary: #97144d;
-    --order-details-page-primary-light: #c4185e;
-    --order-details-page-primary-soft: rgba(255, 177, 197, 0.08);
-    --order-details-page-text-primary: #ffffff;
-    --order-details-page-text-secondary: #c4a8ae;
-    --order-details-page-text-on-primary: #ffffff;
-    --order-details-page-surface: #211a1c;
-    --order-details-page-surface-elevated: #2a2224;
-    --order-details-page-border: #3a2f32;
-    --order-details-page-outline: #5a4a4e;
-    --order-details-page-shadow-soft: 0 4px 20px rgba(0, 0, 0, 0.4);
-    --order-details-page-shadow-medium: 0 8px 40px rgba(0, 0, 0, 0.6);
-    --order-details-page-help-btn-bg: #2a2224;
-    --order-details-page-payment-card-bg: #ffffff;
-    /* Order Details Page end */
-
-    /* Checkout Page */
-    --checkout-page-primary: #97144d;
-    --checkout-page-primary-light: #c4185e;
-    --checkout-page-primary-soft: rgba(255, 177, 197, 0.08);
-    --checkout-page-text-primary: #ffffff;
-    --checkout-page-text-secondary: #c4a8ae;
-    --checkout-page-text-on-primary: #ffffff;
-    --checkout-page-surface: #211a1c;
-    --checkout-page-surface-elevated: #2a2224;
-    --checkout-page-border: #3a2f32;
-    --checkout-page-shadow-soft: 0 4px 20px rgba(0, 0, 0, 0.4);
-    --checkout-page-address-tag-bg: #97144d;
-    --checkout-page-address-tag-secondary: #2a2224;
-    --checkout-page-free-text: #4ade80;
-
-    /* Order List Page */
-    --order-list-page-primary: #97144d;
-    --order-list-page-primary-light: #c4185e;
-    --order-list-page-text-primary: #ffffff;
-    --order-list-page-text-secondary: #c4a8ae;
-    --order-list-page-text-on-primary: #ffffff;
-    --order-list-page-surface: #211a1c;
-    --order-list-page-surface-elevated: #2a2224;
-    --order-list-page-border: #3a2f32;
-    --order-list-page-hover-soft: rgba(255, 177, 197, 0.08);
-    --order-list-page-shadow-soft: 0 4px 20px rgba(0, 0, 0, 0.4);
-    --order-list-page-shadow-medium: 0 8px 40px rgba(0, 0, 0, 0.6);
-    --order-list-page-status-delivered: #4ade80;
-    --order-list-page-status-shipping: #fbbf24;
-    --order-list-page-status-cancelled: #ff6b6b;
-
-    /* Product Details Page */
-    --product-details-page-primary: #97144d;
-    --product-details-page-primary-light: #c4185e;
-    --product-details-page-primary-soft: rgba(255, 177, 197, 0.08);
-    --product-details-page-text-primary: #ffffff;
-    --product-details-page-text-secondary: #c4a8ae;
-    --product-details-page-text-on-primary: #ffffff;
-    --product-details-page-surface: #211a1c;
-    --product-details-page-surface-elevated: #2a2224;
-    --product-details-page-background: #181314;
-    --product-details-page-border: #3a2f32;
-    --product-details-page-outline: #5a4a4e;
-    --product-details-page-hover-medium: rgba(255, 177, 197, 0.16);
-    --product-details-page-shadow-soft: 0 4px 20px rgba(0, 0, 0, 0.4);
-    --product-details-page-shadow-medium: 0 8px 40px rgba(0, 0, 0, 0.6);
-    --product-details-page-arrow-bg: rgba(33, 26, 28, 0.96);
-    --product-details-page-trending-bg: rgba(138, 180, 248, 0.08);
-    --product-details-page-trending-color: #8ab4f8;
-    --product-details-page-rating-bg: #1b5e20;
-    --product-details-page-discount-color: #4ade80;
-    --product-details-page-free-delivery-color: #4ade80;
-    --product-details-page-category-bg: #121212;
-    --product-details-page-category-card-bg: #0f172a;
-    --product-details-page-category-title: #8ab4f8;
-    --product-details-page-category-text: #e0e0e0;
-    --product-details-page-category-offer: #ff6b6b;
-    --product-details-page-card-hover-bg: radial-gradient(circle, #2a1a22 0%, #1f1a22 40%, #1a1f2a 100%);
-
-    /* ── Product List Page variables (dark) ── */
-    --product-list-page-bg: #181314;
-    --product-list-page-breadcrumb-text: #c4a8ae;
-    --product-list-page-breadcrumb-hover: #ff80ab;
-    --product-list-page-header-title: #ffffff;
-    --product-list-page-header-desc: #c4a8ae;
-    --product-list-page-meta-text: #c4a8ae;
-    --product-list-page-sort-bg: #211a1c;
-    --product-list-page-sort-border: #3a2f32;
-    --product-list-page-sort-accent: #ff80ab;
-    --product-list-page-filter-border: #3a2f32;
-    --product-list-page-filter-bg: #211a1c;
-    --product-list-page-filter-title-color: #ffffff;
-    --product-list-page-filter-label: #c4a8ae;
-    --product-list-page-filter-label-hover: #ff80ab;
-    --product-list-page-filter-check-bg: #211a1c;
-    --product-list-page-filter-check-active: #ff80ab;
-    --product-list-page-filter-radio-active: #ff80ab;
-    --product-list-page-filter-size-hover: #ff80ab;
-    --product-list-page-filter-size-soft: rgba(255, 128, 171, 0.12);
-    --product-list-page-slider-track: #3a2f32;
-    --product-list-page-slider-range: #ff80ab;
-    --product-list-page-slider-thumb: #ff80ab;
-    --product-list-page-slider-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
-    --product-list-page-slider-values: #ffffff;
-    --product-list-page-card-bg: #0f172a;
-    --product-list-page-card-hover-bg: var(--hero-gradient);
-    --product-list-page-card-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
-    --product-list-page-card-text: #e0e0e0;
-    --product-list-page-card-offer: #ff6b6b;
-    --product-list-page-card-btn-bg: #97144d;
-    --product-list-page-card-btn-hover: #b5175e;
-    --product-list-page-section-bg: #121212;
-    --product-list-page-section-title: #8ab4f8;
-    --product-list-page-mobile-sidebar-bg: #181314;
-    --product-list-page-mobile-overlay: rgba(0, 0, 0, 0.65);
-    --product-list-page-mobile-close-bg: #211a1c;
-    --product-list-page-mobile-filter-bg: #211a1c;
-    --product-list-page-mobile-filter-border: #3a2f32;
-    --product-list-page-scrollbar: #ff80ab;
-
-    // App component dark
-    --app-component-page-primary: #720036;
-    --app-component-page-primary-light: #97144d;
-    --app-component-page-text-tertiary: #ffffff;
-    --app-component-page-border: #3a2f32;
-    --app-component-page-shadow-medium: 0 8px 30px rgba(0, 0, 0, 0.5);
-    --app-component-page-surface: #211a1c;
-
-    // Wishlist dark
-    --wishlist-page-primary: #720036;
-    --wishlist-page-primary-light: #97144d;
-    --wishlist-page-text-primary: #ffffff;
-    --wishlist-page-text-secondary: #c4a8ae;
-    --wishlist-page-text-tertiary: #ffffff;
-    --wishlist-page-border: #3a2f32;
-    --wishlist-page-surface: #211a1c;
-    --wishlist-page-shadow-soft: 0 4px 20px rgba(0, 0, 0, 0.4);
-    --wishlist-page-category-bg: #121212;
-    --wishlist-page-category-card-bg: #0f172a;
-    --wishlist-page-category-title: #8ab4f8;
-    --wishlist-page-category-text: #e0e0e0;
-    --wishlist-page-category-offer: #ff6b6b;
-    --wishlist-page-hero-gradient: radial-gradient(circle, #2a1a22 0%, #1f1a22 40%, #1a1f2a 100%);
-
-    // product review dark
-    --product-review-page-primary: #720036;
-    --product-review-page-primary-light: #97144d;
-    --product-review-page-text-primary: #ffffff;
-    --product-review-page-text-secondary: #c4a8ae;
-    --product-review-page-text-tertiary: #ffffff;
-    --product-review-page-border: #3a2f32;
-    --product-review-page-surface: #211a1c;
-    --product-review-page-hover-soft: rgba(255, 177, 197, 0.08);
-    --product-review-page-hover-medium: rgba(255, 177, 197, 0.16);
-    --product-review-page-shadow-soft: 0 4px 20px rgba(0, 0, 0, 0.4);
-    --product-review-page-shadow-medium: 0 8px 30px rgba(0, 0, 0, 0.5);
-    --product-review-page-category-card-bg: #0f172a;
-
-    // Profile dark
-    --profile-page-primary: #720036;
-    --profile-page-primary-light: #97144d;
-    --profile-page-primary-soft: rgba(114, 0, 54, 0.08);
-    --profile-page-background: #181314;
-    --profile-page-surface: #211a1c;
-    --profile-page-surface-elevated: #2a2224;
-    --profile-page-text-primary: #ffffff;
-    --profile-page-text-secondary: #c4a8ae;
-    --profile-page-text-tertiary: #ffffff;
-    --profile-page-border: #3a2f32;
-    --profile-page-shadow-soft: 0 4px 20px rgba(0, 0, 0, 0.4);
-    --profile-page-category-card-bg: #0f172a;
-    --profile-page-hero-gradient: radial-gradient(circle, #2a1a22 0%, #1f1a22 40%, #1a1f2a 100%);
-
-    --alert-overlay-bg: rgba(0, 0, 0, 0.7);
-    --alert-dialog-bg: #211a1c;
-    --alert-title: #ffffff;
-    --alert-message: #c4a8ae;
-    --alert-btn-cancel-bg: #2a2224;
-    --alert-btn-cancel-text: #ffffff;
-    --alert-btn-cancel-hover: rgba(255, 177, 197, 0.16);
-    --alert-btn-confirm-bg: #97144d;
-    --alert-btn-confirm-text: #ffffff;
-    --alert-btn-confirm-hover: #b5175e;
-    --alert-btn-danger-bg: #ff6b6b;
-    --alert-btn-danger-hover: #ff4c4c;
-    --alert-shadow: 0 8px 40px rgba(0, 0, 0, 0.6);
+        /* =========================================
+       TYPOGRAPHY & SPECIALS (DARK)
+    ========================================= */
+        --hero-gradient: radial-gradient(circle, #2a1a22 0%, #1f1a22 40%, #1a1f2a 100%);
+        --overlay-bg: rgba(0, 0, 0, 0.7);
 }
 
+/* =========================================
+   GLOBAL HTML RULES
+========================================= */
 body {
-    margin: 0;
-    background: var(--background);
-    color: var(--text-primary);
-    font-family: var(--font-body);
-    transition:
-        background 0.3s ease,
-        color 0.3s ease;
+        margin: 0;
+        background: var(--background);
+        color: var(--text-primary);
+        font-family: var(--font-body);
+        transition: background 0.3s ease, color 0.3s ease;
 }
 
 * {
-    transition:
-        background 0.25s ease,
-        color 0.25s ease,
-        border-color 0.25s ease;
+        transition: background 0.25s ease, color 0.25s ease, border-color 0.25s ease;
 }
 
 body.modal-open {
-    overflow: hidden;
-    position: fixed;
-    width: 100%;
+        overflow: hidden;
+        position: fixed;
+        width: 100%;
 }

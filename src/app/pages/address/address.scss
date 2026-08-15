@@ -3,7 +3,7 @@
     flex-direction: column;
     height: calc(100vh - 120px);
     padding: 1.5rem 2rem;
-    background: var(--address-page-bg);
+    background: var(--background);
     overflow: hidden;
 
     &__container {
@@ -43,7 +43,7 @@
 
             p {
                 font-size: 13px;
-                color: var(--address-line-color);
+                color: var(--text-secondary);
             }
 
             .add-btn {
@@ -69,21 +69,21 @@
         align-items: center;
         gap: 1.2rem;
         padding: 1.5rem;
-        border-radius: var(--address-card-radius);
-        background: var(--address-card-bg);
-        box-shadow: var(--address-card-shadow);
+        border-radius: 16px;
+        background: var(--surface);
+        box-shadow: var(--shadow-soft);
         transition: all 0.25s ease;
 
         &:hover {
             transform: translateY(-3px);
-            box-shadow: var(--address-card-shadow-hover);
+            box-shadow: var(--shadow-medium);
         }
 
         &__icon {
             width: 50px;
             height: 50px;
             border-radius: 12px;
-            background: var(--address-icon-bg);
+            background: var(--primary-soft);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -91,7 +91,7 @@
 
             i {
                 font-size: 18px;
-                color: var(--address-icon-color);
+                color: var(--primary);
             }
         }
 
@@ -114,8 +114,8 @@
                     font-size: 11px;
                     padding: 2px 8px;
                     border-radius: 6px;
-                    background: var(--address-tag-bg);
-                    color: var(--address-tag-color);
+                    background: var(--surface-elevated);
+                    color: var(--text-primary);
                     font-weight: 600;
                 }
 
@@ -123,8 +123,8 @@
                     font-size: 10px;
                     padding: 2px 8px;
                     border-radius: 6px;
-                    background: var(--address-badge-bg);
-                    color: var(--address-badge-color);
+                    background: var(--success);
+                    color: var(--text-tertiary);
                     font-weight: 700;
                     letter-spacing: 0.4px;
                 }
@@ -132,13 +132,13 @@
 
             .address-line {
                 font-size: 13px;
-                color: var(--address-line-color);
+                color: var(--text-secondary);
                 margin-bottom: 6px;
             }
 
             .meta {
                 font-size: 12px;
-                color: var(--address-meta-color);
+                color: var(--text-secondary);
 
                 i {
                     margin-right: 4px;
@@ -164,22 +164,23 @@
             }
 
             .edit {
-                background: var(--address-edit-bg);
-                color: var(--address-edit-color);
+                background: var(--surface-elevated);
+                color: var(--text-primary);
                 transition: 0.2s ease;
 
                 &:hover {
-                    background: var(--address-edit-hover-bg);
+                    background: var(--hover-medium);
                 }
             }
 
             .delete {
-                background: var(--address-delete-bg);
-                color: var(--address-delete-color);
+                background: var(--danger-soft);
+                color: var(--danger);
                 transition: 0.2s ease;
 
                 &:hover {
-                    background: var(--address-delete-hover-bg);
+                    background: var(--danger);
+                    color: var(--text-tertiary);
                 }
             }
         }
@@ -193,20 +194,20 @@
         padding: 10px 16px;
         border-radius: 10px;
         border: none;
-        background: var(--address-btn-primary-bg);
-        color: var(--address-btn-primary-color);
+        background: var(--primary);
+        color: var(--text-tertiary);
         font-weight: 600;
         cursor: pointer;
         display: inline-flex;
         align-items: center;
         gap: 6px;
-        box-shadow: var(--address-card-shadow);
+        box-shadow: var(--shadow-soft);
         transition: all 0.25s ease;
 
         &:hover {
-            background: var(--address-btn-primary-hover);
+            background: var(--primary-light);
             transform: translateY(-1px);
-            box-shadow: var(--address-card-shadow-hover);
+            box-shadow: var(--shadow-medium);
         }
 
         &:active {
@@ -232,7 +233,7 @@
     &__backdrop {
         position: absolute;
         inset: 0;
-        background: var(--address-modal-backdrop);
+        background: var(--overlay-bg);
     }
 
     &__container {
@@ -247,10 +248,10 @@
         flex-direction: column;
 
         border-radius: 20px;
-        background: var(--address-modal-bg);
+        background: var(--surface);
         overflow: hidden;
         /* clip the rounded corners */
-        box-shadow: var(--address-card-shadow-hover);
+        box-shadow: var(--shadow-medium);
     }
 }
 
@@ -263,7 +264,7 @@
     /* never squash */
     padding: 20px 24px 16px;
     border-bottom: 1px solid var(--border);
-    background: var(--address-modal-bg);
+    background: var(--surface);
 
     h2 {
         margin: 0;
@@ -275,7 +276,7 @@
     p {
         margin: 4px 0 0;
         font-size: 13px;
-        color: var(--address-line-color);
+        color: var(--text-secondary);
     }
 }
 
@@ -287,7 +288,7 @@
     font-size: 20px;
     font-weight: 800;
     border-bottom: 1px solid var(--border);
-    background: var(--address-modal-bg);
+    background: var(--surface);
 }
 
 /* =========================
@@ -302,14 +303,14 @@
     justify-content: center;
     -webkit-overflow-scrolling: touch;
     scrollbar-width: thin;
-    scrollbar-color: var(--address-icon-color) transparent;
+    scrollbar-color: var(--primary) transparent;
 
     &::-webkit-scrollbar {
         width: 4px;
     }
 
     &::-webkit-scrollbar-thumb {
-        background: var(--address-icon-color);
+        background: var(--primary);
         border-radius: 10px;
     }
 }
@@ -349,7 +350,7 @@
     label {
         font-size: 13px;
         font-weight: 600;
-        color: var(--address-line-color);
+        color: var(--text-secondary);
         white-space: nowrap;
     }
 
@@ -359,14 +360,14 @@
         padding: 10px 14px;
         border-radius: 10px;
         border: 1.5px solid var(--border);
-        background: var(--address-input-bg);
+        background: var(--category-card-bg);
         color: var(--text-primary);
         font-size: 14px;
         font-family: inherit;
         transition: all 0.2s ease;
 
         &::placeholder {
-            color: var(--address-meta-color);
+            color: var(--text-secondary);
             opacity: 0.7;
         }
     }
@@ -374,9 +375,9 @@
     input:focus,
     select:focus,
     textarea:focus {
-        border-color: var(--address-icon-color);
-        box-shadow: var(--address-input-focus-shadow);
-        background: var(--address-input-focus-bg);
+        border-color: var(--primary);
+        box-shadow: 0 0 0 3px var(--primary-soft);
+        background: var(--surface);
         outline: none;
     }
 
@@ -423,7 +424,7 @@
         padding: 8px 16px;
         border-radius: 10px;
         border: 1.5px solid var(--border);
-        background: var(--address-input-bg);
+        background: var(--category-card-bg);
         cursor: pointer;
         font-size: 13px;
         font-weight: 600;
@@ -434,14 +435,14 @@
 
         input[type="radio"] {
             width: auto;
-            accent-color: var(--address-icon-color);
+            accent-color: var(--primary);
             cursor: pointer;
         }
 
         &:has(input:checked) {
-            border-color: var(--address-icon-color);
-            background: var(--address-icon-bg);
-            color: var(--address-icon-color);
+            border-color: var(--primary);
+            background: var(--primary-soft);
+            color: var(--primary);
         }
     }
 }
@@ -475,7 +476,7 @@
         input[type="checkbox"] {
             width: 16px;
             height: 16px;
-            accent-color: var(--address-icon-color);
+            accent-color: var(--primary);
             cursor: pointer;
             border-radius: 4px;
             flex-shrink: 0;
@@ -495,7 +496,7 @@
     gap: 10px;
     padding: 14px 20px;
     border-top: 1px solid var(--border);
-    background: var(--address-modal-actions-bg);
+    background: var(--surface);
     border-radius: 0 0 20px 20px;
 }
 
@@ -504,8 +505,8 @@
 ========================= */
 
 .btn-primary {
-    background: var(--address-btn-primary-bg);
-    color: var(--address-btn-primary-color);
+    background: var(--primary);
+    color: var(--text-tertiary);
     border: none;
     padding: 10px 20px;
     border-radius: 10px;
@@ -518,7 +519,7 @@
     transition: all 0.25s ease;
 
     &:hover {
-        background: var(--address-btn-primary-hover);
+        background: var(--primary-light);
         transform: translateY(-1px);
     }
 
@@ -528,9 +529,9 @@
 }
 
 .btn-secondary {
-    background: var(--address-btn-secondary-bg);
-    border: 1.5px solid var(--address-btn-secondary-border);
-    color: var(--address-btn-secondary-color);
+    background: var(--surface-elevated);
+    border: 1.5px solid var(--border);
+    color: var(--text-primary);
     padding: 10px 20px;
     border-radius: 10px;
     font-size: 14px;
@@ -539,8 +540,8 @@
     transition: all 0.2s ease;
 
     &:hover {
-        border-color: var(--address-icon-color);
-        color: var(--address-icon-color);
+        border-color: var(--primary);
+        color: var(--primary);
     }
 }
 

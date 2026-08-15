@@ -27,7 +27,7 @@ swiper-slide {
     margin: 0 auto;
     padding: 1rem;
     overflow-x: hidden;
-    background: var(--product-list-page-bg);
+    background: var(--background);
 }
 
 /* =====================================
@@ -46,7 +46,7 @@ swiper-slide {
     font-size: .8rem;
     text-transform: uppercase;
     letter-spacing: 1px;
-    color: var(--product-list-page-breadcrumb-text);
+    color: var(--text-secondary);
 
     a {
         text-decoration: none;
@@ -54,7 +54,7 @@ swiper-slide {
         transition: color 0.2s ease;
 
         &:hover {
-            color: var(--product-list-page-breadcrumb-hover);
+            color: var(--primary);
         }
     }
 }
@@ -71,12 +71,12 @@ swiper-slide {
         line-height: 1;
         margin-bottom: 1rem;
         font-family: var(--font-headline);
-        color: var(--product-list-page-header-title);
+        color: var(--text-primary);
     }
 
     p {
         max-width: 650px;
-        color: var(--product-list-page-header-desc);
+        color: var(--text-secondary);
         line-height: 1.8;
     }
 }
@@ -90,15 +90,15 @@ swiper-slide {
 
 .product-count {
     font-size: .85rem;
-    color: var(--product-list-page-meta-text);
+    color: var(--text-secondary);
 }
 
 .sort-btn {
     height: 44px;
     padding: 0 1rem;
     border-radius: 14px;
-    border: 1px solid var(--product-list-page-sort-border);
-    background: var(--product-list-page-sort-bg);
+    border: 1px solid var(--border);
+    background: var(--surface);
     display: flex;
     align-items: center;
     gap: .6rem;
@@ -107,7 +107,7 @@ swiper-slide {
     cursor: pointer;
 
     strong {
-        color: var(--product-list-page-sort-accent);
+        color: var(--primary);
     }
 }
 
@@ -135,14 +135,14 @@ swiper-slide {
     overflow-y: auto;
     padding-right: .4rem;
     scrollbar-width: thin;
-    scrollbar-color: var(--product-list-page-scrollbar) transparent;
+    scrollbar-color: var(--primary) transparent;
 
     &::-webkit-scrollbar {
         width: 5px;
     }
 
     &::-webkit-scrollbar-thumb {
-        background: var(--product-list-page-scrollbar);
+        background: var(--primary);
         border-radius: 10px;
     }
 }
@@ -152,20 +152,20 @@ swiper-slide {
     align-items: center;
     justify-content: space-between;
     padding-bottom: 1rem;
-    border-bottom: 1px solid var(--product-list-page-filter-border);
+    border-bottom: 1px solid var(--border);
 
     h2 {
         margin: 0;
         font-size: 1rem;
         font-weight: 800;
-        color: var(--product-list-page-filter-title-color);
+        color: var(--text-primary);
     }
 }
 
 .clear-btn {
     border: none;
     background: transparent;
-    color: var(--product-list-page-sort-accent);
+    color: var(--primary);
     font-size: .82rem;
     font-weight: 700;
     cursor: pointer;
@@ -173,7 +173,7 @@ swiper-slide {
 
 .filter-group {
     padding-bottom: 1.5rem;
-    border-bottom: 1px solid var(--product-list-page-filter-border);
+    border-bottom: 1px solid var(--border);
 }
 
 .filter-title {
@@ -191,12 +191,12 @@ swiper-slide {
         font-weight: 700;
         text-transform: uppercase;
         letter-spacing: 1px;
-        color: var(--product-list-page-filter-title-color);
+        color: var(--text-primary);
     }
 
     i {
         font-size: 1rem;
-        color: var(--product-list-page-filter-label);
+        color: var(--text-secondary);
     }
 }
 
@@ -215,18 +215,18 @@ swiper-slide {
 
     .label {
         font-size: .82rem;
-        color: var(--product-list-page-filter-label);
+        color: var(--text-secondary);
         transition: .25s ease;
     }
 
     small {
         margin-left: auto;
         font-size: .72rem;
-        color: var(--product-list-page-filter-label);
+        color: var(--text-secondary);
     }
 
     &:hover .label {
-        color: var(--product-list-page-filter-label-hover);
+        color: var(--primary);
     }
 }
 
@@ -250,15 +250,15 @@ swiper-slide {
     width: 18px;
     height: 18px;
     border-radius: 5px;
-    border: 1.5px solid var(--product-list-page-filter-border);
+    border: 1.5px solid var(--border);
     display: block;
     transition: .25s ease;
-    background: var(--product-list-page-filter-check-bg);
+    background: var(--surface);
 }
 
 .checkbox-wrapper input:checked+.checkmark {
-    background: var(--product-list-page-filter-check-active);
-    border-color: var(--product-list-page-filter-check-active);
+    background: var(--primary);
+    border-color: var(--primary);
 }
 
 /* RADIO */
@@ -271,12 +271,12 @@ swiper-slide {
     width: 18px;
     height: 18px;
     border-radius: 50%;
-    border: 2px solid var(--product-list-page-filter-border);
+    border: 2px solid var(--border);
     position: relative;
 }
 
 .radio-option input:checked+.radio-circle {
-    border-color: var(--product-list-page-filter-radio-active);
+    border-color: var(--primary);
 }
 
 .radio-option input:checked+.radio-circle::after {
@@ -284,7 +284,7 @@ swiper-slide {
     position: absolute;
     inset: 3px;
     border-radius: 50%;
-    background: var(--product-list-page-filter-radio-active);
+    background: var(--primary);
 }
 
 /* COLOR */
@@ -307,7 +307,7 @@ swiper-slide {
         width: 52px;
         height: 42px;
         border-radius: 12px;
-        border: 1px solid var(--product-list-page-filter-border);
+        border: 1px solid var(--border);
         background: transparent;
         font-weight: 700;
         cursor: pointer;
@@ -315,9 +315,9 @@ swiper-slide {
 
         &:hover,
         &.active {
-            border-color: var(--product-list-page-filter-size-hover);
-            color: var(--product-list-page-filter-size-hover);
-            background: var(--product-list-page-filter-size-soft);
+            border-color: var(--primary);
+            color: var(--primary);
+            background: var(--primary-soft);
         }
     }
 }
@@ -339,14 +339,14 @@ swiper-slide {
     width: 100%;
     height: 4px;
     border-radius: 999px;
-    background: var(--product-list-page-slider-track);
+    background: var(--border);
 }
 
 .slider-range {
     position: absolute;
     height: 4px;
     border-radius: 999px;
-    background: var(--product-list-page-slider-range);
+    background: var(--primary);
 }
 
 .price-slider input[type="range"] {
@@ -362,9 +362,9 @@ swiper-slide {
     width: 18px;
     height: 18px;
     border-radius: 50%;
-    background: var(--product-list-page-slider-thumb);
+    background: var(--primary);
     border: 3px solid white;
-    box-shadow: var(--product-list-page-slider-shadow);
+    box-shadow: var(--shadow-soft);
     cursor: pointer;
     pointer-events: auto;
     transition: .2s ease;
@@ -379,7 +379,7 @@ swiper-slide {
     height: 18px;
     border: none;
     border-radius: 50%;
-    background: var(--product-list-page-slider-thumb);
+    background: var(--primary);
     cursor: pointer;
     pointer-events: auto;
 }
@@ -390,7 +390,7 @@ swiper-slide {
     margin-top: 1rem;
     font-size: .82rem;
     font-weight: 700;
-    color: var(--product-list-page-slider-values);
+    color: var(--text-primary);
 }
 
 /* RATING */
@@ -408,7 +408,7 @@ swiper-slide {
 
 .trending {
     padding: 10px 0;
-    background: var(--product-list-page-section-bg);
+    background: var(--category-bg);
     max-width: 98%;
 
     &__header {
@@ -418,7 +418,7 @@ swiper-slide {
         h2 {
             font-size: 36px;
             font-weight: 700;
-            color: var(--product-list-page-section-title);
+            color: var(--category-title);
         }
     }
 
@@ -434,7 +434,7 @@ swiper-slide {
 ===================================== */
 
 .product-card {
-    background: var(--product-list-page-card-bg);
+    background: var(--category-card-bg);
     border-radius: 6px;
     overflow: hidden;
     cursor: pointer;
@@ -446,8 +446,8 @@ swiper-slide {
     max-width: 100%;
 
     &:hover {
-        background: var(--product-list-page-card-hover-bg);
-        box-shadow: var(--product-list-page-card-shadow);
+        background: var(--hero-gradient);
+        box-shadow: var(--shadow-soft);
         transform: translateY(-5px);
     }
 
@@ -474,7 +474,7 @@ swiper-slide {
         .brand {
             font-size: 0.88rem;
             font-weight: 700;
-            color: var(--product-list-page-card-text);
+            color: var(--category-text);
             letter-spacing: 0.2px;
             margin: 0;
         }
@@ -482,7 +482,7 @@ swiper-slide {
         .name {
             font-size: 0.82rem;
             line-height: 1.5;
-            color: var(--product-list-page-card-text);
+            color: var(--category-text);
             opacity: 0.7;
             display: -webkit-box;
             -webkit-line-clamp: 2;
@@ -502,18 +502,18 @@ swiper-slide {
             .current {
                 font-weight: 700;
                 font-size: 0.95rem;
-                color: var(--product-list-page-card-text);
+                color: var(--category-text);
             }
 
             .original {
                 text-decoration: line-through;
                 font-size: 0.75rem;
-                color: var(--product-list-page-card-text);
+                color: var(--category-text);
                 opacity: 0.5;
             }
 
             .discount {
-                color: var(--product-list-page-card-offer);
+                color: var(--danger);
                 font-weight: 600;
                 font-size: 0.75rem;
             }
@@ -522,7 +522,7 @@ swiper-slide {
         .size {
             margin-top: 2px;
             font-size: 0.75rem;
-            color: var(--product-list-page-card-text);
+            color: var(--category-text);
             opacity: 0.6;
         }
     }
@@ -535,7 +535,7 @@ swiper-slide {
         position: absolute;
         bottom: 8px;
         left: 8px;
-        background: var(--product-list-page-card-btn-bg);
+        background: var(--primary);
         color: #ffffff;
         padding: 2px 6px;
         font-size: 0.7rem;
@@ -563,21 +563,21 @@ swiper-slide {
         align-items: center;
         justify-content: center;
         background: transparent;
-        border: 1px solid var(--product-list-page-card-btn-bg);
+        border: 1px solid var(--primary);
         cursor: pointer;
-        box-shadow: var(--product-list-page-card-shadow);
+        box-shadow: var(--shadow-soft);
         transform: translateX(120%);
         opacity: 0;
         transition: all 0.35s ease;
         z-index: 5;
 
         i {
-            color: var(--product-list-page-card-btn-bg);
+            color: var(--primary);
             font-size: 14px;
         }
 
         &:hover {
-            background: var(--product-list-page-card-btn-bg);
+            background: var(--primary);
 
             i {
                 color: #ffffff;
@@ -597,10 +597,10 @@ swiper-slide {
         gap: 6px;
         width: 100%;
         padding: 12px;
-        background: var(--product-list-page-card-btn-bg);
+        background: var(--primary);
         color: #ffffff;
         border: none;
-        border-top: 1px solid var(--product-list-page-filter-border);
+        border-top: 1px solid var(--border);
         cursor: pointer;
         font-size: 0.82rem;
         font-weight: 700;
@@ -612,10 +612,10 @@ swiper-slide {
         }
 
         &:hover {
-            background: var(--product-list-page-card-btn-hover);
+            background: var(--primary-light);
             transform: translateY(-1px);
             color: #ffffff;
-            box-shadow: var(--product-list-page-card-shadow);
+            box-shadow: var(--shadow-soft);
         }
     }
 }
@@ -659,7 +659,7 @@ swiper-slide {
     }
 
     &::part(bullet-active) {
-        background: var(--product-list-page-card-btn-bg);
+        background: var(--primary);
         opacity: 1;
     }
 }
@@ -729,9 +729,9 @@ swiper-slide {
     .filter-group {
         min-width: 0;
         padding: 1rem;
-        border: 1px solid var(--product-list-page-filter-border);
+        border: 1px solid var(--border);
         border-radius: 18px;
-        background: var(--product-list-page-filter-bg);
+        background: var(--surface);
     }
 
     .trending__grid {
@@ -777,8 +777,8 @@ swiper-slide {
         height: 42px;
         padding: 0 1rem;
         border-radius: 14px;
-        border: 1px solid var(--product-list-page-mobile-filter-border);
-        background: var(--product-list-page-mobile-filter-bg);
+        border: 1px solid var(--border);
+        background: var(--surface);
         display: flex;
         align-items: center;
         gap: .7rem;
@@ -796,7 +796,7 @@ swiper-slide {
         width: 88%;
         max-width: 340px;
         height: 100vh;
-        background: var(--product-list-page-mobile-sidebar-bg);
+        background: var(--background);
         z-index: 9999;
         overflow-y: auto;
         padding: 0 1rem 1rem 1rem;
@@ -818,7 +818,7 @@ swiper-slide {
         display: block;
         position: fixed;
         inset: 0;
-        background: var(--product-list-page-mobile-overlay);
+        background: var(--overlay-bg);
         z-index: 9998;
     }
 
@@ -830,7 +830,7 @@ swiper-slide {
         height: 38px;
         border: none;
         border-radius: 50%;
-        background: var(--product-list-page-mobile-close-bg);
+        background: var(--surface);
         align-items: center;
         justify-content: center;
         cursor: pointer;
@@ -841,7 +841,7 @@ swiper-slide {
     .filters-top {
         position: sticky;
         top: 0;
-        background: var(--product-list-page-mobile-sidebar-bg);
+        background: var(--background);
         z-index: 5;
     }
 

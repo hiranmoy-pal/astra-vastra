@@ -1,7 +1,13 @@
 <div class="toast-container">
-  <div class="toast" *ngFor="let t of toastService.toasts()" [class]="t.type">
-    {{ t.message }}
+  @for (t of toastService.toasts(); track t.id) {
+  <div class="toast" [ngClass]="t.type">
+    <!-- Dynamic icon based on type -->
+    <i class="fa" [class.fa-check-circle]="t.type === 'success'" [class.fa-exclamation-circle]="t.type === 'error'"
+      [class.fa-exclamation-triangle]="t.type === 'warning'" [class.fa-info-circle]="t.type === 'info'">
+    </i>
+    <span>{{ t.message }}</span>
   </div>
+  }
 </div>
 
 <div class="global-loader" *ngIf="loadingService.loading()">

@@ -1,8 +1,8 @@
 .profile-sidebar {
-    background: var(--profile-menu-bg);
+    background: var(--category-bg);
     border-radius: 16px;
     padding: 1.5rem;
-    box-shadow: var(--profile-menu-shadow);
+    box-shadow: var(--shadow-soft);
     height: 100%;
     overflow: hidden;
 
@@ -13,7 +13,7 @@
         .avatar {
             width: 60px;
             height: 60px;
-            background: var(--profile-menu-avatar-bg);
+            background: var(--primary-soft);
             border-radius: 50%;
             display: flex;
             align-items: center;
@@ -25,7 +25,7 @@
         h3 {
             margin-top: 10px;
             font-size: 16px;
-            color: var(--profile-menu-title-color);
+            color: var(--text-primary);
         }
     }
 
@@ -38,19 +38,19 @@
             cursor: pointer;
             border-radius: 8px;
             font-size: 14px;
-            color: var(--profile-menu-item-color);
+            color: var(--text-primary);
 
             &:hover {
-                background: var(--profile-menu-item-hover);
+                background: var(--hover-soft);
             }
 
             &.active {
-                color: var(--profile-menu-active-color);
+                color: var(--primary-light);
                 font-weight: 700;
             }
 
             &.danger {
-                color: var(--profile-menu-danger-color);
+                color: var(--danger);
             }
         }
     }

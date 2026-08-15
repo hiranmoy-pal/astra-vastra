@@ -1,6 +1,6 @@
 .home {
-    font-family: var(--home-page-font-body);
-    background: var(--home-page-bg);
+    font-family: var(--font-body);
+    background: var(--hero-gradient);
 
     /* ================= HERO SECTION ================= */
     .hero {
@@ -23,27 +23,27 @@
         }
 
         &__tag {
-            color: var(--home-page-primary);
+            color: var(--primary);
             letter-spacing: 3px;
             font-size: 11px;
             font-weight: 700;
         }
 
         &__title {
-            font-family: var(--home-page-font-headline);
+            font-family: var(--font-headline);
             font-size: 56px;
             line-height: 1.05;
             margin: 12px 0;
         }
 
         .gradient-text {
-            background: linear-gradient(90deg, var(--home-page-primary), var(--home-page-primary-light));
+            background: linear-gradient(90deg, var(--primary), var(--primary-light));
             -webkit-background-clip: text;
             color: transparent;
         }
 
         &__desc {
-            color: var(--home-page-text-secondary);
+            color: var(--text-secondary);
             font-size: 14px;
             line-height: 1.6;
             max-width: 420px;
@@ -69,12 +69,12 @@
             position: relative;
             border-radius: 24px;
             overflow: hidden;
-            border: 10px solid var(--home-page-text-on-primary);
+            border: 10px solid var(--text-tertiary);
             width: 260px;
             height: 320px;
             transform: rotate(6deg);
             transition: all 0.5s ease;
-            box-shadow: var(--home-page-shadow-medium);
+            box-shadow: var(--shadow-medium);
 
             img {
                 width: 100%;
@@ -88,7 +88,7 @@
                 bottom: 14px;
                 left: 14px;
                 right: 14px;
-                background: var(--home-page-image-card-bg);
+                background: var(--surface-elevated);
                 backdrop-filter: blur(6px);
                 padding: 10px;
                 border-radius: 10px;
@@ -96,14 +96,14 @@
 
             .tag {
                 font-size: 10px;
-                color: var(--home-page-primary);
+                color: var(--primary);
                 font-weight: 600;
             }
 
             .title {
                 font-size: 13px;
                 font-weight: 700;
-                color: var(--home-page-text-secondary);
+                color: var(--text-secondary);
             }
 
             &:hover {
@@ -126,22 +126,22 @@
         transition: all 0.25s ease;
 
         &.primary {
-            background: var(--home-page-btn-primary-bg);
-            color: var(--home-page-text-on-primary);
-            box-shadow: var(--home-page-shadow-soft);
+            background: var(--primary);
+            color: var(--text-tertiary);
+            box-shadow: var(--shadow-soft);
 
             &:hover {
                 transform: translateY(-2px);
-                background: var(--home-page-btn-primary-hover);
+                background: var(--primary-light);
             }
         }
 
         &.link {
             background: transparent;
-            color: var(--home-page-text-primary);
+            color: var(--text-primary);
 
             &:hover {
-                color: var(--home-page-primary);
+                color: var(--primary);
             }
         }
     }
@@ -185,11 +185,11 @@
     }
 
     .banner__swiper::part(bullet) {
-        background: var(--home-page-banner-bullet);
+        background: var(--surface-elevated);
     }
 
     .banner__swiper::part(bullet-active) {
-        background: var(--home-page-banner-bullet-active);
+        background: var(--primary);
     }
 
     .swiper-button-prev,
@@ -200,29 +200,29 @@
         z-index: 50;
         width: 20px;
         height: 20px;
-        border: 1px solid var(--home-page-swiper-btn-border);
+        border: 1px solid var(--primary);
         border-radius: 50%;
-        background: var(--home-page-swiper-btn-bg);
+        background: var(--surface);
         padding: 5px;
-        color: var(--home-page-swiper-btn-color);
+        color: var(--primary);
         font-weight: bold;
 
         &:hover {
-            color: var(--home-page-text-on-primary);
-            background: var(--home-page-primary);
+            color: var(--text-tertiary);
+            background: var(--primary);
         }
     }
 
     /* ================= BRANDS ================= */
     .brands {
         padding: 40px 0;
-        background: var(--home-page-brands-bg);
+        background: var(--surface);
 
         &__title {
             text-align: center;
             font-size: 12px;
             letter-spacing: 3px;
-            color: var(--home-page-brands-title);
+            color: var(--text-secondary);
             font-weight: bold;
             margin-bottom: 50px;
         }
@@ -242,7 +242,7 @@
         .brand-item {
             font-size: 16px;
             font-weight: 600;
-            color: var(--home-page-brands-item);
+            color: var(--text-secondary);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -252,7 +252,7 @@
         }
 
         .brand-item:hover {
-            color: var(--home-page-primary);
+            color: var(--primary);
             opacity: 1;
         }
     }
@@ -260,7 +260,7 @@
     /* ================= CATEGORY ================= */
     .category {
         padding: 20px 0;
-        background: var(--home-page-category-bg);
+        background: var(--category-bg);
         max-width: 98%;
 
         &__header {
@@ -270,7 +270,7 @@
             h2 {
                 font-size: 36px;
                 font-weight: 700;
-                color: var(--home-page-category-title);
+                color: var(--category-title);
             }
         }
 
@@ -285,14 +285,14 @@
     .category-card {
         display: block;
         text-decoration: none;
-        background: var(--home-page-category-card-bg);
+        background: var(--category-card-bg);
         border-radius: 8px;
         overflow: hidden;
         transition: transform 0.3s ease;
 
         &:hover {
             transform: translateY(-5px);
-            background: var(--home-page-category-card-hover-bg);
+            background: var(--hero-gradient);
         }
 
         &__image {
@@ -319,20 +319,20 @@
             h3 {
                 font-size: 14px;
                 font-weight: 600;
-                color: var(--home-page-category-text);
+                color: var(--category-text);
                 margin-bottom: 6px;
             }
 
             .offer {
                 font-size: 18px;
                 font-weight: 700;
-                color: var(--home-page-category-offer);
+                color: var(--danger);
                 margin-bottom: 4px;
             }
 
             .cta {
                 font-size: 13px;
-                color: var(--home-page-category-text);
+                color: var(--category-text);
                 font-weight: 500;
             }
         }
@@ -341,7 +341,7 @@
     /* ================= TRENDING PRODUCTS ================= */
     .trending {
         padding: 60px 0;
-        background: var(--home-page-category-bg);
+        background: var(--category-bg);
         max-width: 98%;
 
         &__header {
@@ -351,7 +351,7 @@
             h2 {
                 font-size: 36px;
                 font-weight: 700;
-                color: var(--home-page-category-title);
+                color: var(--category-title);
             }
         }
 
@@ -363,15 +363,15 @@
     }
 
     .product-card {
-        background: var(--home-page-category-card-bg);
+        background: var(--category-card-bg);
         border-radius: 6px;
         overflow: hidden;
         cursor: pointer;
         transition: all 0.3s ease;
 
         &:hover {
-            background: var(--home-page-category-card-hover-bg);
-            box-shadow: var(--home-page-shadow-soft);
+            background: var(--hero-gradient);
+            box-shadow: var(--shadow-soft);
             transform: translateY(-5px);
         }
 
@@ -449,7 +449,7 @@
     }
 
     .product-card__swiper::part(bullet-active) {
-        background: var(--home-page-swiper-bullet-active);
+        background: var(--primary);
         opacity: 1;
     }
 
@@ -462,13 +462,13 @@
         .brand {
             font-size: 14px;
             font-weight: 700;
-            color: var(--home-page-category-text);
+            color: var(--category-text);
             letter-spacing: 0.2px;
         }
 
         .name {
             font-size: 13px;
-            color: var(--home-page-category-text);
+            color: var(--category-text);
             opacity: 0.7;
             display: -webkit-box;
             -webkit-line-clamp: 2;
@@ -485,17 +485,17 @@
 
             .current {
                 font-weight: 700;
-                color: var(--home-page-category-text);
+                color: var(--category-text);
             }
 
             .original {
                 text-decoration: line-through;
-                color: var(--home-page-category-text);
+                color: var(--category-text);
                 opacity: 0.5;
             }
 
             .discount {
-                color: var(--home-page-category-offer);
+                color: var(--danger);
                 font-weight: 600;
                 font-size: 12px;
             }
@@ -504,7 +504,7 @@
         .size {
             margin-top: 2px;
             font-size: 12px;
-            color: var(--home-page-category-text);
+            color: var(--category-text);
             opacity: 0.6;
         }
     }
@@ -513,8 +513,8 @@
         position: absolute;
         bottom: 8px;
         left: 8px;
-        background: var(--home-page-product-rating-bg);
-        color: var(--home-page-text-on-primary);
+        background: var(--primary);
+        color: var(--text-tertiary);
         padding: 2px 6px;
         font-size: 12px;
         border-radius: 4px;
@@ -540,15 +540,15 @@
         align-items: center;
         justify-content: center;
         background: transparent;
-        border: 1px solid var(--home-page-product-wishlist-border);
+        border: 1px solid var(--primary);
         cursor: pointer;
-        box-shadow: var(--home-page-shadow-soft);
+        box-shadow: var(--shadow-soft);
         transform: translateX(120%);
         opacity: 0;
         transition: all 0.35s ease;
 
         i {
-            color: var(--home-page-product-wishlist-icon);
+            color: var(--primary);
             font-size: 14px;
         }
     }
@@ -559,10 +559,10 @@
     }
 
     .product-card__wishlist:hover {
-        background: var(--home-page-primary);
+        background: var(--primary);
 
         i {
-            color: var(--home-page-text-on-primary);
+            color: var(--text-tertiary);
         }
     }
 
