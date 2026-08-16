@@ -1,114 +1,244 @@
+// :root {
+//         /* =========================================
+//          BASE TOKENS & BRAND COLORS
+//         ========================================= */
+//         --primary: #720036;
+//         --primary-light: #97144d;
+//         --primary-soft: rgba(114, 0, 54, 0.08);
+
+//         /* Backgrounds & Surfaces */
+//         --background: #fff7f9;
+//         --surface: #ffffff;
+//         --surface-elevated: #fff1f4;
+
+//         /* Category/Alt Surfaces */
+//         --category-bg: #f5f5f5;
+//         --category-card-bg: #ffe4b5;
+
+//         /* Text Colors */
+//         --text-primary: #24181b;
+//         --text-secondary: #6b4a52;
+//         --text-tertiary: #ffffff;
+//         --category-title: #1f3c88;
+//         --category-text: #222222;
+
+//         /* =========================================
+//        SEMANTIC STATUS COLORS (Errors, Success, etc.)
+//     ========================================= */
+//         --danger: #d32f2f;
+//         --danger-hover: #b71c1c;
+//         --danger-soft: rgba(211, 47, 47, 0.08);
+
+//         --success: #14804a;
+//         --warning: #b56b00;
+//         --info: #1565c0;
+
+//         /* =========================================
+//        BORDERS, SHADOWS & STATES
+//     ========================================= */
+//         --border: #f0d9df;
+//         --outline: #d8b6be;
+
+//         --hover-soft: rgba(114, 0, 54, 0.06);
+//         --hover-medium: rgba(114, 0, 54, 0.12);
+//         --active: rgba(114, 0, 54, 0.18);
+
+//         --shadow-soft: 0 4px 20px rgba(114, 0, 54, 0.06);
+//         --shadow-medium: 0 8px 30px rgba(114, 0, 54, 0.12);
+
+//         /* =========================================
+//        TYPOGRAPHY & SPECIALS
+//     ========================================= */
+//         --font-headline: 'Manrope', sans-serif;
+//         --font-body: 'Inter', sans-serif;
+
+//         // --hero-gradient: radial-gradient(circle, #f6e8ff 0, #ffedfb 24%, #fdeff3 42%, #f1f6fe 60%, #ffd3f4 85%, #fbd7e1 100%);
+//         --hero-gradient: radial-gradient(circle,rgba(169, 232, 205, 1) 7%, rgba(243, 195, 250, 1) 31%, rgba(250, 242, 167, 1) 94%);
+//         --overlay-bg: rgba(0, 0, 0, 0.45);
+// }
+
+// .dark-theme {
+//         /* =========================================
+//        BASE TOKENS & BRAND COLORS (DARK)
+//     ========================================= */
+//         --primary: #97144d;
+//         --primary-light: #c4185e;
+//         --primary-soft: rgba(255, 177, 197, 0.08);
+
+//         /* Backgrounds & Surfaces */
+//         --background: #181314;
+//         --surface: #211a1c;
+//         --surface-elevated: #2a2224;
+
+//         /* Category/Alt Surfaces */
+//         --category-bg: #121212;
+//         --category-card-bg: #0f172a;
+
+//         /* Text Colors */
+//         --text-primary: #ffffff;
+//         --text-secondary: #c4a8ae;
+//         --text-tertiary: #ffffff;
+//         --category-title: #8ab4f8;
+//         --category-text: #e0e0e0;
+
+//         /* =========================================
+//        SEMANTIC STATUS COLORS (DARK)
+//     ========================================= */
+//         --danger: #ff6b6b;
+//         --danger-hover: #ff4c4c;
+//         --danger-soft: rgba(255, 107, 107, 0.1);
+
+//         --success: #4ade80;
+//         --warning: #fbbf24;
+//         --info: #8ab4f8;
+
+//         /* =========================================
+//        BORDERS, SHADOWS & STATES (DARK)
+//     ========================================= */
+//         --border: #3a2f32;
+//         --outline: #5a4a4e;
+
+//         --hover-soft: rgba(255, 177, 197, 0.08);
+//         --hover-medium: rgba(255, 177, 197, 0.16);
+//         --active: rgba(255, 177, 197, 0.24);
+
+//         --shadow-soft: 0 4px 20px rgba(0, 0, 0, 0.4);
+//         --shadow-medium: 0 8px 40px rgba(0, 0, 0, 0.6);
+
+//         /* =========================================
+//        TYPOGRAPHY & SPECIALS (DARK)
+//     ========================================= */
+//         --hero-gradient: radial-gradient(circle, #2a1a22 0%, #1f1a22 40%, #1a1f2a 100%);
+//         --overlay-bg: rgba(0, 0, 0, 0.7);
+// }
+
+// /* =========================================
+//    GLOBAL HTML RULES
+// ========================================= */
+// body {
+//         margin: 0;
+//         background: var(--background);
+//         color: var(--text-primary);
+//         font-family: var(--font-body);
+//         transition: background 0.3s ease, color 0.3s ease;
+// }
+
+// * {
+//         transition: background 0.25s ease, color 0.25s ease, border-color 0.25s ease;
+// }
+
+// body.modal-open {
+//         overflow: hidden;
+//         position: fixed;
+//         width: 100%;
+// }
+
+
 :root {
         /* =========================================
-         BASE TOKENS & BRAND COLORS
-        ========================================= */
+       LIGHT THEME (Editorial Maroon)
+    ========================================= */
         --primary: #720036;
         --primary-light: #97144d;
         --primary-soft: rgba(114, 0, 54, 0.08);
 
-        /* Backgrounds & Surfaces */
-        --background: #fff7f9;
+        /* Backgrounds & Surfaces (Crisp with subtle blush) */
+        --background: #fcfafb;
         --surface: #ffffff;
-        --surface-elevated: #fff1f4;
+        --surface-elevated: #f9f2f4;
 
         /* Category/Alt Surfaces */
-        --category-bg: #f5f5f5;
-        --category-card-bg: #ffe4b5;
+        --category-bg: #f5f0f2;
+        --category-card-bg: #ffffff;
 
         /* Text Colors */
-        --text-primary: #24181b;
-        --text-secondary: #6b4a52;
+        --text-primary: #1f1416;
+        --text-secondary: #665558;
         --text-tertiary: #ffffff;
-        --category-title: #1f3c88;
-        --category-text: #222222;
+        /* White text on Maroon buttons */
+        --category-title: #1f1416;
+        --category-text: #4a3f42;
 
-        /* =========================================
-       SEMANTIC STATUS COLORS (Errors, Success, etc.)
-    ========================================= */
+        /* Semantic Status Colors */
         --danger: #d32f2f;
         --danger-hover: #b71c1c;
         --danger-soft: rgba(211, 47, 47, 0.08);
-
         --success: #14804a;
         --warning: #b56b00;
         --info: #1565c0;
 
-        /* =========================================
-       BORDERS, SHADOWS & STATES
-    ========================================= */
-        --border: #f0d9df;
-        --outline: #d8b6be;
+        /* Borders, Shadows & States */
+        --border: #eedbdf;
+        --outline: #e0c2c8;
 
-        --hover-soft: rgba(114, 0, 54, 0.06);
-        --hover-medium: rgba(114, 0, 54, 0.12);
-        --active: rgba(114, 0, 54, 0.18);
+        --hover-soft: rgba(114, 0, 54, 0.04);
+        --hover-medium: rgba(114, 0, 54, 0.08);
+        --active: rgba(114, 0, 54, 0.12);
 
-        --shadow-soft: 0 4px 20px rgba(114, 0, 54, 0.06);
-        --shadow-medium: 0 8px 30px rgba(114, 0, 54, 0.12);
+        --shadow-soft: 0 8px 24px rgba(114, 0, 54, 0.04);
+        --shadow-medium: 0 12px 36px rgba(114, 0, 54, 0.08);
 
-        /* =========================================
-       TYPOGRAPHY & SPECIALS
-    ========================================= */
+        /* Typography & Specials */
         --font-headline: 'Manrope', sans-serif;
         --font-body: 'Inter', sans-serif;
 
-        --hero-gradient: radial-gradient(circle, #f6e8ff 0, #ffedfb 24%, #fdeff3 42%, #f1f6fe 60%, #ffd3f4 85%, #fbd7e1 100%);
+        /* Editorial Pearl Gradient */
+        --hero-gradient: linear-gradient(135deg, #fff0f4 0%, #fdf5f7 50%, #ffffff 100%);
         --overlay-bg: rgba(0, 0, 0, 0.45);
 }
 
 .dark-theme {
         /* =========================================
-       BASE TOKENS & BRAND COLORS (DARK)
+       DARK THEME (Midnight Navy & Neon Green)
     ========================================= */
-        --primary: #97144d;
-        --primary-light: #c4185e;
-        --primary-soft: rgba(255, 177, 197, 0.08);
+        --primary: #00e676;
+        /* Vibrant Neon Green */
+        --primary-light: #33ff99;
+        /* Brighter Green for hovers */
+        --primary-soft: rgba(0, 230, 118, 0.12);
+        /* Subtle green tint */
 
-        /* Backgrounds & Surfaces */
-        --background: #181314;
-        --surface: #211a1c;
-        --surface-elevated: #2a2224;
+        /* Backgrounds & Surfaces (Deep Navy / Midnight Blue) */
+        --background: #070811;
+        --surface: #0f1222;
+        --surface-elevated: #161a2f;
 
         /* Category/Alt Surfaces */
-        --category-bg: #121212;
-        --category-card-bg: #0f172a;
+        --category-bg: #090a15;
+        --category-card-bg: #0f1222;
 
         /* Text Colors */
         --text-primary: #ffffff;
-        --text-secondary: #c4a8ae;
-        --text-tertiary: #ffffff;
-        --category-title: #8ab4f8;
-        --category-text: #e0e0e0;
+        --text-secondary: #9ba1b8;
+        --text-tertiary: #070811;
+        /* Deep navy text on neon green buttons */
+        --category-title: #ffffff;
+        --category-text: #d1d5e6;
 
-        /* =========================================
-       SEMANTIC STATUS COLORS (DARK)
-    ========================================= */
-        --danger: #ff6b6b;
-        --danger-hover: #ff4c4c;
-        --danger-soft: rgba(255, 107, 107, 0.1);
+        /* Semantic Status Colors */
+        --danger: #ff3b5c;
+        --danger-hover: #ff123b;
+        --danger-soft: rgba(255, 59, 92, 0.15);
+        --success: #00e676;
+        --warning: #ffab00;
+        --info: #00b0ff;
 
-        --success: #4ade80;
-        --warning: #fbbf24;
-        --info: #8ab4f8;
+        /* Borders & Outlines (Tinted with Neon Green to act as reflections) */
+        --border: rgba(0, 230, 118, 0.15);
+        --outline: rgba(0, 230, 118, 0.3);
 
-        /* =========================================
-       BORDERS, SHADOWS & STATES (DARK)
-    ========================================= */
-        --border: #3a2f32;
-        --outline: #5a4a4e;
+        /* Interactions */
+        --hover-soft: rgba(0, 230, 118, 0.08);
+        --hover-medium: rgba(0, 230, 118, 0.16);
+        --active: rgba(0, 230, 118, 0.24);
 
-        --hover-soft: rgba(255, 177, 197, 0.08);
-        --hover-medium: rgba(255, 177, 197, 0.16);
-        --active: rgba(255, 177, 197, 0.24);
+        /* Shadows (Deep black base + Subtle Neon Green Ambient Glow) */
+        --shadow-soft: 0 8px 24px rgba(0, 0, 0, 0.6), 0 0 12px rgba(0, 230, 118, 0.04);
+        --shadow-medium: 0 16px 40px rgba(0, 0, 0, 0.8), 0 0 30px rgba(0, 230, 118, 0.08);
 
-        --shadow-soft: 0 4px 20px rgba(0, 0, 0, 0.4);
-        --shadow-medium: 0 8px 40px rgba(0, 0, 0, 0.6);
-
-        /* =========================================
-       TYPOGRAPHY & SPECIALS (DARK)
-    ========================================= */
-        --hero-gradient: radial-gradient(circle, #2a1a22 0%, #1f1a22 40%, #1a1f2a 100%);
-        --overlay-bg: rgba(0, 0, 0, 0.7);
+        /* Cyber Green Spotlight Gradient */
+        --hero-gradient: radial-gradient(circle at top center, rgba(0, 230, 118, 0.12) 0%, #070811 60%, #04050a 100%);
+        --overlay-bg: rgba(7, 8, 17, 0.85);
 }
 
 /* =========================================
@@ -119,11 +249,12 @@ body {
         background: var(--background);
         color: var(--text-primary);
         font-family: var(--font-body);
-        transition: background 0.3s ease, color 0.3s ease;
+        transition: background 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+                color 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 * {
-        transition: background 0.25s ease, color 0.25s ease, border-color 0.25s ease;
+        transition: background 0.3s ease, color 0.3s ease, border-color 0.3s ease;
 }
 
 body.modal-open {

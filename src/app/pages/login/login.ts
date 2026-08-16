@@ -25,6 +25,7 @@ export class Login implements OnInit, OnDestroy {
   showLogin: boolean = true;
   showOtp: boolean = false;
   showRegister: boolean = false;
+  isLoading: boolean = false;
 
   loginForm!: FormGroup;
   email: string = '';
@@ -34,6 +35,7 @@ export class Login implements OnInit, OnDestroy {
   otp: string = '';
   otpError: string = '';
   @ViewChildren('otpInput') otpInputs!: QueryList<ElementRef<HTMLInputElement>>;
+  otpStatus: 'idle' | 'loading' | 'success' | 'failure' = 'idle';
 
   resendTime = signal(300);
   canResendOtp = signal(false);
@@ -90,14 +92,15 @@ export class Login implements OnInit, OnDestroy {
       return;
     }
     const payload = { email: this.email };
+    this.emailError = '';
     this.sentOtp(payload);
   }
 
   sentOtp(payload: any) {
-    this.loadingService.show();
+    this.isLoading = true;
     this.authService.sentOtp(payload).subscribe({
       next: (response: any) => {
-        this.loadingService.hide();
+        this.isLoading = false;
         console.log('OTP API response:', response);
         if (response.status) {
           this.loginForm.reset();
@@ -112,7 +115,8 @@ export class Login implements OnInit, OnDestroy {
         }
       },
       error: (error: any) => {
-        this.loadingService.hide(); this.toastService.show('Something went wrong. Please try again.', 'error');
+        this.isLoading = false;
+        this.toastService.show('Something went wrong. Please try again.', 'error');
         console.error('OTP API error:', error);
       }
     });
@@ -133,6 +137,7 @@ export class Login implements OnInit, OnDestroy {
     this.emailError = '';
     this.otpError = '';
     this.otp = '';
+    this.otpStatus = 'idle';
     this.otpForm.reset();
   }
 
@@ -146,11 +151,8 @@ export class Login implements OnInit, OnDestroy {
     this.updateOtp();
   }
 
-
   onOtpKeyDown(event: KeyboardEvent, index: number): void {
-    if (event.key !== 'Backspace') {
-      return;
-    }
+    if (event.key !== 'Backspace') return;
     const input = event.target as HTMLInputElement;
     if (input.value) {
       input.value = '';
@@ -161,21 +163,16 @@ export class Login implements OnInit, OnDestroy {
       event.preventDefault();
       const previousInput = this.otpInputs.get(index - 1)?.nativeElement;
       previousInput?.focus();
-      if (previousInput) {
-        previousInput.value = '';
-      }
+      if (previousInput) previousInput.value = '';
       this.updateOtp();
     }
   }
-
 
   onOtpPaste(event: ClipboardEvent, index: number): void {
     event.preventDefault();
     const pastedText = event.clipboardData?.getData('text') || '';
     const digits = pastedText.replace(/\D/g, '');
-    if (!digits) {
-      return;
-    }
+    if (!digits) return;
     const inputs = this.otpInputs.toArray();
     for (let i = 0; i < digits.length && index + i < 6; i++) {
       inputs[index + i].nativeElement.value = digits[i];
@@ -211,36 +208,51 @@ export class Login implements OnInit, OnDestroy {
   }
 
   verifyOtp(payload: any) {
-    this.loadingService.show();
+    this.isLoading = true;
+    this.otpStatus = 'loading';
     this.authService.verifyOtp(payload).subscribe({
       next: (response: any) => {
-        this.loadingService.hide();
+        this.isLoading = false;
         if (response.status) {
+          this.otpStatus = 'success';
           if (response.existingUser) {
-            this.toastService.show('OTP verified successfully', 'success');
-            this.otpForm.reset();
-            this.showLogin = false;
-            this.showOtp = false;
-            this.showRegister = false;
-            this.router.navigate(['/']);
+            setTimeout(() => {
+              // this.otpForm.reset();
+              // this.showLogin = false;
+              // this.showOtp = false;
+              // this.showRegister = false;
+              this.router.navigate(['/']);
+              this.toastService.show('OTP verified successfully', 'success');
+            }, 1000);
           } else {
             console.log('Verify OTP API response:', response);
             this.registerForm.patchValue({
               email: this.email
             });
-            this.otpForm.reset();
-            this.showLogin = false;
-            this.showOtp = false;
-            this.showRegister = true;
+            setTimeout(() => {
+              this.otpForm.reset();
+              this.showLogin = false;
+              this.showOtp = false;
+              this.showRegister = true;
+              this.toastService.show('OTP verified successfully', 'success');
+            }, 1000);
           }
         } else {
+          this.otpStatus = 'failure';
           this.toastService.show(response.message, 'error');
+          setTimeout(() => {
+            this.otpStatus = 'idle';
+          }, 1000);
         }
       },
       error: (error: any) => {
-        this.loadingService.hide();
+        this.isLoading = false;
+        this.otpStatus = 'failure';
         this.toastService.show('Something went wrong. Please try again.', 'error');
         console.error('Verify OTP API error:', error);
+        setTimeout(() => {
+          this.otpStatus = 'idle';
+        }, 1000);
       }
     });
   }
@@ -280,10 +292,10 @@ export class Login implements OnInit, OnDestroy {
     const payload = {
       email: this.email
     };
-    // this.loadingService.show();
+    // this.isLoading = true;
     // this.authService.resendOtp(payload).subscribe({
     //   next: (response: any) => {
-    //     this.loadingService.hide();
+    //     this.isLoading = false;
     //     if (response.status) {
     //       this.otpForm.reset();
     //       this.otp = '';
@@ -295,7 +307,7 @@ export class Login implements OnInit, OnDestroy {
     //     }
     //   },
     //   error: (error: any) => {
-    //     this.loadingService.hide();
+    //     this.isLoading = false;
     //     console.error('Resend OTP error:', error);
     //     this.toastService.show('Something went wrong. Please try again.', 'error');
     //   }
@@ -383,10 +395,10 @@ export class Login implements OnInit, OnDestroy {
   }
 
   registration(payload: any) {
-    this.loadingService.show();
+    this.isLoading = true;
     this.authService.register(payload).subscribe({
       next: (response: any) => {
-        this.loadingService.hide();
+        this.isLoading = false;
         if (response.status) {
           this.registerForm.reset();
           this.showLogin = false;
@@ -399,7 +411,7 @@ export class Login implements OnInit, OnDestroy {
         }
       },
       error: (error: any) => {
-        this.loadingService.hide();
+        this.isLoading = false;
         console.error('Resend OTP error:', error);
         this.toastService.show('Something went wrong. Please try again.', 'error');
       }

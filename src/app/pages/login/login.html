@@ -1,7 +1,12 @@
 <main class="auth">
+
+    <!-- ================= LOGIN ================= -->
     @if (showLogin) {
-    <section class="auth__container">
+    <section class="auth__container slide-in">
         <header class="auth__header">
+            <div class="auth__icon">
+                <i class="fa fa-user-circle-o"></i>
+            </div>
             <h1 class="auth__title">Login / Signup</h1>
             <p class="auth__subtitle">
                 Experience commerce with editorial soul.
@@ -9,37 +14,51 @@
         </header>
         <form class="auth__form" [formGroup]="loginForm" (ngSubmit)="onLoginSubmit()">
             <div class="form-group">
-                <label for="userInput">Email</label>
-                <input id="userInput" type="text" name="userInput" formControlName="userInput" placeholder="Enter Email"
-                    required />
+                <label for="userInput">Email Address</label>
+                <div class="input-wrapper">
+                    <i class="fa fa-envelope-o"></i>
+                    <input id="userInput" type="text" name="userInput" formControlName="userInput"
+                        placeholder="Enter your email" [ngClass]="{ 'disabled': isLoading }" required />
+                </div>
                 @if (emailError) {
-                <small class="error"> * {{ emailError }} </small>
+                <small class="error"><i class="fa fa-exclamation-circle"></i> {{ emailError }} </small>
                 }
             </div>
-            <button type="submit" class="btn-primary">
+            <button type="submit" class="btn-primary" [ngClass]="{ 'disabled': isLoading }">
+                @if (isLoading) {
+                <span class="btn-shimmer">Sending OTP...</span>
+                } @else {
                 Get One-Time Password
+                <i class="fa fa-arrow-right"></i>
+                }
             </button>
-            <div class="auth__info">
-                <span>✔</span>
+            <div class="auth__info-card">
+                <div class="info-icon">
+                    <i class="fa fa-shield"></i>
+                </div>
                 <p>
-                    Secure biometric login is available on the mobile
-                    application for verified enterprise accounts.
+                    Secure biometric login is available on the mobile application for verified enterprise accounts.
                 </p>
             </div>
         </form>
         <footer class="auth__footer">
             <a href="#">Terms & Conditions</a>
+            <span class="dot">•</span>
             <a href="#">Privacy Center</a>
         </footer>
     </section>
     }
 
+    <!-- ================= OTP ================= -->
     @if (showOtp) {
-    <section class="auth__container auth__otp">
+    <section class="auth__container slide-in auth__otp">
         <div class="auth__back" (click)="onBack()">
-            ← Back
+            <i class="fa fa-arrow-left"></i> Back
         </div>
         <header class="auth__header">
+            <div class="auth__icon">
+                <i class="fa fa-unlock-alt"></i>
+            </div>
             <h1 class="auth__title">Verify with OTP</h1>
             <p class="auth__subtitle">
                 A 6-digit code has been sent to your email : <strong>{{email}}</strong>.
@@ -48,13 +67,28 @@
         <form class="auth__form otp-form" [formGroup]="otpForm" (ngSubmit)="onOtpSubmit()">
             <div class="otp-group">
                 @for (i of [0, 1, 2, 3, 4, 5]; track i) {
-                <input #otpInput type="text" maxlength="1" inputmode="numeric" (input)="onOtpInput($event, i)"
-                    (keydown)="onOtpKeyDown($event, i)" (paste)="onOtpPaste($event, i)" />
+                <div class="otp-box-wrapper" [ngClass]="otpStatus">
+                    <!-- Disable input to freeze cursor & hide text while animating -->
+                    <input #otpInput type="text" maxlength="1" inputmode="numeric" (input)="onOtpInput($event, i)"
+                        (keydown)="onOtpKeyDown($event, i)" (paste)="onOtpPaste($event, i)"
+                        [disabled]="otpStatus !== 'idle'" />
+
+                    <!-- Dynamic Icons inside the box -->
+                    @if (otpStatus === 'loading') {
+                    <div class="box-spinner status-icon"></div>
+                    }
+                    @if (otpStatus === 'success') {
+                    <i class="fa fa-check status-icon success"></i>
+                    }
+                    @if (otpStatus === 'failure') {
+                    <i class="fa fa-times status-icon failure"></i>
+                    }
+                </div>
                 }
             </div>
 
             @if (otpError) {
-            <small class="error"> {{ otpError }} </small>
+            <small class="error"><i class="fa fa-exclamation-circle"></i> {{ otpError }}</small>
             }
 
             <div class="otp-resend">
@@ -71,10 +105,16 @@
                 </button>
             </div>
 
-            <button type="submit" class="btn-primary otp-btn">
+            <button type="submit" class="btn-primary otp-btn" [ngClass]="{ 'disabled': isLoading }">
+                @if (isLoading) {
+                <span class="btn-shimmer">Verifying OTP...</span>
+                } @else {
                 Verify & Continue
+                <i class="fa fa-arrow-right"></i>
+                }
             </button>
         </form>
+
         <div class="otp-help">
             HAVING TROUBLE LOGGING IN?
             <a href="#">GET HELP</a>
@@ -82,92 +122,125 @@
     </section>
     }
 
-
+    <!-- ================= REGISTER ================= -->
     @if (showRegister) {
-    <section class="auth__container auth__register">
+    <section class="auth__container slide-in auth__register">
         <header class="auth__header">
-            <h1 class="auth__title">Create Your Account</h1>
+            <div class="auth__icon">
+                <i class="fa fa-user-plus"></i>
+            </div>
+            <h1 class="auth__title">Create Account</h1>
             <p class="auth__subtitle">
                 Join our exclusive network of curators.
             </p>
         </header>
+
         <form class="auth__form register-form" [formGroup]="registerForm" (ngSubmit)="onRegisterSubmit()">
+            <!-- ROW 1: Name -->
             <div class="form-row">
                 <div class="form-group">
                     <label for="firstName">First Name</label>
-                    <input id="firstName" type="text" formControlName="firstName" placeholder="Enter First Name" />
+                    <div class="input-wrapper">
+                        <i class="fa fa-user-o"></i>
+                        <input id="firstName" type="text" formControlName="firstName" placeholder="First Name"
+                            [ngClass]="{ 'disabled': isLoading }" />
+                    </div>
                     @if (registerErrors.firstName) {
-                    <small class="error"> * {{ registerErrors.firstName }} </small>
+                    <small class="error"><i class="fa fa-exclamation-circle"></i> {{ registerErrors.firstName }}
+                    </small>
                     }
                 </div>
 
                 <div class="form-group">
                     <label for="lastName">Last Name</label>
-                    <input id="lastName" type="text" formControlName="lastName" placeholder="Enter Last Name" />
+                    <div class="input-wrapper">
+                        <input id="lastName" type="text" formControlName="lastName" placeholder="Last Name"
+                            [ngClass]="{ 'disabled': isLoading }" />
+                    </div>
                     @if (registerErrors.lastName) {
-                    <small class="error"> * {{ registerErrors.lastName }} </small>
+                    <small class="error"><i class="fa fa-exclamation-circle"></i> {{ registerErrors.lastName }} </small>
                     }
                 </div>
             </div>
 
-            <div class="form-group">
-                <label for="mobileNumber">Mobile Number</label>
-                <input id="mobileNumber" type="text" maxlength="10" inputmode="numeric" formControlName="mobileNumber"
-                    placeholder="Enter Mobile Number" />
-                @if (registerErrors.mobileNumber) {
-                <small class="error"> * {{ registerErrors.mobileNumber }} </small>
-                }
+            <!-- ROW 2: Contact Info -->
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="mobileNumber">Mobile Number</label>
+                    <div class="input-wrapper">
+                        <i class="fa fa-phone"></i>
+                        <input id="mobileNumber" type="text" maxlength="10" inputmode="numeric"
+                            formControlName="mobileNumber" placeholder="10-digit Number"
+                            [ngClass]="{ 'disabled': isLoading }" />
+                    </div>
+                    @if (registerErrors.mobileNumber) {
+                    <small class="error"><i class="fa fa-exclamation-circle"></i> {{ registerErrors.mobileNumber }}
+                    </small>
+                    }
+                </div>
+
+                <div class="form-group">
+                    <label for="registerEmail">Email Address</label>
+                    <div class="input-wrapper">
+                        <i class="fa fa-envelope-o"></i>
+                        <input id="registerEmail" type="email" formControlName="email" placeholder="Email Address"
+                            [disabled]="true" />
+                    </div>
+                </div>
             </div>
 
-            <div class="form-group">
-                <label for="registerEmail">Email Address</label>
-                <input id="registerEmail" type="email" formControlName="email" placeholder="Enter Email Address" />
-            </div>
-
+            <!-- Gender -->
             <div class="form-group">
                 <label>Gender</label>
                 <div class="gender-group">
                     <button type="button" [class.active]="registerForm.get('gender')?.value === 'Male'"
+                        [ngClass]="{ 'disabled': isLoading }"
                         (click)="registerForm.patchValue({ gender: 'Male' }); registerErrors.gender = ''">
                         Male
                     </button>
                     <button type="button" [class.active]="registerForm.get('gender')?.value === 'Female'"
+                        [ngClass]="{ 'disabled': isLoading }"
                         (click)="registerForm.patchValue({ gender: 'Female' }); registerErrors.gender = ''">
                         Female
                     </button>
                     <button type="button" [class.active]="registerForm.get('gender')?.value === 'Other'"
+                        [ngClass]="{ 'disabled': isLoading }"
                         (click)="registerForm.patchValue({ gender: 'Other' }); registerErrors.gender = ''">
                         Other
                     </button>
                 </div>
                 @if (registerErrors.gender) {
-                <small class="error"> * {{ registerErrors.gender }} </small>
+                <small class="error"><i class="fa fa-exclamation-circle"></i> {{ registerErrors.gender }} </small>
                 }
             </div>
 
-            <div class="form-checkbox">
-                <input type="checkbox" id="agree" formControlName="agree" />
+            <div class="form-checkbox" [class.disabled]="isLoading">
+                <input type="checkbox" id="agree" formControlName="agree" [ngClass]="{ 'disabled': isLoading }" />
                 <label for="agree"> I agree to the
                     <a href="#">Privacy Policy</a> and
                     <a href="#">Terms & Conditions</a>.
                 </label>
             </div>
             @if (registerErrors.agree) {
-            <small class="error"> * {{ registerErrors.agree }} </small>
+            <small class="error"><i class="fa fa-exclamation-circle"></i> {{ registerErrors.agree }} </small>
             }
-            <button type="submit" class="btn-primary register-btn">
-                Register & Continue
-            </button>
 
+            <button type="submit" class="btn-primary register-btn" [ngClass]="{ 'disabled': isLoading }">
+                @if (isLoading) {
+                <span class="btn-shimmer">Creating Account...</span>
+                } @else {
+                Register & Continue
+                <i class="fa fa-arrow-right"></i>
+                }
+            </button>
         </form>
 
         <div class="register-footer">
             Already have an account?
-            <a (click)="showLogin = true; showRegister = false">
+            <a (click)="!isLoading && (showLogin = true); showRegister = false" [class.disabled]="isLoading">
                 Log in here
             </a>
         </div>
-
     </section>
     }
 </main>
