@@ -189,8 +189,8 @@
 
 .dark-theme {
         /* =========================================
-       DARK THEME (Midnight Navy & Neon Green)
-    ========================================= */
+           DARK THEME (Obsidian Green & Neon Green)
+        ========================================= */
         --primary: #00e676;
         /* Vibrant Neon Green */
         --primary-light: #33ff99;
@@ -198,22 +198,29 @@
         --primary-soft: rgba(0, 230, 118, 0.12);
         /* Subtle green tint */
 
-        /* Backgrounds & Surfaces (Deep Navy / Midnight Blue) */
-        --background: #070811;
-        --surface: #0f1222;
-        --surface-elevated: #161a2f;
+        /* Backgrounds & Surfaces (Deep Forest Black / Obsidian Green) */
+        --background: #040a07;
+        /* Replaced Navy with Pitch-Black Green */
+        --surface: #050505;
+        /* Replaced blue-surface with dark mossy black */
+        --surface-elevated: #112217;
+        /* Replaced blue-elevated with subtle deep green */
 
         /* Category/Alt Surfaces */
-        --category-bg: #090a15;
-        --category-card-bg: #0f1222;
+        --category-bg: #050505;
+        /* Replaced blueish category bg */
+        --category-card-bg: #0a140d;
+        /* Matches the new surface */
 
         /* Text Colors */
         --text-primary: #ffffff;
-        --text-secondary: #9ba1b8;
-        --text-tertiary: #070811;
-        /* Deep navy text on neon green buttons */
+        --text-secondary: #94ab9c;
+        /* Changed from blue-gray to a soft sage-gray */
+        --text-tertiary: #040a07;
+        /* Deep green-black text on neon green buttons */
         --category-title: #ffffff;
-        --category-text: #d1d5e6;
+        --category-text: #c0d1c6;
+        /* Light sage for category text */
 
         /* Semantic Status Colors */
         --danger: #ff3b5c;
@@ -237,8 +244,9 @@
         --shadow-medium: 0 16px 40px rgba(0, 0, 0, 0.8), 0 0 30px rgba(0, 230, 118, 0.08);
 
         /* Cyber Green Spotlight Gradient */
-        --hero-gradient: radial-gradient(circle at top center, rgba(0, 230, 118, 0.12) 0%, #070811 60%, #04050a 100%);
-        --overlay-bg: rgba(7, 8, 17, 0.85);
+        --hero-gradient: radial-gradient(circle at top center, rgba(0, 230, 118, 0.12) 0%, #040a07 60%, #020503 100%);
+        --overlay-bg: rgba(4, 10, 7, 0.85);
+        /* Matched overlay to the new background */
 }
 
 /* =========================================

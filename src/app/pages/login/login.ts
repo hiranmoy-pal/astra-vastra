@@ -8,7 +8,7 @@ import { Http } from '../../core/services/api/http';
 import { Toast } from '../../core/services/toast/toast';
 import { Loading } from '../../core/services/loading/loading';
 import { interval, Subscription } from 'rxjs';
-import { Alert } from '../../core/services/alert/alert';
+import { Storage } from '../../core/services/storage/storage';
 
 @Component({
   selector: 'app-login',
@@ -50,8 +50,10 @@ export class Login implements OnInit, OnDestroy {
     agree: ''
   };
 
+  registrationToken: string | null = null;
+
   constructor(
-    private fb: FormBuilder, private authService: Http, public toastService: Toast, public loadingService: Loading, private alertService: Alert, private router: Router
+    private fb: FormBuilder, private authService: Http, public toastService: Toast, public loadingService: Loading, private storage: Storage, private router: Router
   ) {
     this.InitializeoginForm();
     this.initializeOtpForm();
@@ -211,11 +213,13 @@ export class Login implements OnInit, OnDestroy {
     this.isLoading = true;
     this.otpStatus = 'loading';
     this.authService.verifyOtp(payload).subscribe({
-      next: (response: any) => {
+      next: async (response: any) => {
         this.isLoading = false;
         if (response.status) {
           this.otpStatus = 'success';
           if (response.existingUser) {
+            await this.storage.set('accessToken', response.token);
+            await this.storage.set('refreshToken', response.refreshToken);
             setTimeout(() => {
               // this.otpForm.reset();
               // this.showLogin = false;
@@ -226,6 +230,7 @@ export class Login implements OnInit, OnDestroy {
             }, 1000);
           } else {
             console.log('Verify OTP API response:', response);
+            this.registrationToken = response.token;
             this.registerForm.patchValue({
               email: this.email
             });
@@ -292,27 +297,27 @@ export class Login implements OnInit, OnDestroy {
     const payload = {
       email: this.email
     };
-    // this.isLoading = true;
-    // this.authService.resendOtp(payload).subscribe({
-    //   next: (response: any) => {
-    //     this.isLoading = false;
-    //     if (response.status) {
-    //       this.otpForm.reset();
-    //       this.otp = '';
-    //       this.otpError = '';
-    //       this.startResendTimer();
-    //       this.toastService.show('OTP resent successfully', 'success');
-    //     } else {
-    //       this.toastService.show('Failed to resend OTP. Please try again.', 'error');
-    //     }
-    //   },
-    //   error: (error: any) => {
-    //     this.isLoading = false;
-    //     console.error('Resend OTP error:', error);
-    //     this.toastService.show('Something went wrong. Please try again.', 'error');
-    //   }
+    this.isLoading = true;
+    this.authService.resendOtp(payload).subscribe({
+      next: (response: any) => {
+        this.isLoading = false;
+        if (response.status) {
+          this.otpForm.reset();
+          this.otp = '';
+          this.otpError = '';
+          this.startResendTimer();
+          this.toastService.show('OTP resent successfully', 'success');
+        } else {
+          this.toastService.show('Failed to resend OTP. Please try again.', 'error');
+        }
+      },
+      error: (error: any) => {
+        this.isLoading = false;
+        console.error('Resend OTP error:', error);
+        this.toastService.show('Something went wrong. Please try again.', 'error');
+      }
 
-    // });
+    });
   }
 
   // ********************** Register ********************** \\
@@ -396,10 +401,13 @@ export class Login implements OnInit, OnDestroy {
 
   registration(payload: any) {
     this.isLoading = true;
-    this.authService.register(payload).subscribe({
-      next: (response: any) => {
+    this.authService.register(payload, this.registrationToken).subscribe({
+      next: async (response: any) => {
         this.isLoading = false;
         if (response.status) {
+          await this.storage.set('accessToken', response.token);
+          await this.storage.set('refreshToken', response.refreshToken);
+          this.registrationToken = null;
           this.registerForm.reset();
           this.showLogin = false;
           this.showOtp = false;
