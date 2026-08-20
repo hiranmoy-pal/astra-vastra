@@ -1,17 +1,18 @@
 <app-header></app-header>
+@if (isAuthChecked) {
+@if (!userData) {
+<app-common-messege heading="Manage Your Account"
+    message="Log in to view your personal details, track your orders, and manage your addresses."
+    buttonText="Login to View Profile" buttonLink="/login" iconClass="fa-user-circle"></app-common-messege>
+}
+@else {
 <main class="profile">
 
     <div class="profile__container">
-
-        <!-- LEFT PANEL -->
         <app-profile-menu></app-profile-menu>
-
-        <!-- RIGHT PANEL -->
         <section class="profile__content">
-
             <div class="profile__header">
                 <h1>Personal Profile</h1>
-
                 <button *ngIf="!isEdit" (click)="enableEdit()">
                     Edit Info
                 </button>
@@ -43,7 +44,7 @@
 
                     <div class="form-group">
                         <label>Mobile Number</label>
-                        <input formControlName="mobile" [readonly]="!isEdit" />
+                        <input formControlName="phone" readonly />
                     </div>
 
                     <div class="form-group">
@@ -58,7 +59,7 @@
 
                     <div class="form-group">
                         <label>Pincode</label>
-                        <input formControlName="pincode" [readonly]="!isEdit" />
+                        <input formControlName="pinCode" [readonly]="!isEdit" />
                     </div>
 
                 </div>
@@ -75,4 +76,6 @@
     </div>
 
 </main>
+}
+}
 <app-footer></app-footer>

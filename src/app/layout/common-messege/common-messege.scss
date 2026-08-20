@@ -1,0 +1,89 @@
+.message-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 60vh; // Keeps it nicely centered on the page
+    padding: 24px;
+}
+
+.message-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 48px 32px;
+    max-width: 440px;
+    width: 100%;
+    text-align: center;
+    box-shadow: var(--shadow-medium);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    animation: fadeUp 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.icon-container {
+    width: 72px;
+    height: 72px;
+    background: var(--primary-soft);
+    color: var(--primary);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 8px;
+
+    i {
+        font-size: 32px;
+    }
+}
+
+.heading {
+    font-size: 24px;
+    font-weight: 800;
+    color: var(--text-primary);
+    margin: 0;
+}
+
+.message {
+    font-size: 15px;
+    color: var(--text-secondary);
+    line-height: 1.5;
+    margin: 0 0 16px 0;
+}
+
+.action-btn {
+    display: inline-block;
+    padding: 14px 32px;
+    background: var(--primary);
+    color: var(--text-tertiary);
+    font-weight: 700;
+    font-size: 15px;
+    text-decoration: none;
+    border-radius: 999px;
+    transition: all 0.25s ease;
+    border: none;
+    cursor: pointer;
+
+    &:hover {
+        background: var(--primary-light);
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(0, 230, 118, 0.3);
+    }
+
+    &:active {
+        transform: scale(0.98);
+    }
+}
+
+@keyframes fadeUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

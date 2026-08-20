@@ -1,0 +1,12 @@
+<div class="message-wrapper">
+    <div class="message-card">
+        <div class="icon-container">
+            <i class="fa" [ngClass]="iconClass()"></i>
+        </div>
+        <h2 class="heading">{{ heading() }}</h2>
+        <p class="message">{{ message() }}</p>
+        <a [routerLink]="buttonLink()" class="action-btn">
+            {{ buttonText() }}
+        </a>
+    </div>
+</div>

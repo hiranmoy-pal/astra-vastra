@@ -1,6 +1,7 @@
 import { HttpClient, HttpContext, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { SKIP_AUTH } from '../../interceptors/auth/auth-interceptor';
+import { catchError, Observable, shareReplay, Subject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -8,14 +9,13 @@ import { SKIP_AUTH } from '../../interceptors/auth/auth-interceptor';
 
 export class Http {
 
-  private baseUrl = 'http://10.72.249.196:8080';
-
+  private baseUrl = 'http://localhost:8080';
+  private userProfileCache$: Observable<any> | null = null;
+  public authStateChange$ = new Subject<boolean>();
 
   constructor(private http: HttpClient) { }
 
-  // ====================================
-  // PUBLIC APIs (Skip Interceptor)
-  // ====================================
+  // ================== PUBLIC APIs (Skip Interceptor) =================== //
 
   sentOtp(email: any) {
     return this.http.post(this.baseUrl + '/api/auth/send-otp', email, { context: new HttpContext().set(SKIP_AUTH, true) });
@@ -34,17 +34,42 @@ export class Http {
   }
 
   refreshTokenAPI(payload: { refreshToken: string }) {
-    return this.http.post(this.baseUrl + '/api/auth/refresh', payload, { context: new HttpContext().set(SKIP_AUTH, true) });
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${payload.refreshToken}`);
+    return this.http.post(this.baseUrl + '/api/auth/refresh', {}, { headers: headers, context: new HttpContext().set(SKIP_AUTH, true) });
   }
 
   resendOtp(payload: any) {
     return this.http.post(this.baseUrl + '/api/auth/resend-otp', payload, { context: new HttpContext().set(SKIP_AUTH, true) });
   }
 
-  // ====================================
-  // PROTECTED APIs (Interceptor handles automatically)
-  // ====================================
+  // ================== PROTECTED APIs =================== //
 
+  getUserProfile(): Observable<any> {
+    if (this.userProfileCache$) {
+      return this.userProfileCache$;
+    }
+    this.userProfileCache$ = this.http.get(this.baseUrl + '/api/user/profile').pipe(
+      shareReplay(1),
+      catchError(err => {
+        this.userProfileCache$ = null;
+        throw err;
+      })
+    );
+    return this.userProfileCache$;
+  }
+
+  clearProfileCache() {
+    this.userProfileCache$ = null;
+  }
+
+  logoutUserProfile() {
+    this.clearProfileCache();
+    return this.http.get(this.baseUrl + '/api/auth/logout');
+  }
+
+  updateUserProfile(payload: any) {
+    return this.http.post(this.baseUrl + '/api/user/edit-profile', payload);
+  }
 
 
 }

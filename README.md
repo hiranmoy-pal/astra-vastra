@@ -1,59 +1,41 @@
-# AstraVastra
+1. Refresh Token Rotation (The "Booby Trap") [Done]
+================================================================================
+This is the industry standard for securing refresh tokens. Your backend should implement Refresh Token Rotation (RTR).
+How it works: Every single time your Angular app calls the /refresh API, the backend invalidates the old refresh token and sends back a brand new Access Token AND a brand new Refresh Token.
+The Trap: If a hacker steals "Refresh Token A", but your legitimate Angular app has already used it to get "Refresh Token B", the backend flags "Refresh Token A" as dead.
+The Trigger: If the hacker tries to send the stolen "Refresh Token A" to the API, the backend says: "Wait, this token was already used! Someone has been compromised."
+The Defense: The backend immediately revokes ALL tokens associated with that user family (including the legitimate ones). The hacker is blocked, and the real user is simply forced to log in again with their OTP.
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.2.5.
+2. Move to HttpOnly Cookies (The Ultimate Shield)
+==================================================
+Right now, you are storing tokens in IndexedDB. While this is better than localStorage, any malicious JavaScript running on your site (an XSS attack) can still read IndexedDB and steal the token.
 
-## Development server
+If you want absolute, bank-level security, you don't store tokens in Angular at all.
 
-To start a local development server, run:
+The Fix: Your backend should send the Refresh Token inside an HttpOnly Cookie.
 
-```bash
-ng serve
-```
+Why it works: JavaScript (and therefore, hackers using XSS) cannot read HttpOnly cookies. It is physically impossible.
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+The browser automatically attaches the cookie to your /refresh API calls behind the scenes. Your Angular app never even sees the Refresh Token, meaning a hacker can never steal it from the frontend.
 
-## Code scaffolding
+3. IP and Device Fingerprinting [Device management]
+======================================================
+Many secure backends track where a token was generated.
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+When the user logs in, the backend saves the user's IP address and User-Agent (Browser/Device info) alongside the refresh token in the database.
 
-```bash
-ng generate component component-name
-```
+If a hacker in Russia steals the token from a user in India and tries to call the /refresh API, the backend notices the IP/Device mismatch and immediately kills the token.
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+4. Absolute Lifetimes and Idle Expirations
+==============================================
 
-```bash
-ng generate --help
-```
+Refresh tokens should not live forever.
 
-## Building
+Absolute Lifetime: The refresh token automatically dies after 7 days, no matter how many times it was rotated. The user must log in again eventually.
 
-To build the project run:
+Idle Expiration: If the user doesn't open your app for 3 days, the refresh token dies early. This minimizes the window of time a hacker has to use a stolen token.
 
-```bash
-ng build
-```
+What should you do right now?
+Since your frontend is in Angular (which has excellent built-in XSS protection by automatically sanitizing HTML), stealing tokens from your IndexedDB is already quite difficult for a hacker.
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
-
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+However, you should talk to your backend developer and ensure they have Refresh Token Rotation enabled. When you call your /refresh API, check the response—if they are giving you a new refresh token along with the access token (like in the JSON example you showed me earlier), you are already highly protected!

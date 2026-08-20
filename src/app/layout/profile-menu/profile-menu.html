@@ -1,8 +1,13 @@
 <aside class="profile-sidebar">
 
     <div class="profile-sidebar__user">
+        @if (userData) {
+        <div class="avatar">{{ userData.firstName[0] | uppercase }}</div>
+        <h3>{{ userData.firstName }} {{ userData.lastName }}</h3>
+        } @else {
         <div class="avatar">👤</div>
-        <h3>Julianne Moore</h3>
+        <h3>Loading...</h3>
+        }
     </div>
 
     <ul class="profile-sidebar__menu">
@@ -14,7 +19,7 @@
         <li routerLink="/wishlist">My Wishlist</li>
         <li routerLink="/cart">My Cart</li>
         <li>Saved Payment Methods</li>
-        <li>Logout</li>
+        <li (click)="onLogoutClick()">Logout</li>
         <li class="danger">Delete Account</li>
     </ul>
 

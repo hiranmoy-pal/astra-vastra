@@ -37,7 +37,7 @@ export class Login implements OnInit, OnDestroy {
   @ViewChildren('otpInput') otpInputs!: QueryList<ElementRef<HTMLInputElement>>;
   otpStatus: 'idle' | 'loading' | 'success' | 'failure' = 'idle';
 
-  resendTime = signal(300);
+  resendTime = signal(60);
   canResendOtp = signal(false);
   resendTimerSubscription!: Subscription;
 
@@ -220,6 +220,7 @@ export class Login implements OnInit, OnDestroy {
           if (response.existingUser) {
             await this.storage.set('accessToken', response.token);
             await this.storage.set('refreshToken', response.refreshToken);
+            this.authService.authStateChange$.next(true);
             setTimeout(() => {
               // this.otpForm.reset();
               // this.showLogin = false;
@@ -268,7 +269,7 @@ export class Login implements OnInit, OnDestroy {
     if (this.resendTimerSubscription) {
       this.resendTimerSubscription.unsubscribe();
     }
-    this.resendTime.set(300);
+    this.resendTime.set(60);
     this.canResendOtp.set(false);
     this.resendTimerSubscription = interval(1000).subscribe(() => {
       const currentTime = this.resendTime();
@@ -407,6 +408,7 @@ export class Login implements OnInit, OnDestroy {
         if (response.status) {
           await this.storage.set('accessToken', response.token);
           await this.storage.set('refreshToken', response.refreshToken);
+          this.authService.authStateChange$.next(true);
           this.registrationToken = null;
           this.registerForm.reset();
           this.showLogin = false;

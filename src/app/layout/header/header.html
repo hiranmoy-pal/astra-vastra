@@ -27,21 +27,44 @@
                     </button>
                     <div class="profile-menu" [class.show]="isProfileOpen">
                         <ul class="profile-list">
+
+                            @if (isAuthChecked) {
+
+                            <!-- IF LOGGED OUT -->
+                            @if (!userData) {
                             <li class="login-item">
                                 <a routerLink="/login">Login / Register</a>
                             </li>
+                            }
+
+                            @else {
                             <li class="user-info-item">
                                 <div class="user-avatar">
-                                    <i class="fa fa-user-circle"></i>
+                                    {{ userData.firstName[0] | uppercase }}
                                 </div>
                                 <div class="user-details">
                                     <span class="user-name">
-                                        Hiranmoy Pal
+                                        {{ userData.firstName }} {{ userData.lastName }}
                                     </span>
-                                    <span class="user-email">abcd@gmail.com</span>
-                                    <span class="user-mobile">8145084997</span>
+                                    <span class="user-email">{{ userData.email }}</span>
+                                    <span class="user-mobile">+91 {{ userData.phone }}</span>
                                 </div>
                             </li>
+                            }
+
+                            }
+                            <!-- SHOW PREMIUM SKELETON LOADER WHILE WAITING FOR API -->
+                            @else {
+                            <li class="user-info-item skeleton-loader">
+                                <div class="user-avatar skeleton-circle"></div>
+                                <div class="user-details">
+                                    <div class="skeleton-line title"></div>
+                                    <div class="skeleton-line sub"></div>
+                                    <div class="skeleton-line sub"></div>
+                                </div>
+                            </li>
+                            }
+
                             <li class="divider"></li>
                             <li>
                                 <a routerLink="/profile">
@@ -115,9 +138,10 @@
                                     </span>
                                 </a>
                             </li>
+                            @if (isAuthChecked && userData) {
                             <li class="divider"></li>
                             <li>
-                                <a routerLink="/">
+                                <a (click)="onLogoutClick()" style="cursor: pointer;">
                                     <span class="left">
                                         <i class="fa fa-power-off"></i>
                                         <span class="label">Logout</span>
@@ -133,6 +157,7 @@
                                     </span>
                                 </a>
                             </li>
+                            }
                         </ul>
                     </div>
                 </div>
