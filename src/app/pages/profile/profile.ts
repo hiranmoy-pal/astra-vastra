@@ -1,7 +1,7 @@
-import { Component, CUSTOM_ELEMENTS_SCHEMA, inject, OnInit, ChangeDetectorRef, OnDestroy } from '@angular/core';
+import { Component, CUSTOM_ELEMENTS_SCHEMA, inject, OnInit, ChangeDetectorRef, OnDestroy, PLATFORM_ID } from '@angular/core';
+import { isPlatformBrowser, CommonModule } from '@angular/common'; // <-- 1. Import isPlatformBrowser
 import { Header } from '../../layout/header/header';
 import { Footer } from '../../layout/footer/footer';
-import { CommonModule } from '@angular/common';
 import { Router, RouterLink, RouterModule } from '@angular/router';
 import { ReactiveFormsModule, FormBuilder } from '@angular/forms';
 import { ProfileMenu } from '../../layout/profile-menu/profile-menu';
@@ -30,6 +30,7 @@ export class Profile implements OnInit, OnDestroy {
 
   private fb = inject(FormBuilder);
   private cdr = inject(ChangeDetectorRef);
+  private platformId = inject(PLATFORM_ID);
 
   form = this.fb.group({
     firstName: [''],
@@ -52,17 +53,19 @@ export class Profile implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.isAuthChecked = false;
-    this.storage.get('accessToken').then(token => {
-      setTimeout(() => {
-        if (token) {
-          this.getUserProfile();
-        } else {
-          this.userData = null;
-          this.isAuthChecked = true;
-          this.cdr.detectChanges();
-        }
+    if (isPlatformBrowser(this.platformId)) {
+      this.storage.get('accessToken').then(token => {
+        setTimeout(() => {
+          if (token) {
+            this.getUserProfile();
+          } else {
+            this.userData = null;
+            this.isAuthChecked = true;
+            this.cdr.detectChanges();
+          }
+        });
       });
-    });
+    }
   }
 
   getUserProfile() {
@@ -145,4 +148,5 @@ export class Profile implements OnInit, OnDestroy {
       this.form.patchValue(this.userData);
     }
   }
+
 }

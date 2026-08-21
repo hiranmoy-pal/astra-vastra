@@ -2,25 +2,41 @@
 
 @if (isAuthChecked) {
 @if (!userData) {
+
+<!-- DEFER: Only load the fallback message when the browser is idle -->
+@defer (on idle) {
 <app-common-messege heading="Manage Your Account"
     message="Log in to view your personal details, track your orders, and manage your addresses."
     buttonText="Login to View Profile" buttonLink="/login" iconClass="fa-user-circle">
 </app-common-messege>
 }
+
+}
 @else {
 <main class="profile">
     <div class="profile__container">
+
+        <!-- DEFER: Load the sidebar only when it enters the viewport -->
+        @defer (on viewport) {
         <app-profile-menu></app-profile-menu>
+        } @placeholder {
+        <!-- Blank space to prevent layout shifting while loading -->
+        <div style="width: 260px; height: 100%;"></div>
+        }
 
         <section class="profile__content">
             <div class="profile__header">
                 <h1>Personal Profile</h1>
+
+                <!-- Premium Edit Button -->
                 <button class="btn-edit" *ngIf="!isEdit" (click)="enableEdit()">
                     <i class="fa fa-pencil"></i> Edit Profile
                 </button>
             </div>
+
             <form class="profile__card" [formGroup]="form">
                 <div class="form-grid">
+
                     <div class="form-group">
                         <label>First Name</label>
                         <input formControlName="firstName" [readonly]="!isEdit" [class.is-editing]="isEdit" />
@@ -46,7 +62,7 @@
                         <input type="date" formControlName="dob" [readonly]="!isEdit" [class.is-editing]="isEdit" />
                     </div>
 
-                    <!-- LOCKED FIELDS: Now they only show the lock icon and grey color when in Edit Mode -->
+                    <!-- LOCKED FIELDS: Shows grey color and lock icon only in Edit Mode -->
                     <div class="form-group locked-group" [class.is-edit-mode]="isEdit">
                         <label>Mobile Number <i class="fa fa-lock" *ngIf="isEdit" title="Cannot be changed"></i></label>
                         <input formControlName="phone" readonly />
@@ -84,4 +100,8 @@
 }
 }
 
+@defer (on viewport) {
 <app-footer></app-footer>
+} @placeholder {
+<div style="min-height: 250px;"></div>
+}

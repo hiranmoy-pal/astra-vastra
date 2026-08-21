@@ -175,6 +175,7 @@
                 </li>
                 <!-- <li class="nav-item"><a (mouseenter)="setMenu('designers')">Gen-z <span>▾</span></a></li> -->
             </ul>
+            @defer (on idle) {
             <div class="modal-suchipatra" [class.show]="menu">
                 <header class="magtitle-heading">
                     <div class="inner-content">
@@ -659,6 +660,7 @@
                 </section>
 
             </div>
+            }
         </nav>
 
     </div>

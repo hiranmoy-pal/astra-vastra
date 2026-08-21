@@ -1,5 +1,5 @@
-import { CommonModule } from '@angular/common';
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { CommonModule, isPlatformBrowser } from '@angular/common'; // <-- Import isPlatformBrowser
+import { Component, OnDestroy, OnInit, PLATFORM_ID, inject, ChangeDetectorRef } from '@angular/core'; // <-- Import PLATFORM_ID & CDR
 import { Theme } from '../../core/services/theme/theme';
 import { Router, RouterLink, RouterModule } from '@angular/router';
 import { Storage } from '../../core/services/storage/storage';
@@ -20,48 +20,76 @@ export class Header implements OnInit, OnDestroy {
   isProfileOpen: boolean = false;
   userData: any = null;
   isAuthChecked: boolean = false;
+
   private profileUpdateSub!: Subscription;
+  private authStateSub!: Subscription;
+  private platformId = inject(PLATFORM_ID);
+  private cdr = inject(ChangeDetectorRef);
 
   constructor(
     public themeService: Theme, private storage: Storage, private http: Http, private router: Router,
     private toast: Toast, private alertService: Alert
   ) { }
 
+  ngOnInit() {
+    this.isAuthChecked = false;
 
-  async ngOnInit() {
-    const token = await this.storage.get('accessToken');
-    if (token) {
-      this.getUserProfile();
-    } else {
-      this.userData = null;
-      this.isAuthChecked = true;
+    if (isPlatformBrowser(this.platformId)) {
+      this.storage.get('accessToken').then(token => {
+        setTimeout(() => {
+          if (token) {
+            this.getUserProfile();
+          } else {
+            this.userData = null;
+            this.isAuthChecked = true;
+            this.cdr.detectChanges();
+          }
+        });
+      });
     }
 
+    // 2. Listen for profile updates (Edit Profile)
     this.profileUpdateSub = this.http.profileUpdate$.subscribe(() => {
       this.getUserProfile();
+    });
+
+    // 3. Listen for global login/logout events
+    this.authStateSub = this.http.authStateChange$.subscribe((isLoggedIn) => {
+      if (isLoggedIn) {
+        this.getUserProfile();
+      } else {
+        this.userData = null;
+        this.isAuthChecked = true;
+        this.cdr.detectChanges();
+      }
     });
   }
 
   ngOnDestroy() {
-    if (this.profileUpdateSub) {
-      this.profileUpdateSub.unsubscribe();
-    }
+    if (this.profileUpdateSub) this.profileUpdateSub.unsubscribe();
+    if (this.authStateSub) this.authStateSub.unsubscribe();
   }
 
   getUserProfile() {
     this.http.getUserProfile().subscribe({
       next: (res: any) => {
-        if (res.status && res.data) {
-          this.userData = res.data;
-        } else {
-          this.userData = null;
-        }
-        this.isAuthChecked = true;
+        setTimeout(() => {
+          if (res.status && res.data) {
+            this.userData = res.data;
+          } else {
+            this.userData = null;
+          }
+          this.isAuthChecked = true;
+          this.cdr.detectChanges();
+        });
       },
       error: (err) => {
-        console.error('Failed to fetch profile', err);
-        this.userData = null;
-        this.isAuthChecked = true;
+        setTimeout(() => {
+          console.error('Failed to fetch profile', err);
+          this.userData = null;
+          this.isAuthChecked = true;
+          this.cdr.detectChanges();
+        });
       }
     });
   }

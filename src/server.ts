@@ -6,11 +6,16 @@ import {
 } from '@angular/ssr/node';
 import express from 'express';
 import { join } from 'node:path';
+import compression from 'compression'; // <-- 1. Import compression
 
 const browserDistFolder = join(import.meta.dirname, '../browser');
 
 const app = express();
 const angularApp = new AngularNodeAppEngine();
+
+// 2. ENABLE COMPRESSION: This must go BEFORE your static files and Angular handler!
+// This shrinks your HTML, CSS, and JS payloads by up to 70%.
+app.use(compression());
 
 /**
  * Example Express Rest API endpoints can be defined here.
@@ -30,6 +35,7 @@ const angularApp = new AngularNodeAppEngine();
 app.use(
   express.static(browserDistFolder, {
     maxAge: '1y',
+    immutable: true, // <-- 3. AGGRESSIVE CACHING: Tells browsers these files will never change
     index: false,
     redirect: false,
   }),
