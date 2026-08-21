@@ -51,6 +51,7 @@ export class Profile implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit() {
+    this.isAuthChecked = false;
     this.storage.get('accessToken').then(token => {
       setTimeout(() => {
         if (token) {
@@ -127,7 +128,7 @@ export class Profile implements OnInit, OnDestroy {
           this.toast.show(res.message, 'success');
           this.http.clearProfileCache();
           this.getUserProfile();
-
+          this.http.profileUpdate$.next();
         } else {
           this.toast.show(res.message || 'Failed to update profile', 'error');
         }

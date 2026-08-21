@@ -1,11 +1,12 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Theme } from '../../core/services/theme/theme';
 import { Router, RouterLink, RouterModule } from '@angular/router';
 import { Storage } from '../../core/services/storage/storage';
 import { Http } from '../../core/services/api/http';
 import { Toast } from '../../core/services/toast/toast';
 import { Alert } from '../../core/services/alert/alert';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-header',
@@ -14,11 +15,12 @@ import { Alert } from '../../core/services/alert/alert';
   templateUrl: './header.html',
   styleUrl: './header.scss',
 })
-export class Header implements OnInit {
+export class Header implements OnInit, OnDestroy {
   menu: string | null = null;
   isProfileOpen: boolean = false;
   userData: any = null;
   isAuthChecked: boolean = false;
+  private profileUpdateSub!: Subscription;
 
   constructor(
     public themeService: Theme, private storage: Storage, private http: Http, private router: Router,
@@ -33,6 +35,16 @@ export class Header implements OnInit {
     } else {
       this.userData = null;
       this.isAuthChecked = true;
+    }
+
+    this.profileUpdateSub = this.http.profileUpdate$.subscribe(() => {
+      this.getUserProfile();
+    });
+  }
+
+  ngOnDestroy() {
+    if (this.profileUpdateSub) {
+      this.profileUpdateSub.unsubscribe();
     }
   }
 

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Header } from '../header/header';
 import { Footer } from '../footer/footer';
 import { CommonModule } from '@angular/common';
@@ -8,6 +8,7 @@ import { Http } from '../../core/services/api/http';
 import { Alert } from '../../core/services/alert/alert';
 import { Toast } from '../../core/services/toast/toast';
 import { Storage } from '../../core/services/storage/storage';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-profile-menu',
@@ -18,10 +19,11 @@ import { Storage } from '../../core/services/storage/storage';
   templateUrl: './profile-menu.html',
   styleUrl: './profile-menu.scss',
 })
-export class ProfileMenu implements OnInit {
+export class ProfileMenu implements OnInit, OnDestroy {
   url: string = "";
   userData: any = null;
   isAuthChecked: boolean = false;
+  private profileUpdateSub!: Subscription;
 
   constructor(private router: Router, public themeService: Theme, private storage: Storage, private http: Http,
     private toast: Toast, private alertService: Alert
@@ -37,6 +39,15 @@ export class ProfileMenu implements OnInit {
     } else {
       this.userData = null;
       this.isAuthChecked = true;
+    }
+    this.profileUpdateSub = this.http.profileUpdate$.subscribe(() => {
+      this.getUserProfile();
+    });
+  }
+
+  ngOnDestroy() {
+    if (this.profileUpdateSub) {
+      this.profileUpdateSub.unsubscribe();
     }
   }
 

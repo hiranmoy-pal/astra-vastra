@@ -12,6 +12,7 @@ export class Http {
   private baseUrl = 'http://localhost:8080';
   private userProfileCache$: Observable<any> | null = null;
   public authStateChange$ = new Subject<boolean>();
+  public profileUpdate$ = new Subject<void>();
 
   constructor(private http: HttpClient) { }
 
