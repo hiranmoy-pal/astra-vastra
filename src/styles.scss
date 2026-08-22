@@ -1,54 +1,63 @@
 :root {
         /* =========================================
-       LIGHT THEME (Editorial Maroon)
+       LIGHT THEME (High Contrast Editorial Maroon)
     ========================================= */
         --primary: linear-gradient(to right, #BA284C 0%, #641386 100%);
         --primary-light: linear-gradient(to right, #D84C71 0%, #8D36B3 100%);
-        --primary-soft: rgba(114, 0, 54, 0.08);
+        --primary-soft: rgba(186, 40, 76, 0.12);
+        /* Increased opacity for clear visibility */
 
-        /* Backgrounds & Surfaces (Crisp with subtle blush) */
-        --background: #fcfafb;
-        --surface: #ffffff;
-        --surface-elevated: #f9f2f4;
+        /* Backgrounds & Surfaces (Crisp separation!) */
+        --background: #F0EDEE;
+        /* A distinct, cool grayish-blush so white cards POP */
+        --surface: #FFFFFF;
+        /* Pure white for cards to stand out */
+        --surface-elevated: #FFFFFF;
 
         /* Category/Alt Surfaces */
-        --category-bg: #f5f0f2;
-        --category-card-bg: #ffffff;
+        --category-bg: #E6E1E3;
+        /* Visibly darker than the background */
+        --category-card-bg: #FFFFFF;
 
-        /* Text Colors */
-        --text-primary: #1f1416;
-        --text-secondary: #665558;
-        --text-tertiary: #ffffff;
-        /* White text on Maroon buttons */
-        --category-title: #1f1416;
-        --category-text: #4a3f42;
+        /* Text Colors (Sharper, deeper tones for readability) */
+        --text-primary: #1A1113;
+        /* Almost black */
+        --text-secondary: #574B4E;
+        /* Deep taupe/gray */
+        --text-tertiary: #FFFFFF;
+        --category-title: #1A1113;
+        --category-text: #3D3335;
 
         /* Semantic Status Colors */
-        --danger: #d32f2f;
-        --danger-hover: #b71c1c;
-        --danger-soft: rgba(211, 47, 47, 0.08);
-        --success: #14804a;
-        --warning: #b56b00;
-        --info: #1565c0;
+        --danger: #D32F2F;
+        --danger-hover: #B71C1C;
+        --danger-soft: rgba(211, 47, 47, 0.12);
+        --success: #14804A;
+        --warning: #B56B00;
+        --info: #1565C0;
 
-        /* Borders, Shadows & States */
-        --border: #eedbdf;
-        --outline: #e0c2c8;
+        /* Borders, Shadows & States (Sharper borders!) */
+        --border: #D1C7C9;
+        /* Stronger border so inputs and cards are clearly framed */
+        --outline: #BAA6AA;
+        /* Stronger outline for focus states */
 
-        --hover-soft: rgba(114, 0, 54, 0.04);
-        --hover-medium: rgba(114, 0, 54, 0.08);
-        --active: rgba(114, 0, 54, 0.12);
+        /* Interactions (Doubled the opacity so you can actually SEE the hover!) */
+        --hover-soft: rgba(186, 40, 76, 0.08);
+        --hover-medium: rgba(186, 40, 76, 0.15);
+        --active: rgba(186, 40, 76, 0.22);
 
-        --shadow-soft: 0 8px 24px rgba(114, 0, 54, 0.04);
-        --shadow-medium: 0 12px 36px rgba(114, 0, 54, 0.08);
+        /* Shadows (Crisper shadows to lift elements off the background) */
+        --shadow-soft: 0 4px 16px rgba(26, 17, 19, 0.06);
+        --shadow-medium: 0 12px 32px rgba(186, 40, 76, 0.12);
 
         /* Typography & Specials */
         --font-headline: 'Manrope', sans-serif;
         --font-body: 'Inter', sans-serif;
 
         /* Editorial Pearl Gradient */
-        --hero-gradient: linear-gradient(135deg, #fff0f4 0%, #fdf5f7 50%, #ffffff 100%);
-        --overlay-bg: rgba(0, 0, 0, 0.45);
+        --hero-gradient: linear-gradient(135deg, #F9F3F5 0%, #F4EAED 50%, #EBE2E5 100%);
+        --overlay-bg: rgba(26, 17, 19, 0.55);
 }
 
 // .dark-theme {
@@ -114,6 +123,7 @@
 // }
 
 //  Another dark theme good : 
+
 .dark-theme {
         /* =========================================
            DARK THEME (Midnight Violet & Maroon)

@@ -43,6 +43,10 @@ export class Http {
     return this.http.post(this.baseUrl + '/api/auth/resend-otp', payload, { context: new HttpContext().set(SKIP_AUTH, true) });
   }
 
+  getLocation(pincode: any) {
+    return this.http.get("https://api.postalpincode.in/pincode/" + pincode, { context: new HttpContext().set(SKIP_AUTH, true) })
+  }
+
   // ================== PROTECTED APIs =================== //
 
   getUserProfile(): Observable<any> {
@@ -72,5 +76,20 @@ export class Http {
     return this.http.post(this.baseUrl + '/api/user/edit-profile', payload);
   }
 
+  getAddressTypes() {
+    return this.http.get(this.baseUrl + '/api/user/address-type');
+  }
+
+  getAddressList() {
+    return this.http.get(this.baseUrl + '/api/user/address-list')
+  }
+
+  saveAddress(payload: any) {
+    return this.http.post(this.baseUrl + '/api/user/save-address', payload);
+  }
+
+  deleteAddress(payload: any) {
+    return this.http.post(this.baseUrl + '/api/user/delete-address', payload);
+  }
 
 }

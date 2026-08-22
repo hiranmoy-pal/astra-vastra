@@ -1,10 +1,10 @@
 <app-header></app-header>
+
+@if (isAuthChecked) {
+@if (isLoggedIn) {
 <main class="profile">
     <div class="profile__container">
-        <!-- LEFT PANEL -->
         <app-profile-menu></app-profile-menu>
-
-        <!-- RIGHT PANEL -->
         <section class="profile__content address">
             <div class="address__header">
                 <div>
@@ -12,49 +12,103 @@
                     <p>Add, edit, or remove your delivery locations.</p>
                 </div>
 
-                <button class="btn-primary add-btn" (click)="openAdd()">
+                <button class="btn-primary add-btn" (click)="openModal()">
                     <i class="fa fa-plus"></i>
                     Add New Address
                 </button>
             </div>
+
             <div class="address__list">
-                <article class="address-card" *ngFor="let item of addresses">
-                    <div class="address-card__icon">
-                        <i class="fa" [ngClass]="item.type === 'home' ? 'fa-home' : 'fa-building'"></i>
+                @if (isLoading) {
+                <div class="empty-state loading">
+                    <i class="fa fa-spinner fa-spin icon-large"></i>
+                    <p>Loading your addresses...</p>
+                </div>
+                }
+                @else {
+                @if (addresses.length === 0) {
+                <div class="empty-state">
+                    <div class="icon-circle">
+                        <i class="fa fa-map-marker"></i>
                     </div>
-                    <div class="address-card__content">
-                        <div class="top">
-                            <h3>{{ item.name }}</h3>
-                            <span class="tag">
-                                {{ item.type | uppercase }}
-                            </span>
-                            <span *ngIf="item.default" class="badge">DEFAULT</span>
+                    <h3>No Addresses Found</h3>
+                    <p>You haven't saved any delivery locations yet. Add a new address to speed up your checkout
+                        process.</p>
+                    <button class="btn-primary" (click)="openModal()">
+                        <i class="fa fa-plus"></i> Add New Address
+                    </button>
+                </div>
+                }
+
+                @for (item of addresses; track item.addressId) {
+                <article class="address-card" [class.is-default]="item.default">
+                    <div class="address-card__main">
+                        <div class="card-header">
+                            <div class="address-card__icon">
+                                <i class="fa" [ngClass]="getAddressIcon(item.addressType)"></i>
+                            </div>
+                            <div class="title-area">
+                                <div class="name-row">
+                                    <h3>{{ item.firstName }} {{ item.lastName }}</h3>
+                                    @if (item.default) {
+                                    <span class="badge"><i class="fa fa-check-circle"></i> DEFAULT</span>
+                                    }
+                                </div>
+                                <span class="tag">{{ item.addressType | uppercase }}</span>
+                            </div>
                         </div>
-                        <p class="address-line">
-                            {{ item.address }}
-                        </p>
-                        <div class="meta">
-                            <span><i class="fa fa-phone"></i> {{ item.phone }}</span>
+
+                        <div class="address-card__content">
+                            <div class="address-details">
+                                <span class="street">{{ item.address }}</span>
+                                <span class="locality">{{ item.postOffice }}, {{ item.district }}</span>
+                                <span class="region">{{ item.state }} <span class="pin">PIN - {{ item.pinCode
+                                        }}</span></span>
+                            </div>
+
+                            <div class="chips-row">
+                                @if (item.landmark) {
+                                <div class="chip landmark">
+                                    <i class="fa fa-map-signs"></i> {{ item.landmark }}
+                                </div>
+                                }
+                                <div class="chip phone">
+                                    <i class="fa fa-phone"></i> {{ item.phone }}
+                                </div>
+                            </div>
                         </div>
                     </div>
+
                     <div class="address-card__actions">
-                        <button class="edit" (click)="openAdd()">
+                        <button class="edit" (click)="openModal(item)">
                             <i class="fa fa-pencil"></i> Edit
                         </button>
-                        <button class="delete">
+                        <button class="delete" (click)="deleteAddress(item)">
                             <i class="fa fa-trash"></i> Delete
                         </button>
                     </div>
                 </article>
+                }
+                }
             </div>
         </section>
 
     </div>
 </main>
 
+} @else {
+<section class="profile__content address">
+    <app-common-messege heading="Manage Your Account"
+        message="Log in to view your personal details, track your orders, and manage your addresses."
+        buttonText="Login to View Profile" buttonLink="/login" iconClass="fa-user-circle">
+    </app-common-messege>
+</section>
+}
+}
+
 <app-footer></app-footer>
 
-<!-- MODAL -->
+@if (isLoggedIn) {
 <div class="address-modal" *ngIf="isModalOpen">
     <div class="address-modal__backdrop" (click)="closeModal()"></div>
     <div class="address-modal__container">
@@ -62,63 +116,110 @@
         <form [formGroup]="addressForm" class="address-form">
             <div class="modal-body">
                 <div class="form-wrapper">
+
                     <div class="form-row">
                         <div class="form-group floating">
-                            <label>Full Name</label>
-                            <input formControlName="name" placeholder="Enter your full name" />
+                            <label>First Name <span class="req-star">*</span></label>
+                            <input formControlName="firstName" placeholder="First Name" />
+                            @if (addressForm.get('firstName')?.touched && addressForm.get('firstName')?.invalid) {
+                            <small class="form-error">First name is required</small>
+                            }
                         </div>
                         <div class="form-group floating">
-                            <label>Mobile Number</label>
-                            <input formControlName="phone" placeholder="+91 9876543210" />
+                            <label>Last Name <span class="req-star">*</span></label>
+                            <input formControlName="lastName" placeholder="Last Name" />
+                            @if (addressForm.get('lastName')?.touched && addressForm.get('lastName')?.invalid) {
+                            <small class="form-error">Last name is required</small>
+                            }
                         </div>
                     </div>
-                    <div class="form-group full floating">
-                        <label>Address</label>
-                        <textarea formControlName="address" placeholder="Enter full address"></textarea>
-                    </div>
+
                     <div class="form-row">
                         <div class="form-group floating">
-                            <label>City</label>
-                            <input formControlName="city" placeholder="Enter city" />
+                            <label>Mobile Number <span class="req-star">*</span></label>
+                            <input formControlName="phone" placeholder="10-digit mobile number" maxlength="10" />
+                            @if (addressForm.get('phone')?.touched && addressForm.get('phone')?.invalid) {
+                            <small class="form-error">Valid 10-digit Indian number required</small>
+                            }
                         </div>
                         <div class="form-group floating">
-                            <label>State</label>
-                            <select formControlName="state">
-                                <option value="">Select State</option>
-                                <option>West Bengal</option>
-                                <option>Delhi</option>
+                            <label>Address Type <span class="req-star">*</span></label>
+                            <select formControlName="addressType">
+                                <option value="">Select Type</option>
+                                @for (type of addressTypes; track type.id) {
+                                <option [value]="type.name">{{ type.name }}</option>
+                                }
                             </select>
+                            @if (addressForm.get('addressType')?.touched && addressForm.get('addressType')?.invalid) {
+                            <small class="form-error">Please select an address type</small>
+                            }
                         </div>
                     </div>
+
+                    <div class="form-group full floating">
+                        <label>Address <span class="req-star">*</span></label>
+                        <textarea formControlName="address"
+                            placeholder="Flat, House no., Building, Company, Apartment"></textarea>
+                        @if (addressForm.get('address')?.touched && addressForm.get('address')?.invalid) {
+                        <small class="form-error">Complete address is required</small>
+                        }
+                    </div>
+
                     <div class="form-row">
                         <div class="form-group floating">
-                            <label>Pincode</label>
-                            <input formControlName="pincode" placeholder="Enter pincode" />
+                            <label>Pincode <span class="req-star">*</span></label>
+                            <input formControlName="pincode" maxlength="6" inputmode="numeric"
+                                placeholder="6-digit Pincode" />
+                            @if (addressForm.get('pincode')?.touched && addressForm.get('pincode')?.invalid) {
+                            <small class="form-error">Valid 6-digit Pincode required</small>
+                            }
                         </div>
                         <div class="form-group floating">
-                            <label>Landmark</label>
-                            <input formControlName="landmark" placeholder="Optional" />
-                        </div>
-                        <div class="form-group floating">
-                            <label>Address Type</label>
-                            <div class="radio-group">
-                                <label>
-                                    <input type="radio" value="home" formControlName="type" />
-                                    Home
-                                </label>
-                                <label>
-                                    <input type="radio" value="office" formControlName="type" />
-                                    Office
-                                </label>
-                            </div>
+                            <label>Post Office <span class="req-star">*</span></label>
+                            <select formControlName="postOffice">
+                                <option value="">Select Post Office</option>
+                                @for (po of postOffices; track po.Name) {
+                                <option [value]="po.Name">{{ po.Name }}</option>
+                                }
+                            </select>
+                            @if (addressForm.get('postOffice')?.touched && addressForm.get('postOffice')?.invalid) {
+                            <small class="form-error">Please select a post office</small>
+                            }
                         </div>
                     </div>
+
+                    <div class="form-row">
+                        <div class="form-group floating">
+                            <label>District / City <span class="req-star">*</span></label>
+                            <input formControlName="district" placeholder="Auto-filled via Pincode" />
+                            @if (addressForm.get('district')?.touched && addressForm.get('district')?.invalid) {
+                            <small class="form-error">Required (Auto-filled by Pincode)</small>
+                            }
+                        </div>
+                        <div class="form-group floating">
+                            <label>State <span class="req-star">*</span></label>
+                            <input formControlName="state" placeholder="Auto-filled via Pincode" />
+                            @if (addressForm.get('state')?.touched && addressForm.get('state')?.invalid) {
+                            <small class="form-error">Required (Auto-filled by Pincode)</small>
+                            }
+                        </div>
+                    </div>
+
+                    <div class="form-group full floating">
+                        <label>Landmark <span class="req-star">*</span></label>
+                        <input formControlName="landmark" placeholder="E.g. near Apollo Hospital" />
+                        @if (addressForm.get('landmark')?.touched && addressForm.get('landmark')?.invalid) {
+                        <small class="form-error" style="margin-left: 142px;">Landmark is required</small>
+                        }
+                    </div>
+
                     <div class="checkbox">
                         <label>
-                            <input type="checkbox" formControlName="default" />
-                            Set as default address
+                            <input type="checkbox" formControlName="isDefault" (click)="handleDefaultClick($event)" />
+                            Make this my default address
                         </label>
                     </div>
+
                 </div>
             </div>
             <div class="modal-actions">
@@ -132,3 +233,4 @@
         </form>
     </div>
 </div>
+}
