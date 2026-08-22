@@ -336,7 +336,7 @@ export class Address implements OnInit, OnDestroy {
 
   async deleteAddress(address: any) {
     if (address.isDefault || address.default) {
-      this.toast.show('Default address cannot be deleted.', 'error');
+      this.toast.show('Default address cannot be deleted.', 'warning');
       return;
     }
     const isConfirmed = await this.alertService.show({

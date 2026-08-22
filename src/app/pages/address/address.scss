@@ -203,8 +203,8 @@
                 flex-wrap: wrap;
 
                 h3 {
-                    font-size: 17px;
-                    font-weight: 800;
+                    font-size: 18px;
+                    font-weight: 650;
                     color: var(--text-primary);
                     margin: 0;
                     letter-spacing: -0.3px;
@@ -254,8 +254,7 @@
 
                 .street {
                     font-size: 14px;
-                    color: var(--text-primary);
-                    font-weight: 700;
+                    color: var(--text-secondary);
                     line-height: 1.5;
 
                     &::after {
@@ -283,10 +282,10 @@
                     display: inline-flex;
                     align-items: center;
                     background: var(--primary-soft);
-                    color: var(--primary);
+                    color: var(--text-primary);
                     padding: 2px 8px;
                     border-radius: 6px;
-                    font-weight: 800;
+                    font-weight: 700;
                     font-size: 11px;
                     margin-left: 4px;
                     transform: translateY(-1px);
