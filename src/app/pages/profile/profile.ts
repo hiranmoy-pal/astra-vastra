@@ -1,5 +1,5 @@
 import { Component, CUSTOM_ELEMENTS_SCHEMA, inject, OnInit, ChangeDetectorRef, OnDestroy, PLATFORM_ID } from '@angular/core';
-import { isPlatformBrowser, CommonModule } from '@angular/common'; // <-- 1. Import isPlatformBrowser
+import { isPlatformBrowser, CommonModule } from '@angular/common';
 import { Header } from '../../layout/header/header';
 import { Footer } from '../../layout/footer/footer';
 import { Router, RouterLink, RouterModule } from '@angular/router';
@@ -26,7 +26,9 @@ export class Profile implements OnInit, OnDestroy {
   isEdit = false;
   userData: any = null;
   isAuthChecked: boolean = false;
+
   private authSub!: Subscription;
+  private profileUpdateSub!: Subscription; // <-- Added to listen for updates
 
   private fb = inject(FormBuilder);
   private cdr = inject(ChangeDetectorRef);
@@ -53,6 +55,7 @@ export class Profile implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.isAuthChecked = false;
+
     if (isPlatformBrowser(this.platformId)) {
       this.storage.get('accessToken').then(token => {
         setTimeout(() => {
@@ -64,6 +67,18 @@ export class Profile implements OnInit, OnDestroy {
             this.cdr.detectChanges();
           }
         });
+      });
+
+      this.authSub = this.http.authStateChange$.subscribe((isLoggedIn) => {
+        if (!isLoggedIn) {
+          this.userData = null;
+          this.isAuthChecked = true;
+          this.cdr.detectChanges();
+        }
+      });
+
+      this.profileUpdateSub = this.http.profileUpdate$.subscribe(() => {
+        this.getUserProfile();
       });
     }
   }
@@ -91,20 +106,11 @@ export class Profile implements OnInit, OnDestroy {
         });
       }
     });
-
-    this.authSub = this.http.authStateChange$.subscribe((isLoggedIn) => {
-      if (!isLoggedIn) {
-        this.userData = null;
-        this.isAuthChecked = true;
-        this.cdr.detectChanges();
-      }
-    });
   }
 
   ngOnDestroy() {
-    if (this.authSub) {
-      this.authSub.unsubscribe();
-    }
+    if (this.authSub) this.authSub.unsubscribe();
+    if (this.profileUpdateSub) this.profileUpdateSub.unsubscribe();
   }
 
   enableEdit() {
@@ -129,9 +135,11 @@ export class Profile implements OnInit, OnDestroy {
         if (res.status) {
           this.isEdit = false;
           this.toast.show(res.message, 'success');
+
+          // Clear cache and fetch fresh data
           this.http.clearProfileCache();
           this.getUserProfile();
-          this.http.profileUpdate$.next();
+          this.http.profileUpdate$.next(); // Tell the Header and Menu to update!
         } else {
           this.toast.show(res.message || 'Failed to update profile', 'error');
         }
@@ -148,5 +156,4 @@ export class Profile implements OnInit, OnDestroy {
       this.form.patchValue(this.userData);
     }
   }
-
 }

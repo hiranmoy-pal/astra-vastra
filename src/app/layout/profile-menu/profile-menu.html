@@ -17,19 +17,49 @@
     </div>
 
     <ul class="profile-sidebar__menu">
-        <li routerLink="/profile" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Personal Info
+        <li>
+            <a routerLink="/profile" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+                <i class="fa fa-user"></i> Personal Info
+            </a>
         </li>
-        <li routerLink="/address" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Manage Address
+        <li>
+            <a routerLink="/address" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+                <i class="fa fa-map-marker"></i> Manage Address
+            </a>
         </li>
-        <li routerLink="/ordered-list">My Orders</li>
-        <li routerLink="/wishlist">My Wishlist</li>
-        <li routerLink="/cart">My Cart</li>
-        <li>Saved Payment Methods</li>
+        <li>
+            <a routerLink="/ordered-list" routerLinkActive="active">
+                <i class="fa fa-shopping-bag"></i> My Orders
+            </a>
+        </li>
+        <li>
+            <a routerLink="/wishlist" routerLinkActive="active">
+                <i class="fa fa-heart"></i> My Wishlist
+            </a>
+        </li>
+        <li>
+            <a routerLink="/cart" routerLinkActive="active">
+                <i class="fa fa-shopping-cart"></i> My Cart
+            </a>
+        </li>
+        <li>
+            <a routerLink="/">
+                <i class="fa fa-credit-card"></i> Saved Payment Methods
+            </a>
+        </li>
 
         <!-- Only show logout/delete if logged in -->
         @if (isAuthChecked && userData) {
-        <li (click)="onLogoutClick()">Logout</li>
-        <li class="danger">Delete Account</li>
+        <li>
+            <a (click)="onLogoutClick()">
+                <i class="fa fa-power-off"></i> Logout
+            </a>
+        </li>
+        <li class="danger">
+            <a routerLink="/">
+                <i class="fa fa-trash"></i> Delete Account
+            </a>
+        </li>
         }
     </ul>
 
