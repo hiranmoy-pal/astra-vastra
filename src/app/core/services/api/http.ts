@@ -1,7 +1,7 @@
 import { HttpClient, HttpContext, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { SKIP_AUTH } from '../../interceptors/auth/auth-interceptor';
-import { catchError, Observable, shareReplay, Subject } from 'rxjs';
+import { catchError, Observable, shareReplay, Subject, timer } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -13,6 +13,7 @@ export class Http {
   private userProfileCache$: Observable<any> | null = null;
   public authStateChange$ = new Subject<boolean>();
   public profileUpdate$ = new Subject<void>();
+  private menuCache$: Observable<any> | null = null;
 
   constructor(private http: HttpClient) { }
 
@@ -45,6 +46,25 @@ export class Http {
 
   getLocation(pincode: any) {
     return this.http.get("https://api.postalpincode.in/pincode/" + pincode, { context: new HttpContext().set(SKIP_AUTH, true) })
+  }
+
+  getMenu(): Observable<any> {
+    if (this.menuCache$) {
+      return this.menuCache$;
+    }
+    this.menuCache$ = this.http.get(this.baseUrl + '/api/catalog/menu', {
+      context: new HttpContext().set(SKIP_AUTH, true)
+    }).pipe(
+      shareReplay(1),
+      catchError(err => {
+        this.menuCache$ = null;
+        throw err;
+      })
+    );
+    timer(900000).subscribe(() => {
+      this.menuCache$ = null;
+    });
+    return this.menuCache$;
   }
 
   // ================== PROTECTED APIs =================== //

@@ -148,15 +148,6 @@
                                     </span>
                                 </a>
                             </li>
-                            <li class="divider"></li>
-                            <li>
-                                <a routerLink="/">
-                                    <span class="left">
-                                        <i class="fa fa-trash"></i>
-                                        <span class="label">Delete</span>
-                                    </span>
-                                </a>
-                            </li>
                             }
                         </ul>
                     </div>
@@ -164,24 +155,33 @@
             </div>
         </div>
 
-        <nav class="header__nav" aria-label="Main navigation" (mouseleave)="clearMenu()">
+        <!-- 1. ADD THE CLICK EVENT HERE -->
+        <nav class="header__nav" aria-label="Main navigation" (mouseleave)="onNavMouseLeave()">
             <ul class="nav-list">
-                <li class="nav-item">
-                    <a routerLink="/" (mouseenter)="setMenu('collections')">Men <span>▾</span></a>
+                @for (mainCat of menuData; track mainCat.id) {
+                <li class="nav-item" [class.active]="menu === mainCat.path" (mouseenter)="setMenu(mainCat.path)"
+                    (click)="handleMobileNav($event, mainCat.path)">
+                    <a [routerLink]="['/shop', mainCat.path]" class="desktop-link">
+                        {{ mainCat.label | titlecase }} <span>▾</span>
+                    </a>
                 </li>
-                <li class="nav-item"><a (mouseenter)="setMenu('new')">Women <span>▾</span></a></li>
-                <li class="nav-item">
-                    <a routerLink="/" (mouseenter)="setMenu('best')">Kids<span>▾</span></a>
-                </li>
-                <!-- <li class="nav-item"><a (mouseenter)="setMenu('designers')">Gen-z <span>▾</span></a></li> -->
+                }
             </ul>
+
             @defer (on idle) {
             <div class="modal-suchipatra" [class.show]="menu">
                 <header class="magtitle-heading">
                     <div class="inner-content">
                         <div class="modal-header">
                             <div class="heading">
-                                <strong>Test</strong>
+                                @for (mainCat of menuData; track mainCat.id) {
+                                @if (menu === mainCat.path) {
+                                <a [routerLink]="['/shop', mainCat.path]" (click)="clearMenu()" class="mobile-view-all">
+                                    <strong>{{ mainCat.label }}</strong>
+                                    <span class="view-all-text">View All <i class="fa fa-angle-right"></i></span>
+                                </a>
+                                }
+                                }
                             </div>
                             <button type="button" class="close-btn" aria-label="Close menu" (click)="clearMenu()">
                                 <i class="fa fa-times"></i>
@@ -190,478 +190,35 @@
                     </div>
                 </header>
                 <section class="inner-content bengali_text">
+                    @for (mainItem of menuData; track mainItem.id) {
+                    @if (menu === mainItem.path) {
                     <div class="seclist">
-                        <section class="menu-column">
-                            <h2 class="list-heading">
-                                <a routerLink="/"> Topwear</a>
-                            </h2>
-                            <nav class="menu-list">
-                                <a routerLink="/" class="item">
-                                    <span class="title">
-                                        T-shirt
-                                    </span>
-                                </a>
-                                <a routerLink="/" class="item">
-                                    <span class="title">
-                                        Polo T-shirt
-                                    </span>
-                                </a>
-                                <a routerLink="/" class="item">
-                                    <span class="title">
-                                        Casual Shirt
-                                    </span>
-                                </a>
-                                <a routerLink="/" class="item">
-                                    <span class="title">
-                                        T-shirt
-                                    </span>
-                                </a>
-                                <a routerLink="/" class="item">
-                                    <span class="title">
-                                        Polo T-shirt
-                                    </span>
-                                </a>
-                                <a routerLink="/" class="item">
-                                    <span class="title">
-                                        Casual Shirt
-                                    </span>
-                                </a>
-                            </nav>
+                        @for (subItem of mainItem.subCategory; track subItem.id) {
 
-                        </section>
-                        <section class="menu-column">
+                        <!-- Added a CSS class if it has no items, so we can handle it cleanly -->
+                        <section class="menu-column"
+                            [class.empty-column]="!subItem.subCategory || subItem.subCategory.length === 0">
                             <h2 class="list-heading">
-                                <a routerLink="/"> Topwear</a>
+                                <a [routerLink]="['/', subItem.path]" (click)="clearMenu()">{{ subItem.label }}</a>
                             </h2>
-                            <nav class="menu-list">
-                                <a routerLink="/" class="item">
-                                    <span class="title">
-                                        T-shirt
-                                    </span>
-                                </a>
-                                <a routerLink="/" class="item">
-                                    <span class="title">
-                                        Polo T-shirt
-                                    </span>
-                                </a>
-                                <a routerLink="/" class="item">
-                                    <span class="title">
-                                        Casual Shirt
-                                    </span>
-                                </a>
-                                <a routerLink="/" class="item">
-                                    <span class="title">
-                                        T-shirt
-                                    </span>
-                                </a>
-                                <a routerLink="/" class="item">
-                                    <span class="title">
-                                        Polo T-shirt
-                                    </span>
-                                </a>
-                                <a routerLink="/" class="item">
-                                    <span class="title">
-                                        Casual Shirt
-                                    </span>
-                                </a>
-                            </nav>
 
-                        </section>
-                        <section class="menu-column">
-                            <h2 class="list-heading">
-                                <a routerLink="/"> Topwear</a>
-                            </h2>
+                            @if (subItem.subCategory && subItem.subCategory.length > 0) {
                             <nav class="menu-list">
-                                <a routerLink="/" class="item">
-                                    <span class="title">
-                                        T-shirt
-                                    </span>
+                                @for (item of subItem.subCategory; track item.id) {
+                                <a [routerLink]="['/', item.path]" class="item" (click)="clearMenu()">
+                                    <span class="title">{{ item.label }}</span>
                                 </a>
-                                <a routerLink="/" class="item">
-                                    <span class="title">
-                                        Polo T-shirt
-                                    </span>
-                                </a>
-                                <a routerLink="/" class="item">
-                                    <span class="title">
-                                        Casual Shirt
-                                    </span>
-                                </a>
-                                <a routerLink="/" class="item">
-                                    <span class="title">
-                                        T-shirt
-                                    </span>
-                                </a>
-                                <a routerLink="/" class="item">
-                                    <span class="title">
-                                        Polo T-shirt
-                                    </span>
-                                </a>
-                                <a routerLink="/" class="item">
-                                    <span class="title">
-                                        Casual Shirt
-                                    </span>
-                                </a>
+                                }
                             </nav>
-
+                            }
                         </section>
-                        <section class="menu-column">
-                            <h2 class="list-heading">
-                                <a routerLink="/"> Topwear</a>
-                            </h2>
-                            <nav class="menu-list">
-                                <a routerLink="/" class="item">
-                                    <span class="title">
-                                        T-shirt
-                                    </span>
-                                </a>
-                                <a routerLink="/" class="item">
-                                    <span class="title">
-                                        Polo T-shirt
-                                    </span>
-                                </a>
-                                <a routerLink="/" class="item">
-                                    <span class="title">
-                                        Casual Shirt
-                                    </span>
-                                </a>
-                                <a routerLink="/" class="item">
-                                    <span class="title">
-                                        T-shirt
-                                    </span>
-                                </a>
-                                <a routerLink="/" class="item">
-                                    <span class="title">
-                                        Polo T-shirt
-                                    </span>
-                                </a>
-                                <a routerLink="/" class="item">
-                                    <span class="title">
-                                        Casual Shirt
-                                    </span>
-                                </a>
-                            </nav>
-
-                        </section>
-                        <section class="menu-column">
-                            <h2 class="list-heading">
-                                <a routerLink="/"> Topwear</a>
-                            </h2>
-                            <nav class="menu-list">
-                                <a routerLink="/" class="item">
-                                    <span class="title">
-                                        T-shirt
-                                    </span>
-                                </a>
-                                <a routerLink="/" class="item">
-                                    <span class="title">
-                                        Polo T-shirt
-                                    </span>
-                                </a>
-                                <a routerLink="/" class="item">
-                                    <span class="title">
-                                        Casual Shirt
-                                    </span>
-                                </a>
-                                <a routerLink="/" class="item">
-                                    <span class="title">
-                                        T-shirt
-                                    </span>
-                                </a>
-                                <a routerLink="/" class="item">
-                                    <span class="title">
-                                        Polo T-shirt
-                                    </span>
-                                </a>
-                                <a routerLink="/" class="item">
-                                    <span class="title">
-                                        Casual Shirt
-                                    </span>
-                                </a>
-                            </nav>
-
-                        </section>
-                        <section class="menu-column">
-                            <h2 class="list-heading">
-                                <a routerLink="/"> Topwear</a>
-                            </h2>
-                            <nav class="menu-list">
-                                <a routerLink="/" class="item">
-                                    <span class="title">
-                                        T-shirt
-                                    </span>
-                                </a>
-                                <a routerLink="/" class="item">
-                                    <span class="title">
-                                        Polo T-shirt
-                                    </span>
-                                </a>
-                                <a routerLink="/" class="item">
-                                    <span class="title">
-                                        Casual Shirt
-                                    </span>
-                                </a>
-                                <a routerLink="/" class="item">
-                                    <span class="title">
-                                        T-shirt
-                                    </span>
-                                </a>
-                                <a routerLink="/" class="item">
-                                    <span class="title">
-                                        Polo T-shirt
-                                    </span>
-                                </a>
-                                <a routerLink="/" class="item">
-                                    <span class="title">
-                                        Casual Shirt
-                                    </span>
-                                </a>
-                            </nav>
-
-                        </section>
-                        <section class="menu-column">
-                            <h2 class="list-heading">
-                                <a routerLink="/"> Topwear</a>
-                            </h2>
-                            <nav class="menu-list">
-                                <a routerLink="/" class="item">
-                                    <span class="title">
-                                        T-shirt
-                                    </span>
-                                </a>
-                                <a routerLink="/" class="item">
-                                    <span class="title">
-                                        Polo T-shirt
-                                    </span>
-                                </a>
-                                <a routerLink="/" class="item">
-                                    <span class="title">
-                                        Casual Shirt
-                                    </span>
-                                </a>
-                                <a routerLink="/" class="item">
-                                    <span class="title">
-                                        T-shirt
-                                    </span>
-                                </a>
-                                <a routerLink="/" class="item">
-                                    <span class="title">
-                                        Polo T-shirt
-                                    </span>
-                                </a>
-                                <a routerLink="/" class="item">
-                                    <span class="title">
-                                        Casual Shirt
-                                    </span>
-                                </a>
-                            </nav>
-
-                        </section>
-                        <section class="menu-column">
-                            <h2 class="list-heading">
-                                <a routerLink="/"> Topwear</a>
-                            </h2>
-                            <nav class="menu-list">
-                                <a routerLink="/" class="item">
-                                    <span class="title">
-                                        T-shirt
-                                    </span>
-                                </a>
-                                <a routerLink="/" class="item">
-                                    <span class="title">
-                                        Polo T-shirt
-                                    </span>
-                                </a>
-                                <a routerLink="/" class="item">
-                                    <span class="title">
-                                        Casual Shirt
-                                    </span>
-                                </a>
-                                <a routerLink="/" class="item">
-                                    <span class="title">
-                                        T-shirt
-                                    </span>
-                                </a>
-                                <a routerLink="/" class="item">
-                                    <span class="title">
-                                        Polo T-shirt
-                                    </span>
-                                </a>
-                                <a routerLink="/" class="item">
-                                    <span class="title">
-                                        Casual Shirt
-                                    </span>
-                                </a>
-                            </nav>
-
-                        </section>
-                        <section class="menu-column">
-                            <h2 class="list-heading">
-                                <a routerLink="/"> Topwear</a>
-                            </h2>
-                            <nav class="menu-list">
-                                <a routerLink="/" class="item">
-                                    <span class="title">
-                                        T-shirt
-                                    </span>
-                                </a>
-                                <a routerLink="/" class="item">
-                                    <span class="title">
-                                        Polo T-shirt
-                                    </span>
-                                </a>
-                                <a routerLink="/" class="item">
-                                    <span class="title">
-                                        Casual Shirt
-                                    </span>
-                                </a>
-                                <a routerLink="/" class="item">
-                                    <span class="title">
-                                        T-shirt
-                                    </span>
-                                </a>
-                                <a routerLink="/" class="item">
-                                    <span class="title">
-                                        Polo T-shirt
-                                    </span>
-                                </a>
-                                <a routerLink="/" class="item">
-                                    <span class="title">
-                                        Casual Shirt
-                                    </span>
-                                </a>
-                            </nav>
-
-                        </section>
-                        <section class="menu-column">
-                            <h2 class="list-heading">
-                                <a routerLink="/"> Topwear</a>
-                            </h2>
-                            <nav class="menu-list">
-                                <a routerLink="/" class="item">
-                                    <span class="title">
-                                        T-shirt
-                                    </span>
-                                </a>
-                                <a routerLink="/" class="item">
-                                    <span class="title">
-                                        Polo T-shirt
-                                    </span>
-                                </a>
-                                <a routerLink="/" class="item">
-                                    <span class="title">
-                                        Casual Shirt
-                                    </span>
-                                </a>
-                                <a routerLink="/" class="item">
-                                    <span class="title">
-                                        T-shirt
-                                    </span>
-                                </a>
-                                <a routerLink="/" class="item">
-                                    <span class="title">
-                                        Polo T-shirt
-                                    </span>
-                                </a>
-                                <a routerLink="/" class="item">
-                                    <span class="title">
-                                        Casual Shirt
-                                    </span>
-                                </a>
-                            </nav>
-
-                        </section>
-                        <section class="menu-column">
-                            <h2 class="list-heading">
-                                <a routerLink="/"> Topwear</a>
-                            </h2>
-                            <nav class="menu-list">
-                                <a routerLink="/" class="item">
-                                    <span class="title">
-                                        T-shirt
-                                    </span>
-                                </a>
-                                <a routerLink="/" class="item">
-                                    <span class="title">
-                                        Polo T-shirt
-                                    </span>
-                                </a>
-                                <a routerLink="/" class="item">
-                                    <span class="title">
-                                        Casual Shirt
-                                    </span>
-                                </a>
-                                <a routerLink="/" class="item">
-                                    <span class="title">
-                                        T-shirt
-                                    </span>
-                                </a>
-                                <a routerLink="/" class="item">
-                                    <span class="title">
-                                        Polo T-shirt
-                                    </span>
-                                </a>
-                                <a routerLink="/" class="item">
-                                    <span class="title">
-                                        Casual Shirt
-                                    </span>
-                                </a>
-                            </nav>
-
-                        </section>
-
-                        <!-- COLUMN -->
-                        <section class="menu-column">
-                            <h2 class="list-heading">
-                                <a routerLink="/"> Topwear</a>
-                            </h2>
-                            <nav class="menu-list">
-                                <a routerLink="/" class="item">
-                                    <span class="title">
-                                        Jeans
-                                    </span>
-                                </a>
-                                <a routerLink="/" class="item">
-                                    <span class="title">
-                                        Trousers
-                                    </span>
-                                </a>
-                                <a routerLink="/" class="item">
-                                    <span class="title">
-                                        Joggers
-                                    </span>
-                                </a>
-                            </nav>
-                        </section>
-
-                        <section class="menu-column">
-                            <h2 class="list-heading">
-                                <a routerLink="/"> Topwear</a>
-                            </h2>
-                            <nav class="menu-list">
-                                <a routerLink="/" class="item">
-                                    <span class="title">
-                                        Sneakers
-                                    </span>
-                                </a>
-                                <a routerLink="/" class="item">
-                                    <span class="title">
-                                        Sandals
-                                    </span>
-                                </a>
-                                <a routerLink="/" class="item">
-                                    <span class="title">
-                                        Loafers
-                                    </span>
-                                </a>
-                            </nav>
-                        </section>
+                        }
                     </div>
+                    }
+                    }
                 </section>
-
             </div>
             }
         </nav>
-
     </div>
 </header>

@@ -1,5 +1,5 @@
-import { CommonModule, isPlatformBrowser } from '@angular/common'; // <-- Import isPlatformBrowser
-import { Component, OnDestroy, OnInit, PLATFORM_ID, inject, ChangeDetectorRef } from '@angular/core'; // <-- Import PLATFORM_ID & CDR
+import { CommonModule, isPlatformBrowser, isPlatformServer } from '@angular/common';
+import { Component, OnDestroy, OnInit, PLATFORM_ID, inject, ChangeDetectorRef } from '@angular/core';
 import { Theme } from '../../core/services/theme/theme';
 import { Router, RouterLink, RouterModule } from '@angular/router';
 import { Storage } from '../../core/services/storage/storage';
@@ -20,6 +20,7 @@ export class Header implements OnInit, OnDestroy {
   isProfileOpen: boolean = false;
   userData: any = null;
   isAuthChecked: boolean = false;
+  menuData: any[] = [];
 
   private profileUpdateSub!: Subscription;
   private authStateSub!: Subscription;
@@ -27,14 +28,25 @@ export class Header implements OnInit, OnDestroy {
   private cdr = inject(ChangeDetectorRef);
 
   constructor(
-    public themeService: Theme, private storage: Storage, private http: Http, private router: Router,
-    private toast: Toast, private alertService: Alert
+    public themeService: Theme,
+    private storage: Storage,
+    private http: Http,
+    private router: Router,
+    private toast: Toast,
+    private alertService: Alert
   ) { }
 
   ngOnInit() {
-    this.isAuthChecked = false;
+    // 1. FETCH MENU (Runs on both Server & Browser)
+    // On the server, it fetches from the backend and bakes it into the HTML.
+    // On the browser, Angular's built-in TransferCache intercepts it and loads it instantly.
+    this.getMenu();
 
+    // 2. AUTHENTICATION & BROWSER-ONLY LOGIC
     if (isPlatformBrowser(this.platformId)) {
+      this.isAuthChecked = false; // Reset for browser execution
+
+      // Fetch token from IndexDB / Storage
       this.storage.get('accessToken').then(token => {
         setTimeout(() => {
           if (token) {
@@ -46,28 +58,45 @@ export class Header implements OnInit, OnDestroy {
           }
         });
       });
-    }
 
-    // 2. Listen for profile updates (Edit Profile)
-    this.profileUpdateSub = this.http.profileUpdate$.subscribe(() => {
-      this.getUserProfile();
-    });
-
-    // 3. Listen for global login/logout events
-    this.authStateSub = this.http.authStateChange$.subscribe((isLoggedIn) => {
-      if (isLoggedIn) {
+      // Listen for profile updates (Edit Profile)
+      this.profileUpdateSub = this.http.profileUpdate$.subscribe(() => {
         this.getUserProfile();
-      } else {
-        this.userData = null;
-        this.isAuthChecked = true;
-        this.cdr.detectChanges();
-      }
-    });
+      });
+
+      // Listen for global login/logout events
+      this.authStateSub = this.http.authStateChange$.subscribe((isLoggedIn) => {
+        if (isLoggedIn) {
+          this.getUserProfile();
+        } else {
+          this.userData = null;
+          this.isAuthChecked = true;
+          this.cdr.detectChanges();
+        }
+      });
+    } else if (isPlatformServer(this.platformId)) {
+      // 3. SERVER-ONLY FALLBACKS
+      // If rendered on the server, we assume the user is a guest to prevent SSR hanging.
+      // The browser will instantly re-evaluate this using the block above upon hydration.
+      this.isAuthChecked = true;
+    }
   }
 
   ngOnDestroy() {
     if (this.profileUpdateSub) this.profileUpdateSub.unsubscribe();
     if (this.authStateSub) this.authStateSub.unsubscribe();
+  }
+
+  getMenu() {
+    this.http.getMenu().subscribe({
+      next: (res: any) => {
+        if (res.status && res.data) {
+          this.menuData = res.data;
+          this.cdr.detectChanges();
+        }
+      },
+      error: (err) => console.error('Failed to load menu', err)
+    });
   }
 
   getUserProfile() {
@@ -126,7 +155,15 @@ export class Header implements OnInit, OnDestroy {
   }
 
   setMenu(menu: string) {
-    this.menu = menu;
+    if (isPlatformBrowser(this.platformId) && window.innerWidth > 1024) {
+      this.menu = menu;
+    }
+  }
+
+  onNavMouseLeave() {
+    if (isPlatformBrowser(this.platformId) && window.innerWidth > 1024) {
+      this.menu = null;
+    }
   }
 
   clearMenu() {
@@ -143,5 +180,17 @@ export class Header implements OnInit, OnDestroy {
 
   closeProfile() {
     this.isProfileOpen = false;
+  }
+
+  handleMobileNav(event: Event, path: string) {
+    if (isPlatformBrowser(this.platformId)) {
+      if (window.innerWidth <= 1024) {
+        if (this.menu === path) {
+          this.menu = null;
+        } else {
+          this.menu = path;
+        }
+      }
+    }
   }
 }

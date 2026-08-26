@@ -17,7 +17,7 @@ export const routes: Routes = [
             import('./pages/login/login').then(m => m.Login),
     },
     {
-        path: 'category',
+        path: 'shop/:slug',
         loadComponent: () =>
             import('./pages/category-list/category-list').then(m => m.CategoryList),
     },
@@ -62,14 +62,14 @@ export const routes: Routes = [
             import('./pages/order-place-checkout/order-place-checkout').then(m => m.OrderPlaceCheckout),
     },
     {
-        path: 'product-list',
-        loadComponent: () =>
-            import('./pages/product-list/product-list').then(m => m.ProductList),
-    },
-    {
         path: 'product-details',
         loadComponent: () =>
             import('./pages/product-details/product-details').then(m => m.ProductDetails),
+    },
+    {
+        path: ':slug',
+        loadComponent: () =>
+            import('./pages/product-list/product-list').then(m => m.ProductList),
     },
     {
         path: '**',
