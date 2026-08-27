@@ -1,0 +1,339 @@
+/* =========================================
+   GLOBAL FIXES & DEFAULT CATEGORY
+========================================= */
+.category {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: hidden;
+    box-sizing: border-box;
+    padding: 2rem 0 3rem;
+
+    .container {
+        width: 100%;
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: 0 24px;
+        box-sizing: border-box;
+    }
+
+    &__header {
+        text-align: center;
+        margin-bottom: 32px;
+
+        h2 {
+            font-size: 28px;
+            font-weight: 800;
+            color: var(--text-primary);
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            position: relative;
+            display: inline-block;
+
+            &::after {
+                content: '';
+                position: absolute;
+                bottom: -8px;
+                left: 50%;
+                transform: translateX(-50%);
+                width: 40px;
+                height: 3px;
+                background: var(--primary);
+                border-radius: 2px;
+            }
+        }
+    }
+
+    &__grid {
+        display: grid;
+        grid-template-columns: repeat(6, 1fr);
+        gap: 24px;
+        width: 100%;
+        box-sizing: border-box;
+    }
+}
+
+/* ── Base Card Styles (Main Category) ── */
+.category-card {
+    display: flex;
+    flex-direction: column;
+    text-decoration: none;
+    position: relative;
+    background: transparent;
+    border: none;
+    outline: none;
+    min-width: 0;
+
+    /* 🔥 FIX: The entire card lifts smoothly now, no gaps at the bottom! */
+    transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+
+    &:hover {
+        transform: translateY(-6px);
+
+        .category-card__image {
+            box-shadow: var(--shadow-medium);
+            border-color: var(--outline);
+
+            img {
+                transform: scale(1.08);
+            }
+        }
+
+        h3 {
+            background: var(--primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+    }
+
+    /* Square Image Container */
+    &__image {
+        width: 100%;
+        aspect-ratio: 1 / 1;
+        border-radius: 16px;
+        overflow: hidden;
+        position: relative;
+        background: var(--surface);
+        border: 1px solid var(--border);
+        box-shadow: var(--shadow-soft);
+        transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+
+        img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            transition: transform 0.6s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+    }
+
+    &__content {
+        padding: 16px 4px 0;
+        text-align: left;
+        display: flex;
+        flex-direction: column;
+
+        h3 {
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin: 0 0 4px;
+            white-space: normal;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            transition: all 0.3s ease;
+        }
+
+        .offer {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--danger);
+            margin: 0;
+        }
+    }
+}
+
+
+/* =========================================
+   2. BRANDS DESIGN (.brands-design)
+========================================= */
+.brands-design {
+    background: var(--hero-gradient);
+    padding: 3rem 0;
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+
+    .category-card {
+        &__image {
+            width: 80%;
+            margin: 0 auto;
+            border-radius: 50%;
+            padding: 4px;
+            border: 2px solid var(--border);
+            box-shadow: 0 4px 12px var(--primary-soft);
+
+            img {
+                border-radius: 50%;
+            }
+        }
+
+        &:hover {
+            /* Reset transform for brands since it grows instead of lifting */
+            transform: translateY(0);
+        }
+
+        &:hover .category-card__image {
+            border-color: transparent;
+            background: var(--primary);
+            padding: 4px;
+            box-shadow: 0 8px 24px var(--hover-medium);
+            transform: translateY(-4px);
+        }
+
+        &__content {
+            padding-top: 16px;
+            text-align: center;
+
+            h3 {
+                font-size: 15px;
+                font-weight: 700;
+                color: var(--text-primary);
+                margin: 0;
+            }
+
+            .offer {
+                display: none;
+            }
+        }
+    }
+}
+
+
+/* =========================================
+   3. SUB-CATEGORY DESIGN (Premium Luxe)
+========================================= */
+.sub-cat-design {
+    .category__grid {
+        gap: 20px;
+    }
+
+    .category-card {
+        border-radius: 0;
+        border: 4px solid var(--text-primary);
+        position: relative;
+        background: var(--surface-elevated);
+        overflow: hidden;
+        box-shadow: var(--shadow-soft);
+
+        &:hover {
+            box-shadow: var(--shadow-medium);
+
+            h3 {
+                background: none;
+                color: var(--primary);
+            }
+        }
+
+        &__image {
+            width: 100%;
+            aspect-ratio: 3 / 4;
+            border-radius: 0;
+            border: none;
+            box-shadow: none;
+            position: relative;
+            background: transparent;
+            overflow: hidden;
+
+            img {
+                border-radius: 0;
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+                transition: transform 0.8s cubic-bezier(0.25, 0.8, 0.25, 1);
+            }
+
+            &::after {
+                content: '';
+                position: absolute;
+                inset: 0;
+                background: linear-gradient(to top, var(--overlay-bg) 0%, rgba(0, 0, 0, 0.1) 50%, transparent 70%);
+                pointer-events: none;
+            }
+        }
+
+        &__content {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            z-index: 2;
+            padding: 24px 16px;
+            text-align: center;
+
+            h3 {
+                color: #FFFFFF;
+                font-size: 19px;
+                font-weight: 600;
+                margin: 0 0 6px;
+                letter-spacing: 0.5px;
+                background: none;
+                -webkit-text-fill-color: #FFFFFF;
+                text-shadow: 0 4px 12px rgba(0, 0, 0, 0.8);
+            }
+
+            .offer {
+                display: block;
+                color: rgba(255, 255, 255, 0.9);
+                font-size: 12px;
+                font-weight: 600;
+                text-transform: uppercase;
+                letter-spacing: 2px;
+                margin: 0;
+            }
+        }
+    }
+}
+
+
+/* =========================================
+   RESPONSIVE GRID RULES
+========================================= */
+@media (max-width: 1200px) {
+    .category__grid {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    .category {
+        padding: 1.5rem 0 2.5rem;
+
+        .container {
+            padding: 0 20px;
+        }
+    }
+
+    .category__grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 16px;
+    }
+
+    .category-card__content h3 {
+        font-size: 14px;
+    }
+
+    .category__header h2 {
+        font-size: 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    .category {
+        padding: 1.5rem 0 2rem;
+
+        .container {
+            padding: 0 16px;
+        }
+    }
+
+    .category__grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 16px;
+    }
+
+    .brands-design .category__grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 12px;
+    }
+
+    .brands-design .category-card__image {
+        width: 90%;
+    }
+
+    .sub-cat-design .category-card__content {
+        padding: 16px 8px;
+
+        h3 {
+            font-size: 16px;
+        }
+    }
+}

@@ -67,6 +67,10 @@ export class Http {
     return this.menuCache$;
   }
 
+  getCategories(id: any) {
+    return this.http.get(this.baseUrl + '/api/categories/categoryId/' + id, { context: new HttpContext().set(SKIP_AUTH, true) });
+  }
+
   // ================== PROTECTED APIs =================== //
 
   getUserProfile(): Observable<any> {

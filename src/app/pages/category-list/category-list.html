@@ -1,29 +1,48 @@
 <app-header></app-header>
-<nav class="breadcrumb">
-    <div class="container">
-        <a href="/">Home</a>
-        <span>›</span>
-        <span class="active">Category</span>
-    </div>
-</nav>
+
+<div class="breadcrumb-wrapper">
+    <nav class="breadcrumb">
+        <a routerLink="/">Home</a>
+        <span class="separator"><i class="fa fa-angle-right"></i></span>
+        @if(slug) {
+        <span class="active">{{ slug | titlecase }}</span>
+        }
+    </nav>
+</div>
+
 <main class="main">
-    <section class="category">
-        <div class="container">
-            <header class="category__header">
-                <h2>Shop By Category</h2>
-            </header>
-            <div class="category__grid">
-                <a class="category-card" *ngFor="let item of categories" routerLink="">
-                    <div class="category-card__image">
-                        <img [src]="item.image" alt="{{ item.title }}" />
-                    </div>
-                    <div class="category-card__content">
-                        <h3>{{ item.title }}</h3>
-                        <p class="offer">{{ item.offer }}</p>
-                    </div>
-                </a>
-            </div>
+    @if (isLoading) {
+    <div class="category-loading">
+        <div class="spinner-logo">
+            <img src="assets/Images/av_logo.png" alt="Astra Vastra Logo" />
         </div>
-    </section>
+        <p>Curating collections for you...</p>
+    </div>
+    } @else {
+
+    @if (categoryList && categoryList.length > 0) {
+    <app-common-category heading="Shop By Category" [data]="categoryList">
+    </app-common-category>
+    }
+
+    @if (brands && brands.length > 0) {
+    <app-common-category heading="Explore Top Brands" [data]="brands" customClass="brands-design">
+    </app-common-category>
+    }
+
+    @if (subCategoryList && subCategoryList.length > 0) {
+    <app-common-category heading="Categories to Bag" [data]="subCategoryList" customClass="sub-cat-design">
+    </app-common-category>
+    }
+
+    @if (categoryList?.length === 0 && subCategoryList?.length === 0 && brands?.length === 0) {
+    <div class="category-empty">
+        <i class="fa fa-box-open"></i>
+        <h3>No Categories Found</h3>
+        <p>We are updating this section. Please check back later!</p>
+    </div>
+    }
+
+    }
 </main>
 <app-footer></app-footer>
