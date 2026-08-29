@@ -8,20 +8,22 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { Theme } from '../../core/services/theme/theme';
 import { Toast } from '../../core/services/toast/toast';
 import { Loading } from '../../core/services/loading/loading';
+import { CommonProductGrid } from '../../layout/common-product-grid/common-product-grid';
+import { CommonProductSwiper } from '../../layout/common-product-swiper/common-product-swiper';
 
 @Component({
   selector: 'app-product-details',
   standalone: true,
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   imports: [
-    Header, Footer, CommonModule, RouterModule, RouterLink, ProfileMenu, ReactiveFormsModule
+    Header, Footer, CommonModule, RouterModule, RouterLink, ProfileMenu, ReactiveFormsModule,
+    CommonProductGrid, CommonProductSwiper
   ],
   templateUrl: './product-details.html',
   styleUrl: './product-details.scss',
 })
 export class ProductDetails implements OnInit, AfterViewInit {
   hoverTimers = new WeakMap<any, any>();
-  @ViewChild('swiperSimilarProduct') swiperSimilarProduct!: ElementRef;
   @ViewChild('mainSwiper') mainSwiper!: ElementRef;
   @ViewChild('thumbSwiper') thumbSwiper!: ElementRef;
   activeIndex = 0;
@@ -191,31 +193,6 @@ export class ProductDetails implements OnInit, AfterViewInit {
     'https://images.unsplash.com/photo-1608231387042-66d1773070a5?q=80&w=1200'
   ];
 
-  trendingSwiperConfig = signal({
-    navigation: true,
-    pagination: false,
-    breakpoints: {
-      0: {
-        slidesPerView: 1.2,
-        spaceBetween: 12
-      },
-
-      768: {
-        slidesPerView: 3.2,
-        spaceBetween: 16
-      },
-
-      1024: {
-        slidesPerView: 4.2,
-        spaceBetween: 20
-      },
-
-      1400: {
-        slidesPerView: 4.4,
-        spaceBetween: 20
-      }
-    }
-  });
 
   mainSwiperConfig = signal({
     slidesPerView: 1,
@@ -256,20 +233,13 @@ export class ProductDetails implements OnInit, AfterViewInit {
     private cdr: ChangeDetectorRef
   ) { }
 
-
   ngOnInit() {
-    this.loadingService.show();
-    setTimeout(() => {
-      this.loadingService.hide();
-    }, 2000);
+
   }
 
   ngAfterViewInit() {
     if (isPlatformBrowser(this.platformId)) {
       setTimeout(() => {
-        Object.assign(this.swiperSimilarProduct.nativeElement, this.trendingSwiperConfig());
-        this.swiperSimilarProduct.nativeElement.initialize();
-
         Object.assign(this.mainSwiper.nativeElement, this.mainSwiperConfig());
         this.mainSwiper.nativeElement.initialize();
 
@@ -278,74 +248,11 @@ export class ProductDetails implements OnInit, AfterViewInit {
 
         const mainSwiperEl = this.mainSwiper.nativeElement.swiper;
         mainSwiperEl.on('realIndexChange', () => {
-
           this.activeIndex = mainSwiperEl.realIndex;
-          this.thumbSwiper.nativeElement.swiper.slideTo(
-            this.activeIndex
-          );
+          this.thumbSwiper.nativeElement.swiper.slideTo(this.activeIndex);
           this.cdr.detectChanges();
         });
-
       }, 400);
-    }
-  }
-
-  startSwiper(event: any) {
-    const container = event.currentTarget;
-    const swiperEl = container.querySelector('swiper-container');
-
-    if (!swiperEl) return;
-
-    if (!swiperEl.classList.contains('swiper-initialized')) {
-      Object.assign(swiperEl, {
-        loop: true,
-        speed: 500,
-        autoplay: {
-          delay: 600,
-          disableOnInteraction: false
-        },
-        pagination: {
-          clickable: true
-        }
-      });
-
-      setTimeout(() => { swiperEl.initialize(); }, 400);
-    }
-
-    const swiper = swiperEl.swiper;
-    if (!swiper) return;
-
-    swiper.autoplay.stop();
-    swiper.slideToLoop(0, 0);
-
-    if (this.hoverTimers.has(container)) {
-      clearTimeout(this.hoverTimers.get(container));
-    }
-
-    const timer = setTimeout(() => {
-      container.classList.add('swiper-active');
-
-      swiper.autoplay.start();
-    }, 600);
-
-    this.hoverTimers.set(container, timer);
-  }
-
-  resetSwiper(event: any) {
-    const container = event.currentTarget;
-    const swiperEl = container.querySelector('swiper-container');
-    const swiper = swiperEl?.swiper;
-
-    if (this.hoverTimers.has(container)) {
-      clearTimeout(this.hoverTimers.get(container));
-      this.hoverTimers.delete(container);
-    }
-
-    container.classList.remove('swiper-active');
-
-    if (swiper) {
-      swiper.autoplay.stop();
-      swiper.slideToLoop(0, 0);
     }
   }
 

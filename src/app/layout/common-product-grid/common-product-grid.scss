@@ -1,0 +1,326 @@
+.trending {
+    padding: 10px 0;
+    background: var(--category-bg);
+    max-width: 98%;
+
+    &__header {
+        margin-bottom: 30px;
+        text-align: center;
+
+        h2 {
+            font-size: 36px;
+            font-weight: 700;
+            color: var(--category-title);
+        }
+    }
+}
+
+.product-card {
+    background: var(--category-card-bg);
+    border-radius: 6px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: 100%;
+
+    &:hover {
+        background: var(--hero-gradient);
+        box-shadow: var(--shadow-soft);
+        transform: translateY(-5px);
+
+        .product-card__content {
+            transform: translateY(-2px);
+        }
+
+        .product-card__wishlist {
+            transform: translateX(0);
+            opacity: 1;
+        }
+
+        .product-card__swiper {
+            opacity: 1;
+        }
+
+        .product-card__image.default {
+            opacity: 1;
+        }
+    }
+
+    &__media {
+        position: relative;
+        height: 260px;
+        overflow: hidden;
+    }
+
+    &__image {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    &__content {
+        padding: 12px 10px 14px;
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+
+        .brand {
+            font-size: 0.88rem;
+            font-weight: 700;
+            color: var(--category-text);
+            margin-bottom: -10px;
+        }
+
+        .name {
+            font-size: 0.82rem;
+            line-height: 1.5;
+            color: var(--category-text);
+            opacity: 0.7;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .price {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.85rem;
+
+            .current {
+                font-weight: 700;
+                font-size: 0.95rem;
+                color: var(--category-text);
+            }
+
+            .original {
+                text-decoration: line-through;
+                font-size: 0.75rem;
+                color: var(--category-text);
+                opacity: 0.5;
+            }
+
+            .discount {
+                color: var(--danger);
+                font-weight: 600;
+                font-size: 0.75rem;
+            }
+        }
+
+        .size {
+            margin-top: 2px;
+            font-size: 0.75rem;
+            color: var(--category-text);
+            opacity: 0.6;
+        }
+    }
+
+    &__rating {
+        position: absolute;
+        bottom: 8px;
+        left: 8px;
+        background: var(--primary);
+        color: var(--text-tertiary);
+        padding: 2px 6px;
+        font-size: 0.7rem;
+        border-radius: 4px;
+        font-weight: 600;
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        z-index: 5;
+
+        i {
+            color: gold;
+            font-size: 12px;
+        }
+    }
+
+    &__wishlist {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: transparent;
+        border: 1px solid var(--primary);
+        cursor: pointer;
+        box-shadow: var(--shadow-soft);
+        transform: translateX(120%);
+        opacity: 0;
+        transition: all 0.35s ease;
+        z-index: 5;
+
+        i {
+            color: var(--primary);
+            font-size: 14px;
+        }
+
+        &:hover {
+            background: var(--primary);
+
+            i {
+                color: var(--text-tertiary);
+            }
+        }
+    }
+
+    &__cart {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+        width: 100%;
+        padding: 12px;
+        background: var(--primary);
+        color: var(--text-tertiary);
+        border: none;
+        border-top: 1px solid var(--border);
+        cursor: pointer;
+        font-size: 0.82rem;
+        font-weight: 700;
+        transition: all 0.25s ease;
+        font-family: var(--font-body);
+
+        &:hover {
+            background: var(--primary-light);
+            transform: translateY(-1px);
+            box-shadow: var(--shadow-soft);
+        }
+    }
+}
+
+.product-card__image.default {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: opacity 0.3s ease;
+    opacity: 1;
+    z-index: 1;
+}
+
+.product-card__swiper {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    z-index: 2;
+    pointer-events: none;
+
+    img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    swiper-slide {
+        height: 100%;
+    }
+
+    &::part(pagination) {
+        bottom: 6px;
+        pointer-events: auto;
+    }
+
+    &::part(bullet) {
+        width: 5px;
+        height: 5px;
+        opacity: 0.5;
+    }
+
+    &::part(bullet-active) {
+        background: var(--primary);
+        opacity: 1;
+    }
+}
+
+.product-card__media.swiper-active {
+    .product-card__swiper {
+        opacity: 1;
+    }
+
+    .product-card__image.default {
+        opacity: 0;
+    }
+}
+
+/* Add this grid CSS alongside the product-card styles */
+.trending__grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 20px;
+}
+
+@media (max-width: 1200px) {
+    .trending__grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+
+@media (max-width: 992px) {
+    .product-card__media {
+        height: 220px;
+    }
+}
+
+@media (max-width: 768px) {
+    .trending {
+        overflow: hidden;
+
+        &__header h2 {
+            font-size: 1.3rem;
+        }
+    }
+
+    .trending__grid {
+        grid-template-columns: 1fr;
+    }
+
+    .product-card {
+        &__media {
+            height: 240px;
+        }
+
+        &__wishlist {
+            transform: translateX(0);
+            opacity: 1;
+        }
+
+        &__content {
+            padding: 10px;
+
+            .brand {
+                font-size: 0.8rem;
+            }
+
+            .name {
+                font-size: 0.75rem;
+            }
+
+            .price .current {
+                font-size: 0.85rem;
+            }
+
+            .price .original,
+            .price .discount,
+            .size {
+                font-size: 0.7rem;
+            }
+        }
+
+        &__cart {
+            height: 44px;
+            font-size: 0.75rem;
+        }
+    }
+}

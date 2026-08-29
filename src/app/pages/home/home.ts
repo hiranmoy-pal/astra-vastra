@@ -7,13 +7,16 @@ import { Toast } from '../../core/services/toast/toast';
 import { Loading } from '../../core/services/loading/loading';
 import { RouterLink, RouterModule } from '@angular/router';
 import { Http } from '../../core/services/api/http';
+import { CommonProductSwiper } from '../../layout/common-product-swiper/common-product-swiper';
+import { CommonProductGrid } from '../../layout/common-product-grid/common-product-grid';
+import { CommonCategory } from '../../layout/common-category/common-category';
 
 @Component({
   selector: 'app-home',
   standalone: true,
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   imports: [
-    Header, Footer, CommonModule, RouterModule, RouterLink
+    Header, Footer, CommonModule, RouterModule, RouterLink, CommonProductSwiper, CommonProductGrid, CommonCategory
   ],
   templateUrl: './home.html',
   styleUrl: './home.scss',
@@ -34,28 +37,30 @@ export class Home implements OnInit, AfterViewInit {
     'https://rukminim2.flixcart.com/fk-p-flap/3160/1540/image/428ea77977271cc4.png?q=60'
   ];
 
-  brands = [
-    'LUMINA', 'VELVET', 'AURA', 'PRISM', 'ORBIT',
-    'Adidas', 'Nike', 'PUMA'
+  brands: any = [
+    { "id": 1100, "name": "Puma", "image": 'https://m.media-amazon.com/images/G/31/IMG25/Fashion/BAU/Flip/MF/PC/Brands/Clothing/Puma_390x537._CB798874077_.png', "path": "puma" },
+    { "id": 1100, "name": "Raymond", "image": 'https://m.media-amazon.com/images/G/31/IMG25/Fashion/BAU/Flip/MF/PC/Brands/Clothing/Raymond_390x537._CB798874077_.png', "path": "nike" },
+    { "id": 1100, "name": "Addidas", "image": 'https://m.media-amazon.com/images/G/31/IMG25/Fashion/BAU/Flip/MF/PC/Brands/Clothing/New_Adidas._CB797111257_.png', "path": "addidas" },
+    { "id": 1100, "name": "Us Polo", "image": 'https://m.media-amazon.com/images/G/31/IMG25/Fashion/BAU/Flip/MF/PC/Brands/Clothing/USPA_390x537._CB798874077_.png', "path": "us-polo" },
+    { "id": 1100, "name": "Woodland", "image": 'https://m.media-amazon.com/images/G/31/IMG25/Fashion/BAU/Flip/MF/Brands/Footwear_Woodland_412x621._CB798826132_.png', "path": "lee-cooper" },
+    { "id": 1100, "name": "Fastrack", "image": 'https://m.media-amazon.com/images/G/31/IMG25/Fashion/Winterflip/WF/Watch/Watches___Fastrack_412x621._CB797026381_.png', "path": "fastrack" },
+    { "id": 1100, "name": "Highlander", "image": 'https://m.media-amazon.com/images/G/31/IMG25/Fashion/BAU/Flip/Serve/Highlander_382x599._CB798872528_.png', "path": "roadster" },
+    { "id": 1100, "name": "Levis", "image": 'https://m.media-amazon.com/images/G/31/IMG25/Fashion/BAU/Flip/MF/PC/Brands/Clothing/Levis_390x537._CB798874077_.png', "path": "french-connection" },
   ];
 
   categories: any = [
-    { title: 'Ethnic Wear', offer: '50-80% OFF', image: 'https://rukminim2.flixcart.com/image/612/612/xif0q/sari/s/y/w/free-tiranga9601-smc-sareemall-unstitched-original-imah8eqbkzewzq6z.jpeg?q=60' },
-    { title: 'Casual Wear', offer: '40-80% OFF', image: 'https://rukminim1.flixcart.com/image/1536/1536/xif0q/shoe/5/2/q/-original-imahgcs8chzjtsmz.jpeg?q=90' },
-    { title: "Men's Activewear", offer: '30-70% OFF', image: 'https://rukminim2.flixcart.com/image/612/612/xif0q/lingerie-set/n/y/y/36-sh-kes-4g-li-dp36-arvaan-collective-original-imahjghjycpreeqp.jpeg?q=70' },
-    { title: "Women's Activewear", offer: '30-70% OFF', image: 'https://rukminim1.flixcart.com/fk-p-flap/700/920/image/900d3a154290e527.png?q=60' },
-    { title: 'Western Wear', offer: '40-80% OFF', image: 'https://rukminim2.flixcart.com/image/612/612/xif0q/top/d/t/9/l-1-crop-top-bw-xs-chroma-style-original-imahhvarxbrpdyyf.jpeg?q=60' },
-    { title: 'Sportswear', offer: '30-80% OFF', image: 'https://rukminim1.flixcart.com/image/1536/1536/xif0q/shoe/k/c/6/-original-imahjhjpv7txxxsu.jpeg?q=90' },
-    { title: 'Sleepwear', offer: '50-70% OFF', image: 'https://rukminim1.flixcart.com/fk-p-flap/700/1060/image/2edef08631cc5d3f.jpg?q=60' },
-    { title: 'Western Wear', offer: '40-80% OFF', image: 'https://rukminim1.flixcart.com/image/1536/1536/xif0q/lingerie-set/a/v/4/34-v4nbrs-maroon-34-pack-1-vanila-original-imahkyjmfyppzts7.jpeg?q=90' },
-    { title: 'Sportswear', offer: '30-80% OFF', image: 'https://rukminim1.flixcart.com/image/1536/1536/xif0q/shoe/h/m/l/-original-imahjhjpzftwmgbb.jpeg?q=90' },
-    { title: 'Sleepwear', offer: '50-70% OFF', image: 'https://rukminim2.flixcart.com/image/612/612/xif0q/ethnic-set/i/g/b/3xl-jokp-5144olive-jompers-original-imahdnukqz5eyhhv.jpeg?q=70' },
-    { title: 'Innerwear', offer: '40-60% OFF', image: 'https://rukminim1.flixcart.com/image/1536/1536/xif0q/lingerie-set/d/a/6/30-sfh100-lpl-limewide-original-imagzeqsfsv9khay.jpeg?q=90' },
-    { title: 'Western Wear', offer: '40-80% OFF', image: 'https://rukminim2.flixcart.com/image/612/612/xif0q/shirt/x/w/6/s-st112-vebnor-original-imahhfzgagf4zzaj.jpeg?q=70' },
-    { title: 'Sportswear', offer: '30-80% OFF', image: 'https://rukminim2.flixcart.com/image/612/612/xif0q/shirt/x/p/0/-original-imaghkfu8hm4gxbh.jpeg?q=70' },
-    { title: 'Sleepwear', offer: '50-70% OFF', image: 'https://rukminim2.flixcart.com/image/612/612/xif0q/shirt/0/e/e/l-vbn-m-487-elvaro-original-imahkbrkhj6pycg4.jpeg?q=70' },
-    { title: 'Innerwear', offer: '40-60% OFF', image: 'https://rukminim2.flixcart.com/image/612/612/xif0q/lingerie-set/v/d/j/28-prnt-set-2100-fasharious-original-imahh4kqfppbvkcj.jpeg?q=70' },
-    { title: 'Innerwear', offer: '40-60% OFF', image: 'https://rukminim2.flixcart.com/image/612/612/xif0q/ethnic-set/g/g/i/xxl-jokp-p-5006blue-jompers-original-imagrvh7wfpytphe.jpeg?q=70' }
+    { "id": 3100, "name": "Boys Clothing", "image": "https://m.media-amazon.com/images/G/31/img19/Apparel/KA/GW/Sub-Nav/2._CB469401627_.jpg", "path": "boy-clothing" },
+    { "id": 3200, "name": "Girls Clothing", "image": "https://m.media-amazon.com/images/G/31/img19/Apparel/KA/GW/Sub-Nav/girls._CB469401626_.jpg", "path": "girl-clothing" },
+    { "id": 3300, "name": "Footwear", "image": "https://assets.myntassets.com/f_webp,dpr_1.5,q_60,w_210,c_limit,fl_progressive/assets/images/2026/JULY/24/nSJ3HglB_f961fb26091e413c90d31d10b07f411d.jpg", "path": "kids-footwear" },
+    { "id": 3400, "name": "Toys & Games", "image": "https://assets.myntassets.com/f_webp,dpr_2.0,q_60,w_210,c_limit,fl_progressive/assets/images/2026/JANUARY/30/PDEUZWeo_5146578cfad24decbb1ed8fe41568374.jpg", "path": "toys-and-games" },
+    { "id": 3500, "name": "Infants", "image": "https://assets.myntassets.com/f_webp,dpr_2.0,q_60,w_210,c_limit,fl_progressive/assets/images/2026/JUNE/5/SsSUB4Cr_186dedbce5384855a000bfc74e380a6b.jpg", "path": "Infants" },
+    { "id": 3600, "name": "Kids Accessories", "image": "https://assets.myntassets.com/f_webp,dpr_2.0,q_60,w_210,c_limit,fl_progressive/assets/images/2025/SEPTEMBER/20/pSPyA36f_85b5c36d55ec4201b4b3ecf0063cec8a.jpg", "path": "kids-accessories" },
+    { "id": 3403, "name": "Soft Toys", "image": "https://assets.myntassets.com/f_webp,dpr_2.0,q_60,w_210,c_limit,fl_progressive/assets/images/2025/SEPTEMBER/26/Jg13GWpQ_04dc87c53c7948438a04d65ce40c2a07.jpg", "path": "kids-soft-toys" },
+    { "id": 3501, "name": "Bodysuits", "image": "https://assets.myntassets.com/f_webp,dpr_2.0,q_60,w_210,c_limit,fl_progressive/assets/images/2026/APRIL/7/Mx1klLS6_32c935625de64ade839aa3739414aeb7.jpg", "path": "kids-bodysuits" },
+    { "id": 3502, "name": "Rompers & Sleepsuits", "image": "https://assets.myntassets.com/f_webp,dpr_2.0,q_60,w_210,c_limit,fl_progressive/assets/images/2026/AUGUST/17/aee29e18245449a4afabe79114a000b8.jpg", "path": "kids-rompers-and-sleepsuits" },
+    { "id": 3601, "name": "Bags & Backpacks", "image": "https://assets.myntassets.com/f_webp,dpr_2.0,q_60,w_210,c_limit,fl_progressive/assets/images/2026/JULY/6/15fnIJSo_0af9475072af434e8b016df6074b44de.jpg", "path": "kids-bags-and-backpacks" },
+    { "id": 3602, "name": "Watches", "image": "https://assets.myntassets.com/f_webp,dpr_2.0,q_60,w_210,c_limit,fl_progressive/assets/images/2025/AUGUST/26/RMg5Zj8S_a13cb22cac6640ebb7c208cadeb67950.jpg", "path": "kids-watches" },
+    { "id": 3603, "name": "Jewellery & Hair accessory", "image": "https://assets.myntassets.com/f_webp,dpr_2.0,q_60,w_210,c_limit,fl_progressive/assets/images/2025/DECEMBER/4/mlaqp089_6237aee069c1427899846ff4d6c4a5db.jpg", "path": "kids-jewellery-and-hair-accessory" }
   ];
 
   products = [
@@ -306,60 +311,4 @@ export class Home implements OnInit, AfterViewInit {
     }
   }
 
-
-  startSwiper(event: any) {
-    const container = event.currentTarget;
-    const swiperEl = container.querySelector('swiper-container');
-    if (!swiperEl) return;
-    if (!swiperEl.classList.contains('swiper-initialized')) {
-      Object.assign(swiperEl, {
-        loop: true,
-        speed: 500,
-        autoplay: {
-          delay: 600,
-          disableOnInteraction: false
-        },
-        pagination: {
-          clickable: true
-        }
-      });
-      swiperEl.initialize();
-    }
-
-    const swiper = swiperEl.swiper;
-    if (!swiper) return;
-
-    swiper.autoplay.stop();
-    swiper.slideToLoop(0, 0);
-
-    if (this.hoverTimers.has(container)) {
-      clearTimeout(this.hoverTimers.get(container));
-    }
-
-    const timer = setTimeout(() => {
-      container.classList.add('swiper-active');
-
-      swiper.autoplay.start();
-    }, 600);
-
-    this.hoverTimers.set(container, timer);
-  }
-
-  resetSwiper(event: any) {
-    const container = event.currentTarget;
-    const swiperEl = container.querySelector('swiper-container');
-    const swiper = swiperEl?.swiper;
-
-    if (this.hoverTimers.has(container)) {
-      clearTimeout(this.hoverTimers.get(container));
-      this.hoverTimers.delete(container);
-    }
-
-    container.classList.remove('swiper-active');
-
-    if (swiper) {
-      swiper.autoplay.stop();
-      swiper.slideToLoop(0, 0);
-    }
-  }
 }
