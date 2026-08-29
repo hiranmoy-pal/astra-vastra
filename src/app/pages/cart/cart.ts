@@ -24,8 +24,12 @@ export class Cart implements OnInit, AfterViewInit {
   @ViewChild('swiperSaveForLater') swiperSaveForLater!: ElementRef;
 
   saveForLaterSwiperConfig = signal({
-    navigation: false,
     pagination: false,
+    cssMode: true,
+    navigation: {
+      nextEl: '.custom-swiper-next',
+      prevEl: '.custom-swiper-prev',
+    },
     breakpoints: {
       0: {
         slidesPerView: 1.2,
@@ -218,8 +222,9 @@ export class Cart implements OnInit, AfterViewInit {
 
   }
 
+
   ngAfterViewInit() {
-    if (isPlatformBrowser(this.platformId)) {
+    if (isPlatformBrowser(this.platformId) && this.swiperSaveForLater) {
       setTimeout(() => {
         Object.assign(this.swiperSaveForLater.nativeElement, this.saveForLaterSwiperConfig());
         this.swiperSaveForLater.nativeElement.initialize();
@@ -230,22 +235,14 @@ export class Cart implements OnInit, AfterViewInit {
   startSwiper(event: any) {
     const container = event.currentTarget;
     const swiperEl = container.querySelector('swiper-container');
-
     if (!swiperEl) return;
 
     if (!swiperEl.classList.contains('swiper-initialized')) {
       Object.assign(swiperEl, {
-        loop: true,
-        speed: 500,
-        autoplay: {
-          delay: 600,
-          disableOnInteraction: false
-        },
-        pagination: {
-          clickable: true
-        }
+        loop: true, speed: 500,
+        autoplay: { delay: 600, disableOnInteraction: false },
+        pagination: { clickable: true }
       });
-
       setTimeout(() => { swiperEl.initialize(); }, 400);
     }
 
@@ -255,16 +252,11 @@ export class Cart implements OnInit, AfterViewInit {
     swiper.autoplay.stop();
     swiper.slideToLoop(0, 0);
 
-    if (this.hoverTimers.has(container)) {
-      clearTimeout(this.hoverTimers.get(container));
-    }
-
+    if (this.hoverTimers.has(container)) clearTimeout(this.hoverTimers.get(container));
     const timer = setTimeout(() => {
       container.classList.add('swiper-active');
-
       swiper.autoplay.start();
     }, 600);
-
     this.hoverTimers.set(container, timer);
   }
 
@@ -277,7 +269,6 @@ export class Cart implements OnInit, AfterViewInit {
       clearTimeout(this.hoverTimers.get(container));
       this.hoverTimers.delete(container);
     }
-
     container.classList.remove('swiper-active');
 
     if (swiper) {

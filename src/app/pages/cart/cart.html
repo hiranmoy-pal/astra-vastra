@@ -421,55 +421,70 @@
     </section>
 
     <!-- Save for later  -->
+    <!-- Save for later  -->
     <section class="trending similar_product">
         <div class="container">
             <header class="trending__header">
                 <h2>Save For Later</h2>
             </header>
-            <swiper-container class="trending-swiper" #swiperSaveForLater init="false">
-                <swiper-slide *ngFor="let product of products">
 
-                    <article class="product-card" (mouseenter)="startSwiper($event)" (mouseleave)="resetSwiper($event)">
-                        <div class="product-card__media">
-                            <img class="product-card__image default" [src]="product.images[0]" [alt]="product.name"
-                                loading="lazy" />
-                            <swiper-container class="product-card__swiper">
-                                <swiper-slide *ngFor="let img of product.images">
-                                    <img [src]="img" [alt]="product.name" loading="lazy" />
-                                </swiper-slide>
-                            </swiper-container>
-                            <span class="product-card__rating">
-                                {{ product.rating }}
-                                <i class="fa fa-star"></i>
-                                <span class="count">| {{ product.count }}</span>
-                            </span>
-                            <button class="product-card__wishlist" type="button" aria-label="Add to wishlist">
-                                <i class="fa fa-heart"></i>
-                            </button>
-                        </div>
+            <!-- 🔥 FIX: Added wrapper to hold custom buttons properly -->
+            <div class="swiper-wrapper-container">
 
-                        <div class="product-card__content">
-                            <h3 class="brand">{{ product.brand }}</h3>
-                            <p class="name">{{ product.name }}</p>
-                            <div class="price">
-                                <span class="current">₹{{ product.price }}</span>
-                                <span class="original">₹{{ product.original }}</span>
-                                <span class="discount">{{ product.discount }}</span>
+                <button class="custom-swiper-prev" aria-label="Previous">
+                    <i class="fa fa-angle-left"></i>
+                </button>
+
+                <swiper-container class="trending-swiper" #swiperSaveForLater init="false">
+                    <swiper-slide *ngFor="let product of products">
+
+                        <article class="product-card" (mouseenter)="startSwiper($event)"
+                            (mouseleave)="resetSwiper($event)">
+                            <div class="product-card__media">
+                                <img class="product-card__image default" [src]="product.images[0]" [alt]="product.name"
+                                    loading="lazy" />
+                                <swiper-container class="product-card__swiper">
+                                    <swiper-slide *ngFor="let img of product.images">
+                                        <img [src]="img" [alt]="product.name" loading="lazy" />
+                                    </swiper-slide>
+                                </swiper-container>
+                                <span class="product-card__rating">
+                                    {{ product.rating }}
+                                    <i class="fa fa-star"></i>
+                                    <span class="count">| {{ product.count }}</span>
+                                </span>
+                                <button class="product-card__wishlist" type="button" aria-label="Add to wishlist">
+                                    <i class="fa fa-heart"></i>
+                                </button>
                             </div>
-                            <p class="size">Sizes: {{ product.size }}</p>
-                        </div>
 
-                        <a routerLink="" style="text-decoration: none;">
-                            <button class="product-card__cart">
-                                <i class="fa fa-shopping-cart"></i>
-                                <span>Back to Cart</span>
-                            </button>
-                        </a>
+                            <div class="product-card__content">
+                                <h3 class="brand">{{ product.brand }}</h3>
+                                <p class="name">{{ product.name }}</p>
+                                <div class="price">
+                                    <span class="current">₹{{ product.price }}</span>
+                                    <span class="original">₹{{ product.original }}</span>
+                                    <span class="discount">{{ product.discount }}</span>
+                                </div>
+                                <p class="size">Sizes: {{ product.size }}</p>
+                            </div>
 
-                    </article>
-                </swiper-slide>
+                            <a routerLink="" style="text-decoration: none;">
+                                <button class="product-card__cart">
+                                    <i class="fa fa-shopping-cart"></i>
+                                    <span>Back to Cart</span>
+                                </button>
+                            </a>
 
-            </swiper-container>
+                        </article>
+                    </swiper-slide>
+                </swiper-container>
+
+                <button class="custom-swiper-next" aria-label="Next">
+                    <i class="fa fa-angle-right"></i>
+                </button>
+
+            </div>
         </div>
     </section>
 

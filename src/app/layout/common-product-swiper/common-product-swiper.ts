@@ -18,7 +18,11 @@ export class CommonProductSwiper implements AfterViewInit {
   hoverTimers = new WeakMap<any, any>();
 
   trendingSwiperConfig = signal({
-    navigation: true,
+    cssMode: true,
+    navigation: {
+      nextEl: '.custom-swiper-next',
+      prevEl: '.custom-swiper-prev',
+    },
     pagination: false,
     breakpoints: {
       0: { slidesPerView: 1.2, spaceBetween: 12 },

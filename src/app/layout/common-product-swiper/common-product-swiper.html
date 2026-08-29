@@ -3,43 +3,59 @@
         <header class="trending__header">
             <h2>{{ title }}</h2>
         </header>
-        <swiper-container class="trending-swiper" #swiperSimilarProduct init="false">
-            <swiper-slide *ngFor="let product of products">
-                <article class="product-card" (mouseenter)="startSwiper($event)" (mouseleave)="resetSwiper($event)">
-                    <div class="product-card__media">
-                        <img class="product-card__image default" [src]="product.images[0]" [alt]="product.name"
-                            loading="lazy" />
-                        <swiper-container class="product-card__swiper">
-                            <swiper-slide *ngFor="let img of product.images">
-                                <img [src]="img" [alt]="product.name" loading="lazy" />
-                            </swiper-slide>
-                        </swiper-container>
-                        <span class="product-card__rating">
-                            {{ product.rating }} <i class="fa fa-star"></i>
-                            <span class="count">| {{ product.count }}</span>
-                        </span>
-                        <button class="product-card__wishlist" type="button" aria-label="Add to wishlist">
-                            <i class="fa fa-heart"></i>
-                        </button>
-                    </div>
-                    <div class="product-card__content">
-                        <h3 class="brand">{{ product.brand }}</h3>
-                        <p class="name">{{ product.name }}</p>
-                        <div class="price">
-                            <span class="current">₹{{ product.price }}</span>
-                            <span class="original">₹{{ product.original }}</span>
-                            <span class="discount">{{ product.discount }}</span>
+        
+        <!-- Wrapper added to position the custom buttons correctly -->
+        <div class="swiper-wrapper-container">
+            
+            <!-- Custom Previous Button -->
+            <button class="custom-swiper-prev" aria-label="Previous">
+                <i class="fa fa-angle-left"></i>
+            </button>
+
+            <swiper-container class="trending-swiper" #swiperSimilarProduct init="false">
+                <swiper-slide *ngFor="let product of products">
+                    <article class="product-card" (mouseenter)="startSwiper($event)" (mouseleave)="resetSwiper($event)">
+                        <div class="product-card__media">
+                            <img class="product-card__image default" [src]="product.images[0]" [alt]="product.name"
+                                loading="lazy" />
+                            <swiper-container class="product-card__swiper">
+                                <swiper-slide *ngFor="let img of product.images">
+                                    <img [src]="img" [alt]="product.name" loading="lazy" />
+                                </swiper-slide>
+                            </swiper-container>
+                            <span class="product-card__rating">
+                                {{ product.rating }} <i class="fa fa-star"></i>
+                                <span class="count">| {{ product.count }}</span>
+                            </span>
+                            <button class="product-card__wishlist" type="button" aria-label="Add to wishlist">
+                                <i class="fa fa-heart"></i>
+                            </button>
                         </div>
-                        <p class="size">Sizes: {{ product.size }}</p>
-                    </div>
-                    <a routerLink="" style="text-decoration: none;">
-                        <button class="product-card__cart">
-                            <i class="fa fa-shopping-cart"></i>
-                            <span>Add to Cart</span>
-                        </button>
-                    </a>
-                </article>
-            </swiper-slide>
-        </swiper-container>
+                        <div class="product-card__content">
+                            <h3 class="brand">{{ product.brand }}</h3>
+                            <p class="name">{{ product.name }}</p>
+                            <div class="price">
+                                <span class="current">₹{{ product.price }}</span>
+                                <span class="original">₹{{ product.original }}</span>
+                                <span class="discount">{{ product.discount }}</span>
+                            </div>
+                            <p class="size">Sizes: {{ product.size }}</p>
+                        </div>
+                        <a routerLink="" style="text-decoration: none;">
+                            <button class="product-card__cart">
+                                <i class="fa fa-shopping-cart"></i>
+                                <span>Add to Cart</span>
+                            </button>
+                        </a>
+                    </article>
+                </swiper-slide>
+            </swiper-container>
+
+            <!-- Custom Next Button -->
+            <button class="custom-swiper-next" aria-label="Next">
+                <i class="fa fa-angle-right"></i>
+            </button>
+
+        </div>
     </div>
 </section>

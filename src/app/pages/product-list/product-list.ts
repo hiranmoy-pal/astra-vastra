@@ -5,13 +5,14 @@ import { CommonModule } from '@angular/common';
 import { RouterLink, RouterModule } from '@angular/router';
 import { ProfileMenu } from '../../layout/profile-menu/profile-menu';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { CommonProductGrid } from '../../layout/common-product-grid/common-product-grid';
 
 @Component({
   selector: 'app-product-list',
   standalone: true,
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   imports: [
-    Header, Footer, CommonModule, RouterModule, RouterLink, ProfileMenu, FormsModule, ReactiveFormsModule
+    Header, Footer, CommonModule, RouterModule, RouterLink, ProfileMenu, FormsModule, ReactiveFormsModule, CommonProductGrid
   ],
   templateUrl: './product-list.html',
   styleUrl: './product-list.scss',

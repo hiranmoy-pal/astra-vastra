@@ -11,8 +11,9 @@ import { RouterLink } from '@angular/router';
   styleUrl: './common-product-grid.scss',
 })
 export class CommonProductGrid {
-  @Input() title: string = 'Explore More';
+  @Input() title: string = '';
   @Input() products: any[] = [];
+  @Input() customClass: string = '';
 
   hoverTimers = new WeakMap<any, any>();
 

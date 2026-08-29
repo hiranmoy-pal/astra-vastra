@@ -1,23 +1,32 @@
+/* =========================================
+   PAGE WRAPPER (Now Full Width)
+========================================= */
 .product-details-page {
-    max-width: 1280px;
-    margin: 0 auto;
-    padding: 1rem;
     width: 100%;
     overflow-x: hidden;
     font-family: var(--font-body);
     color: var(--text-primary);
+    /* Removed max-width and padding from here so child components can control themselves */
 }
 
 /* =========================================
-   PRODUCT LAYOUT
+   PRODUCT LAYOUT (Now handles its own alignment)
 ========================================= */
-
 .product-container {
+    /* Added alignment here to match the 1400px grid system */
+    width: 100%;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 2rem 24px;
+    box-sizing: border-box;
+
     display: grid;
     grid-template-columns: 5fr 7fr;
     gap: 4rem;
     align-items: start;
     min-width: 0;
+
+    /* Kept your existing height properties */
     height: 100vh;
     max-height: 100vh;
     overflow: hidden;
@@ -891,13 +900,17 @@ a {
     }
 
     .product-details-page {
-        padding: 12px;
+        /* Remove padding: 12px from here */
+        padding: 0;
     }
 
     .product-container {
         display: flex;
         flex-direction: column;
         gap: 24px;
+
+        /* Apply mobile side margins here instead */
+        padding: 1.5rem 20px;
     }
 
     .gallery-section {
