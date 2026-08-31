@@ -1,1 +1,191 @@
-<p>common-product-list-layout works!</p>
+<section class="collection-header">
+    <div class="collection-header__content">
+        <nav class="breadcrumb">
+            <a href="#">Home</a>
+            <span>/</span>
+            <a href="#">Women's Collections</a>
+        </nav>
+        <div class="collection-meta">
+            <span class="product-count">{{ totalCount }} Products</span>
+
+            <!-- 🔥 FIX: New Dropdown Structure -->
+            <div class="sort-dropdown" (mouseleave)="isSortOpen = false">
+                <button class="sort-btn" (click)="toggleSort()" [class.active]="isSortOpen">
+                    Sort by : <strong>{{ selectedSort }}</strong>
+                    <i class="fa fa-angle-down" [class.rotated]="isSortOpen"></i>
+                </button>
+
+                <!-- Dropdown Menu -->
+                <ul class="sort-menu" *ngIf="isSortOpen">
+                    <li *ngFor="let option of sortOptions" [class.selected]="option === selectedSort"
+                        (click)="selectSortOption(option)">
+                        {{ option }}
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="catalog-layout">
+    <div class="mobile-filter-bar">
+        <button class="mobile-filter-btn" (click)="isFilterOpen = true">
+            <i class="fa fa-sliders"></i><span>Filters</span>
+        </button>
+    </div>
+
+    <aside class="filters-sidebar" [class.active]="isFilterOpen">
+        <div class="filters-top">
+            <h2>Filters</h2>
+            <button class="mobile-close-filter" (click)="isFilterOpen = false">
+                <i class="fa fa-times"></i>
+            </button>
+            <button class="clear-btn">Clear All</button>
+        </div>
+
+        <!-- CATEGORY -->
+        <section class="filter-group">
+            <button class="filter-title"><span>Category</span> <i class="fa fa-angle-down"></i></button>
+            <div class="filter-options">
+                <label class="filter-option" *ngFor="let item of categories">
+                    <div class="checkbox-wrapper">
+                        <input type="checkbox" [(ngModel)]="item.selected">
+                        <span class="checkmark"></span>
+                    </div>
+                    <span class="label">{{ item.name }} </span>
+                    <small>{{ item.count }}</small>
+                </label>
+            </div>
+        </section>
+
+        <!-- BRAND -->
+        <section class="filter-group">
+            <button class="filter-title"><span>Brand</span> <i class="fa fa-angle-down"></i></button>
+            <div class="filter-options">
+                <label class="filter-option" *ngFor="let item of brands">
+                    <div class="checkbox-wrapper">
+                        <input type="checkbox" [(ngModel)]="item.selected">
+                        <span class="checkmark"></span>
+                    </div>
+                    <span class="label">{{ item.name }}</span>
+                    <small>{{ item.count }}</small>
+                </label>
+            </div>
+        </section>
+
+        <!-- GENDER -->
+        <section class="filter-group">
+            <button class="filter-title"><span>Gender</span> <i class="fa fa-angle-down"></i></button>
+            <div class="filter-options">
+                <label class="filter-option" *ngFor="let item of genders">
+                    <div class="checkbox-wrapper">
+                        <input type="checkbox" [(ngModel)]="item.selected">
+                        <span class="checkmark"></span>
+                    </div>
+                    <span class="label">{{ item.name }}</span>
+                    <small>{{ item.count }}</small>
+                </label>
+            </div>
+        </section>
+
+        <!-- COLOR -->
+        <section class="filter-group">
+            <button class="filter-title"><span>Color</span> <i class="fa fa-angle-down"></i></button>
+            <div class="filter-options">
+                <label class="filter-option" *ngFor="let item of colors">
+                    <div class="checkbox-wrapper">
+                        <input type="checkbox" [(ngModel)]="item.selected">
+                        <span class="checkmark"></span>
+                    </div>
+                    <span class="color-dot" [style.background]="item.code"></span>
+                    <span class="label">{{ item.name }}</span>
+                    <small>{{ item.count }}</small>
+                </label>
+            </div>
+        </section>
+
+        <!-- SIZE -->
+        <section class="filter-group">
+            <button class="filter-title"><span>Size</span> <i class="fa fa-angle-down"></i></button>
+            <div class="sizes-grid">
+                <button *ngFor="let size of sizes" [class.active]="size.selected" (click)="toggleSize(size)">
+                    {{ size.name }}
+                </button>
+            </div>
+        </section>
+
+        <!-- PRICE RANGE -->
+        <section class="filter-group">
+            <button class="filter-title"><span>Price Range</span> <i class="fa fa-angle-down"></i></button>
+            <div class="price-slider">
+                <div class="slider-track"></div>
+                <div class="slider-range" [style.left.%]="(minPrice / maxRange) * 100"
+                    [style.right.%]="100 - ((maxPrice / maxRange) * 100)"></div>
+                <input type="range" min="0" [max]="maxRange" [(ngModel)]="minPrice" (input)="onMinPriceChange()">
+                <input type="range" min="0" [max]="maxRange" [(ngModel)]="maxPrice" (input)="onMaxPriceChange()">
+            </div>
+            <div class="price-values">
+                <span>₹{{ minPrice }}</span>
+                <span>₹{{ maxPrice }}</span>
+            </div>
+        </section>
+
+        <!-- CUSTOMER RATING -->
+        <section class="filter-group">
+            <button class="filter-title"><span>Customer Rating</span> <i class="fa fa-angle-down"></i></button>
+            <div class="filter-options">
+                <label class="filter-option" *ngFor="let item of ratings">
+                    <div class="checkbox-wrapper">
+                        <input type="checkbox" [(ngModel)]="item.selected">
+                        <span class="checkmark"></span>
+                    </div>
+                    <div class="rating-stars">
+                        <i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i
+                            class="fa fa-star"></i>
+                    </div>
+                    <span class="label">{{ item.name }}</span>
+                </label>
+            </div>
+        </section>
+
+        <!-- DISCOUNT -->
+        <section class="filter-group">
+            <button class="filter-title"><span>Discount</span> <i class="fa fa-angle-down"></i></button>
+            <div class="filter-options">
+                <label class="radio-option" *ngFor="let item of discounts">
+                    <input type="radio" name="discount" [value]="item.value" [(ngModel)]="selectedDiscount">
+                    <span class="radio-circle"></span>
+                    <span class="label">{{ item.label }}</span>
+                </label>
+            </div>
+        </section>
+    </aside>
+
+    <div class="filter-overlay" [class.active]="isFilterOpen" (click)="isFilterOpen = false"></div>
+
+    <!-- Product Grid & Static Pagination -->
+    <div class="grid-container">
+        <app-common-product-grid [products]="products" customClass="product-list-grid"></app-common-product-grid>
+
+        <!-- STATIC PAGINATION -->
+        <div class="custom-pagination">
+            <div class="pagination-controls">
+                <button class="pagination-btn text-btn">PREVIOUS</button>
+                <button class="pagination-btn">6</button>
+                <button class="pagination-btn">7</button>
+                <button class="pagination-btn">8</button>
+                <button class="pagination-btn">9</button>
+                <button class="pagination-btn active">10</button>
+                <button class="pagination-btn">11</button>
+                <button class="pagination-btn">12</button>
+                <button class="pagination-btn">13</button>
+                <button class="pagination-btn">14</button>
+                <button class="pagination-btn">15</button>
+                <button class="pagination-btn text-btn">NEXT</button>
+            </div>
+            <div class="pagination-info">
+                Page 10 of 625
+            </div>
+        </div>
+    </div>
+</section>

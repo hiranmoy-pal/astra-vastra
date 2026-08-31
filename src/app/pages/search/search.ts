@@ -9,16 +9,16 @@ import { CommonProductGrid } from '../../layout/common-product-grid/common-produ
 import { CommonProductListLayout } from '../../layout/common-product-list-layout/common-product-list-layout';
 
 @Component({
-  selector: 'app-product-list',
+  selector: 'app-search',
   standalone: true,
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   imports: [
     Header, Footer, CommonModule, RouterModule, RouterLink, ProfileMenu, FormsModule, ReactiveFormsModule, CommonProductGrid, CommonProductListLayout
   ],
-  templateUrl: './product-list.html',
-  styleUrl: './product-list.scss',
+  templateUrl: './search.html',
+  styleUrl: './search.scss',
 })
-export class ProductList implements OnInit, AfterViewInit {
+export class Search implements OnInit, AfterViewInit {
   hoverTimers = new WeakMap<any, any>();
   selectedDiscount = 25;
   minPrice = 3000;
@@ -210,6 +210,34 @@ export class ProductList implements OnInit, AfterViewInit {
       ]
     },
     {
+      brand: 'Keepfit',
+      name: 'Round Neck Leg Suit',
+      price: 1398,
+      original: 3499,
+      discount: '(60% OFF)',
+      size: 'S, M, L',
+      rating: 4.7,
+      count: '31',
+      images: [
+        'https://rukminim1.flixcart.com/image/1536/1536/xif0q/shoe/5/2/q/-original-imahgcs8chzjtsmz.jpeg?q=90',
+        'https://rukminim1.flixcart.com/image/1536/1536/xif0q/shoe/k/c/6/-original-imahjhjpv7txxxsu.jpeg?q=90',
+        'https://rukminim1.flixcart.com/image/1536/1536/xif0q/shoe/h/m/l/-original-imahjhjpzftwmgbb.jpeg?q=90'
+      ]
+    }, {
+      brand: 'Keepfit',
+      name: 'Round Neck Leg Suit',
+      price: 1398,
+      original: 3499,
+      discount: '(60% OFF)',
+      size: 'S, M, L',
+      rating: 4.7,
+      count: '31',
+      images: [
+        'https://rukminim1.flixcart.com/image/1536/1536/xif0q/shoe/5/2/q/-original-imahgcs8chzjtsmz.jpeg?q=90',
+        'https://rukminim1.flixcart.com/image/1536/1536/xif0q/shoe/k/c/6/-original-imahjhjpv7txxxsu.jpeg?q=90',
+        'https://rukminim1.flixcart.com/image/1536/1536/xif0q/shoe/h/m/l/-original-imahjhjpzftwmgbb.jpeg?q=90'
+      ]
+    }, {
       brand: 'Keepfit',
       name: 'Round Neck Leg Suit',
       price: 1398,

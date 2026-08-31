@@ -16,11 +16,23 @@
     .trending__grid {
         grid-template-columns: repeat(3, minmax(0, 1fr));
     }
+
+    .product-list-grid {
+        .trending__grid {
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+        }
+    }
 }
 
 @media (max-width: 992px) {
     .trending__grid {
         grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .product-list-grid {
+        .trending__grid {
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+        }
     }
 }
 
@@ -28,10 +40,22 @@
     .trending__grid {
         grid-template-columns: 1fr;
     }
+
+    .product-list-grid {
+        .trending__grid {
+            grid-template-columns: 1fr;
+        }
+    }
 }
 
 @media (max-width: 540px) {
     .trending__grid {
         grid-template-columns: 1fr;
+    }
+
+    .product-list-grid {
+        .trending__grid {
+            grid-template-columns: 1fr;
+        }
     }
 }
