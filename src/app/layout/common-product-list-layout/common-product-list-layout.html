@@ -47,9 +47,9 @@
         <section class="filter-group" *ngIf="categories.length > 0">
             <button class="filter-title" (click)="toggleFilter('category')">
                 <span>Category</span>
-                <i class="fa" [ngClass]="filterStates.category ? 'fa-angle-up' : 'fa-angle-down'"></i>
+                <i class="fa" [ngClass]="filterStates['category'] ? 'fa-angle-up' : 'fa-angle-down'"></i>
             </button>
-            <div class="filter-options" *ngIf="filterStates.category">
+            <div class="filter-options" *ngIf="filterStates['category']">
                 <label class="filter-option" *ngFor="let item of categories">
                     <div class="checkbox-wrapper">
                         <input type="checkbox" [name]="'cat_' + item.id" [(ngModel)]="item.selected"
@@ -66,9 +66,9 @@
         <section class="filter-group" *ngIf="brands.length > 0">
             <button class="filter-title" (click)="toggleFilter('brand')">
                 <span>Brand</span>
-                <i class="fa" [ngClass]="filterStates.brand ? 'fa-angle-up' : 'fa-angle-down'"></i>
+                <i class="fa" [ngClass]="filterStates['brand'] ? 'fa-angle-up' : 'fa-angle-down'"></i>
             </button>
-            <div class="filter-options" *ngIf="filterStates.brand">
+            <div class="filter-options" *ngIf="filterStates['brand']">
                 <label class="filter-option" *ngFor="let item of brands">
                     <div class="checkbox-wrapper">
                         <input type="checkbox" [name]="'brand_' + item.id" [(ngModel)]="item.selected"
@@ -85,9 +85,9 @@
         <section class="filter-group" *ngIf="genders.length > 0">
             <button class="filter-title" (click)="toggleFilter('gender')">
                 <span>Gender</span>
-                <i class="fa" [ngClass]="filterStates.gender ? 'fa-angle-up' : 'fa-angle-down'"></i>
+                <i class="fa" [ngClass]="filterStates['gender'] ? 'fa-angle-up' : 'fa-angle-down'"></i>
             </button>
-            <div class="filter-options" *ngIf="filterStates.gender">
+            <div class="filter-options" *ngIf="filterStates['gender']">
                 <label class="filter-option" *ngFor="let item of genders; let i = index">
                     <div class="checkbox-wrapper">
                         <input type="checkbox" [name]="'gender_' + i" [(ngModel)]="item.selected"
@@ -104,9 +104,9 @@
         <section class="filter-group" *ngIf="colors.length > 0">
             <button class="filter-title" (click)="toggleFilter('color')">
                 <span>Color</span>
-                <i class="fa" [ngClass]="filterStates.color ? 'fa-angle-up' : 'fa-angle-down'"></i>
+                <i class="fa" [ngClass]="filterStates['color'] ? 'fa-angle-up' : 'fa-angle-down'"></i>
             </button>
-            <div class="filter-options" *ngIf="filterStates.color">
+            <div class="filter-options" *ngIf="filterStates['color']">
                 <label class="filter-option" *ngFor="let item of colors">
                     <div class="checkbox-wrapper">
                         <input type="checkbox" [name]="'color_' + item.name" [(ngModel)]="item.selected"
@@ -124,9 +124,9 @@
         <section class="filter-group" *ngIf="sizes.length > 0">
             <button class="filter-title" (click)="toggleFilter('size')">
                 <span>Size</span>
-                <i class="fa" [ngClass]="filterStates.size ? 'fa-angle-up' : 'fa-angle-down'"></i>
+                <i class="fa" [ngClass]="filterStates['size'] ? 'fa-angle-up' : 'fa-angle-down'"></i>
             </button>
-            <div class="sizes-grid" *ngIf="filterStates.size">
+            <div class="sizes-grid" *ngIf="filterStates['size']">
                 <button *ngFor="let size of sizes" [class.active]="size.selected" (click)="toggleSize(size)">
                     {{ size.name }}
                 </button>
@@ -137,9 +137,9 @@
         <section class="filter-group">
             <button class="filter-title" (click)="toggleFilter('price')">
                 <span>Price Range</span>
-                <i class="fa" [ngClass]="filterStates.price ? 'fa-angle-up' : 'fa-angle-down'"></i>
+                <i class="fa" [ngClass]="filterStates['price'] ? 'fa-angle-up' : 'fa-angle-down'"></i>
             </button>
-            <div *ngIf="filterStates.price">
+            <div *ngIf="filterStates['price']">
                 <div class="price-slider">
                     <div class="slider-track"></div>
                     <div class="slider-range" [style.left.%]="(minPrice / maxRange) * 100"
@@ -158,9 +158,9 @@
         <section class="filter-group" *ngIf="ratings.length > 0">
             <button class="filter-title" (click)="toggleFilter('rating')">
                 <span>Customer Rating</span>
-                <i class="fa" [ngClass]="filterStates.rating ? 'fa-angle-up' : 'fa-angle-down'"></i>
+                <i class="fa" [ngClass]="filterStates['rating'] ? 'fa-angle-up' : 'fa-angle-down'"></i>
             </button>
-            <div class="filter-options" *ngIf="filterStates.rating">
+            <div class="filter-options" *ngIf="filterStates['rating']">
                 <label class="filter-option" *ngFor="let item of ratings; let i = index">
                     <div class="checkbox-wrapper">
                         <input type="checkbox" [name]="'rating_' + i" [(ngModel)]="item.selected"
@@ -180,9 +180,9 @@
         <section class="filter-group" *ngIf="discounts.length > 0">
             <button class="filter-title" (click)="toggleFilter('discount')">
                 <span>Discount</span>
-                <i class="fa" [ngClass]="filterStates.discount ? 'fa-angle-up' : 'fa-angle-down'"></i>
+                <i class="fa" [ngClass]="filterStates['discount'] ? 'fa-angle-up' : 'fa-angle-down'"></i>
             </button>
-            <div class="filter-options" *ngIf="filterStates.discount">
+            <div class="filter-options" *ngIf="filterStates['discount']">
                 <label class="radio-option" *ngFor="let item of discounts">
                     <input type="radio" name="discount" [value]="item.value" [(ngModel)]="selectedDiscount"
                         (ngModelChange)="onDiscountChange()">
