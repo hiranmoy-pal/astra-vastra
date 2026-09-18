@@ -1,25 +1,25 @@
 <section class="collection-header">
     <div class="collection-header__content">
         <nav class="breadcrumb">
-            <a href="#">Home</a>
-            <span>/</span>
-            <a href="#">Women's Collections</a>
+            <ng-container *ngFor="let crumb of breadcrumbs; let last = last">
+                <!-- Drop queryParams so clicking a breadcrumb removes old filters -->
+                <a [routerLink]="crumb.slug === '/' ? ['/'] : ['/', crumb.slug]" [queryParams]="{}">{{ crumb.name }}</a>
+                <span *ngIf="!last">/</span>
+            </ng-container>
         </nav>
         <div class="collection-meta">
             <span class="product-count">{{ totalCount }} Products</span>
 
-            <!-- 🔥 FIX: New Dropdown Structure -->
             <div class="sort-dropdown" (mouseleave)="isSortOpen = false">
                 <button class="sort-btn" (click)="toggleSort()" [class.active]="isSortOpen">
-                    Sort by : <strong>{{ selectedSort }}</strong>
+                    Sort by : <strong>{{ selectedSortTitle }}</strong>
                     <i class="fa fa-angle-down" [class.rotated]="isSortOpen"></i>
                 </button>
 
-                <!-- Dropdown Menu -->
                 <ul class="sort-menu" *ngIf="isSortOpen">
-                    <li *ngFor="let option of sortOptions" [class.selected]="option === selectedSort"
+                    <li *ngFor="let option of sortOptions" [class.selected]="option.title === selectedSortTitle"
                         (click)="selectSortOption(option)">
-                        {{ option }}
+                        {{ option.title }}
                     </li>
                 </ul>
             </div>
@@ -44,12 +44,16 @@
         </div>
 
         <!-- CATEGORY -->
-        <section class="filter-group">
-            <button class="filter-title"><span>Category</span> <i class="fa fa-angle-down"></i></button>
-            <div class="filter-options">
+        <section class="filter-group" *ngIf="categories.length > 0">
+            <button class="filter-title" (click)="toggleFilter('category')">
+                <span>Category</span>
+                <i class="fa" [ngClass]="filterStates.category ? 'fa-angle-up' : 'fa-angle-down'"></i>
+            </button>
+            <div class="filter-options" *ngIf="filterStates.category">
                 <label class="filter-option" *ngFor="let item of categories">
                     <div class="checkbox-wrapper">
-                        <input type="checkbox" [(ngModel)]="item.selected">
+                        <input type="checkbox" [name]="'cat_' + item.id" [(ngModel)]="item.selected"
+                            (ngModelChange)="onFilterUpdate()">
                         <span class="checkmark"></span>
                     </div>
                     <span class="label">{{ item.name }} </span>
@@ -59,12 +63,16 @@
         </section>
 
         <!-- BRAND -->
-        <section class="filter-group">
-            <button class="filter-title"><span>Brand</span> <i class="fa fa-angle-down"></i></button>
-            <div class="filter-options">
+        <section class="filter-group" *ngIf="brands.length > 0">
+            <button class="filter-title" (click)="toggleFilter('brand')">
+                <span>Brand</span>
+                <i class="fa" [ngClass]="filterStates.brand ? 'fa-angle-up' : 'fa-angle-down'"></i>
+            </button>
+            <div class="filter-options" *ngIf="filterStates.brand">
                 <label class="filter-option" *ngFor="let item of brands">
                     <div class="checkbox-wrapper">
-                        <input type="checkbox" [(ngModel)]="item.selected">
+                        <input type="checkbox" [name]="'brand_' + item.id" [(ngModel)]="item.selected"
+                            (ngModelChange)="onFilterUpdate()">
                         <span class="checkmark"></span>
                     </div>
                     <span class="label">{{ item.name }}</span>
@@ -74,12 +82,16 @@
         </section>
 
         <!-- GENDER -->
-        <section class="filter-group">
-            <button class="filter-title"><span>Gender</span> <i class="fa fa-angle-down"></i></button>
-            <div class="filter-options">
-                <label class="filter-option" *ngFor="let item of genders">
+        <section class="filter-group" *ngIf="genders.length > 0">
+            <button class="filter-title" (click)="toggleFilter('gender')">
+                <span>Gender</span>
+                <i class="fa" [ngClass]="filterStates.gender ? 'fa-angle-up' : 'fa-angle-down'"></i>
+            </button>
+            <div class="filter-options" *ngIf="filterStates.gender">
+                <label class="filter-option" *ngFor="let item of genders; let i = index">
                     <div class="checkbox-wrapper">
-                        <input type="checkbox" [(ngModel)]="item.selected">
+                        <input type="checkbox" [name]="'gender_' + i" [(ngModel)]="item.selected"
+                            (ngModelChange)="onFilterUpdate()">
                         <span class="checkmark"></span>
                     </div>
                     <span class="label">{{ item.name }}</span>
@@ -89,15 +101,19 @@
         </section>
 
         <!-- COLOR -->
-        <section class="filter-group">
-            <button class="filter-title"><span>Color</span> <i class="fa fa-angle-down"></i></button>
-            <div class="filter-options">
+        <section class="filter-group" *ngIf="colors.length > 0">
+            <button class="filter-title" (click)="toggleFilter('color')">
+                <span>Color</span>
+                <i class="fa" [ngClass]="filterStates.color ? 'fa-angle-up' : 'fa-angle-down'"></i>
+            </button>
+            <div class="filter-options" *ngIf="filterStates.color">
                 <label class="filter-option" *ngFor="let item of colors">
                     <div class="checkbox-wrapper">
-                        <input type="checkbox" [(ngModel)]="item.selected">
+                        <input type="checkbox" [name]="'color_' + item.name" [(ngModel)]="item.selected"
+                            (ngModelChange)="onFilterUpdate()">
                         <span class="checkmark"></span>
                     </div>
-                    <span class="color-dot" [style.background]="item.code"></span>
+                    <span class="color-dot" [style.background]="item.code || item.name"></span>
                     <span class="label">{{ item.name }}</span>
                     <small>{{ item.count }}</small>
                 </label>
@@ -105,9 +121,12 @@
         </section>
 
         <!-- SIZE -->
-        <section class="filter-group">
-            <button class="filter-title"><span>Size</span> <i class="fa fa-angle-down"></i></button>
-            <div class="sizes-grid">
+        <section class="filter-group" *ngIf="sizes.length > 0">
+            <button class="filter-title" (click)="toggleFilter('size')">
+                <span>Size</span>
+                <i class="fa" [ngClass]="filterStates.size ? 'fa-angle-up' : 'fa-angle-down'"></i>
+            </button>
+            <div class="sizes-grid" *ngIf="filterStates.size">
                 <button *ngFor="let size of sizes" [class.active]="size.selected" (click)="toggleSize(size)">
                     {{ size.name }}
                 </button>
@@ -116,27 +135,36 @@
 
         <!-- PRICE RANGE -->
         <section class="filter-group">
-            <button class="filter-title"><span>Price Range</span> <i class="fa fa-angle-down"></i></button>
-            <div class="price-slider">
-                <div class="slider-track"></div>
-                <div class="slider-range" [style.left.%]="(minPrice / maxRange) * 100"
-                    [style.right.%]="100 - ((maxPrice / maxRange) * 100)"></div>
-                <input type="range" min="0" [max]="maxRange" [(ngModel)]="minPrice" (input)="onMinPriceChange()">
-                <input type="range" min="0" [max]="maxRange" [(ngModel)]="maxPrice" (input)="onMaxPriceChange()">
-            </div>
-            <div class="price-values">
-                <span>₹{{ minPrice }}</span>
-                <span>₹{{ maxPrice }}</span>
+            <button class="filter-title" (click)="toggleFilter('price')">
+                <span>Price Range</span>
+                <i class="fa" [ngClass]="filterStates.price ? 'fa-angle-up' : 'fa-angle-down'"></i>
+            </button>
+            <div *ngIf="filterStates.price">
+                <div class="price-slider">
+                    <div class="slider-track"></div>
+                    <div class="slider-range" [style.left.%]="(minPrice / maxRange) * 100"
+                        [style.right.%]="100 - ((maxPrice / maxRange) * 100)"></div>
+                    <input type="range" min="0" [max]="maxRange" [(ngModel)]="minPrice" (change)="onMinPriceChange()">
+                    <input type="range" min="0" [max]="maxRange" [(ngModel)]="maxPrice" (change)="onMaxPriceChange()">
+                </div>
+                <div class="price-values">
+                    <span>₹{{ minPrice }}</span>
+                    <span>₹{{ maxPrice }}</span>
+                </div>
             </div>
         </section>
 
         <!-- CUSTOMER RATING -->
-        <section class="filter-group">
-            <button class="filter-title"><span>Customer Rating</span> <i class="fa fa-angle-down"></i></button>
-            <div class="filter-options">
-                <label class="filter-option" *ngFor="let item of ratings">
+        <section class="filter-group" *ngIf="ratings.length > 0">
+            <button class="filter-title" (click)="toggleFilter('rating')">
+                <span>Customer Rating</span>
+                <i class="fa" [ngClass]="filterStates.rating ? 'fa-angle-up' : 'fa-angle-down'"></i>
+            </button>
+            <div class="filter-options" *ngIf="filterStates.rating">
+                <label class="filter-option" *ngFor="let item of ratings; let i = index">
                     <div class="checkbox-wrapper">
-                        <input type="checkbox" [(ngModel)]="item.selected">
+                        <input type="checkbox" [name]="'rating_' + i" [(ngModel)]="item.selected"
+                            (ngModelChange)="onFilterUpdate()">
                         <span class="checkmark"></span>
                     </div>
                     <div class="rating-stars">
@@ -149,11 +177,15 @@
         </section>
 
         <!-- DISCOUNT -->
-        <section class="filter-group">
-            <button class="filter-title"><span>Discount</span> <i class="fa fa-angle-down"></i></button>
-            <div class="filter-options">
+        <section class="filter-group" *ngIf="discounts.length > 0">
+            <button class="filter-title" (click)="toggleFilter('discount')">
+                <span>Discount</span>
+                <i class="fa" [ngClass]="filterStates.discount ? 'fa-angle-up' : 'fa-angle-down'"></i>
+            </button>
+            <div class="filter-options" *ngIf="filterStates.discount">
                 <label class="radio-option" *ngFor="let item of discounts">
-                    <input type="radio" name="discount" [value]="item.value" [(ngModel)]="selectedDiscount">
+                    <input type="radio" name="discount" [value]="item.value" [(ngModel)]="selectedDiscount"
+                        (ngModelChange)="onDiscountChange()">
                     <span class="radio-circle"></span>
                     <span class="label">{{ item.label }}</span>
                 </label>
@@ -163,28 +195,26 @@
 
     <div class="filter-overlay" [class.active]="isFilterOpen" (click)="isFilterOpen = false"></div>
 
-    <!-- Product Grid & Static Pagination -->
     <div class="grid-container">
         <app-common-product-grid [products]="products" customClass="product-list-grid"></app-common-product-grid>
 
-        <!-- STATIC PAGINATION -->
-        <div class="custom-pagination">
+        <div class="custom-pagination" *ngIf="totalPages > 0">
             <div class="pagination-controls">
-                <button class="pagination-btn text-btn">PREVIOUS</button>
-                <button class="pagination-btn">6</button>
-                <button class="pagination-btn">7</button>
-                <button class="pagination-btn">8</button>
-                <button class="pagination-btn">9</button>
-                <button class="pagination-btn active">10</button>
-                <button class="pagination-btn">11</button>
-                <button class="pagination-btn">12</button>
-                <button class="pagination-btn">13</button>
-                <button class="pagination-btn">14</button>
-                <button class="pagination-btn">15</button>
-                <button class="pagination-btn text-btn">NEXT</button>
+                <button class="pagination-btn text-btn" [disabled]="currentPage === 1"
+                    (click)="changePage(currentPage - 1)">
+                    PREVIOUS
+                </button>
+                <button class="pagination-btn" *ngFor="let page of visiblePages" [class.active]="page === currentPage"
+                    (click)="changePage(page)">
+                    {{ page }}
+                </button>
+                <button class="pagination-btn text-btn" [disabled]="currentPage === totalPages"
+                    (click)="changePage(currentPage + 1)">
+                    NEXT
+                </button>
             </div>
             <div class="pagination-info">
-                Page 10 of 625
+                Page {{ currentPage }} of {{ totalPages }}
             </div>
         </div>
     </div>

@@ -71,6 +71,10 @@ export class Http {
     return this.http.get(this.baseUrl + '/api/categories/categoryId/' + id, { context: new HttpContext().set(SKIP_AUTH, true) });
   }
 
+  getProductList(catId: any, payload: any, limit: number, offset: number) {
+    return this.http.post(this.baseUrl + '/api/products/filter/categoryid/' + catId + "/limit/" + limit + "/offset/" + offset, payload, { context: new HttpContext().set(SKIP_AUTH, true) });
+  }
+
   // ================== PROTECTED APIs =================== //
 
   getUserProfile(): Observable<any> {
