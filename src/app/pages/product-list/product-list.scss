@@ -1,40 +1,27 @@
 /* =====================================
    GLOBAL FIX
 ===================================== */
-
 * {
     box-sizing: border-box;
     min-width: 0;
 }
 
-html,
-body {
-    overflow-x: hidden;
-}
-
-swiper-container,
-swiper-slide {
-    max-width: 100%;
-}
-
 /* =====================================
    PAGE
 ===================================== */
-
 .product-list-page {
     width: 100%;
     max-width: 1800px;
     margin: 0 auto;
     padding: 1rem;
-    overflow-x: hidden;
     background: var(--background);
-}
 
+    /* 🔥 FIX: Removed overflow-x: hidden here because it breaks position: sticky! */
+}
 
 /* =====================================
    MEDIA — MOBILE (max-width: 768px)
 ===================================== */
-
 @media (max-width: 768px) {
     .product-list-page {
         padding: 1rem .8rem 2rem;

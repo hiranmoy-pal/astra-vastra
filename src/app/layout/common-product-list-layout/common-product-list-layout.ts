@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, CUSTOM_ELEMENTS_SCHEMA, Inject, PLATFORM_ID } from '@angular/core';
+import { Component, Input, Output, EventEmitter, CUSTOM_ELEMENTS_SCHEMA, Inject, PLATFORM_ID, NgZone, ViewChild, ElementRef, ChangeDetectorRef, OnChanges, HostListener } from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
@@ -12,7 +12,7 @@ import { CommonProductGrid } from '../common-product-grid/common-product-grid';
   templateUrl: './common-product-list-layout.html',
   styleUrl: './common-product-list-layout.scss',
 })
-export class CommonProductListLayout {
+export class CommonProductListLayout implements OnChanges {
   @Input() title: string = 'Collections';
   @Input() totalCount: number = 0;
   @Input() breadcrumbs: any[] = [];
@@ -25,8 +25,9 @@ export class CommonProductListLayout {
   @Input() discounts: any[] = [];
   @Input() products: any[] = [];
 
-  @Input() currentPage: number = 1;
-  @Input() totalPages: number = 1;
+  @Input() isFetchingMore: boolean = false;
+  @Input() hasMoreData: boolean = true;
+  @Output() scrolledToBottom = new EventEmitter<void>();
 
   @Input() minPrice: number = 0;
   @Output() minPriceChange = new EventEmitter<number>();
@@ -41,22 +42,19 @@ export class CommonProductListLayout {
 
   @Output() filterChange = new EventEmitter<void>();
   @Output() sortChange = new EventEmitter<string>();
-  @Output() pageChange = new EventEmitter<number>();
+
+  @ViewChild('gridScrollContainer')
+  gridScrollContainer!: ElementRef<HTMLElement>;
+
+  private loadMoreLocked = false;
 
   isFilterOpen: boolean = false;
   isSortOpen: boolean = false;
-  selectedSortTitle: string = 'Popularity';
+  selectedSortTitle: string = 'Recommended';
 
-  // Accordion toggle states
   filterStates: { [key: string]: boolean } = {
-    category: true,
-    brand: true,
-    gender: true,
-    color: true,
-    size: true,
-    price: true,
-    rating: true,
-    discount: true
+    category: true, brand: true, gender: true, color: true,
+    size: true, price: true, rating: true, discount: true
   };
 
   sortOptions = [
@@ -69,29 +67,79 @@ export class CommonProductListLayout {
     { title: "Customer Rating", value: "rating" }
   ];
 
-  constructor(@Inject(PLATFORM_ID) private platformId: Object) { }
+  constructor(@Inject(PLATFORM_ID) private platformId: Object, private ngZone: NgZone) { }
+
+
+  @HostListener('window:scroll', [])
+  onWindowScroll(): void {
+    if (!isPlatformBrowser(this.platformId)) return;
+
+    if (this.isFetchingMore || !this.hasMoreData || this.loadMoreLocked) {
+      return;
+    }
+
+    const scrollPosition = window.innerHeight + window.scrollY;
+    const documentHeight = Math.max(
+      document.body.scrollHeight, document.documentElement.scrollHeight,
+      document.body.offsetHeight, document.documentElement.offsetHeight,
+      document.body.clientHeight, document.documentElement.clientHeight
+    );
+
+    if (documentHeight - scrollPosition <= 800) {
+      this.loadMoreLocked = true;
+      this.ngZone.run(() => {
+        this.scrolledToBottom.emit();
+      });
+    }
+  }
+
+  ngOnChanges(): void {
+    if (!this.isFetchingMore) {
+
+      this.loadMoreLocked = false;
+
+      if (!isPlatformBrowser(this.platformId)) {
+        return;
+      }
+
+      requestAnimationFrame(() => {
+
+        const element =
+          this.gridScrollContainer?.nativeElement;
+
+        if (!element) {
+          return;
+        }
+
+        const distanceFromBottom =
+          element.scrollHeight -
+          element.scrollTop -
+          element.clientHeight;
+        if (
+          distanceFromBottom <= 500 &&
+          this.hasMoreData &&
+          !this.isFetchingMore &&
+          !this.loadMoreLocked
+        ) {
+
+          this.loadMoreLocked = true;
+
+          this.ngZone.run(() => {
+            this.scrolledToBottom.emit();
+          });
+        }
+      });
+    }
+  }
+
+  closeMobileFilter() {
+    if (isPlatformBrowser(this.platformId) && window.innerWidth <= 768) {
+      this.isFilterOpen = false;
+    }
+  }
 
   toggleFilter(filterName: string) {
     this.filterStates[filterName] = !this.filterStates[filterName];
-  }
-
-  get visiblePages(): number[] {
-    const pages = [];
-    let start = Math.max(1, this.currentPage - 4);
-    let end = Math.min(this.totalPages, start + 9);
-    if (end - start < 9) start = Math.max(1, end - 9);
-    for (let i = start; i <= end; i++) pages.push(i);
-    return pages;
-  }
-
-  changePage(page: number) {
-    if (page >= 1 && page <= this.totalPages && page !== this.currentPage) {
-      this.pageChange.emit(page);
-      // SSR Check to prevent window errors on server
-      if (isPlatformBrowser(this.platformId)) {
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-      }
-    }
   }
 
   toggleSort() {
@@ -107,6 +155,7 @@ export class CommonProductListLayout {
   toggleSize(size: any) {
     size.selected = !size.selected;
     this.filterChange.emit();
+    this.closeMobileFilter();
   }
 
   onMinPriceChange() {
@@ -124,9 +173,11 @@ export class CommonProductListLayout {
   onDiscountChange() {
     this.selectedDiscountChange.emit(this.selectedDiscount);
     this.filterChange.emit();
+    this.closeMobileFilter();
   }
 
   onFilterUpdate() {
     this.filterChange.emit();
+    this.closeMobileFilter();
   }
 }

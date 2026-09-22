@@ -1,13 +1,10 @@
 <app-header></app-header>
 <main class="product-list-page">
-
-    <app-common-product-list-layout title="Women's Collections" [breadcrumbs]="breadcrumbs" [totalCount]="totalCount"
-        [currentPage]="currentPage" [totalPages]="totalPages" [categories]="categories" [brands]="brands"
-        [colors]="colors" [sizes]="sizes" [products]="products" [ratings]="ratings" [discounts]="discounts"
-        [genders]="genders" [(minPrice)]="minPrice" [(maxPrice)]="maxPrice" [(selectedDiscount)]="selectedDiscount"
-        (filterChange)="fetchFilteredProducts()" (sortChange)="onSortChanged($event)"
-        (pageChange)="onPageChanged($event)">
+    <app-common-product-list-layout [title]="categoryTitle" [breadcrumbs]="breadcrumbs" [totalCount]="totalCount"
+        [categories]="categories" [brands]="brands" [colors]="colors" [sizes]="sizes" [products]="products"
+        [ratings]="ratings" [discounts]="discounts" [genders]="genders" [isFetchingMore]="isFetchingMore"
+        [hasMoreData]="hasMoreData" [(minPrice)]="minPrice" [(maxPrice)]="maxPrice"
+        [(selectedDiscount)]="selectedDiscount" (filterChange)="fetchFilteredProducts()"
+        (sortChange)="onSortChanged($event)" (scrolledToBottom)="onScroll()">
     </app-common-product-list-layout>
-
 </main>
-<app-footer></app-footer>

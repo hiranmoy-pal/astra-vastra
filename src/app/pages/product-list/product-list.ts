@@ -1,4 +1,4 @@
-import { AfterViewInit, ChangeDetectorRef, Component, CUSTOM_ELEMENTS_SCHEMA, inject, OnInit } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, CUSTOM_ELEMENTS_SCHEMA, inject, NgZone, OnInit } from '@angular/core';
 import { Header } from '../../layout/header/header';
 import { Footer } from '../../layout/footer/footer';
 import { CommonModule } from '@angular/common';
@@ -22,14 +22,17 @@ import { Loading } from '../../core/services/loading/loading';
 export class ProductList implements OnInit, AfterViewInit {
 
   slug: string = '';
+  categoryTitle: string = 'Collections';
   categoryId: number | null = null;
   isLoading: boolean = true;
 
   limit: number = 12;
   offset: number = 0;
   currentPage: number = 1;
-  totalPages: number = 1;
   totalCount: number = 0;
+
+  hasMoreData: boolean = true;
+  isFetchingMore: boolean = false;
 
   breadcrumbs: any[] = [];
   categories: any[] = [];
@@ -46,62 +49,70 @@ export class ProductList implements OnInit, AfterViewInit {
   selectedDiscount: any;
   currentSortValue: string = 'recommended';
 
+  private fallbackCategories = [
+    { id: 100, slug: 'clothing', name: 'Clothing' },
+    { id: 122, slug: 'footwear', name: 'Footwear' },
+    { id: 130, slug: 'personal-care', name: 'Personal Care' },
+    { id: 132, slug: 'accessories', name: 'Accessories' },
+    { id: 229, slug: 'toys-and-games', name: 'Toys & Games' }
+  ];
+
   private http = inject(Http);
   private cdr = inject(ChangeDetectorRef);
   private route = inject(ActivatedRoute);
   private router = inject(Router);
   private loadingService = inject(Loading);
+  private ngZone = inject(NgZone); // 🔥 Injected NgZone for instant renders
 
   ngOnInit(): void {
-    // Re-fires anytime URL /:slug changes or breadcrumb is clicked
     this.route.params.subscribe((params: any) => {
-      setTimeout(() => {
-        this.slug = params.slug;
-        this.isLoading = true;
+      this.slug = params.slug;
+      this.isLoading = true;
 
-        // Ensure filters persist on refresh, but ignore them if navigating to a clean category
-        const queryParams = this.route.snapshot.queryParams;
-        if (queryParams['page']) this.currentPage = Number(queryParams['page']);
-        if (queryParams['sort']) this.currentSortValue = queryParams['sort'];
+      const queryParams = this.route.snapshot.queryParams;
+      if (queryParams['sort']) this.currentSortValue = queryParams['sort'];
 
-        this.offset = (this.currentPage - 1) * this.limit;
+      this.currentPage = 1;
+      this.offset = 0;
+      this.hasMoreData = true;
 
-        this.getCategoryId();
-        this.cdr.detectChanges();
-      });
+      this.getCategoryId();
     });
   }
 
   getCategoryId() {
     this.http.getMenu().subscribe({
       next: (res: any) => {
-        setTimeout(() => {
-          const menuItems = res.data || res;
-          if (Array.isArray(menuItems)) {
-            const matchedCategory = this.findCategoryBySlug(menuItems, this.slug);
-            if (matchedCategory) {
-              this.categoryId = matchedCategory.id;
-              this.getProductList(this.categoryId);
-            } else {
-              this.isLoading = false;
-              this.cdr.detectChanges();
-            }
-          }
-        });
-      },
-      error: (err) => {
-        setTimeout(() => {
-          console.error(err);
+        const menuItems = res.data || res;
+        let matchedCategory = null;
+
+        if (Array.isArray(menuItems)) {
+          matchedCategory = this.findCategoryBySlug(menuItems, this.slug);
+        }
+
+        if (!matchedCategory) {
+          matchedCategory = this.fallbackCategories.find(c => c.slug === this.slug);
+        }
+
+        if (matchedCategory) {
+          this.categoryId = matchedCategory.id;
+          this.categoryTitle = matchedCategory.name || 'Collections';
+          this.getProductList(this.categoryId, false);
+        } else {
           this.isLoading = false;
           this.cdr.detectChanges();
-        });
+        }
+      },
+      error: (err) => {
+        this.isLoading = false;
+        this.cdr.detectChanges();
       }
     });
   }
 
   findCategoryBySlug(items: any[], targetSlug: string): any {
     for (const item of items) {
-      if (item.path === targetSlug) return item;
+      if (item.path === targetSlug || item.slug === targetSlug) return item;
       if (item.subCategory && Array.isArray(item.subCategory) && item.subCategory.length > 0) {
         const found = this.findCategoryBySlug(item.subCategory, targetSlug);
         if (found) return found;
@@ -115,7 +126,9 @@ export class ProductList implements OnInit, AfterViewInit {
   fetchFilteredProducts() {
     this.currentPage = 1;
     this.offset = 0;
-    this.getProductList(this.categoryId);
+    this.hasMoreData = true;
+    this.products = [];
+    this.getProductList(this.categoryId, false);
   }
 
   onSortChanged(sortValue: any) {
@@ -123,17 +136,18 @@ export class ProductList implements OnInit, AfterViewInit {
     this.fetchFilteredProducts();
   }
 
-  onPageChanged(pageNumber: any) {
-    this.currentPage = pageNumber;
-    this.offset = (pageNumber - 1) * this.limit;
-    this.getProductList(this.categoryId);
+  onScroll() {
+    if (this.isLoading || this.isFetchingMore || !this.hasMoreData) return;
+
+    this.currentPage++;
+    this.offset = (this.currentPage - 1) * this.limit;
+    this.getProductList(this.categoryId, true);
   }
 
   buildFilterPayload() {
     const payload: any = {};
     const queryParams = this.route.snapshot.queryParams;
 
-    // Use current UI data, or fallback to the URL query string on load
     if (this.categories.length > 0) {
       const selectedCategories = this.categories.filter((c: any) => c.selected).map((c: any) => c.id);
       if (selectedCategories.length) payload.categoryIds = selectedCategories;
@@ -194,7 +208,6 @@ export class ProductList implements OnInit, AfterViewInit {
     if (payload.maxPrice < 20000) queryParams.maxPrice = payload.maxPrice;
     if (payload.minDiscount) queryParams.discount = payload.minDiscount;
     if (payload.sort && payload.sort !== 'recommended') queryParams.sort = payload.sort;
-    if (this.currentPage > 1) queryParams.page = this.currentPage;
 
     this.router.navigate([], {
       relativeTo: this.route,
@@ -202,28 +215,43 @@ export class ProductList implements OnInit, AfterViewInit {
     });
   }
 
-  getProductList(catId: any) {
-    this.isLoading = true;
-    this.loadingService.show(); // Trigger global loader
+  getProductList(catId: any, isLoadMore: boolean = false) {
+    if (isLoadMore) {
+      this.isFetchingMore = true;
+    } else {
+      this.isLoading = true;
+      this.loadingService.show();
+    }
 
     const payload = this.buildFilterPayload();
     this.updateUrlWithFilters(payload);
 
     this.http.getProductList(catId, payload, this.limit, this.offset).subscribe({
       next: (res: any) => {
-        setTimeout(() => {
+        // 🔥 FIX: Run strictly inside Angular Zone so UI redraws instantly! No timeouts!
+        this.ngZone.run(() => {
           this.totalCount = res.metadata?.totalItems || 0;
-          this.totalPages = Math.ceil(this.totalCount / this.limit) || 1;
           this.breadcrumbs = res.metadata?.breadcrumb || [];
 
-          // Data Mapping for UI Product Grid (Prices, Arrays, Discounts)
-          this.products = (res.data || []).map((p: any) => ({
+          if (this.breadcrumbs.length > 0) {
+            this.categoryTitle = this.breadcrumbs[this.breadcrumbs.length - 1].name;
+          }
+
+          const newProducts = (res.data || []).map((p: any) => ({
             ...p,
             original: p.price,
             price: p.offerPrice,
             discount: p.discount > 0 ? `(${p.discount}% OFF)` : '',
             size: p.availableSizes ? p.availableSizes.join(', ') : ''
           }));
+
+          if (isLoadMore) {
+            this.products = [...this.products, ...newProducts];
+          } else {
+            this.products = newProducts;
+          }
+
+          this.hasMoreData = (res.data || []).length === this.limit;
 
           if (res.filters) {
             const mergeState = (localArray: any[], apiArray: any[], matchKey: string) => {
@@ -260,14 +288,16 @@ export class ProductList implements OnInit, AfterViewInit {
           }
 
           this.isLoading = false;
-          this.loadingService.hide(); // Stop loader
+          this.isFetchingMore = false;
+          this.loadingService.hide();
           this.cdr.detectChanges();
         });
       },
       error: (err) => {
-        setTimeout(() => {
+        this.ngZone.run(() => {
           this.isLoading = false;
-          this.loadingService.hide(); // Stop loader
+          this.isFetchingMore = false;
+          this.loadingService.hide();
           this.cdr.detectChanges();
         });
       }

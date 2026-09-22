@@ -1,12 +1,17 @@
 <section class="collection-header">
     <div class="collection-header__content">
-        <nav class="breadcrumb">
-            <ng-container *ngFor="let crumb of breadcrumbs; let last = last">
-                <!-- Drop queryParams so clicking a breadcrumb removes old filters -->
-                <a [routerLink]="crumb.slug === '/' ? ['/'] : ['/', crumb.slug]" [queryParams]="{}">{{ crumb.name }}</a>
-                <span *ngIf="!last">/</span>
-            </ng-container>
-        </nav>
+        <div class="header-left">
+            <nav class="breadcrumb">
+                <ng-container *ngFor="let crumb of breadcrumbs; let last = last">
+                    <a [routerLink]="crumb.slug === '/' ? ['/'] : ['/', crumb.slug]" [queryParams]="{}"
+                        [class.active]="last">
+                        {{ crumb.name }}
+                    </a>
+                    <span *ngIf="!last">/</span>
+                </ng-container>
+            </nav>
+        </div>
+
         <div class="collection-meta">
             <span class="product-count">{{ totalCount }} Products</span>
 
@@ -40,10 +45,9 @@
             <button class="mobile-close-filter" (click)="isFilterOpen = false">
                 <i class="fa fa-times"></i>
             </button>
-            <button class="clear-btn">Clear All</button>
+            <button class="clear-btn" (click)="onFilterUpdate()">Clear All</button>
         </div>
 
-        <!-- CATEGORY -->
         <section class="filter-group" *ngIf="categories.length > 0">
             <button class="filter-title" (click)="toggleFilter('category')">
                 <span>Category</span>
@@ -56,13 +60,12 @@
                             (ngModelChange)="onFilterUpdate()">
                         <span class="checkmark"></span>
                     </div>
-                    <span class="label">{{ item.name }} </span>
+                    <span class="label" [class.active]="item.selected">{{ item.name }} </span>
                     <small>{{ item.count }}</small>
                 </label>
             </div>
         </section>
 
-        <!-- BRAND -->
         <section class="filter-group" *ngIf="brands.length > 0">
             <button class="filter-title" (click)="toggleFilter('brand')">
                 <span>Brand</span>
@@ -75,13 +78,12 @@
                             (ngModelChange)="onFilterUpdate()">
                         <span class="checkmark"></span>
                     </div>
-                    <span class="label">{{ item.name }}</span>
+                    <span class="label" [class.active]="item.selected">{{ item.name }}</span>
                     <small>{{ item.count }}</small>
                 </label>
             </div>
         </section>
 
-        <!-- GENDER -->
         <section class="filter-group" *ngIf="genders.length > 0">
             <button class="filter-title" (click)="toggleFilter('gender')">
                 <span>Gender</span>
@@ -94,33 +96,31 @@
                             (ngModelChange)="onFilterUpdate()">
                         <span class="checkmark"></span>
                     </div>
-                    <span class="label">{{ item.name }}</span>
+                    <span class="label" [class.active]="item.selected">{{ item.name }}</span>
                     <small>{{ item.count }}</small>
                 </label>
             </div>
         </section>
 
-        <!-- COLOR -->
         <section class="filter-group" *ngIf="colors.length > 0">
             <button class="filter-title" (click)="toggleFilter('color')">
                 <span>Color</span>
                 <i class="fa" [ngClass]="filterStates['color'] ? 'fa-angle-up' : 'fa-angle-down'"></i>
             </button>
-            <div class="filter-options" *ngIf="filterStates['color']">
-                <label class="filter-option" *ngFor="let item of colors">
-                    <div class="checkbox-wrapper">
-                        <input type="checkbox" [name]="'color_' + item.name" [(ngModel)]="item.selected"
-                            (ngModelChange)="onFilterUpdate()">
-                        <span class="checkmark"></span>
-                    </div>
-                    <span class="color-dot" [style.background]="item.code || item.name"></span>
-                    <span class="label">{{ item.name }}</span>
+            <div class="color-options-grid" *ngIf="filterStates['color']">
+                <label class="color-swatch-wrapper" *ngFor="let item of colors">
+                    <input type="checkbox" [name]="'color_' + item.name" [(ngModel)]="item.selected"
+                        (ngModelChange)="onFilterUpdate()">
+                    <span class="color-swatch" [style.background]="item.code || item.name"
+                        [class.selected]="item.selected">
+                        <i class="fa fa-check check-icon" *ngIf="item.selected"></i>
+                    </span>
+                    <span class="color-label" [class.active]="item.selected">{{ item.name }}</span>
                     <small>{{ item.count }}</small>
                 </label>
             </div>
         </section>
 
-        <!-- SIZE -->
         <section class="filter-group" *ngIf="sizes.length > 0">
             <button class="filter-title" (click)="toggleFilter('size')">
                 <span>Size</span>
@@ -133,13 +133,12 @@
             </div>
         </section>
 
-        <!-- PRICE RANGE -->
         <section class="filter-group">
             <button class="filter-title" (click)="toggleFilter('price')">
                 <span>Price Range</span>
                 <i class="fa" [ngClass]="filterStates['price'] ? 'fa-angle-up' : 'fa-angle-down'"></i>
             </button>
-            <div *ngIf="filterStates['price']">
+            <div class="filter-options" *ngIf="filterStates['price']">
                 <div class="price-slider">
                     <div class="slider-track"></div>
                     <div class="slider-range" [style.left.%]="(minPrice / maxRange) * 100"
@@ -154,7 +153,6 @@
             </div>
         </section>
 
-        <!-- CUSTOMER RATING -->
         <section class="filter-group" *ngIf="ratings.length > 0">
             <button class="filter-title" (click)="toggleFilter('rating')">
                 <span>Customer Rating</span>
@@ -171,12 +169,11 @@
                         <i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i
                             class="fa fa-star"></i>
                     </div>
-                    <span class="label">{{ item.name }}</span>
+                    <span class="label" [class.active]="item.selected">{{ item.name }}</span>
                 </label>
             </div>
         </section>
 
-        <!-- DISCOUNT -->
         <section class="filter-group" *ngIf="discounts.length > 0">
             <button class="filter-title" (click)="toggleFilter('discount')">
                 <span>Discount</span>
@@ -187,7 +184,7 @@
                     <input type="radio" name="discount" [value]="item.value" [(ngModel)]="selectedDiscount"
                         (ngModelChange)="onDiscountChange()">
                     <span class="radio-circle"></span>
-                    <span class="label">{{ item.label }}</span>
+                    <span class="label" [class.active]="selectedDiscount === item.value">{{ item.label }}</span>
                 </label>
             </div>
         </section>
@@ -195,27 +192,14 @@
 
     <div class="filter-overlay" [class.active]="isFilterOpen" (click)="isFilterOpen = false"></div>
 
-    <div class="grid-container">
-        <app-common-product-grid [products]="products" customClass="product-list-grid"></app-common-product-grid>
-
-        <div class="custom-pagination" *ngIf="totalPages > 0">
-            <div class="pagination-controls">
-                <button class="pagination-btn text-btn" [disabled]="currentPage === 1"
-                    (click)="changePage(currentPage - 1)">
-                    PREVIOUS
-                </button>
-                <button class="pagination-btn" *ngFor="let page of visiblePages" [class.active]="page === currentPage"
-                    (click)="changePage(page)">
-                    {{ page }}
-                </button>
-                <button class="pagination-btn text-btn" [disabled]="currentPage === totalPages"
-                    (click)="changePage(currentPage + 1)">
-                    NEXT
-                </button>
-            </div>
-            <div class="pagination-info">
-                Page {{ currentPage }} of {{ totalPages }}
-            </div>
+    <!-- Change this line: -->
+    <div #gridScrollContainer class="grid-container">
+        <app-common-product-grid [products]="products" customClass="product-list-grid"> </app-common-product-grid>
+        <div class="load-more-indicator">
+            <div *ngIf="isFetchingMore" class="infinite-spinner"></div>
+            <span *ngIf="!hasMoreData && products.length > 0" class="end-text">
+                You've reached the end!
+            </span>
         </div>
     </div>
 </section>
