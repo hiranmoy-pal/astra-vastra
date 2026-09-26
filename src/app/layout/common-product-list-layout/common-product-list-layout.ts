@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, CUSTOM_ELEMENTS_SCHEMA, Inject, PLATFORM_ID, NgZone, ViewChild, ElementRef, ChangeDetectorRef, OnChanges, HostListener } from '@angular/core';
+import { Component, Input, Output, EventEmitter, CUSTOM_ELEMENTS_SCHEMA, Inject, PLATFORM_ID, NgZone, ViewChild, ElementRef, OnChanges, SimpleChanges, HostListener } from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
@@ -73,52 +73,42 @@ export class CommonProductListLayout implements OnChanges {
 
   constructor(@Inject(PLATFORM_ID) private platformId: Object, private ngZone: NgZone) { }
 
-  // 🔥 FIX: TrackBy prevents Angular from destroying and recreating HTML checkboxes on data refresh (Stops the Blinking)
   trackByFn(index: number, item: any): any {
-    return item.id || item.name || index;
+    return item.id || item.name || item.label || index;
   }
 
+  // 🔥 FIX: Reduced threshold and added a strict debounce lock
   @HostListener('window:scroll', [])
   onWindowScroll(): void {
     if (!isPlatformBrowser(this.platformId)) return;
 
+    // Block if we are currently loading, hit the end, or are locked by a recent scroll
     if (this.isFetchingMore || !this.hasMoreData || this.loadMoreLocked) {
       return;
     }
 
     const scrollPosition = window.innerHeight + window.scrollY;
-    const documentHeight = Math.max(
-      document.body.scrollHeight, document.documentElement.scrollHeight,
-      document.body.offsetHeight, document.documentElement.offsetHeight,
-      document.body.clientHeight, document.documentElement.clientHeight
-    );
+    const documentHeight = document.documentElement.scrollHeight;
 
-    if (documentHeight - scrollPosition <= 800) {
-      this.loadMoreLocked = true;
+    // 🔥 Reduced to 150px: The user MUST physically scroll to the bottom now to trigger the API
+    if (documentHeight - scrollPosition <= 150) {
+      this.loadMoreLocked = true; // Instantly lock to prevent rapid-fire API calls
+
       this.ngZone.run(() => {
         this.scrolledToBottom.emit();
       });
+
+      // Unlock after 800ms to allow the parent component enough time to set isFetchingMore=true
+      setTimeout(() => {
+        this.loadMoreLocked = false;
+      }, 800);
     }
   }
 
-  ngOnChanges(): void {
-    if (!this.isFetchingMore) {
+  ngOnChanges(changes: SimpleChanges): void {
+    // Force unlock the listener whenever new product data successfully arrives
+    if (changes['products']) {
       this.loadMoreLocked = false;
-
-      if (!isPlatformBrowser(this.platformId)) return;
-
-      requestAnimationFrame(() => {
-        const element = this.gridScrollContainer?.nativeElement;
-        if (!element) return;
-
-        const distanceFromBottom = element.scrollHeight - element.scrollTop - element.clientHeight;
-        if (distanceFromBottom <= 500 && this.hasMoreData && !this.isFetchingMore && !this.loadMoreLocked) {
-          this.loadMoreLocked = true;
-          this.ngZone.run(() => {
-            this.scrolledToBottom.emit();
-          });
-        }
-      });
     }
   }
 

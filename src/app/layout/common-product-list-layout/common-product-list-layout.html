@@ -183,7 +183,7 @@
 
         <app-common-product-grid [products]="products" customClass="product-list-grid"> </app-common-product-grid>
 
-        <div class="load-more-indicator">
+        <div #loadMoreTrigger class="load-more-indicator">
             <div *ngIf="isFetchingMore" class="infinite-spinner"></div>
             <span *ngIf="!hasMoreData && products.length > 0" class="end-text">
                 You've reached the end!
