@@ -1,7 +1,7 @@
-import { AfterViewInit, ChangeDetectorRef, Component, CUSTOM_ELEMENTS_SCHEMA, inject, Inject, NgZone, OnInit, PLATFORM_ID } from '@angular/core';
-import { CommonModule, isPlatformBrowser } from '@angular/common';
+import { AfterViewInit, ChangeDetectorRef, Component, CUSTOM_ELEMENTS_SCHEMA, inject, OnInit, PLATFORM_ID } from '@angular/core';
 import { Header } from '../../layout/header/header';
 import { Footer } from '../../layout/footer/footer';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { ActivatedRoute, Router, RouterLink, RouterModule } from '@angular/router';
 import { ProfileMenu } from '../../layout/profile-menu/profile-menu';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -65,7 +65,6 @@ export class ProductList implements OnInit, AfterViewInit {
   private route = inject(ActivatedRoute);
   private router = inject(Router);
   private loadingService = inject(Loading);
-  private ngZone = inject(NgZone);
   private platformId = inject(PLATFORM_ID);
 
   private encodeName(name: string): string { return name ? name.replace(/ /g, '-') : ''; }
@@ -73,24 +72,28 @@ export class ProductList implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
     this.route.params.subscribe((params: any) => {
-      setTimeout(() => {
-        this.slug = params.slug;
-        this.isLoading = true;
-        this.currentPage = 1;
-        this.offset = 0;
-        this.hasMoreData = true;
+      // 🔥 FIX: Removed setTimeout. The server will now properly wait for this to resolve.
+      this.slug = params.slug;
+      this.isLoading = true;
 
-        this.products = [];
-        this.activeFilters = [];
+      const queryParams = this.route.snapshot.queryParams;
+      if (queryParams['sort']) this.currentSortValue = queryParams['sort'];
 
-        this.breadcrumbs = [];
-        this.categoryTitle = this.slug ? this.slug.split('-').map((word: string) => word.charAt(0).toUpperCase() + word.slice(1)).join(' ') : 'Loading...';
+      this.currentPage = 1;
+      this.offset = 0;
+      this.hasMoreData = true;
 
-        this.clearLocalFilters();
+      this.products = [];
+      this.activeFilters = [];
 
-        this.lastQueryParamsString = JSON.stringify(this.route.snapshot.queryParams);
-        this.getCategoryId();
-      });
+      this.breadcrumbs = [];
+      this.categoryTitle = this.slug ? this.slug.split('-').map((word: string) => word.charAt(0).toUpperCase() + word.slice(1)).join(' ') : 'Loading...';
+
+      this.clearLocalFilters();
+
+      this.lastQueryParamsString = JSON.stringify(this.route.snapshot.queryParams);
+      this.getCategoryId();
+      this.cdr.detectChanges();
     });
 
     this.route.queryParams.subscribe(params => {
@@ -142,33 +145,32 @@ export class ProductList implements OnInit, AfterViewInit {
   getCategoryId() {
     this.http.getMenu().subscribe({
       next: (res: any) => {
-        setTimeout(() => {
-          const menuItems = res.data || res;
-          let matchedCategory = null;
+        // 🔥 FIX: Removed setTimeout. 
+        const menuItems = res.data || res;
+        let matchedCategory = null;
 
-          if (Array.isArray(menuItems)) {
-            matchedCategory = this.findCategoryBySlug(menuItems, this.slug);
-          }
+        if (Array.isArray(menuItems)) {
+          matchedCategory = this.findCategoryBySlug(menuItems, this.slug);
+        }
 
-          if (!matchedCategory) {
-            matchedCategory = this.fallbackCategories.find(c => c.slug === this.slug);
-          }
+        if (!matchedCategory) {
+          matchedCategory = this.fallbackCategories.find(c => c.slug === this.slug);
+        }
 
-          if (matchedCategory) {
-            this.categoryId = matchedCategory.id;
-            this.syncFiltersFromUrl(this.route.snapshot.queryParams);
-            this.getProductList(this.categoryId, false);
-          } else {
-            this.isLoading = false;
-            this.cdr.detectChanges();
-          }
-        });
-      },
-      error: (err) => {
-        setTimeout(() => {
+        if (matchedCategory) {
+          this.categoryId = matchedCategory.id;
+          this.syncFiltersFromUrl(this.route.snapshot.queryParams);
+          this.getProductList(this.categoryId, false);
+        } else {
+          console.warn("Category not found in API Menu or Fallback JSON for slug:", this.slug);
           this.isLoading = false;
           this.cdr.detectChanges();
-        });
+        }
+      },
+      error: (err) => {
+        console.error(err);
+        this.isLoading = false;
+        this.cdr.detectChanges();
       }
     });
   }
@@ -211,7 +213,6 @@ export class ProductList implements OnInit, AfterViewInit {
     const payload: any = {};
     const queryParams = this.route.snapshot.queryParams;
 
-    // 🔥 FIX: Safety check logic forces payload to use queryParams on initial load if array isn't populated yet
     if (this.categories.length > 0) {
       const selectedCategories = this.categories.filter((c: any) => c.selected).map((c: any) => c.id);
       if (selectedCategories.length) payload.categoryIds = selectedCategories;
@@ -265,7 +266,6 @@ export class ProductList implements OnInit, AfterViewInit {
     const queryParams: any = {};
     const routeParams = this.route.snapshot.queryParams;
 
-    // 🔥 FIX: Ensures URL does not wipe out on refresh before filter arrays are populated
     if (this.categories.length > 0) {
       const catNames = this.categories.filter(c => c.selected).map(c => this.encodeName(c.name));
       if (catNames.length) queryParams.categories = catNames.join(',');
@@ -312,7 +312,7 @@ export class ProductList implements OnInit, AfterViewInit {
     this.router.navigate([], {
       relativeTo: this.route,
       queryParams: queryParams,
-      replaceUrl: true // 🔥 FIX: Updates URL instantly without pushing a new item to browser history so 'Back' navigates pages instead of checkboxes
+      replaceUrl: true
     });
   }
 
@@ -380,99 +380,93 @@ export class ProductList implements OnInit, AfterViewInit {
 
     this.http.getProductList(catId, payload, this.limit, this.offset).subscribe({
       next: (res: any) => {
-        this.ngZone.run(() => {
-          setTimeout(() => {
-            this.totalCount = res.metadata?.totalItems || 0;
+        // 🔥 FIX: Removed setTimeout. Angular's natural change detection handles this perfectly without breaking Hydration.
+        this.totalCount = res.metadata?.totalItems || 0;
 
-            if (res.metadata?.breadcrumb) {
-              if (typeof res.metadata.breadcrumb === 'string') {
-                const segments = res.metadata.breadcrumb.split(' / ');
-                this.breadcrumbs = segments.map((seg: string, i: number) => ({ name: seg, slug: i === 0 ? '/' : this.encodeName(seg) }));
-                this.categoryTitle = segments[segments.length - 1];
-              } else {
-                this.breadcrumbs = res.metadata.breadcrumb;
-                this.categoryTitle = this.breadcrumbs[this.breadcrumbs.length - 1]?.name || this.categoryTitle;
+        if (res.metadata?.breadcrumb) {
+          if (typeof res.metadata.breadcrumb === 'string') {
+            const segments = res.metadata.breadcrumb.split(' / ');
+            this.breadcrumbs = segments.map((seg: string, i: number) => ({ name: seg, slug: i === 0 ? '/' : this.encodeName(seg) }));
+            this.categoryTitle = segments[segments.length - 1];
+          } else {
+            this.breadcrumbs = res.metadata.breadcrumb;
+            this.categoryTitle = this.breadcrumbs[this.breadcrumbs.length - 1]?.name || this.categoryTitle;
+          }
+        }
+
+        const newProducts = (res.data || []).map((p: any) => ({
+          ...p,
+          original: p.price,
+          price: p.offerPrice,
+          discount: p.discount > 0 ? `(${p.discount}% OFF)` : '',
+          size: p.availableSizes ? p.availableSizes.join(', ') : ''
+        }));
+
+        if (isLoadMore) {
+          this.products = [...this.products, ...newProducts];
+        } else {
+          this.products = newProducts;
+        }
+
+        this.hasMoreData = (res.data || []).length === this.limit;
+
+        if (res.filters) {
+          const mergeStateNoBlink = (localArray: any[], apiArray: any[], matchKey: string) => {
+            if (!apiArray) return [];
+            if (!localArray || localArray.length === 0) {
+              return apiArray.map((apiItem: any) => ({ ...apiItem, selected: !!apiItem.checked }));
+            }
+            return apiArray.map((apiItem: any) => {
+              const localItem = localArray.find((l: any) => l[matchKey] === apiItem[matchKey]);
+              if (localItem) {
+                localItem.count = apiItem.count;
+                return localItem;
               }
-            }
+              return { ...apiItem, selected: !!apiItem.checked };
+            });
+          };
 
-            const newProducts = (res.data || []).map((p: any) => ({
-              ...p,
-              original: p.price,
-              price: p.offerPrice,
-              discount: p.discount > 0 ? `(${p.discount}% OFF)` : '',
-              size: p.availableSizes ? p.availableSizes.join(', ') : ''
-            }));
+          this.categories = mergeStateNoBlink(this.categories, res.filters.categories, 'id');
+          this.brands = mergeStateNoBlink(this.brands, res.filters.brands, 'name');
+          this.colors = mergeStateNoBlink(this.colors, res.filters.colors, 'name');
+          this.sizes = mergeStateNoBlink(this.sizes, res.filters.sizes, 'name');
+          this.genders = mergeStateNoBlink(this.genders, res.filters.gender, 'name');
 
-            if (isLoadMore) {
-              this.products = [...this.products, ...newProducts];
-            } else {
-              this.products = newProducts;
-            }
-
-            this.hasMoreData = (res.data || []).length === this.limit;
-
-            if (res.filters) {
-              const mergeStateNoBlink = (localArray: any[], apiArray: any[], matchKey: string) => {
-                if (!apiArray) return [];
-                if (!localArray || localArray.length === 0) {
-                  return apiArray.map((apiItem: any) => ({ ...apiItem, selected: !!apiItem.checked }));
-                }
-                return apiArray.map((apiItem: any) => {
-                  const localItem = localArray.find((l: any) => l[matchKey] === apiItem[matchKey]);
-                  if (localItem) {
-                    localItem.count = apiItem.count;
-                    return localItem;
-                  }
-                  return { ...apiItem, selected: !!apiItem.checked };
-                });
+          if (res.filters.discountRanges) {
+            this.discounts = res.filters.discountRanges.map((d: any) => {
+              const parsedValue = parseInt(d.name, 10) || 0;
+              const localDiscount = this.discounts.find(ld => ld.value === parsedValue);
+              return localDiscount ? localDiscount : {
+                label: d.name,
+                value: parsedValue,
+                selected: this.selectedDiscount === parsedValue ? true : !!d.checked
               };
+            });
 
-              this.categories = mergeStateNoBlink(this.categories, res.filters.categories, 'id');
-              this.brands = mergeStateNoBlink(this.brands, res.filters.brands, 'name');
-              this.colors = mergeStateNoBlink(this.colors, res.filters.colors, 'name');
-              this.sizes = mergeStateNoBlink(this.sizes, res.filters.sizes, 'name');
-              this.genders = mergeStateNoBlink(this.genders, res.filters.gender, 'name');
-
-              if (res.filters.discountRanges) {
-                this.discounts = res.filters.discountRanges.map((d: any) => {
-                  const parsedValue = parseInt(d.name, 10) || 0;
-                  const localDiscount = this.discounts.find(ld => ld.value === parsedValue);
-                  return localDiscount ? localDiscount : {
-                    label: d.name,
-                    value: parsedValue,
-                    selected: this.selectedDiscount === parsedValue ? true : !!d.checked
-                  };
-                });
-
-                if (!this.selectedDiscount) {
-                  const activeDiscount = this.discounts.find(d => d.selected);
-                  this.selectedDiscount = activeDiscount ? activeDiscount.value : null;
-                }
-              }
+            if (!this.selectedDiscount) {
+              const activeDiscount = this.discounts.find(d => d.selected);
+              this.selectedDiscount = activeDiscount ? activeDiscount.value : null;
             }
+          }
+        }
 
-            this.generateChips();
-            this.isLoading = false;
-            this.isFetchingMore = false;
+        this.generateChips();
+        this.isLoading = false;
+        this.isFetchingMore = false;
 
-            if (isPlatformBrowser(this.platformId)) {
-              this.loadingService.hide();
-            }
-            this.cdr.detectChanges();
-          });
-        });
+        if (isPlatformBrowser(this.platformId)) {
+          this.loadingService.hide();
+        }
+        this.cdr.detectChanges();
       },
       error: (err) => {
-        this.ngZone.run(() => {
-          setTimeout(() => {
-            this.isLoading = false;
-            this.isFetchingMore = false;
-            if (isPlatformBrowser(this.platformId)) {
-              this.loadingService.hide();
-            }
-            this.cdr.detectChanges();
-          });
-        });
+        console.error(err);
+        this.isLoading = false;
+        this.isFetchingMore = false;
+        if (isPlatformBrowser(this.platformId)) {
+          this.loadingService.hide();
+        }
+        this.cdr.detectChanges();
       }
     });
   }
