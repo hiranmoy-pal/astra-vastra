@@ -11,7 +11,7 @@
                 </ng-container>
             </nav>
         </div>
-
+        <h1 class="collection-title-center">{{ title }}</h1>
         <div class="collection-meta">
             <span class="product-count">{{ totalCount }} Products</span>
 
@@ -45,8 +45,24 @@
             <button class="mobile-close-filter" (click)="isFilterOpen = false">
                 <i class="fa fa-times"></i>
             </button>
-            <button class="clear-btn" (click)="onFilterUpdate()">Clear All</button>
+            <button class="clear-btn" (click)="clearFilters.emit(); isFilterOpen = false">Clear All</button>
         </div>
+
+        <section class="filter-group" *ngIf="genders.length > 0">
+            <button class="filter-title" (click)="toggleFilter('gender')">
+                <span>Gender</span>
+                <i class="fa" [ngClass]="filterStates['gender'] ? 'fa-angle-up' : 'fa-angle-down'"></i>
+            </button>
+            <div class="filter-options" *ngIf="filterStates['gender']">
+                <label class="radio-option" *ngFor="let item of genders; trackBy: trackByFn">
+                    <input type="radio" name="gender_selection" [checked]="item.selected"
+                        (change)="genders.forEach(g => g.selected = false); item.selected = true; onFilterUpdate()">
+                    <span class="radio-circle"></span>
+                    <span class="label" [class.active]="item.selected">{{ item.name }}</span>
+                    <small>{{ item.count }}</small>
+                </label>
+            </div>
+        </section>
 
         <section class="filter-group" *ngIf="categories.length > 0">
             <button class="filter-title" (click)="toggleFilter('category')">
@@ -54,7 +70,7 @@
                 <i class="fa" [ngClass]="filterStates['category'] ? 'fa-angle-up' : 'fa-angle-down'"></i>
             </button>
             <div class="filter-options" *ngIf="filterStates['category']">
-                <label class="filter-option" *ngFor="let item of categories">
+                <label class="filter-option" *ngFor="let item of categories; trackBy: trackByFn">
                     <div class="checkbox-wrapper">
                         <input type="checkbox" [name]="'cat_' + item.id" [(ngModel)]="item.selected"
                             (ngModelChange)="onFilterUpdate()">
@@ -72,27 +88,9 @@
                 <i class="fa" [ngClass]="filterStates['brand'] ? 'fa-angle-up' : 'fa-angle-down'"></i>
             </button>
             <div class="filter-options" *ngIf="filterStates['brand']">
-                <label class="filter-option" *ngFor="let item of brands">
+                <label class="filter-option" *ngFor="let item of brands; trackBy: trackByFn">
                     <div class="checkbox-wrapper">
                         <input type="checkbox" [name]="'brand_' + item.id" [(ngModel)]="item.selected"
-                            (ngModelChange)="onFilterUpdate()">
-                        <span class="checkmark"></span>
-                    </div>
-                    <span class="label" [class.active]="item.selected">{{ item.name }}</span>
-                    <small>{{ item.count }}</small>
-                </label>
-            </div>
-        </section>
-
-        <section class="filter-group" *ngIf="genders.length > 0">
-            <button class="filter-title" (click)="toggleFilter('gender')">
-                <span>Gender</span>
-                <i class="fa" [ngClass]="filterStates['gender'] ? 'fa-angle-up' : 'fa-angle-down'"></i>
-            </button>
-            <div class="filter-options" *ngIf="filterStates['gender']">
-                <label class="filter-option" *ngFor="let item of genders; let i = index">
-                    <div class="checkbox-wrapper">
-                        <input type="checkbox" [name]="'gender_' + i" [(ngModel)]="item.selected"
                             (ngModelChange)="onFilterUpdate()">
                         <span class="checkmark"></span>
                     </div>
@@ -108,7 +106,7 @@
                 <i class="fa" [ngClass]="filterStates['color'] ? 'fa-angle-up' : 'fa-angle-down'"></i>
             </button>
             <div class="color-options-grid" *ngIf="filterStates['color']">
-                <label class="color-swatch-wrapper" *ngFor="let item of colors">
+                <label class="color-swatch-wrapper" *ngFor="let item of colors; trackBy: trackByFn">
                     <input type="checkbox" [name]="'color_' + item.name" [(ngModel)]="item.selected"
                         (ngModelChange)="onFilterUpdate()">
                     <span class="color-swatch" [style.background]="item.code || item.name"
@@ -127,7 +125,8 @@
                 <i class="fa" [ngClass]="filterStates['size'] ? 'fa-angle-up' : 'fa-angle-down'"></i>
             </button>
             <div class="sizes-grid" *ngIf="filterStates['size']">
-                <button *ngFor="let size of sizes" [class.active]="size.selected" (click)="toggleSize(size)">
+                <button *ngFor="let size of sizes; trackBy: trackByFn" [class.active]="size.selected"
+                    (click)="toggleSize(size)">
                     {{ size.name }}
                 </button>
             </div>
@@ -153,34 +152,13 @@
             </div>
         </section>
 
-        <section class="filter-group" *ngIf="ratings.length > 0">
-            <button class="filter-title" (click)="toggleFilter('rating')">
-                <span>Customer Rating</span>
-                <i class="fa" [ngClass]="filterStates['rating'] ? 'fa-angle-up' : 'fa-angle-down'"></i>
-            </button>
-            <div class="filter-options" *ngIf="filterStates['rating']">
-                <label class="filter-option" *ngFor="let item of ratings; let i = index">
-                    <div class="checkbox-wrapper">
-                        <input type="checkbox" [name]="'rating_' + i" [(ngModel)]="item.selected"
-                            (ngModelChange)="onFilterUpdate()">
-                        <span class="checkmark"></span>
-                    </div>
-                    <div class="rating-stars">
-                        <i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i
-                            class="fa fa-star"></i>
-                    </div>
-                    <span class="label" [class.active]="item.selected">{{ item.name }}</span>
-                </label>
-            </div>
-        </section>
-
         <section class="filter-group" *ngIf="discounts.length > 0">
             <button class="filter-title" (click)="toggleFilter('discount')">
                 <span>Discount</span>
                 <i class="fa" [ngClass]="filterStates['discount'] ? 'fa-angle-up' : 'fa-angle-down'"></i>
             </button>
             <div class="filter-options" *ngIf="filterStates['discount']">
-                <label class="radio-option" *ngFor="let item of discounts">
+                <label class="radio-option" *ngFor="let item of discounts; trackBy: trackByFn">
                     <input type="radio" name="discount" [value]="item.value" [(ngModel)]="selectedDiscount"
                         (ngModelChange)="onDiscountChange()">
                     <span class="radio-circle"></span>
@@ -192,9 +170,19 @@
 
     <div class="filter-overlay" [class.active]="isFilterOpen" (click)="isFilterOpen = false"></div>
 
-    <!-- Change this line: -->
     <div #gridScrollContainer class="grid-container">
+
+        <div class="active-filters-container" *ngIf="activeFilters.length > 0">
+            <div class="filter-chips">
+                <span class="filter-chip" *ngFor="let chip of activeFilters; trackBy: trackByFn">
+                    {{ chip.label }}
+                    <i class="fa fa-times" (click)="removeFilter.emit(chip)"></i>
+                </span>
+            </div>
+        </div>
+
         <app-common-product-grid [products]="products" customClass="product-list-grid"> </app-common-product-grid>
+
         <div class="load-more-indicator">
             <div *ngIf="isFetchingMore" class="infinite-spinner"></div>
             <span *ngIf="!hasMoreData && products.length > 0" class="end-text">

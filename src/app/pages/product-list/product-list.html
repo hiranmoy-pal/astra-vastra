@@ -4,7 +4,8 @@
         [categories]="categories" [brands]="brands" [colors]="colors" [sizes]="sizes" [products]="products"
         [ratings]="ratings" [discounts]="discounts" [genders]="genders" [isFetchingMore]="isFetchingMore"
         [hasMoreData]="hasMoreData" [(minPrice)]="minPrice" [(maxPrice)]="maxPrice"
-        [(selectedDiscount)]="selectedDiscount" (filterChange)="fetchFilteredProducts()"
-        (sortChange)="onSortChanged($event)" (scrolledToBottom)="onScroll()">
+        [(selectedDiscount)]="selectedDiscount" [activeFilters]="activeFilters" (filterChange)="fetchFilteredProducts()"
+        (sortChange)="onSortChanged($event)" (scrolledToBottom)="onScroll()" (removeFilter)="onRemoveFilter($event)"
+        (clearFilters)="clearAllFilters()">
     </app-common-product-list-layout>
 </main>

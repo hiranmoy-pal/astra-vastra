@@ -25,6 +25,10 @@ export class CommonProductListLayout implements OnChanges {
   @Input() discounts: any[] = [];
   @Input() products: any[] = [];
 
+  @Input() activeFilters: any[] = [];
+  @Output() removeFilter = new EventEmitter<any>();
+  @Output() clearFilters = new EventEmitter<void>();
+
   @Input() isFetchingMore: boolean = false;
   @Input() hasMoreData: boolean = true;
   @Output() scrolledToBottom = new EventEmitter<void>();
@@ -69,6 +73,10 @@ export class CommonProductListLayout implements OnChanges {
 
   constructor(@Inject(PLATFORM_ID) private platformId: Object, private ngZone: NgZone) { }
 
+  // 🔥 FIX: TrackBy prevents Angular from destroying and recreating HTML checkboxes on data refresh (Stops the Blinking)
+  trackByFn(index: number, item: any): any {
+    return item.id || item.name || index;
+  }
 
   @HostListener('window:scroll', [])
   onWindowScroll(): void {
@@ -95,35 +103,17 @@ export class CommonProductListLayout implements OnChanges {
 
   ngOnChanges(): void {
     if (!this.isFetchingMore) {
-
       this.loadMoreLocked = false;
 
-      if (!isPlatformBrowser(this.platformId)) {
-        return;
-      }
+      if (!isPlatformBrowser(this.platformId)) return;
 
       requestAnimationFrame(() => {
+        const element = this.gridScrollContainer?.nativeElement;
+        if (!element) return;
 
-        const element =
-          this.gridScrollContainer?.nativeElement;
-
-        if (!element) {
-          return;
-        }
-
-        const distanceFromBottom =
-          element.scrollHeight -
-          element.scrollTop -
-          element.clientHeight;
-        if (
-          distanceFromBottom <= 500 &&
-          this.hasMoreData &&
-          !this.isFetchingMore &&
-          !this.loadMoreLocked
-        ) {
-
+        const distanceFromBottom = element.scrollHeight - element.scrollTop - element.clientHeight;
+        if (distanceFromBottom <= 500 && this.hasMoreData && !this.isFetchingMore && !this.loadMoreLocked) {
           this.loadMoreLocked = true;
-
           this.ngZone.run(() => {
             this.scrolledToBottom.emit();
           });
