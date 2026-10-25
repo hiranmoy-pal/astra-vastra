@@ -1,41 +1,35 @@
 /* =========================================
-   PAGE WRAPPER (Now Full Width)
+   PAGE WRAPPER
 ========================================= */
 .product-details-page {
     width: 100%;
     overflow-x: hidden;
     font-family: var(--font-body);
     color: var(--text-primary);
-    /* Removed max-width and padding from here so child components can control themselves */
 }
 
 /* =========================================
-   PRODUCT LAYOUT (Now handles its own alignment)
+   PRODUCT LAYOUT 
 ========================================= */
 .product-container {
-    /* Added alignment here to match the 1400px grid system */
     width: 100%;
     max-width: 1400px;
     margin: 0 auto;
     padding: 2rem 24px;
     box-sizing: border-box;
-
     display: grid;
     grid-template-columns: 5fr 7fr;
     gap: 4rem;
     align-items: start;
     min-width: 0;
-
-    /* Kept your existing height properties */
     height: 100vh;
     max-height: 100vh;
     overflow: hidden;
 }
 
 /* =========================================
-   GALLERY
+   GALLERY & MAIN IMAGE
 ========================================= */
-
 .gallery-section {
     display: flex;
     gap: 1rem;
@@ -46,10 +40,6 @@
     overflow: unset;
     min-width: 0;
 }
-
-/* =========================================
-   THUMBNAILS
-========================================= */
 
 .thumbnail-list {
     width: 90px;
@@ -88,10 +78,6 @@
     }
 }
 
-/* =========================================
-   MAIN IMAGE
-========================================= */
-
 .main-image {
     position: relative;
     flex: 1;
@@ -101,6 +87,14 @@
     border-radius: 30px;
     background: var(--surface);
     box-shadow: var(--shadow-soft);
+
+    &:hover img {
+        transform: scale(1.03);
+    }
+
+    &:hover .gallery-arrow {
+        opacity: 1;
+    }
 }
 
 .main-swiper {
@@ -121,14 +115,6 @@
         width: 100% !important;
     }
 }
-
-.main-image:hover img {
-    transform: scale(1.03);
-}
-
-/* =========================================
-   ARROWS
-========================================= */
 
 .gallery-arrow {
     position: absolute;
@@ -160,14 +146,9 @@
     }
 }
 
-.main-image:hover .gallery-arrow {
-    opacity: 1;
-}
-
 /* =========================================
-   DETAILS
+   DETAILS SECTION
 ========================================= */
-
 .details-section {
     display: flex;
     flex-direction: column;
@@ -201,34 +182,38 @@
             color: var(--primary);
         }
     }
-
-    strong {
-        color: var(--text-primary);
-    }
 }
 
+/* TYPOGRAPHY REFINEMENT */
 .brand-name {
     color: var(--primary);
     font-weight: 700;
     letter-spacing: 1px;
     text-transform: uppercase;
-    font-size: 0.85rem;
+    font-size: 0.9rem;
     margin-bottom: 0.5rem;
 }
 
 .product-title {
-    font-size: 2rem;
-    line-height: 1.2;
-    font-weight: 700;
+    font-size: 1.8rem;
+    line-height: 1.25;
+    font-weight: 800;
     font-family: var(--font-headline);
     color: var(--text-primary);
     margin: 0;
 }
 
-/* =========================================
-   RATING
-========================================= */
+.product-summary {
+    font-size: 0.55em;
+    font-weight: 500;
+    color: var(--text-secondary);
+    display: inline-block;
+    vertical-align: middle;
+}
 
+/* =========================================
+   RATING & TRENDING
+========================================= */
 .rating-section {
     display: flex;
     align-items: center;
@@ -245,10 +230,6 @@
     align-items: center;
     gap: 0.45rem;
     font-weight: 700;
-
-    span {
-        font-size: 1rem;
-    }
 }
 
 .rating-count {
@@ -263,63 +244,16 @@
     color: var(--primary);
     padding: 0.6rem 1rem;
     border-radius: 999px;
-    font-size: 0.9rem;
+    font-size: 0.85rem;
     font-weight: 700;
 }
-
-.rating-breakdown {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-    margin-top: 20px;
-
-    &__item {
-        display: flex;
-        align-items: center;
-        gap: 1rem;
-    }
-
-    &__label {
-        width: 60px;
-        font-size: 0.75rem;
-        font-weight: 700;
-        color: var(--text-secondary);
-        text-transform: uppercase;
-    }
-
-    &__bar {
-        flex: 1;
-        height: 0.5rem;
-        overflow: hidden;
-        border-radius: 999px;
-        background: var(--hover-medium);
-    }
-
-    &__fill {
-        height: 100%;
-        border-radius: inherit;
-        background: var(--primary);
-    }
-
-    &__value {
-        width: 40px;
-        text-align: right;
-        font-size: 0.75rem;
-        font-weight: 700;
-        color: var(--text-secondary);
-    }
-}
-
-/* =========================================
-   TRENDING BOX
-========================================= */
 
 .trending-box {
     display: flex;
     align-items: center;
     gap: 1rem;
-    padding: 0.5rem 0.75rem;
-    border-radius: 22px;
+    padding: 0.6rem 1rem;
+    border-radius: 16px;
     background: var(--surface-elevated);
     color: var(--info);
     margin-top: -10px;
@@ -331,13 +265,13 @@
     p {
         margin: 0;
         font-weight: 600;
+        font-size: 0.9rem;
     }
 }
 
 /* =========================================
    PRICING
 ========================================= */
-
 .pricing-section {
     padding: 0.5rem 0;
 }
@@ -350,21 +284,21 @@
 }
 
 .price {
-    font-size: 2rem;
+    font-size: 1.8rem;
     margin: 0;
     font-weight: 800;
     color: var(--text-primary);
 }
 
 .old-price {
-    font-size: 1rem;
+    font-size: 1.1rem;
     color: var(--text-secondary);
     text-decoration: line-through;
 }
 
 .discount {
     color: var(--success);
-    font-size: 1rem;
+    font-size: 1.1rem;
     font-weight: 700;
 }
 
@@ -388,7 +322,6 @@
 /* =========================================
    OFFERS
 ========================================= */
-
 .offers-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
@@ -398,7 +331,7 @@
 
 .offer-card {
     padding: 1.4rem;
-    border-radius: 24px;
+    border-radius: 20px;
     background: var(--surface);
     border: 1px solid var(--border);
     box-shadow: var(--shadow-soft);
@@ -407,7 +340,7 @@
         color: var(--text-secondary);
         line-height: 1.6;
         margin: 0.8rem 0;
-        font-size: 0.92rem;
+        font-size: 0.9rem;
     }
 
     a {
@@ -426,7 +359,7 @@
 
     h3 {
         margin: 0;
-        font-size: 1rem;
+        font-size: 0.95rem;
         font-weight: 700;
         text-transform: uppercase;
         letter-spacing: 0.5px;
@@ -434,9 +367,8 @@
 }
 
 /* =========================================
-   SELECTION
+   SELECTION (COLORS & SIZES)
 ========================================= */
-
 .selection-section {
     display: flex;
     flex-direction: column;
@@ -455,11 +387,6 @@
         text-transform: uppercase;
         letter-spacing: 0.5px;
         color: var(--text-primary);
-
-        span {
-            color: var(--text-secondary);
-            font-weight: 500;
-        }
     }
 }
 
@@ -503,17 +430,26 @@
 .size-list {
     display: flex;
     flex-wrap: wrap;
-    gap: 0.85rem;
+    gap: 1rem;
+}
+
+.size-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    width: 70px;
+    /* Aligns neatly */
 
     button {
-        width: 70px;
+        width: 100%;
         height: 52px;
         border-radius: 16px;
         border: 1px solid var(--outline);
         background: transparent;
         color: var(--text-primary);
         font-weight: 700;
-        font-size: 0.9rem;
+        font-size: 0.95rem;
         cursor: pointer;
         transition: 0.25s ease;
         font-family: var(--font-body);
@@ -535,12 +471,77 @@
             cursor: not-allowed;
         }
     }
+
+    p {
+        margin: 0;
+        font-size: 0.72rem;
+        color: var(--danger);
+        font-weight: 700;
+        text-align: center;
+    }
+}
+
+/* =========================================
+   MODALS
+========================================= */
+.size-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.75);
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    backdrop-filter: blur(5px);
+}
+
+.size-modal-content {
+    position: relative;
+    background: var(--surface);
+    padding: 2rem;
+    border-radius: 16px;
+    max-width: 90%;
+    max-height: 90vh;
+    overflow: auto;
+    text-align: center;
+    box-shadow: var(--shadow-medium);
+
+    h3 {
+        margin-top: 0;
+        margin-bottom: 1.5rem;
+        font-family: var(--font-headline);
+        color: var(--text-primary);
+    }
+
+    img {
+        max-width: 100%;
+        height: auto;
+        border-radius: 8px;
+    }
+}
+
+.close-modal {
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    font-size: 28px;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    color: var(--text-primary);
+    transition: 0.2s;
+
+    &:hover {
+        color: var(--danger);
+    }
 }
 
 /* =========================================
    BUTTONS
 ========================================= */
-
 .action-buttons {
     display: flex;
     gap: 1rem;
@@ -553,10 +554,10 @@
     height: 58px;
     border: none;
     border-radius: 20px;
-    background: linear-gradient(135deg, var(--primary), var(--primary-light));
-    color: var(--text-tertiary);
+    background: var(--primary);
+    color: var(--text-tertiary) !important;
     font-size: 0.95rem;
-    font-weight: 700;
+    font-weight: 800;
     letter-spacing: 0.5px;
     cursor: pointer;
     transition: 0.25s ease;
@@ -579,7 +580,7 @@
     background: var(--surface);
     cursor: pointer;
     transition: 0.25s ease;
-    font-size: 1rem;
+    font-size: 1.1rem;
     color: var(--text-primary);
 
     &:hover {
@@ -591,7 +592,6 @@
 /* =========================================
    DELIVERY
 ========================================= */
-
 .delivery-section {
     padding-top: 2rem;
     border-top: 1px solid var(--border);
@@ -609,7 +609,7 @@
 
     h3 {
         margin: 0;
-        font-size: 1rem;
+        font-size: 0.95rem;
         font-weight: 700;
         text-transform: uppercase;
         color: var(--text-primary);
@@ -664,23 +664,49 @@
 }
 
 /* =========================================
-   SPECIFICATIONS
+   ACCORDION (Extracted Inline Styles)
 ========================================= */
+.accordion-section {
+    margin-top: 2rem;
+}
 
-.specification-section {
-    padding-top: 2.5rem;
-    border-top: 1px solid var(--border);
+.accordion-item {
+    border-bottom: 1px solid var(--border);
+}
 
-    h2 {
-        margin-bottom: 1.5rem;
-        font-size: 1rem;
-        font-weight: 700;
-        text-transform: uppercase;
-        letter-spacing: 0.5px;
-        color: var(--text-primary);
+.accordion-btn {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.2rem 0;
+    background: none;
+    border: none;
+    font-weight: 700;
+    font-size: 1rem;
+    cursor: pointer;
+    color: var(--text-primary);
+    font-family: var(--font-body);
+
+    &:hover {
+        color: var(--primary);
     }
 }
 
+.accordion-content {
+    padding-bottom: 1.5rem;
+}
+
+.accordion-desc {
+    margin: 0 0 1.5rem;
+    color: var(--text-secondary);
+    line-height: 1.7;
+    font-size: 0.95rem;
+}
+
+/* =========================================
+   SPECIFICATIONS
+========================================= */
 .spec-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
@@ -698,47 +724,29 @@
         font-size: 0.72rem;
         text-transform: uppercase;
         color: var(--text-secondary);
+        font-weight: 600;
     }
 
     p {
-        margin-top: 0.7rem;
+        margin-top: 0.6rem;
         font-weight: 700;
-        font-size: 0.92rem;
+        font-size: 0.95rem;
         color: var(--text-primary);
-    }
-}
-
-/* =========================================
-   ACCORDION
-========================================= */
-
-.accordion-btn {
-    width: 100%;
-    height: 64px;
-    border: none;
-    background: transparent;
-    border-bottom: 1px solid var(--border);
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    font-weight: 700;
-    font-size: 0.95rem;
-    cursor: pointer;
-    color: var(--text-primary);
-    font-family: var(--font-body);
-
-    &:hover {
-        color: var(--primary);
     }
 }
 
 /* =========================================
    REVIEWS
 ========================================= */
-
 .reviews-section {
-    padding-top: 4rem;
+    padding-top: 3rem;
     border-top: 1px solid var(--border);
+}
+
+.section-header h2 {
+    font-family: var(--font-headline);
+    font-size: 1.5rem;
+    margin-bottom: 2rem;
 }
 
 .review-summary {
@@ -751,15 +759,71 @@
 
 .rating-overview {
     background: var(--surface);
-    border-radius: 32px;
-    padding: 1rem;
+    border-radius: 24px;
+    padding: 1.5rem;
     border: 1px solid var(--border);
     text-align: center;
 
     h3 {
-        font-size: 3rem;
+        font-size: 3.5rem;
         margin: 0;
+        font-weight: 800;
         color: var(--text-primary);
+    }
+
+    .stars {
+        margin: 0.5rem 0;
+        color: var(--warning);
+    }
+
+    p {
+        color: var(--text-secondary);
+        font-size: 0.85rem;
+        font-weight: 600;
+        margin: 0;
+    }
+}
+
+.rating-breakdown {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 1rem;
+
+    &__item {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+    }
+
+    &__label {
+        width: 60px;
+        font-size: 0.75rem;
+        font-weight: 700;
+        color: var(--text-secondary);
+        text-transform: uppercase;
+    }
+
+    &__bar {
+        flex: 1;
+        height: 8px;
+        overflow: hidden;
+        border-radius: 999px;
+        background: var(--hover-medium);
+    }
+
+    &__fill {
+        height: 100%;
+        border-radius: inherit;
+        background: var(--primary);
+    }
+
+    &__value {
+        width: 40px;
+        text-align: right;
+        font-size: 0.75rem;
+        font-weight: 700;
+        color: var(--text-secondary);
     }
 }
 
@@ -771,18 +835,20 @@
 
 .review-card {
     background: var(--surface);
-    border-radius: 28px;
+    border-radius: 24px;
     border: 1px solid var(--border);
     padding: 2rem;
 
     p {
-        font-size: 0.92rem;
+        font-size: 0.95rem;
         line-height: 1.7;
         color: var(--text-primary);
+        margin: 0;
     }
 
     h4 {
-        font-size: 0.95rem;
+        margin: 0 0 0.25rem;
+        font-size: 1rem;
         color: var(--text-primary);
     }
 }
@@ -791,22 +857,23 @@
     display: flex;
     justify-content: space-between;
     gap: 1rem;
-    margin-bottom: 1rem;
+    margin-bottom: 1.25rem;
 
     span {
-        font-size: 0.8rem;
+        font-size: 0.85rem;
         color: var(--text-secondary);
     }
 }
 
 .user-info {
     display: flex;
+    align-items: center;
     gap: 1rem;
 }
 
 .avatar {
-    width: 52px;
-    height: 52px;
+    width: 48px;
+    height: 48px;
     border-radius: 50%;
     background: var(--primary-soft);
     color: var(--primary);
@@ -814,9 +881,17 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    font-size: 1.1rem;
 }
 
+.review-stars {
+    color: var(--warning);
+    font-size: 0.8rem;
+}
 
+/* =========================================
+   GLOBAL OVERRIDES
+========================================= */
 html,
 body {
     overflow-x: hidden;
@@ -832,24 +907,9 @@ swiper-slide {
     min-width: 0;
 }
 
-h1,
-h2,
-h3,
-h4,
-p,
-span,
-button,
-a {
-    word-wrap: break-word;
-    overflow-wrap: break-word;
-}
-
 /* =========================================
-   RESPONSIVE
+   RESPONSIVE SCALING
 ========================================= */
-
-@media (max-width: 1200px) {}
-
 @media (max-width: 992px) {
     .product-container {
         grid-template-columns: 1fr;
@@ -860,7 +920,6 @@ a {
 
     .gallery-section {
         position: relative;
-        top: unset;
         height: auto;
         max-height: none;
         overflow: visible;
@@ -878,48 +937,26 @@ a {
     }
 
     .product-title {
-        font-size: 1.7rem;
+        font-size: 1.6rem;
     }
 
     .price {
-        font-size: 1.7rem;
+        font-size: 1.6rem;
     }
 
-    .rating-overview h3 {
-        font-size: 2.5rem;
-    }
-
-    .product-card__media {
-        height: 220px;
+    .review-summary {
+        grid-template-columns: 1fr;
     }
 }
 
 @media (max-width: 768px) {
-    body {
-        font-size: 14px;
-    }
-
-    .product-details-page {
-        /* Remove padding: 12px from here */
-        padding: 0;
-    }
-
     .product-container {
-        display: flex;
-        flex-direction: column;
-        gap: 24px;
-
-        /* Apply mobile side margins here instead */
         padding: 1.5rem 20px;
+        gap: 1.5rem;
     }
 
     .gallery-section {
-        position: relative !important;
-        top: unset !important;
-        width: 100%;
-        max-width: 100%;
-        display: flex;
-        overflow: hidden;
+        flex-direction: column;
     }
 
     .thumbnail-list {
@@ -927,92 +964,44 @@ a {
     }
 
     .main-image {
-        width: 100%;
-        max-width: 100%;
         border-radius: 18px;
-        overflow: hidden;
     }
 
-    .main-swiper {
-        width: 100%;
-        max-width: 100%;
-
-        img {
-            width: 100%;
-            height: auto;
-            aspect-ratio: 1 / 1.2;
-            object-fit: cover;
-            display: block;
-        }
+    .main-swiper img {
+        aspect-ratio: 1 / 1.2;
     }
 
     .gallery-arrow {
         opacity: 1;
-        width: 38px;
-        height: 38px;
+        width: 40px;
+        height: 40px;
         font-size: 1rem;
-
-        &.left {
-            left: 0.75rem;
-        }
-
-        &.right {
-            right: 0.75rem;
-        }
-    }
-
-    .details-section {
-        width: 100%;
-        overflow: hidden;
-        gap: 1.5rem;
     }
 
     .product-title {
-        font-size: 1.35rem;
+        font-size: 1.4rem;
         line-height: 1.35;
-    }
-
-    .brand-name {
-        font-size: 0.75rem;
     }
 
     .price {
         font-size: 1.5rem;
     }
 
-    .old-price,
-    .discount {
-        font-size: 0.9rem;
-    }
+    .size-item {
+        width: calc(25% - 0.75rem);
+        min-width: 60px;
 
-    .tax-text,
-    .offer-price {
-        font-size: 0.82rem;
-    }
-
-    .breadcrumb {
-        font-size: 0.75rem;
-        gap: 0.45rem;
-    }
-
-    .specification-section h2,
-    .selection-header h3,
-    .delivery-header h3,
-    .offer-header h3 {
-        font-size: 0.9rem;
-    }
-
-    .offer-card {
-        padding: 1rem;
+        button {
+            height: 46px;
+            font-size: 0.85rem;
+        }
 
         p {
-            font-size: 0.82rem;
-            line-height: 1.5;
+            font-size: 0.65rem;
         }
     }
 
     .action-buttons {
-        width: 100%;
         position: sticky;
         bottom: 0;
         z-index: 99;
@@ -1025,170 +1014,21 @@ a {
     .add-to-cart {
         height: 52px;
         font-size: 0.85rem;
-        min-width: 0;
     }
 
     .wishlist-btn {
         width: 52px;
-        flex-shrink: 0;
-    }
-
-    .color-list {
-        flex-wrap: wrap;
-    }
-
-    .color-btn {
-        width: 52px;
-        height: 52px;
-    }
-
-    .size-list {
-        gap: 0.6rem;
-
-        button {
-            width: calc(25% - 0.5rem);
-            min-width: 60px;
-            height: 46px;
-            font-size: 0.82rem;
-        }
-    }
-
-    .size-guide {
-        font-size: 0.78rem;
-    }
-
-    .delivery-form {
-        flex-direction: column;
-
-        input,
-        button {
-            width: 100%;
-            height: 48px;
-            font-size: 0.82rem;
-        }
     }
 
     .spec-grid {
         grid-template-columns: 1fr;
-        gap: 1rem;
     }
 
-    .spec-item {
-        padding: 1rem;
-
-        span {
-            font-size: 0.68rem;
-        }
-
-        p {
-            font-size: 0.82rem;
-        }
-    }
-
-    .review-summary {
-        grid-template-columns: 1fr;
-    }
-
-    .rating-overview h3 {
-        font-size: 2.2rem;
-    }
-
-    .rating-box {
-        padding: 0.3rem 0.8rem;
-        font-size: 0.82rem;
-    }
-
-    .rating-count,
-    .cotton-badge {
-        font-size: 0.75rem;
-    }
-
-    .rating-breakdown {
-        &__item {
-            gap: 0.5rem;
-        }
-
-        &__label {
-            width: 52px;
-            font-size: 0.68rem;
-        }
-    }
-
-    .review-card {
-        padding: 1rem;
-
-        p {
-            font-size: 0.82rem;
-            line-height: 1.6;
-        }
-
-        h4 {
-            font-size: 0.85rem;
-        }
-    }
-
-    .review-top {
+    .delivery-form {
         flex-direction: column;
-        align-items: flex-start;
-
-        span {
-            font-size: 0.72rem;
-        }
     }
 
-    .trending {
-        overflow: hidden;
-
-        &__header h2 {
-            font-size: 1.3rem;
-        }
-
-        &__grid {
-            grid-template-columns: 1fr;
-        }
+    .delivery-form button {
+        padding: 1rem;
     }
-
-    .product-card {
-        &__media {
-            height: 240px;
-        }
-
-        &__wishlist {
-            transform: translateX(0);
-            opacity: 1;
-        }
-
-        &__content {
-            padding: 10px;
-
-            .brand {
-                font-size: 0.8rem;
-            }
-
-            .name {
-                font-size: 0.75rem;
-                line-height: 1.4;
-            }
-
-            .price .current {
-                font-size: 0.85rem;
-            }
-
-            .price .original,
-            .price .discount,
-            .size {
-                font-size: 0.7rem;
-            }
-        }
-
-        &__cart {
-            height: 44px;
-            font-size: 0.75rem;
-        }
-
-        &__rating {
-            font-size: 0.7rem;
-        }
-    }
-
 }

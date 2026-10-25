@@ -11,7 +11,7 @@
 
                 <!-- Main Product Link -->
                 <a style="text-decoration: none; display: flex; flex-direction: column; flex: 1;"
-                    [routerLink]="['/product-details']"> 
+                    [routerLink]="'/' + product.productUrl">
                     <div class="product-card__media">
                         <!-- <img class="product-card__image default" [src]="product.images[0]" [alt]="product.name"
                         loading="lazy" /> -->
@@ -50,7 +50,7 @@
                 </a>
 
                 <!-- Separate Add to Cart Button Link (No nested <a> tag!) -->
-                <a [routerLink]="['/product-details']" style="text-decoration: none; width: 100%;">
+                <a [routerLink]="['/cart']" style="text-decoration: none; width: 100%;">
                     <button class="product-card__cart" type="button">
                         <i class="fa fa-shopping-cart"></i>
                         <span>Add to Cart</span>

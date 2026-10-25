@@ -62,7 +62,7 @@ export const routes: Routes = [
             import('./pages/order-place-checkout/order-place-checkout').then(m => m.OrderPlaceCheckout),
     },
     {
-        path: 'product-details',
+        path: ':masterCategory/:category/:subCategory/:productName/:productId/buy',
         loadComponent: () =>
             import('./pages/product-details/product-details').then(m => m.ProductDetails),
     },

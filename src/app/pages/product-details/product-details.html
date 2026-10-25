@@ -1,618 +1,319 @@
 <app-header></app-header>
 <main class="product-details-page">
+    @if (productDetails) {
     <section class="product-container">
-        <!-- ======================================
-     GALLERY SECTION
-    ======================================= -->
+        <!-- ==================== GALLERY SECTION ======================= -->
+        @if (productDetails.images?.length) {
         <section class="gallery-section">
+            <!-- THUMBNAILS -->
             <aside class="thumbnail-list">
                 <swiper-container #thumbSwiper class="thumb-swiper" init="false">
-                    <swiper-slide *ngFor="let image of images; let i = index">
-                        <button class="thumb" [ngClass]="{  active: activeIndex === i}" (click)="goToSlide(i)">
-                            <img [src]="image" alt="Product Thumbnail">
+                    @for (image of productDetails.images; track $index) {
+                    <swiper-slide>
+                        <button class="thumb" [class.active]="activeIndex() === $index" (click)="goToSlide($index)">
+                            <img [src]="image" [alt]="productDetails.title + ' Thumbnail'">
                         </button>
                     </swiper-slide>
+                    }
                 </swiper-container>
             </aside>
+
+            <!-- MAIN IMAGE -->
             <figure class="main-image">
                 <swiper-container #mainSwiper class="main-swiper" init="false">
-                    <swiper-slide *ngFor="let image of images">
-                        <img [src]="image" alt="Nike Shoe">
+                    @for (image of productDetails.images; track $index) {
+                    <swiper-slide>
+                        <img [src]="image" [alt]="productDetails.title">
                     </swiper-slide>
+                    }
                 </swiper-container>
+
+                @if (productDetails.images.length > 1) {
                 <button class="gallery-arrow left gallery-prev">
                     <i class="fa fa-angle-left"></i>
                 </button>
                 <button class="gallery-arrow right gallery-next">
                     <i class="fa fa-angle-right"></i>
                 </button>
+                }
             </figure>
         </section>
-
-        <!-- ======================================
-     PRODUCT DETAILS
-    ======================================= -->
-
+        }
+        <!-- ==================== PRODUCT DETAILS ======================= -->
         <section class="details-section">
             <!-- BREADCRUMB -->
+            @if (productDetails.breadcrumb?.length) {
             <nav class="breadcrumb">
-                <a href="#">
-                    Home
-                </a>
-
+                @for (crumb of productDetails.breadcrumb; track crumb.id; let last = $last) {
+                @if (!last) {
+                <a [routerLink]="['/',crumb.slug]">{{ crumb.name }}</a>
                 <span>/</span>
-
-                <a href="#">
-                    Shoes
-                </a>
-
-                <span>/</span>
-
-                <a href="#">
-                    Sneakers
-                </a>
-
-                <span>/</span>
-
-                <strong>
-                    Nike Air Max
-                </strong>
-
+                } @else {
+                <a [routerLink]="['/',crumb.slug]">{{ crumb.name }}</a>
+                }
+                }
             </nav>
+            }
 
             <!-- HEADER -->
             <header class="product-header">
-
-                <p class="brand-name">
-                    Nike
-                </p>
-
+                <p class="brand-name">{{ productDetails.sellerName }}</p>
                 <h1 class="product-title">
-                    Nike Air Max Premium Sneakers
+                    {{ productDetails.title }}
+                    <span class="product-summary"> - {{ productDetails.summary }}</span>
                 </h1>
-
             </header>
 
             <!-- RATING -->
+            @if (productDetails.rating && productDetails.rating.totalCount > 0) {
             <section class="rating-section">
-
                 <div class="rating-box">
-
-                    <span>
-                        4.5
-                    </span>
-
+                    <span>{{ productDetails.rating.averageRating }}</span>
                     <i class="fa fa-star"></i>
-
                 </div>
+                <span class="rating-count">{{ productDetails.rating.totalCount }} Ratings</span>
 
-                <span class="rating-count">
-                    2.4k Ratings
-                </span>
-
-                <span class="cotton-badge">
-                    Premium Quality
-                </span>
-
+                @if (productDetails.rating.averageRating >= 4.0) {
+                <span class="cotton-badge">Premium Quality</span>
+                }
             </section>
+            }
 
             <!-- TRENDING -->
             <section class="trending-box">
-
                 <i class="fa fa-line-chart"></i>
-
-                <p>
-                    350 people bought this in last 7 days
-                </p>
-
+                <p>350 people bought this in last 7 days</p>
             </section>
 
             <!-- PRICE -->
+            @if (productDetails.price) {
             <section class="pricing-section">
-
                 <div class="price-row">
-
-                    <h2 class="price">
-                        ₹7,999
-                    </h2>
-
-                    <span class="old-price">
-                        ₹12,999
-                    </span>
-
-                    <span class="discount">
-                        38% OFF
-                    </span>
-
+                    @if(productDetails.price.offerPrice >= 0){
+                    <h2 class="price">₹{{ productDetails.price.offerPrice }}</h2>
+                    }
+                    @if(productDetails.price.price >= 0){
+                    <span class="old-price">₹{{ productDetails.price.price }}</span>
+                    }
+                    @if(productDetails.price.discount){
+                    <span class="discount">{{ productDetails.price.discount }}% OFF</span>
+                    }
                 </div>
-
-                <p class="tax-text">
-                    Inclusive of all taxes
-                </p>
-
+                <p class="tax-text">Inclusive of all taxes</p>
+                @if(productDetails.price.offerPrice >= 0){
                 <div class="offer-price">
-                    Get it for as low as ₹6,999
+                    Get it for as low as ₹{{ productDetails.price.offerPrice }}
                 </div>
-
+                }
             </section>
+            }
 
             <!-- OFFERS -->
             <section class="offers-grid">
-
                 <article class="offer-card">
-
                     <div class="offer-header">
-
                         <i class="fa fa-tag"></i>
-
-                        <h3>
-                            Bank Offer
-                        </h3>
-
+                        <h3>Bank Offer</h3>
                     </div>
-
-                    <p>
-                        10% Instant Discount on HDFC Credit Cards.
-                    </p>
-
-                    <a href="#">
-                        T&C Apply
-                    </a>
-
+                    <p>10% Instant Discount on HDFC Credit Cards.</p>
+                    <a href="#">T&C Apply</a>
                 </article>
 
                 <article class="offer-card">
-
                     <div class="offer-header">
-
                         <i class="fa fa-gift"></i>
-
-                        <h3>
-                            Combo Offer
-                        </h3>
-
+                        <h3>Combo Offer</h3>
                     </div>
-
-                    <p>
-                        Buy 2 products and get extra 10% off.
-                    </p>
-
-                    <a href="#">
-                        T&C Apply
-                    </a>
-
+                    <p>Buy 2 products and get extra 10% off.</p>
+                    <a href="#">T&C Apply</a>
                 </article>
-
             </section>
 
             <!-- COLOR -->
+            @if (productDetails.color?.length) {
             <section class="selection-section">
-
                 <div class="selection-header">
-
-                    <h3>
-                        Colour :
-                        <span>
-                            White
-                        </span>
-                    </h3>
-
+                    <h3>Colour</h3>
                 </div>
-
                 <div class="color-list">
-
-                    <button class="color-btn active">
-
-                        <img src="https://rukminim1.flixcart.com/image/1536/1536/xif0q/shoe/5/2/q/-original-imahgcs8chzjtsmz.jpeg?q=90"
-                            alt="">
-
+                    @for (color of productDetails.color; track color.name) {
+                    <button class="color-btn" [class.active]="color.checked" [title]="color.name">
+                        <img [src]="color.image" [alt]="color.name">
                     </button>
-
-                    <button class="color-btn">
-
-                        <img src="https://rukminim1.flixcart.com/image/1536/1536/xif0q/shoe/5/2/q/-original-imahgcs8chzjtsmz.jpeg?q=90"
-                            alt="">
-
-                    </button>
-
-                    <button class="color-btn">
-
-                        <img src="https://rukminim1.flixcart.com/image/1536/1536/xif0q/shoe/5/2/q/-original-imahgcs8chzjtsmz.jpeg?q=90"
-                            alt="">
-
-                    </button>
-
+                    }
                 </div>
-
             </section>
+            }
 
             <!-- SIZE -->
+            @if (productDetails.size?.sizeList?.length) {
             <section class="selection-section">
-
                 <div class="selection-header">
-
-                    <h3>
-                        Select Size
-                    </h3>
-
-                    <button class="size-guide">
-                        Size Guide
-                    </button>
-
+                    <h3>Select Size</h3>
+                    @if (productDetails.size.sizeChart) {
+                    <button class="size-guide" (click)="toggleSizeGuide()">Size Guide</button>
+                    }
                 </div>
-
                 <div class="size-list">
-
-                    <button>6</button>
-
-                    <button>7</button>
-
-                    <button class="active">8</button>
-
-                    <button>9</button>
-
-                    <button>10</button>
-
-                    <button disabled>11</button>
-
+                    @for (s of productDetails.size.sizeList; track s.size) {
+                    <div class="size-item">
+                        <button [class.active]="selectedSize() === s.size" [disabled]="!s.available"
+                            [title]="s.product_left || ''" (click)="selectSize(s.size, s.available)">
+                            {{ s.size }}
+                        </button>
+                        <p *ngIf="s.product_left">Only {{ s.product_left }}</p>
+                    </div>
+                    }
                 </div>
-
             </section>
+            }
+
+            <!-- SIZE GUIDE POPUP MODAL -->
+            @if (showSizeGuide()) {
+            <div class="size-modal-overlay" (click)="toggleSizeGuide()">
+                <div class="size-modal-content" (click)="$event.stopPropagation()">
+                    <button class="close-modal" (click)="toggleSizeGuide()">&times;</button>
+                    <h3>Size Chart</h3>
+                    <img [src]="productDetails.size.sizeChart" alt="Size Chart">
+                </div>
+            </div>
+            }
 
             <!-- ACTION BUTTONS -->
             <section class="action-buttons">
-
                 <button class="add-to-cart">
-
-                    <i class="fa fa-shopping-bag"></i>
-
-                    ADD TO BAG
-
+                    <i class="fa fa-shopping-bag"></i> ADD TO BAG
                 </button>
-
                 <button class="wishlist-btn">
-
                     <i class="fa fa-heart-o"></i>
-
                 </button>
-
             </section>
 
             <!-- DELIVERY -->
             <section class="delivery-section">
-
                 <div class="delivery-header">
-
                     <i class="fa fa-map-marker"></i>
-
-                    <h3>
-                        Delivery Options
-                    </h3>
-
+                    <h3>Delivery Options</h3>
                 </div>
-
                 <div class="delivery-form">
-
                     <input type="text" placeholder="Enter Pincode">
-
-                    <button>
-                        Check
-                    </button>
-
+                    <button>Check</button>
                 </div>
-
                 <div class="free-delivery">
-
                     <i class="fa fa-truck"></i>
-
-                    <span>
-                        FREE SHIPPING ON THIS ORDER
-                    </span>
-
+                    <span>FREE SHIPPING ON THIS ORDER</span>
                 </div>
-
             </section>
 
-            <!-- SPECIFICATIONS -->
-            <section class="specification-section">
-
-                <h2>
-                    Product Specifications
-                </h2>
-
-                <div class="spec-grid">
-
-                    <article class="spec-item">
-
-                        <span>
-                            Material
-                        </span>
-
-                        <p>
-                            Premium Leather
-                        </p>
-
-                    </article>
-
-                    <article class="spec-item">
-
-                        <span>
-                            Sole
-                        </span>
-
-                        <p>
-                            Rubber Sole
-                        </p>
-
-                    </article>
-
-                    <article class="spec-item">
-
-                        <span>
-                            Closure
-                        </span>
-
-                        <p>
-                            Lace-Up
-                        </p>
-
-                    </article>
-
-                    <article class="spec-item">
-
-                        <span>
-                            Occasion
-                        </span>
-
-                        <p>
-                            Casual
-                        </p>
-
-                    </article>
-
-                    <article class="spec-item">
-
-                        <span>
-                            Fit
-                        </span>
-
-                        <p>
-                            Regular Fit
-                        </p>
-
-                    </article>
-
-                    <article class="spec-item">
-
-                        <span>
-                            Warranty
-                        </span>
-
-                        <p>
-                            6 Months
-                        </p>
-
-                    </article>
-
-                </div>
-
-            </section>
-
-            <!-- ACCORDION -->
+            <!-- ACCORDION SECTION (Description & Specifications) -->
+            @if (productDetails.productDetails) {
             <section class="accordion-section">
+                <div class="accordion-item">
+                    <button class="accordion-btn" (click)="toggleAccordion('description')">
+                        <span>Product Specifications</span>
+                        <i class="fa" [class.fa-minus]="activeAccordion() === 'description'"
+                            [class.fa-plus]="activeAccordion() !== 'description'"></i>
+                    </button>
+                    @if (activeAccordion() === 'description') {
+                    <div class="accordion-content">
+                        <p class="accordion-desc">
+                            {{ productDetails.productDetails.description }}
+                        </p>
+                        @if (productDetails.productDetails.specification?.length) {
+                        <div class="spec-grid">
+                            @for (spec of productDetails.productDetails.specification; track spec.label) {
+                            <article class="spec-item">
+                                <span>{{ spec.label }}</span>
+                                <p>{{ spec.value }}</p>
+                            </article>
+                            }
+                        </div>
+                        }
+                    </div>
+                    }
+                </div>
 
-                <button class="accordion-btn">
-
-                    <span>
-                        Product Description
-                    </span>
-
-                    <i class="fa fa-plus"></i>
-
-                </button>
-
-                <button class="accordion-btn">
-
-                    <span>
-                        Returns & Exchange
-                    </span>
-
-                    <i class="fa fa-plus"></i>
-
-                </button>
-
+                <!-- ACCORDION 2: Returns & Exchange -->
+                <div class="accordion-item">
+                    <button class="accordion-btn" (click)="toggleAccordion('returns')">
+                        <span>Returns & Exchange</span>
+                        <i class="fa" [class.fa-minus]="activeAccordion() === 'returns'"
+                            [class.fa-plus]="activeAccordion() !== 'returns'"></i>
+                    </button>
+                    @if (activeAccordion() === 'returns') {
+                    <div class="accordion-content">
+                        <p class="accordion-desc">
+                            Easy 14 days return and exchange available on this item. Items must be returned in their
+                            original condition with all tags attached. Promotional items may have special return
+                            conditions.
+                        </p>
+                    </div>
+                    }
+                </div>
             </section>
+            }
 
             <!-- REVIEWS -->
+            @if (productDetails.rating && productDetails.customerReview?.length) {
             <section class="reviews-section">
                 <div class="section-header">
-                    <h2>
-                        Ratings & Reviews
-                    </h2>
+                    <h2>Ratings & Reviews</h2>
                 </div>
-
-                <!-- SUMMARY -->
                 <div class="review-summary">
-
-                    <!-- LEFT -->
                     <div class="rating-overview">
-
-                        <h3>
-                            4.5
-                        </h3>
-
+                        <h3>{{ productDetails.rating.averageRating }}</h3>
                         <div class="stars">
-
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star-half-o"></i>
-
+                            @for (star of [1, 2, 3, 4, 5]; track star) {
+                            <i class="fa" [class.fa-star]="star <= productDetails.rating.averageRating"
+                                [class.fa-star-half-o]="star > productDetails.rating.averageRating && star - 1 < productDetails.rating.averageRating"
+                                [class.fa-star-o]="star > productDetails.rating.averageRating + 0.5"></i>
+                            }
                         </div>
-
-                        <p>
-                            2.4k Verified Buyers
-                        </p>
-
+                        <p>{{ productDetails.rating.totalCount }} Verified Buyers</p>
                     </div>
-
-                    <!-- RIGHT -->
                     <div class="rating-breakdown">
+                        @for (div of productDetails.rating.ratingDivision; track div.rating) {
                         <div class="rating-breakdown__item">
-                            <span class="rating-breakdown__label">5 Stars</span>
-
+                            <span class="rating-breakdown__label">{{ div.rating }} Stars</span>
                             <div class="rating-breakdown__bar">
-                                <div class="rating-breakdown__fill" style="width: 82%;"></div>
+                                <div class="rating-breakdown__fill" [style.width.%]="div.percentage"></div>
                             </div>
-
-                            <span class="rating-breakdown__value">82%</span>
+                            <span class="rating-breakdown__value">{{ div.percentage }}%</span>
                         </div>
-
-                        <div class="rating-breakdown__item">
-                            <span class="rating-breakdown__label">4 Stars</span>
-
-                            <div class="rating-breakdown__bar">
-                                <div class="rating-breakdown__fill" style="width: 12%;"></div>
-                            </div>
-
-                            <span class="rating-breakdown__value">12%</span>
-                        </div>
-
-                        <div class="rating-breakdown__item">
-                            <span class="rating-breakdown__label">3 Stars</span>
-
-                            <div class="rating-breakdown__bar">
-                                <div class="rating-breakdown__fill" style="width: 4%;"></div>
-                            </div>
-
-                            <span class="rating-breakdown__value">4%</span>
-                        </div>
-
-                        <div class="rating-breakdown__item">
-                            <span class="rating-breakdown__label">2 Stars</span>
-
-                            <div class="rating-breakdown__bar">
-                                <div class="rating-breakdown__fill" style="width: 1%;"></div>
-                            </div>
-
-                            <span class="rating-breakdown__value">1%</span>
-                        </div>
-
-                        <div class="rating-breakdown__item">
-                            <span class="rating-breakdown__label">1 Star</span>
-
-                            <div class="rating-breakdown__bar">
-                                <div class="rating-breakdown__fill" style="width: 1%;"></div>
-                            </div>
-
-                            <span class="rating-breakdown__value">1%</span>
-                        </div>
+                        }
                     </div>
-
                 </div>
-
-                <!-- REVIEW LIST -->
                 <div class="review-list">
-
-                    <!-- REVIEW CARD -->
+                    @for (review of productDetails.customerReview; track $index) {
                     <article class="review-card">
-
                         <div class="review-top">
-
                             <div class="user-info">
-
                                 <div class="avatar">
-                                    JD
+                                    {{ review.customerName | slice:0:2 | uppercase }}
                                 </div>
-
                                 <div>
-
-                                    <h4>
-                                        John Doe
-                                    </h4>
-
+                                    <h4>{{ review.customerName }}</h4>
                                     <div class="review-stars">
-
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
-
+                                        @for (star of [1, 2, 3, 4, 5]; track star) {
+                                        <i class="fa" [class.fa-star]="star <= review.rating"
+                                            [class.fa-star-o]="star > review.rating"></i>
+                                        }
                                     </div>
-
                                 </div>
-
                             </div>
-
-                            <span>
-                                2 days ago
-                            </span>
-
+                            <span>{{ review.date | date:'mediumDate' }}</span>
                         </div>
-
-                        <p>
-                            The quality is amazing and super comfortable.
-                            Looks exactly like the images.
-                        </p>
-
+                        <p>{{ review.review }}</p>
                     </article>
-
-                    <!-- REVIEW CARD -->
-                    <article class="review-card">
-
-                        <div class="review-top">
-
-                            <div class="user-info">
-
-                                <div class="avatar">
-                                    SK
-                                </div>
-
-                                <div>
-
-                                    <h4>
-                                        Sarah Kapoor
-                                    </h4>
-
-                                    <div class="review-stars">
-
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star-half-o"></i>
-
-                                    </div>
-
-                                </div>
-
-                            </div>
-
-                            <span>
-                                1 week ago
-                            </span>
-
-                        </div>
-
-                        <p>
-                            Perfect fit and premium finish.
-                            Definitely worth the price.
-                        </p>
-
-                    </article>
-
+                    }
                 </div>
-
             </section>
-
+            }
         </section>
-
     </section>
+    }
 
     <app-common-product-swiper title="Explore Similar Products" [products]="products"></app-common-product-swiper>
-
     <app-common-product-grid title="Explore More" [products]="products"></app-common-product-grid>
 
 </main>

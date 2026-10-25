@@ -1,15 +1,40 @@
-import { AfterViewInit, ChangeDetectorRef, Component, CUSTOM_ELEMENTS_SCHEMA, ElementRef, Inject, OnInit, PLATFORM_ID, signal, ViewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, CUSTOM_ELEMENTS_SCHEMA, ElementRef, inject, OnInit, PLATFORM_ID, signal, ViewChild } from '@angular/core';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
+import { ActivatedRoute, Router, RouterLink, RouterModule } from '@angular/router';
+import { ReactiveFormsModule } from '@angular/forms';
 import { Header } from '../../layout/header/header';
 import { Footer } from '../../layout/footer/footer';
-import { CommonModule, isPlatformBrowser } from '@angular/common';
-import { RouterLink, RouterModule } from '@angular/router';
 import { ProfileMenu } from '../../layout/profile-menu/profile-menu';
-import { ReactiveFormsModule } from '@angular/forms';
-import { Theme } from '../../core/services/theme/theme';
 import { Toast } from '../../core/services/toast/toast';
 import { Loading } from '../../core/services/loading/loading';
 import { CommonProductGrid } from '../../layout/common-product-grid/common-product-grid';
 import { CommonProductSwiper } from '../../layout/common-product-swiper/common-product-swiper';
+import { Http } from '../../core/services/api/http';
+
+export interface IBreadcrumb { id: number | null; name: string; slug: string; }
+export interface IRatingDivision { rating: number; count: number; percentage: number; }
+export interface IRating { averageRating: number; totalCount: number; ratingDivision: IRatingDivision[]; }
+export interface IPrice { price: number; offerPrice: number; discount: number; }
+export interface IColor { name: string; checked: boolean; image: string; }
+export interface ISizeOption { size: string; available: boolean; product_left: string; }
+export interface ISize { sizeChart: string; sizeList: ISizeOption[]; }
+export interface ISpecification { label: string; value: string; }
+export interface IDetailedInfo { description: string; specification: ISpecification[]; }
+export interface ICustomerReview { customerName: string; date: string; review: string; rating: number; }
+
+export interface IProductDetails {
+  breadcrumb: IBreadcrumb[];
+  title: string;
+  summary: string;
+  images: string[];
+  rating: IRating;
+  price: IPrice;
+  color: IColor[];
+  size: ISize;
+  sellerName: string;
+  productDetails: IDetailedInfo;
+  customerReview: ICustomerReview[];
+}
 
 @Component({
   selector: 'app-product-details',
@@ -23,13 +48,19 @@ import { CommonProductSwiper } from '../../layout/common-product-swiper/common-p
   styleUrl: './product-details.scss',
 })
 export class ProductDetails implements OnInit, AfterViewInit {
-  hoverTimers = new WeakMap<any, any>();
   @ViewChild('mainSwiper') mainSwiper!: ElementRef;
   @ViewChild('thumbSwiper') thumbSwiper!: ElementRef;
-  activeIndex = 0;
+
+  activeIndex = signal<number>(0);
+  productDetails: IProductDetails | null = null;
+  productId: any;
+  selectedSize = signal<string>('');
+  showSizeGuide = signal<boolean>(false);
+  activeAccordion = signal<string>('description');
 
   products = [
     {
+      productId: 1,
       brand: 'Keepfit',
       name: 'Round Neck Leg Suit Round Neck Leg Suit Round Neck Leg Suit',
       price: 1398,
@@ -45,6 +76,7 @@ export class ProductDetails implements OnInit, AfterViewInit {
       ]
     },
     {
+      productId: 2,
       brand: 'Keepfit',
       name: 'Round Neck Leg Suit',
       price: 1398,
@@ -60,6 +92,7 @@ export class ProductDetails implements OnInit, AfterViewInit {
       ]
     },
     {
+      productId: 3,
       brand: 'Keepfit',
       name: 'Round Neck Leg Suit',
       price: 1398,
@@ -75,6 +108,7 @@ export class ProductDetails implements OnInit, AfterViewInit {
       ]
     },
     {
+      productId: 4,
       brand: 'Keepfit',
       name: 'Round Neck Leg Suit',
       price: 1398,
@@ -90,6 +124,7 @@ export class ProductDetails implements OnInit, AfterViewInit {
       ]
     },
     {
+      productId: 5,
       brand: 'Keepfit',
       name: 'Round Neck Leg Suit',
       price: 1398,
@@ -105,6 +140,7 @@ export class ProductDetails implements OnInit, AfterViewInit {
       ]
     },
     {
+      productId: 6,
       brand: 'Keepfit',
       name: 'Round Neck Leg Suit',
       price: 1398,
@@ -120,6 +156,7 @@ export class ProductDetails implements OnInit, AfterViewInit {
       ]
     },
     {
+      productId: 7,
       brand: 'Keepfit',
       name: 'Round Neck Leg Suit',
       price: 1398,
@@ -135,6 +172,7 @@ export class ProductDetails implements OnInit, AfterViewInit {
       ]
     },
     {
+      productId: 8,
       brand: 'Keepfit',
       name: 'Round Neck Leg Suit',
       price: 1398,
@@ -150,6 +188,7 @@ export class ProductDetails implements OnInit, AfterViewInit {
       ]
     },
     {
+      productId: 9,
       brand: 'Keepfit',
       name: 'Round Neck Leg Suit',
       price: 1398,
@@ -165,6 +204,7 @@ export class ProductDetails implements OnInit, AfterViewInit {
       ]
     },
     {
+      productId: 10,
       brand: 'Keepfit',
       name: 'Round Neck Leg Suit',
       price: 1398,
@@ -180,29 +220,20 @@ export class ProductDetails implements OnInit, AfterViewInit {
       ]
     }
   ];
-  images = [
-    'https://rukminim1.flixcart.com/image/1536/1536/xif0q/shoe/5/2/q/-original-imahgcs8chzjtsmz.jpeg?q=90',
-    'https://images.unsplash.com/photo-1542291026-7eec264c27ff?q=80&w=1200',
-    'https://images.unsplash.com/photo-1600185365483-26d7a4cc7519?q=80&w=1200',
-    'https://images.unsplash.com/photo-1608231387042-66d1773070a5?q=80&w=1200',
-    'https://rukminim1.flixcart.com/image/1536/1536/xif0q/shoe/5/2/q/-original-imahgcs8chzjtsmz.jpeg?q=90',
-    'https://images.unsplash.com/photo-1542291026-7eec264c27ff?q=80&w=1200',
-    'https://images.unsplash.com/photo-1600185365483-26d7a4cc7519?q=80&w=1200',
-    'https://images.unsplash.com/photo-1608231387042-66d1773070a5?q=80&w=1200'
-  ];
 
+  private http = inject(Http);
+  private cdr = inject(ChangeDetectorRef);
+  private route = inject(ActivatedRoute);
+  private router = inject(Router);
+  private loadingService = inject(Loading);
+  private toastService = inject(Toast);
+  private platformId = inject(PLATFORM_ID);
 
   mainSwiperConfig = signal({
     slidesPerView: 1,
     loop: true,
-    autoplay: {
-      delay: 2500,
-      disableOnInteraction: false
-    },
-    navigation: {
-      nextEl: '.gallery-next',
-      prevEl: '.gallery-prev'
-    }
+    autoplay: { delay: 2500, disableOnInteraction: false },
+    navigation: { nextEl: '.gallery-next', prevEl: '.gallery-prev' }
   });
 
   thumbSwiperConfig = signal({
@@ -210,53 +241,91 @@ export class ProductDetails implements OnInit, AfterViewInit {
     spaceBetween: 12,
     watchSlidesProgress: true,
     breakpoints: {
-      0: {
-        direction: 'horizontal',
-        slidesPerView: 4
-      },
-
-      768: {
-        direction: 'vertical',
-        slidesPerView: 4
-      }
+      0: { direction: 'horizontal', slidesPerView: 4 },
+      768: { direction: 'vertical', slidesPerView: 4 }
     }
   });
 
-
-  constructor(
-    public themeService: Theme,
-    public toastService: Toast,
-    public loadingService: Loading,
-    @Inject(PLATFORM_ID) private platformId: Object,
-    private cdr: ChangeDetectorRef
-  ) { }
-
   ngOnInit() {
+    this.route.params.subscribe((params: any) => {
+      this.productId = params.productId;
+      this.getProductDetails(this.productId);
+    });
+  }
 
+  getProductDetails(productId: any) {
+    this.loadingService.show();
+    this.http.getProductDetails(productId).subscribe({
+      next: (res: any) => {
+        const data = res.data || res;
+        if (data && Object.keys(data).length > 0) {
+          this.productDetails = data;
+          this.initializeSwipers();
+        } else {
+          this.toastService.show(res.message || 'Product details not found', 'error');
+        }
+        this.loadingService.hide();
+        this.cdr.detectChanges();
+      },
+      error: () => {
+        this.toastService.show('Something went wrong. Please try again.', 'error');
+        this.loadingService.hide();
+        this.cdr.detectChanges();
+      }
+    });
   }
 
   ngAfterViewInit() {
-    if (isPlatformBrowser(this.platformId)) {
+    this.initializeSwipers();
+  }
+
+  initializeSwipers() {
+    if (isPlatformBrowser(this.platformId) && this.productDetails?.images?.length) {
       setTimeout(() => {
-        Object.assign(this.mainSwiper.nativeElement, this.mainSwiperConfig());
-        this.mainSwiper.nativeElement.initialize();
-
-        Object.assign(this.thumbSwiper.nativeElement, this.thumbSwiperConfig());
-        this.thumbSwiper.nativeElement.initialize();
-
-        const mainSwiperEl = this.mainSwiper.nativeElement.swiper;
-        mainSwiperEl.on('realIndexChange', () => {
-          this.activeIndex = mainSwiperEl.realIndex;
-          this.thumbSwiper.nativeElement.swiper.slideTo(this.activeIndex);
-          this.cdr.detectChanges();
-        });
-      }, 400);
+        if (this.mainSwiper?.nativeElement) {
+          Object.assign(this.mainSwiper.nativeElement, this.mainSwiperConfig());
+          this.mainSwiper.nativeElement.initialize();
+        }
+        if (this.thumbSwiper?.nativeElement) {
+          Object.assign(this.thumbSwiper.nativeElement, this.thumbSwiperConfig());
+          this.thumbSwiper.nativeElement.initialize();
+        }
+        const mainSwiperEl = this.mainSwiper?.nativeElement?.swiper;
+        if (mainSwiperEl) {
+          mainSwiperEl.on('realIndexChange', () => {
+            this.activeIndex.set(mainSwiperEl.realIndex);
+            if (this.thumbSwiper?.nativeElement?.swiper) {
+              this.thumbSwiper.nativeElement.swiper.slideTo(this.activeIndex());
+            }
+            this.cdr.detectChanges();
+          });
+        }
+      }, 300);
     }
   }
 
   goToSlide(index: number) {
-    this.activeIndex = index;
-    this.mainSwiper.nativeElement.swiper.slideToLoop(index);
+    this.activeIndex.set(index);
+    if (this.mainSwiper?.nativeElement?.swiper) {
+      this.mainSwiper.nativeElement.swiper.slideToLoop(index);
+    }
   }
 
+  getStarsArray(rating: number): number[] {
+    return Array(Math.round(rating || 0)).fill(0).map((_, i) => i + 1);
+  }
+
+  selectSize(size: string, available: boolean) {
+    if (available) {
+      this.selectedSize.set(size);
+    }
+  }
+
+  toggleSizeGuide() {
+    this.showSizeGuide.update(val => !val);
+  }
+
+  toggleAccordion(section: string) {
+    this.activeAccordion.update(val => val === section ? '' : section);
+  }
 }
