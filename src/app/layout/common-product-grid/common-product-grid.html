@@ -13,17 +13,17 @@
                 <a style="text-decoration: none; display: flex; flex-direction: column; flex: 1;"
                     [routerLink]="'/' + product.productUrl">
                     <div class="product-card__media">
-                        <!-- <img class="product-card__image default" [src]="product.images[0]" [alt]="product.name"
-                        loading="lazy" /> -->
-                        <img class="product-card__image default"
+                        <img class="product-card__image default" [src]="product.images[0]" [alt]="product.name"
+                        loading="lazy" />
+                        <!-- <img class="product-card__image default"
                             src="https://assets.myntassets.com/f_webp,dpr_1.5,q_60,w_210,c_limit,fl_progressive/assets/images/2026/JUNE/16/2dmhnY5z_df63c4f613194f9b82761ed8a61eb64d.jpg"
-                            [alt]="product.name" loading="lazy" />
+                            [alt]="product.name" loading="lazy" /> -->
 
                         <swiper-container class="product-card__swiper">
                             <swiper-slide *ngFor="let img of product.images">
-                                <!-- <img [src]="img" [alt]="product.name" loading="lazy" /> -->
-                                <img src="https://assets.myntassets.com/f_webp,dpr_1.5,q_60,w_210,c_limit,fl_progressive/assets/images/2026/JUNE/16/2dmhnY5z_df63c4f613194f9b82761ed8a61eb64d.jpg"
-                                    [alt]="product.name" loading="lazy" />
+                                <img [src]="img" [alt]="product.name" loading="lazy" />
+                                <!-- <img src="https://assets.myntassets.com/f_webp,dpr_1.5,q_60,w_210,c_limit,fl_progressive/assets/images/2026/JUNE/16/2dmhnY5z_df63c4f613194f9b82761ed8a61eb64d.jpg"
+                                    [alt]="product.name" loading="lazy" /> -->
                             </swiper-slide>
                         </swiper-container>
 

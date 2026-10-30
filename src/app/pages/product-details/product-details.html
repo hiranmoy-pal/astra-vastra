@@ -11,7 +11,7 @@
                     @for (image of productDetails.images; track $index) {
                     <swiper-slide>
                         <button class="thumb" [class.active]="activeIndex() === $index" (click)="goToSlide($index)">
-                            <img [src]="image" [alt]="productDetails.title + ' Thumbnail'">
+                            <img [src]="image" [alt]="productDetails.name + ' Thumbnail'">
                         </button>
                     </swiper-slide>
                     }
@@ -23,7 +23,7 @@
                 <swiper-container #mainSwiper class="main-swiper" init="false">
                     @for (image of productDetails.images; track $index) {
                     <swiper-slide>
-                        <img [src]="image" [alt]="productDetails.title">
+                        <img [src]="image" [alt]="productDetails.name">
                     </swiper-slide>
                     }
                 </swiper-container>
@@ -59,7 +59,7 @@
             <header class="product-header">
                 <p class="brand-name">{{ productDetails.sellerName }}</p>
                 <h1 class="product-title">
-                    {{ productDetails.title }}
+                    {{ productDetails.name }}
                     <span class="product-summary"> - {{ productDetails.summary }}</span>
                 </h1>
             </header>
@@ -137,9 +137,11 @@
                 </div>
                 <div class="color-list">
                     @for (color of productDetails.color; track color.name) {
-                    <button class="color-btn" [class.active]="color.checked" [title]="color.name">
-                        <img [src]="color.image" [alt]="color.name">
-                    </button>
+                    <a [routerLink]="'/' + color.url" style="text-decoration: none;">
+                        <button class="color-btn" [class.active]="color.checked" [title]="color.name">
+                            <img [src]="color.image" [alt]="color.name">
+                        </button>
+                    </a>
                     }
                 </div>
             </section>
@@ -159,7 +161,8 @@
                     <div class="size-item">
                         <button [class.active]="selectedSize() === s.size" [disabled]="!s.available"
                             [title]="s.product_left || ''" (click)="selectSize(s.size, s.available)">
-                            {{ s.size }}
+                            <span class="size-label">{{ s.size }}</span>
+                            <span class="size-price">Rs. {{ s.price }}</span>
                         </button>
                         <p *ngIf="s.product_left">Only {{ s.product_left }}</p>
                     </div>
@@ -185,7 +188,7 @@
                     <i class="fa fa-shopping-bag"></i> ADD TO BAG
                 </button>
                 <button class="wishlist-btn">
-                    <i class="fa fa-heart-o"></i>
+                    <i class="fa fa-heart-o"></i> WISHLIST
                 </button>
             </section>
 
@@ -289,7 +292,7 @@
                         <div class="review-top">
                             <div class="user-info">
                                 <div class="avatar">
-                                    {{ review.customerName | slice:0:2 | uppercase }}
+                                    {{ review.customerName | slice:0:1 | uppercase }}
                                 </div>
                                 <div>
                                     <h4>{{ review.customerName }}</h4>

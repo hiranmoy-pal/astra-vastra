@@ -15,8 +15,8 @@ export interface IBreadcrumb { id: number | null; name: string; slug: string; }
 export interface IRatingDivision { rating: number; count: number; percentage: number; }
 export interface IRating { averageRating: number; totalCount: number; ratingDivision: IRatingDivision[]; }
 export interface IPrice { price: number; offerPrice: number; discount: number; }
-export interface IColor { name: string; checked: boolean; image: string; }
-export interface ISizeOption { size: string; available: boolean; product_left: string; }
+export interface IColor { name: string; checked: boolean; image: string; url: string; }
+export interface ISizeOption { id: number | null; size: string; price: number | null; available: boolean; product_left: string; }
 export interface ISize { sizeChart: string; sizeList: ISizeOption[]; }
 export interface ISpecification { label: string; value: string; }
 export interface IDetailedInfo { description: string; specification: ISpecification[]; }
@@ -24,7 +24,7 @@ export interface ICustomerReview { customerName: string; date: string; review: s
 
 export interface IProductDetails {
   breadcrumb: IBreadcrumb[];
-  title: string;
+  name: string;
   summary: string;
   images: string[];
   rating: IRating;
