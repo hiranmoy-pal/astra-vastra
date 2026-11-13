@@ -15,7 +15,7 @@
     width: 100%;
     max-width: 1400px;
     margin: 0 auto;
-    padding: 2rem 24px;
+    padding: 10px;
     box-sizing: border-box;
     display: grid;
     grid-template-columns: 5fr 7fr;
@@ -34,11 +34,17 @@
     display: flex;
     gap: 1rem;
     position: sticky;
-    top: 0;
-    height: 55vh;
+    top: 5px;
+    /* Slight top offset for better stickiness */
+
+    /* 🔥 Remove the fixed 55vh that causes aspect ratio mismatch */
+    height: auto;
     max-height: 600vh;
     overflow: unset;
     min-width: 0;
+
+    /* 🔥 Prevent the flex container from stretching vertically */
+    align-items: flex-start;
 }
 
 .thumbnail-list {
@@ -81,11 +87,14 @@
 .main-image {
     position: relative;
     flex: 1;
-    height: 100%;
+
+    /* 🔥 Let container wrap the image perfectly */
+    height: auto;
     min-width: 0;
     overflow: hidden;
     border-radius: 30px;
-    background: var(--surface);
+    background: transparent;
+    /* Remove var(--surface) to prevent background bleed */
     box-shadow: var(--shadow-soft);
 
     &:hover img {
@@ -99,15 +108,18 @@
 
 .main-swiper {
     width: 100%;
-    height: 100%;
-    min-width: 0;
+    height: auto;
 
     img {
         width: 100%;
-        height: 100%;
-        display: block;
-        aspect-ratio: 3 / 4;
+
+        /* 🔥 Image natively controls the height now */
+        height: auto;
+        aspect-ratio: auto;
+
+        /* Fits perfectly with zero cropping and zero background gaps */
         object-fit: cover;
+        display: block;
         transition: transform 0.5s ease;
     }
 
@@ -173,6 +185,7 @@
     gap: 0.75rem;
     color: var(--text-secondary);
     font-size: 0.85rem;
+    margin-top: 10px;
 
     a {
         text-decoration: none;
@@ -207,7 +220,7 @@
     font-size: 0.6em;
     font-weight: 500;
     color: var(--text-secondary);
-    display: inline-block;
+    display: inline;
     vertical-align: middle;
 }
 
@@ -406,9 +419,9 @@
 }
 
 .color-btn {
-    width: 60px;
-    height: 60px;
-    border-radius: 50%;
+    width: 50px;
+    height: 70px;
+    border-radius: 8px;
     overflow: hidden;
     border: 2px solid transparent;
     padding: 3px;
@@ -422,8 +435,9 @@
     img {
         width: 100%;
         height: 100%;
-        border-radius: 50%;
+        border-radius: 4px;
         object-fit: cover;
+        mix-blend-mode: darken;
     }
 }
 
@@ -562,56 +576,6 @@
         color: var(--danger);
     }
 }
-
-/* =========================================
-   BUTTONS
-========================================= */
-// .action-buttons {
-//     display: flex;
-//     gap: 1rem;
-//     padding-top: 0.5rem;
-//     min-width: 0;
-// }
-
-// .add-to-cart {
-//     flex: 1;
-//     height: 58px;
-//     border: none;
-//     border-radius: 20px;
-//     background: var(--primary);
-//     color: var(--text-tertiary) !important;
-//     font-size: 0.95rem;
-//     font-weight: 800;
-//     letter-spacing: 0.5px;
-//     cursor: pointer;
-//     transition: 0.25s ease;
-//     display: flex;
-//     align-items: center;
-//     justify-content: center;
-//     gap: 0.8rem;
-//     font-family: var(--font-body);
-
-//     &:hover {
-//         transform: translateY(-2px);
-//         box-shadow: var(--shadow-medium);
-//     }
-// }
-
-// .wishlist-btn {
-//     width: 58px;
-//     border-radius: 20px;
-//     border: 1px solid var(--outline);
-//     background: var(--surface);
-//     cursor: pointer;
-//     transition: 0.25s ease;
-//     font-size: 1.1rem;
-//     color: var(--text-primary);
-
-//     &:hover {
-//         color: var(--primary);
-//         border-color: var(--primary);
-//     }
-// }
 
 .action-buttons {
     display: grid;
@@ -989,6 +953,10 @@ swiper-slide {
    RESPONSIVE SCALING
 ========================================= */
 @media (max-width: 992px) {
+    .breadcrumb {
+        display: none;
+    }
+
     .product-container {
         grid-template-columns: 1fr;
         height: auto;
@@ -1001,6 +969,18 @@ swiper-slide {
         height: auto;
         max-height: none;
         overflow: visible;
+        align-items: flex-start;
+    }
+
+    /* 🔥 Force container to wrap image */
+    .main-image {
+        height: auto;
+    }
+
+    .main-swiper img {
+        height: auto;
+        aspect-ratio: auto;
+        object-fit: cover;
     }
 
     .details-section {
@@ -1043,10 +1023,15 @@ swiper-slide {
 
     .main-image {
         border-radius: 18px;
+        height: auto;
+        /* 🔥 Let container wrap perfectly */
+        background: transparent;
     }
 
     .main-swiper img {
-        aspect-ratio: 1 / 1.2;
+        height: auto;
+        aspect-ratio: auto;
+        object-fit: cover;
     }
 
     .gallery-arrow {
@@ -1079,7 +1064,14 @@ swiper-slide {
         }
     }
 
+    .spec-grid {
+        grid-template-columns: 1fr;
+    }
+
     .action-buttons {
+        display: flex;
+        flex-direction: row;
+        gap: 12px;
         position: sticky;
         bottom: 0;
         z-index: 99;
@@ -1089,24 +1081,30 @@ swiper-slide {
         border-top: 1px solid var(--border);
     }
 
-    .add-to-cart {
-        height: 52px;
-        font-size: 0.85rem;
-    }
-
+    .add-to-cart,
     .wishlist-btn {
-        width: 52px;
+        flex: 1;
+        /* Forces 50% width */
+        width: auto;
+        height: 52px;
     }
 
-    .spec-grid {
-        grid-template-columns: 1fr;
-    }
-
+    /* Fix Delivery Form Single-Line Layout */
     .delivery-form {
-        flex-direction: column;
+        display: flex;
+        flex-direction: row;
+        /* Overrides the previous column stack */
+        gap: 12px;
+        width: 100%;
+    }
+
+    .delivery-form input {
+        flex: 1;
     }
 
     .delivery-form button {
-        padding: 1rem;
+        width: auto;
+        padding: 0 1.2rem;
+        flex-shrink: 0;
     }
 }

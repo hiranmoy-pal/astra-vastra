@@ -10,6 +10,9 @@ import { Loading } from '../../core/services/loading/loading';
 import { CommonProductGrid } from '../../layout/common-product-grid/common-product-grid';
 import { CommonProductSwiper } from '../../layout/common-product-swiper/common-product-swiper';
 import { Http } from '../../core/services/api/http';
+import { Storage } from '../../core/services/storage/storage';
+import { Subscription } from 'rxjs';
+import { Alert } from '../../core/services/alert/alert';
 
 export interface IBreadcrumb { id: number | null; name: string; slug: string; }
 export interface IRatingDivision { rating: number; count: number; percentage: number; }
@@ -57,6 +60,10 @@ export class ProductDetails implements OnInit, AfterViewInit {
   selectedSize = signal<string>('');
   showSizeGuide = signal<boolean>(false);
   activeAccordion = signal<string>('description');
+
+  isAuthChecked: boolean = false;
+  isLoggedIn: boolean = false;
+  isAddedToCart = signal<boolean>(false);
 
   products = [
     {
@@ -221,6 +228,7 @@ export class ProductDetails implements OnInit, AfterViewInit {
     }
   ];
 
+  private authStateSub!: Subscription;
   private http = inject(Http);
   private cdr = inject(ChangeDetectorRef);
   private route = inject(ActivatedRoute);
@@ -228,11 +236,13 @@ export class ProductDetails implements OnInit, AfterViewInit {
   private loadingService = inject(Loading);
   private toastService = inject(Toast);
   private platformId = inject(PLATFORM_ID);
+  private storage = inject(Storage);
+  private alertService = inject(Alert);
 
   mainSwiperConfig = signal({
     slidesPerView: 1,
     loop: true,
-    autoplay: { delay: 2500, disableOnInteraction: false },
+    autoplay: { delay: 3000, disableOnInteraction: false },
     navigation: { nextEl: '.gallery-next', prevEl: '.gallery-prev' }
   });
 
@@ -250,6 +260,38 @@ export class ProductDetails implements OnInit, AfterViewInit {
     this.route.params.subscribe((params: any) => {
       this.productId = params.productId;
       this.getProductDetails(this.productId);
+    });
+
+    if (isPlatformBrowser(this.platformId)) {
+      this.checkAuthAndLoadData();
+
+      this.authStateSub = this.http.authStateChange$.subscribe((loggedInStatus) => {
+        setTimeout(() => {
+          this.isLoggedIn = loggedInStatus;
+          this.cdr.detectChanges();
+        }, 0);
+      });
+    } else {
+      this.isAuthChecked = true;
+    }
+  }
+
+  ngOnDestroy() {
+    if (this.authStateSub) this.authStateSub.unsubscribe();
+  }
+
+  checkAuthAndLoadData() {
+    this.storage.get('accessToken').then(token => {
+      setTimeout(() => {
+        this.isAuthChecked = true;
+        if (token) {
+          this.isLoggedIn = true;
+        } else {
+          this.isLoggedIn = false;
+        }
+
+        this.cdr.detectChanges();
+      }, 0);
     });
   }
 
@@ -327,5 +369,59 @@ export class ProductDetails implements OnInit, AfterViewInit {
 
   toggleAccordion(section: string) {
     this.activeAccordion.update(val => val === section ? '' : section);
+  }
+
+
+  async addToBag() {
+    if (!this.isLoggedIn) {
+      const isConfirmed = await this.alertService.show({
+        title: 'Login Required',
+        message: 'You have to login to add items to your cart.',
+        confirmText: 'Login',
+        cancelText: 'Cancel'
+      });
+
+      if (isConfirmed) {
+        this.router.navigate(['/login']);
+      }
+      return;
+    }
+
+    if (!this.selectedSize()) {
+      this.toastService.show('You have to select a size to add to cart.', 'warning');
+      const sizeSection = document.getElementById('size-selection-section');
+      if (sizeSection) {
+        sizeSection.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
+      return;
+    }
+
+    const sizeData = this.productDetails?.size?.sizeList?.find(s => s.size === this.selectedSize());
+    const variantId = sizeData?.id || 0;
+
+    const payload = {
+      productId: Number(this.productId),
+      variantId: variantId,
+      quantity: 1
+    };
+
+    this.loadingService.show();
+    this.http.addToCart(payload).subscribe({
+      next: (res: any) => {
+        this.loadingService.hide();
+        if (res.status) {
+          this.toastService.show(res.message, 'success');
+          this.isAddedToCart.set(true);
+        } else {
+          this.toastService.show(res.message, 'error');
+        }
+        this.cdr.detectChanges();
+      },
+      error: () => {
+        this.loadingService.hide();
+        this.toastService.show('Something went wrong. Please try again!', 'error');
+        this.cdr.detectChanges();
+      }
+    });
   }
 }

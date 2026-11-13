@@ -149,7 +149,7 @@
 
             <!-- SIZE -->
             @if (productDetails.size?.sizeList?.length) {
-            <section class="selection-section">
+            <section class="selection-section" id="size-selection-section">
                 <div class="selection-header">
                     <h3>Select Size</h3>
                     @if (productDetails.size.sizeChart) {
@@ -184,9 +184,17 @@
 
             <!-- ACTION BUTTONS -->
             <section class="action-buttons">
-                <button class="add-to-cart">
+                @if (isAddedToCart()) {
+                <a routerLink="/cart" class="add-to-cart"
+                    style="text-decoration: none; display: flex; align-items: center; justify-content: center; gap: 8px;">
+                    <i class="fa fa-shopping-cart"></i> GO TO CART
+                </a>
+                } @else {
+                <button class="add-to-cart" (click)="addToBag()">
                     <i class="fa fa-shopping-bag"></i> ADD TO BAG
                 </button>
+                }
+
                 <button class="wishlist-btn">
                     <i class="fa fa-heart-o"></i> WISHLIST
                 </button>

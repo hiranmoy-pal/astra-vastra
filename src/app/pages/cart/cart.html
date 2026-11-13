@@ -1,492 +1,178 @@
 <app-header></app-header>
-<main class="cart-page">
+@if (isAuthChecked) {
+@if (isLoggedIn) {
+<main class="cart-page" ngSkipHydration>
 
-    <!-- Address Section -->
-    <section class="delivery-address">
-        <div class="delivery-address__content">
-
-            <div class="delivery-address__icon">
-                <i class="fa fa-map-marker"></i>
-            </div>
-
-            <div class="delivery-address__details">
-                <p class="delivery-address__label">
-                    Deliver To
-                </p>
-
-                <h2 class="delivery-address__title">
-                    Alex Thompson — 42nd Avenue, Manhattan
-                </h2>
-
-                <p class="delivery-address__subtitle">
-                    New York, NY 10001, United States
-                </p>
-            </div>
-
-        </div>
-
-        <button class="delivery-address__btn">
-            Change Address
-        </button>
-    </section>
-
-    <!-- Cart Layout -->
+    @if (isCartLoading && !cartData) {
+    <div style="min-height: 60vh; display: flex; justify-content: center; align-items: center;">
+        <i class="fa fa-spinner fa-spin" style="font-size: 2.5rem; color: var(--primary-solid, #BA284C);"></i>
+    </div>
+    } @else if (cartData && cartData.items?.length) {
     <section class="cart-layout">
 
-        <!-- Left Section -->
+        <!-- Left Section: Cart Items -->
         <section class="cart-products">
 
-            <header class="cart-products__header">
-                <h1>
-                    Your Shopping Bag
-                    <span>(3 Items)</span>
-                </h1>
-            </header>
+            <!-- Selection Header -->
+            <div class="cart-selection-header">
+                <label class="custom-checkbox">
+                    <input type="checkbox"
+                        [checked]="cartData.selectedItems > 0 && cartData.selectedItems === cartData.totalItems"
+                        (change)="toggleAllSelections($event)">
+                    <span class="checkmark"><i class="fa fa-check"></i></span>
+                    <strong>{{ cartData.selectedItems }}/{{ cartData.totalItems }} ITEMS SELECTED</strong>
+                </label>
+                <div class="header-actions">
+                    <button class="action-link" (click)="removeSelectedItems()" title="Remove">
+                        <i class="fa fa-trash-o mobile-icon"></i>
+                        <span class="desktop-text">REMOVE</span>
+                    </button>
+                    <button class="action-link" (click)="moveToWishlistSelected()" title="Move to Wishlist">
+                        <i class="fa fa-heart-o mobile-icon"></i>
+                        <span class="desktop-text">MOVE TO WISHLIST</span>
+                    </button>
+                </div>
+            </div>
 
-            <!-- Cart Item -->
-            <article class="cart-item">
-
-                <figure class="cart-item__image">
-                    <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuABIGzNrsqQjLWS6IQG67sZQe4zP4IOOlbzzFK5pf_4e25Cslb_5lUQU7vBE0jZp6gzOj80rJ2OpENE4mNOswcp7S2sBrZLEPGcQLDuaK1XLv0dbd-CfVIx-1WgZNFYeUa18U85le1dsUnHhfI_G-KjXw3YMMpeSu6QQAuBEZDPMiCdt_6Kx4pQ_4x48fqXqZnS8psxJsAtse_hwSvMLJ4b6NKpq8pO0Un86QJmLfB1gJSXN0Oi_RCr_59wzhGjo2a8ywAoFusgydY"
-                        alt="Midnight Silk Tailored Blazer" />
-                </figure>
-
-                <div class="cart-item__content">
-
-                    <div class="cart-item__top">
-                        <div>
-                            <h2 class="cart-item__title">
-                                Midnight Silk Tailored Blazer
-                            </h2>
-
-                            <div class="cart-item__meta">
-                                <p>
-                                    <span>Color:</span>
-                                    Obsidian Black
-                                </p>
-
-                                <p>
-                                    <span>Size:</span>
-                                    EU 48
-                                </p>
-                            </div>
-                        </div>
-
-                        <p class="cart-item__price">
-                            $1,250.00
-                        </p>
-                    </div>
-
-                    <div class="cart-item__bottom">
-
-                        <!-- Quantity -->
-                        <div class="quantity-box">
-                            <button>
-                                <i class="fa fa-minus"></i>
-                            </button>
-
-                            <span>01</span>
-
-                            <button>
-                                <i class="fa fa-plus"></i>
-                            </button>
-                        </div>
-
-                        <!-- Actions -->
-                        <div class="cart-item__actions">
-
-                            <button class="cart-action-btn">
-                                <i class="fa fa-heart-o"></i>
-                                Save For Later
-                            </button>
-
-                            <button class="cart-action-btn cart-action-btn--danger">
-                                <i class="fa fa-trash-o"></i>
-                                Remove
-                            </button>
-
-                            <button class="buy-now-btn">
-                                Buy Now
-                            </button>
-
-                        </div>
-
-                    </div>
-
+            <!-- Cart Item List -->
+            @for (item of cartData.items; track item.cartItemId) {
+            <article class="cart-item-card">
+                <div class="item-checkbox">
+                    <label class="custom-checkbox">
+                        <input type="checkbox" [checked]="item.selected"
+                            (change)="toggleItemSelection(item.cartItemId, $event)">
+                        <span class="checkmark"><i class="fa fa-check"></i></span>
+                    </label>
                 </div>
 
-            </article>
-
-            <!-- Cart Item -->
-            <article class="cart-item">
-
-                <figure class="cart-item__image">
-                    <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuDsO68BrDC8viwjFI5ybJwdGVZHKUJEA2O0_AHxtpFdIL0mXcnnyGrw36EJFw0f_nWfSjOlJvOu1RPGgG_bEfgNLlNKuUQ5J43HFAhi7jPbFnhswbPmrzpULa1-Eh7wz0-DXeRyqiqbK2FNaBOr7kRPcApTRJOs2_HERjxfD8N_cI3lTgyeqWNIskcc8tNktnO6Nw9OQGO9jn9Y7eoSTQPShhpG9ERU58N49ucAs1hOEvA2RSovac2TqalztBV7mlRJIMGVa2ZNLUg"
-                        alt="Atelier Artisan Tote" />
+                <figure class="item-image">
+                    <img [src]="item.imageUrl" [alt]="item.productName">
                 </figure>
 
-                <div class="cart-item__content">
+                <div class="item-details">
+                    <div class="item-header">
+                        <h3 class="brand">{{ item.brand }}</h3>
+                        <button class="remove-btn" (click)="removeCartItem(item.cartItemId)">
+                            <i class="fa fa-times"></i>
+                        </button>
+                    </div>
+                    <p class="name">{{ item.productName }}</p>
 
-                    <div class="cart-item__top">
-                        <div>
-                            <h2 class="cart-item__title">
-                                Atelier Artisan Tote
-                            </h2>
-
-                            <div class="cart-item__meta">
-                                <p>
-                                    <span>Color:</span>
-                                    Cognac Tan
-                                </p>
-
-                                <p>
-                                    <span>Size:</span>
-                                    OS
-                                </p>
-                            </div>
+                    <!-- Variant Selectors -->
+                    <div class="variant-selectors">
+                        <div class="selector" (change)="onSizeChange(item, $event)">
+                            <span>Size: </span>
+                            <select>
+                                @for (s of item.sizes; track s.variantId) {
+                                <option [value]="s.variantId" [selected]="s.selectedSize" [disabled]="!s.inStock">
+                                    {{ s.size }}
+                                </option>
+                                }
+                            </select>
+                            <i class="fa fa-caret-down"></i>
                         </div>
 
-                        <p class="cart-item__price">
-                            $890.00
-                        </p>
+                        <div class="selector" (change)="onQuantityChange(item, $event)">
+                            <span>Qty: </span>
+                            <select>
+                                @for (qty of getQuantityArray(getSelectedVariant(item)?.availableStock || 0); track qty)
+                                {
+                                <option [value]="qty" [selected]="qty === item.quantity">{{ qty }}</option>
+                                }
+                            </select>
+                            <i class="fa fa-caret-down"></i>
+                        </div>
+
+                        @if (getSelectedVariant(item)?.availableStock <= 10) { <span class="stock-left">{{
+                            getSelectedVariant(item)?.availableStock }} left</span>
+                            }
                     </div>
 
-                    <div class="cart-item__bottom">
-
-                        <div class="quantity-box">
-                            <button>
-                                <i class="fa fa-minus"></i>
-                            </button>
-
-                            <span>01</span>
-
-                            <button>
-                                <i class="fa fa-plus"></i>
-                            </button>
-                        </div>
-
-                        <div class="cart-item__actions">
-
-                            <button class="cart-action-btn">
-                                <i class="fa fa-heart-o"></i>
-                                Save For Later
-                            </button>
-
-                            <button class="cart-action-btn cart-action-btn--danger">
-                                <i class="fa fa-trash-o"></i>
-                                Remove
-                            </button>
-
-                            <button class="buy-now-btn">
-                                Buy Now
-                            </button>
-
-                        </div>
-
+                    <!-- Pricing -->
+                    <div class="pricing">
+                        <span class="offer-price">₹{{ item.offerPrice }}</span>
+                        <span class="original-price">₹{{ item.price }}</span>
+                        @if (item.discount > 0) {
+                        <span class="discount">{{ item.discount | number:'1.0-0' }}% OFF</span>
+                        }
                     </div>
 
+                    <div class="return-policy">
+                        <i class="fa fa-undo"></i> <strong>14 days</strong> return available
+                    </div>
                 </div>
-
             </article>
-
-            <!-- Cart Item -->
-            <article class="cart-item">
-
-                <figure class="cart-item__image">
-                    <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuABIGzNrsqQjLWS6IQG67sZQe4zP4IOOlbzzFK5pf_4e25Cslb_5lUQU7vBE0jZp6gzOj80rJ2OpENE4mNOswcp7S2sBrZLEPGcQLDuaK1XLv0dbd-CfVIx-1WgZNFYeUa18U85le1dsUnHhfI_G-KjXw3YMMpeSu6QQAuBEZDPMiCdt_6Kx4pQ_4x48fqXqZnS8psxJsAtse_hwSvMLJ4b6NKpq8pO0Un86QJmLfB1gJSXN0Oi_RCr_59wzhGjo2a8ywAoFusgydY"
-                        alt="Midnight Silk Tailored Blazer" />
-                </figure>
-
-                <div class="cart-item__content">
-
-                    <div class="cart-item__top">
-                        <div>
-                            <h2 class="cart-item__title">
-                                Midnight Silk Tailored Blazer
-                            </h2>
-
-                            <div class="cart-item__meta">
-                                <p>
-                                    <span>Color:</span>
-                                    Obsidian Black
-                                </p>
-
-                                <p>
-                                    <span>Size:</span>
-                                    EU 48
-                                </p>
-                            </div>
-                        </div>
-
-                        <p class="cart-item__price">
-                            $1,250.00
-                        </p>
-                    </div>
-
-                    <div class="cart-item__bottom">
-
-                        <!-- Quantity -->
-                        <div class="quantity-box">
-                            <button>
-                                <i class="fa fa-minus"></i>
-                            </button>
-
-                            <span>01</span>
-
-                            <button>
-                                <i class="fa fa-plus"></i>
-                            </button>
-                        </div>
-
-                        <!-- Actions -->
-                        <div class="cart-item__actions">
-
-                            <button class="cart-action-btn">
-                                <i class="fa fa-heart-o"></i>
-                                Save For Later
-                            </button>
-
-                            <button class="cart-action-btn cart-action-btn--danger">
-                                <i class="fa fa-trash-o"></i>
-                                Remove
-                            </button>
-
-                            <button class="buy-now-btn">
-                                Buy Now
-                            </button>
-
-                        </div>
-
-                    </div>
-
-                </div>
-
-            </article>
-            <!-- Cart Item -->
-            <article class="cart-item">
-
-                <figure class="cart-item__image">
-                    <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuABIGzNrsqQjLWS6IQG67sZQe4zP4IOOlbzzFK5pf_4e25Cslb_5lUQU7vBE0jZp6gzOj80rJ2OpENE4mNOswcp7S2sBrZLEPGcQLDuaK1XLv0dbd-CfVIx-1WgZNFYeUa18U85le1dsUnHhfI_G-KjXw3YMMpeSu6QQAuBEZDPMiCdt_6Kx4pQ_4x48fqXqZnS8psxJsAtse_hwSvMLJ4b6NKpq8pO0Un86QJmLfB1gJSXN0Oi_RCr_59wzhGjo2a8ywAoFusgydY"
-                        alt="Midnight Silk Tailored Blazer" />
-                </figure>
-
-                <div class="cart-item__content">
-
-                    <div class="cart-item__top">
-                        <div>
-                            <h2 class="cart-item__title">
-                                Midnight Silk Tailored Blazer
-                            </h2>
-
-                            <div class="cart-item__meta">
-                                <p>
-                                    <span>Color:</span>
-                                    Obsidian Black
-                                </p>
-
-                                <p>
-                                    <span>Size:</span>
-                                    EU 48
-                                </p>
-                            </div>
-                        </div>
-
-                        <p class="cart-item__price">
-                            $1,250.00
-                        </p>
-                    </div>
-
-                    <div class="cart-item__bottom">
-
-                        <!-- Quantity -->
-                        <div class="quantity-box">
-                            <button>
-                                <i class="fa fa-minus"></i>
-                            </button>
-
-                            <span>01</span>
-
-                            <button>
-                                <i class="fa fa-plus"></i>
-                            </button>
-                        </div>
-
-                        <!-- Actions -->
-                        <div class="cart-item__actions">
-
-                            <button class="cart-action-btn">
-                                <i class="fa fa-heart-o"></i>
-                                Save For Later
-                            </button>
-
-                            <button class="cart-action-btn cart-action-btn--danger">
-                                <i class="fa fa-trash-o"></i>
-                                Remove
-                            </button>
-
-                            <button class="buy-now-btn">
-                                Buy Now
-                            </button>
-
-                        </div>
-
-                    </div>
-
-                </div>
-
-            </article>
-
+            }
         </section>
 
-        <!-- Right Sidebar -->
+        <!-- Right Sidebar: Price Summary -->
         <aside class="cart-sidebar">
+            <section class="price-details-card">
+                <h3 class="card-title">PRICE DETAILS ({{ cartData.selectedItems }} Items)</h3>
 
-            <!-- Summary -->
-            <section class="summary-card">
-
-                <h2 class="summary-card__title">
-                    Order Summary
-                </h2>
-
-                <div class="summary-list">
-
-                    <div class="summary-row">
-                        <span>Subtotal (2 Items)</span>
-                        <strong>$2,140.00</strong>
-                    </div>
-
-                    <div class="summary-row">
-                        <span>Shipping</span>
-                        <strong>Free</strong>
-                    </div>
-
-                    <div class="summary-row">
-                        <span>Estimated Taxes</span>
-                        <strong>$171.20</strong>
-                    </div>
-
-                    <div class="summary-row summary-row--discount">
-                        <span>Seasonal Discount</span>
-                        <strong>-$214.00</strong>
-                    </div>
-
+                <div class="price-row">
+                    <span>Total MRP</span>
+                    <span>₹{{ cartData.priceDetails.totalPrice }}</span>
                 </div>
 
-                <div class="summary-total">
-                    <div>
-                        <p>Total Amount</p>
-                        <h3>$2,097.20</h3>
-                    </div>
+                <div class="price-row">
+                    <span>Discount on MRP</span>
+                    <span class="success-text">- ₹{{ cartData.priceDetails.discount }}</span>
                 </div>
 
-                <button class="checkout-btn">
-                    Proceed To Checkout
-                </button>
-
-                <div class="secure-info">
-                    <p>
-                        Secure payment processed by Atelier Vault Encryption.
-                    </p>
-
-                    <div class="secure-info__icons">
-                        <i class="fa fa-credit-card"></i>
-                        <i class="fa fa-university"></i>
-                        <i class="fa fa-lock"></i>
-                    </div>
+                <div class="price-row">
+                    <span>Coupon Discount</span>
+                    <button class="apply-coupon-btn">₹{{cartData.priceDetails.couponDiscount}}</button>
                 </div>
 
+                <div class="price-row">
+                    <span>Platform Fee <a href="#" class="know-more">Know More</a></span>
+                    <span>₹{{ cartData.priceDetails.tax }}</span>
+                </div>
+
+                <div class="price-total">
+                    <span>Total Amount</span>
+                    <span>₹{{ cartData.subtotal }}</span>
+                </div>
+
+                <button class="place-order-btn">PLACE ORDER</button>
             </section>
-
-            <!-- Promo -->
-            <section class="promo-card">
-
-                <h3 class="promo-card__title">
-                    Promo Code
-                </h3>
-
-                <div class="promo-card__form">
-
-                    <input type="text" placeholder="Enter code" />
-
-                    <button>
-                        Apply
-                    </button>
-
-                </div>
-
-            </section>
-
         </aside>
 
     </section>
-
-    <!-- Save for later  -->
-    <!-- Save for later  -->
-    <section class="trending similar_product">
+    } @else {
+    <section class="explore">
         <div class="container">
-            <header class="trending__header">
-                <h2>Save For Later</h2>
-            </header>
+            <div class="explore__card">
 
-            <!-- 🔥 FIX: Added wrapper to hold custom buttons properly -->
-            <div class="swiper-wrapper-container">
+                <div class="explore__icon">
+                    ✨
+                </div>
 
-                <button class="custom-swiper-prev" aria-label="Previous">
-                    <i class="fa fa-angle-left"></i>
-                </button>
+                <h2 class="explore__title">Continue the Search</h2>
 
-                <swiper-container class="trending-swiper" #swiperSaveForLater init="false">
-                    <swiper-slide *ngFor="let product of products">
+                <p class="explore__desc">
+                    Discover our latest editorial collections and find more
+                    pieces to add to your curation.
+                </p>
 
-                        <article class="product-card" (mouseenter)="startSwiper($event)"
-                            (mouseleave)="resetSwiper($event)">
-                            <div class="product-card__media">
-                                <img class="product-card__image default" [src]="product.images[0]" [alt]="product.name"
-                                    loading="lazy" />
-                                <swiper-container class="product-card__swiper">
-                                    <swiper-slide *ngFor="let img of product.images">
-                                        <img [src]="img" [alt]="product.name" loading="lazy" />
-                                    </swiper-slide>
-                                </swiper-container>
-                                <span class="product-card__rating">
-                                    {{ product.rating }}
-                                    <i class="fa fa-star"></i>
-                                    <span class="count">| {{ product.count }}</span>
-                                </span>
-                                <button class="product-card__wishlist" type="button" aria-label="Add to wishlist">
-                                    <i class="fa fa-heart"></i>
-                                </button>
-                            </div>
-
-                            <div class="product-card__content">
-                                <h3 class="brand">{{ product.brand }}</h3>
-                                <p class="name">{{ product.name }}</p>
-                                <div class="price">
-                                    <span class="current">₹{{ product.price }}</span>
-                                    <span class="original">₹{{ product.original }}</span>
-                                    <span class="discount">{{ product.discount }}</span>
-                                </div>
-                                <p class="size">Sizes: {{ product.size }}</p>
-                            </div>
-
-                            <a routerLink="" style="text-decoration: none;">
-                                <button class="product-card__cart">
-                                    <i class="fa fa-shopping-cart"></i>
-                                    <span>Back to Cart</span>
-                                </button>
-                            </a>
-
-                        </article>
-                    </swiper-slide>
-                </swiper-container>
-
-                <button class="custom-swiper-next" aria-label="Next">
-                    <i class="fa fa-angle-right"></i>
+                <button class="explore__btn">
+                    Explore Collections →
                 </button>
 
             </div>
         </div>
     </section>
-
+    }
 </main>
+} @else {
+<section class="profile__content address" ngSkipHydration>
+    <app-common-messege heading="Manage Your Shopping Cart"
+        message="Log in to view your personal details, track your orders, and manage your addresses."
+        buttonText="Login to View Cart" buttonLink="/login" iconClass="fa-user-circle">
+    </app-common-messege>
+</section>
+}
+}
+
 <app-footer></app-footer>

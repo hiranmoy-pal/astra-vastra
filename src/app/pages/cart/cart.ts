@@ -1,277 +1,269 @@
-import { AfterViewInit, Component, CUSTOM_ELEMENTS_SCHEMA, ElementRef, Inject, OnInit, PLATFORM_ID, signal, ViewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, CUSTOM_ELEMENTS_SCHEMA, inject, OnDestroy, OnInit, PLATFORM_ID, NgZone } from '@angular/core';
 import { Header } from '../../layout/header/header';
 import { Footer } from '../../layout/footer/footer';
-import { CommonModule, isPlatformBrowser } from '@angular/common';
+import { CommonModule, isPlatformBrowser, isPlatformServer } from '@angular/common';
 import { RouterLink, RouterModule } from '@angular/router';
 import { ProfileMenu } from '../../layout/profile-menu/profile-menu';
-import { ReactiveFormsModule } from '@angular/forms';
-import { Theme } from '../../core/services/theme/theme';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Toast } from '../../core/services/toast/toast';
 import { Loading } from '../../core/services/loading/loading';
+import { Subscription } from 'rxjs';
+import { Http } from '../../core/services/api/http';
+import { Storage } from '../../core/services/storage/storage';
+import { Alert } from '../../core/services/alert/alert';
+import { CommonMessege } from '../../layout/common-messege/common-messege';
 
 @Component({
   selector: 'app-cart',
   standalone: true,
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   imports: [
-    Header, Footer, CommonModule, RouterModule, RouterLink, ProfileMenu, ReactiveFormsModule
+    Header, Footer, CommonModule, RouterModule, RouterLink, ProfileMenu, ReactiveFormsModule, FormsModule, CommonMessege
   ],
   templateUrl: './cart.html',
   styleUrl: './cart.scss',
 })
-export class Cart implements OnInit, AfterViewInit {
-  hoverTimers = new WeakMap<any, any>();
-  @ViewChild('swiperSaveForLater') swiperSaveForLater!: ElementRef;
+export class Cart implements OnInit, AfterViewInit, OnDestroy {
 
-  saveForLaterSwiperConfig = signal({
-    pagination: false,
-    cssMode: true,
-    navigation: {
-      nextEl: '.custom-swiper-next',
-      prevEl: '.custom-swiper-prev',
-    },
-    breakpoints: {
-      0: {
-        slidesPerView: 1.2,
-        spaceBetween: 12
-      },
+  isAuthChecked: boolean = false;
+  isLoggedIn: boolean = false;
+  isCartLoading: boolean = true; // 🔥 ADDED: Tracks the API loading state
 
-      768: {
-        slidesPerView: 3.2,
-        spaceBetween: 16
-      },
+  cartData: any = null;
+  selectionPayload: { cartItemId: number; selected: boolean }[] = [];
 
-      1024: {
-        slidesPerView: 4.2,
-        spaceBetween: 20
-      },
+  private authStateSub!: Subscription;
+  private http = inject(Http);
+  private toast = inject(Toast);
+  private loading = inject(Loading);
+  private alert = inject(Alert);
+  private platformId = inject(PLATFORM_ID);
+  private cdr = inject(ChangeDetectorRef);
+  private storage = inject(Storage);
+  private zone = inject(NgZone);
 
-      1400: {
-        slidesPerView: 4.4,
-        spaceBetween: 20
-      }
-    }
-  });
+  ngOnInit() {
+    if (isPlatformBrowser(this.platformId)) {
+      this.checkAuthAndLoadData();
 
-
-  products = [
-    {
-      brand: 'Keepfit',
-      name: 'Round Neck Leg Suit Round Neck Leg Suit Round Neck Leg Suit',
-      price: 1398,
-      original: 3499,
-      discount: '(60% OFF)',
-      size: 'S, M, L',
-      rating: 4.7,
-      count: '31',
-      images: [
-        'https://rukminim1.flixcart.com/image/1536/1536/xif0q/shoe/5/2/q/-original-imahgcs8chzjtsmz.jpeg?q=90',
-        'https://rukminim1.flixcart.com/image/1536/1536/xif0q/shoe/k/c/6/-original-imahjhjpv7txxxsu.jpeg?q=90',
-        'https://rukminim1.flixcart.com/image/1536/1536/xif0q/shoe/h/m/l/-original-imahjhjpzftwmgbb.jpeg?q=90'
-      ]
-    },
-    {
-      brand: 'Keepfit',
-      name: 'Round Neck Leg Suit',
-      price: 1398,
-      original: 3499,
-      discount: '(60% OFF)',
-      size: 'S, M, L',
-      rating: 4.7,
-      count: '31',
-      images: [
-        'https://rukminim1.flixcart.com/image/1536/1536/xif0q/shoe/5/2/q/-original-imahgcs8chzjtsmz.jpeg?q=90',
-        'https://rukminim1.flixcart.com/image/1536/1536/xif0q/shoe/k/c/6/-original-imahjhjpv7txxxsu.jpeg?q=90',
-        'https://rukminim1.flixcart.com/image/1536/1536/xif0q/shoe/h/m/l/-original-imahjhjpzftwmgbb.jpeg?q=90'
-      ]
-    },
-    {
-      brand: 'Keepfit',
-      name: 'Round Neck Leg Suit',
-      price: 1398,
-      original: 3499,
-      discount: '(60% OFF)',
-      size: 'S, M, L',
-      rating: 4.7,
-      count: '31',
-      images: [
-        'https://rukminim1.flixcart.com/image/1536/1536/xif0q/shoe/5/2/q/-original-imahgcs8chzjtsmz.jpeg?q=90',
-        'https://rukminim1.flixcart.com/image/1536/1536/xif0q/shoe/k/c/6/-original-imahjhjpv7txxxsu.jpeg?q=90',
-        'https://rukminim1.flixcart.com/image/1536/1536/xif0q/shoe/h/m/l/-original-imahjhjpzftwmgbb.jpeg?q=90'
-      ]
-    },
-    {
-      brand: 'Keepfit',
-      name: 'Round Neck Leg Suit',
-      price: 1398,
-      original: 3499,
-      discount: '(60% OFF)',
-      size: 'S, M, L',
-      rating: 4.7,
-      count: '31',
-      images: [
-        'https://rukminim1.flixcart.com/image/1536/1536/xif0q/shoe/5/2/q/-original-imahgcs8chzjtsmz.jpeg?q=90',
-        'https://rukminim1.flixcart.com/image/1536/1536/xif0q/shoe/k/c/6/-original-imahjhjpv7txxxsu.jpeg?q=90',
-        'https://rukminim1.flixcart.com/image/1536/1536/xif0q/shoe/h/m/l/-original-imahjhjpzftwmgbb.jpeg?q=90'
-      ]
-    },
-    {
-      brand: 'Keepfit',
-      name: 'Round Neck Leg Suit',
-      price: 1398,
-      original: 3499,
-      discount: '(60% OFF)',
-      size: 'S, M, L',
-      rating: 4.7,
-      count: '31',
-      images: [
-        'https://rukminim1.flixcart.com/image/1536/1536/xif0q/shoe/5/2/q/-original-imahgcs8chzjtsmz.jpeg?q=90',
-        'https://rukminim1.flixcart.com/image/1536/1536/xif0q/shoe/k/c/6/-original-imahjhjpv7txxxsu.jpeg?q=90',
-        'https://rukminim1.flixcart.com/image/1536/1536/xif0q/shoe/h/m/l/-original-imahjhjpzftwmgbb.jpeg?q=90'
-      ]
-    },
-    {
-      brand: 'Keepfit',
-      name: 'Round Neck Leg Suit',
-      price: 1398,
-      original: 3499,
-      discount: '(60% OFF)',
-      size: 'S, M, L',
-      rating: 4.7,
-      count: '31',
-      images: [
-        'https://rukminim1.flixcart.com/image/1536/1536/xif0q/shoe/5/2/q/-original-imahgcs8chzjtsmz.jpeg?q=90',
-        'https://rukminim1.flixcart.com/image/1536/1536/xif0q/shoe/k/c/6/-original-imahjhjpv7txxxsu.jpeg?q=90',
-        'https://rukminim1.flixcart.com/image/1536/1536/xif0q/shoe/h/m/l/-original-imahjhjpzftwmgbb.jpeg?q=90'
-      ]
-    },
-    {
-      brand: 'Keepfit',
-      name: 'Round Neck Leg Suit',
-      price: 1398,
-      original: 3499,
-      discount: '(60% OFF)',
-      size: 'S, M, L',
-      rating: 4.7,
-      count: '31',
-      images: [
-        'https://rukminim1.flixcart.com/image/1536/1536/xif0q/shoe/5/2/q/-original-imahgcs8chzjtsmz.jpeg?q=90',
-        'https://rukminim1.flixcart.com/image/1536/1536/xif0q/shoe/k/c/6/-original-imahjhjpv7txxxsu.jpeg?q=90',
-        'https://rukminim1.flixcart.com/image/1536/1536/xif0q/shoe/h/m/l/-original-imahjhjpzftwmgbb.jpeg?q=90'
-      ]
-    },
-    {
-      brand: 'Keepfit',
-      name: 'Round Neck Leg Suit',
-      price: 1398,
-      original: 3499,
-      discount: '(60% OFF)',
-      size: 'S, M, L',
-      rating: 4.7,
-      count: '31',
-      images: [
-        'https://rukminim1.flixcart.com/image/1536/1536/xif0q/shoe/5/2/q/-original-imahgcs8chzjtsmz.jpeg?q=90',
-        'https://rukminim1.flixcart.com/image/1536/1536/xif0q/shoe/k/c/6/-original-imahjhjpv7txxxsu.jpeg?q=90',
-        'https://rukminim1.flixcart.com/image/1536/1536/xif0q/shoe/h/m/l/-original-imahjhjpzftwmgbb.jpeg?q=90'
-      ]
-    },
-    {
-      brand: 'Keepfit',
-      name: 'Round Neck Leg Suit',
-      price: 1398,
-      original: 3499,
-      discount: '(60% OFF)',
-      size: 'S, M, L',
-      rating: 4.7,
-      count: '31',
-      images: [
-        'https://rukminim1.flixcart.com/image/1536/1536/xif0q/shoe/5/2/q/-original-imahgcs8chzjtsmz.jpeg?q=90',
-        'https://rukminim1.flixcart.com/image/1536/1536/xif0q/shoe/k/c/6/-original-imahjhjpv7txxxsu.jpeg?q=90',
-        'https://rukminim1.flixcart.com/image/1536/1536/xif0q/shoe/h/m/l/-original-imahjhjpzftwmgbb.jpeg?q=90'
-      ]
-    },
-    {
-      brand: 'Keepfit',
-      name: 'Round Neck Leg Suit',
-      price: 1398,
-      original: 3499,
-      discount: '(60% OFF)',
-      size: 'S, M, L',
-      rating: 4.7,
-      count: '31',
-      images: [
-        'https://rukminim1.flixcart.com/image/1536/1536/xif0q/shoe/5/2/q/-original-imahgcs8chzjtsmz.jpeg?q=90',
-        'https://rukminim1.flixcart.com/image/1536/1536/xif0q/shoe/k/c/6/-original-imahjhjpv7txxxsu.jpeg?q=90',
-        'https://rukminim1.flixcart.com/image/1536/1536/xif0q/shoe/h/m/l/-original-imahjhjpzftwmgbb.jpeg?q=90'
-      ]
-    }
-  ];
-
-  constructor(
-    public themeService: Theme,
-    public toastService: Toast,
-    public loadingService: Loading,
-    @Inject(PLATFORM_ID) private platformId: Object,
-  ) {
-
-  }
-
-  ngOnInit(): void {
-
-  }
-
-
-  ngAfterViewInit() {
-    if (isPlatformBrowser(this.platformId) && this.swiperSaveForLater) {
-      setTimeout(() => {
-        Object.assign(this.swiperSaveForLater.nativeElement, this.saveForLaterSwiperConfig());
-        this.swiperSaveForLater.nativeElement.initialize();
-      }, 400);
-    }
-  }
-
-  startSwiper(event: any) {
-    const container = event.currentTarget;
-    const swiperEl = container.querySelector('swiper-container');
-    if (!swiperEl) return;
-
-    if (!swiperEl.classList.contains('swiper-initialized')) {
-      Object.assign(swiperEl, {
-        loop: true, speed: 500,
-        autoplay: { delay: 600, disableOnInteraction: false },
-        pagination: { clickable: true }
+      this.authStateSub = this.http.authStateChange$.subscribe((loggedInStatus) => {
+        this.zone.run(() => {
+          this.isLoggedIn = loggedInStatus;
+          if (this.isLoggedIn) {
+            this.fetchCartList();
+          } else {
+            this.cartData = null;
+            this.isCartLoading = false;
+          }
+          this.cdr.detectChanges();
+        });
       });
-      setTimeout(() => { swiperEl.initialize(); }, 400);
-    }
-
-    const swiper = swiperEl.swiper;
-    if (!swiper) return;
-
-    swiper.autoplay.stop();
-    swiper.slideToLoop(0, 0);
-
-    if (this.hoverTimers.has(container)) clearTimeout(this.hoverTimers.get(container));
-    const timer = setTimeout(() => {
-      container.classList.add('swiper-active');
-      swiper.autoplay.start();
-    }, 600);
-    this.hoverTimers.set(container, timer);
-  }
-
-  resetSwiper(event: any) {
-    const container = event.currentTarget;
-    const swiperEl = container.querySelector('swiper-container');
-    const swiper = swiperEl?.swiper;
-
-    if (this.hoverTimers.has(container)) {
-      clearTimeout(this.hoverTimers.get(container));
-      this.hoverTimers.delete(container);
-    }
-    container.classList.remove('swiper-active');
-
-    if (swiper) {
-      swiper.autoplay.stop();
-      swiper.slideToLoop(0, 0);
     }
   }
+
+  ngOnDestroy() {
+    if (this.authStateSub) this.authStateSub.unsubscribe();
+  }
+
+  checkAuthAndLoadData() {
+    this.storage.get('accessToken').then(token => {
+      this.zone.run(() => {
+        this.isAuthChecked = true;
+        this.isLoggedIn = !!token;
+        if (this.isLoggedIn) {
+          this.fetchCartList();
+        } else {
+          this.isCartLoading = false; // Turn off loader if logged out
+        }
+        this.cdr.detectChanges();
+      });
+    });
+  }
+
+  fetchCartList() {
+    this.loading.show();
+    this.cartData = null;
+    this.isCartLoading = true;
+    this.http.getCartList(this.selectionPayload).subscribe({
+      next: (res: any) => {
+        this.zone.run(() => {
+          if (res.status && res.data) {
+            this.cartData = res.data;
+            this.isCartLoading = false;
+            this.loading.hide();
+            this.cdr.detectChanges();
+          } else {
+            this.cartData = { items: [] };
+            this.isCartLoading = false;
+            this.loading.hide();
+            this.cdr.detectChanges();
+          }
+        });
+      },
+      error: () => {
+        this.zone.run(() => {
+          this.isCartLoading = false;
+          this.loading.hide();
+          this.toast.show('Failed to load cart', 'error');
+          this.cdr.detectChanges();
+        });
+      }
+    });
+  }
+
+
+  toggleItemSelection(cartItemId: number, event: any) {
+    const isSelected = event.target.checked;
+    const existingIndex = this.selectionPayload.findIndex(p => p.cartItemId === cartItemId);
+
+    if (existingIndex > -1) {
+      this.selectionPayload[existingIndex].selected = isSelected;
+    } else {
+      this.selectionPayload.push({ cartItemId, selected: isSelected });
+    }
+    this.fetchCartList();
+  }
+
+  toggleAllSelections(event: any) {
+    const isSelected = event.target.checked;
+    if (this.cartData && this.cartData.items) {
+      this.cartData.items.forEach((item: any) => {
+        const existingIndex = this.selectionPayload.findIndex(p => p.cartItemId === item.cartItemId);
+        if (existingIndex > -1) {
+          this.selectionPayload[existingIndex].selected = isSelected;
+        } else {
+          this.selectionPayload.push({ cartItemId: item.cartItemId, selected: isSelected });
+        }
+      });
+    }
+    this.fetchCartList();
+  }
+
+  getSelectedVariant(item: any) {
+    if (!item.sizes || !item.sizes.length) return null;
+    return item.sizes.find((s: any) => s.selectedSize) || item.sizes[0];
+  }
+
+  getQuantityArray(stock: number): number[] {
+    const max = stock > 10 ? 10 : stock;
+    return Array.from({ length: max }, (_, i) => i + 1);
+  }
+
+  onSizeChange(item: any, event: any) {
+    const newVariantId = Number(event.target.value);
+    const payload = {
+      cartItemId: item.cartItemId,
+      productId: item.productId,
+      variantId: newVariantId,
+      quantity: item.quantity
+    };
+    this.executeAddToCart(payload);
+  }
+
+  onQuantityChange(item: any, event: any) {
+    const newQty = Number(event.target.value);
+    const variant = this.getSelectedVariant(item);
+    if (!variant) return;
+
+    const payload = {
+      cartItemId: item.cartItemId,
+      productId: item.productId,
+      variantId: variant.variantId,
+      quantity: newQty
+    };
+    this.executeAddToCart(payload);
+  }
+
+  executeAddToCart(payload: any) {
+    this.loading.show();
+    this.http.updateCart(payload).subscribe({
+      next: (res: any) => {
+        this.zone.run(() => {
+          if (res.status) {
+            this.toast.show(res.message, 'success');
+            this.fetchCartList();
+          } else {
+            this.toast.show(res.message, 'error');
+            this.fetchCartList();
+            this.loading.hide();
+          }
+        });
+      },
+      error: () => {
+        this.zone.run(() => {
+          this.toast.show('Something went wrong', 'error');
+          this.fetchCartList();
+          this.loading.hide();
+        });
+      }
+    });
+  }
+
+  async removeSelectedItems() {
+    const selectedIds = this.cartData?.items?.filter((i: any) => i.selected).map((i: any) => i.cartItemId) || [];
+    if (!selectedIds.length) {
+      this.toast.show('Please select at least one item to remove', 'warning');
+      return;
+    }
+
+    const isConfirmed = await this.alert.show({
+      title: 'Remove Items',
+      message: 'Are you sure you want to remove the selected items from your cart?',
+      confirmText: 'Remove',
+      cancelText: 'Cancel',
+      isDanger: true
+    });
+
+    if (isConfirmed) {
+      this.executeRemove(selectedIds);
+    }
+  }
+
+  async removeCartItem(cartItemId: number) {
+    const isConfirmed = await this.alert.show({
+      title: 'Remove Item',
+      message: 'Are you sure you want to remove this item from your cart?',
+      confirmText: 'Remove',
+      cancelText: 'Cancel',
+      isDanger: true
+    });
+
+    if (isConfirmed) {
+      this.executeRemove([cartItemId]);
+    }
+  }
+
+  executeRemove(ids: number[]) {
+    this.loading.show();
+    this.http.removeCartItems({ cartItemId: ids }).subscribe({
+      next: (res: any) => {
+        this.zone.run(() => {
+          this.fetchCartList();
+          this.toast.show(res.message, 'success');
+        });
+      },
+      error: () => {
+        this.zone.run(() => {
+          this.loading.hide();
+          this.toast.show('Failed to remove item', 'error');
+        });
+      }
+    });
+  }
+
+  async moveToWishlistSelected() {
+    const selectedIds = this.cartData?.items?.filter((i: any) => i.selected) || [];
+    if (!selectedIds.length) {
+      this.toast.show('Please select items first', 'warning');
+      return;
+    }
+    await this.alert.show({
+      title: 'Move to Wishlist',
+      message: 'Are you sure you want to move selected items to your wishlist?',
+      confirmText: 'Move',
+      cancelText: 'Cancel'
+    });
+  }
+
+  ngAfterViewInit() { }
 }

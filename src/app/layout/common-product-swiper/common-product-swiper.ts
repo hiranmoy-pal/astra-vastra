@@ -51,7 +51,7 @@ export class CommonProductSwiper implements AfterViewInit {
     if (!swiperEl.classList.contains('swiper-initialized')) {
       Object.assign(swiperEl, {
         loop: true, speed: 500,
-        autoplay: { delay: 600, disableOnInteraction: false },
+        autoplay: { delay: 1500, disableOnInteraction: false },
         pagination: { clickable: true }
       });
       setTimeout(() => { swiperEl.initialize(); }, 400);

@@ -124,4 +124,20 @@ export class Http {
     return this.http.post(this.baseUrl + '/api/user/delete-address', payload);
   }
 
+  addToCart(payload: any) {
+    return this.http.post(this.baseUrl + '/api/cart/add-items', payload);
+  }
+
+  updateCart(payload: any) {
+    return this.http.post(this.baseUrl + '/api/cart/update-items', payload);
+  }
+
+  getCartList(payload: any) {
+    return this.http.post(this.baseUrl + '/api/cart/items/selection', payload);
+  }
+
+  removeCartItems(payload: { cartItemId: number[] }) {
+    return this.http.delete(this.baseUrl + '/api/cart/items/remove', { body: payload });
+  }
+
 }
