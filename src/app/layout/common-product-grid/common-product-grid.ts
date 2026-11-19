@@ -79,7 +79,7 @@ export class CommonProductGrid implements OnInit, OnDestroy {
           this.zone.run(() => {
             if (res.status) {
               product.isWishlist = true;
-              this.toast.show(res.message || 'Added to wishlist', 'success');
+              // this.toast.show(res.message || 'Added to wishlist', 'success');
             } else {
               this.toast.show(res.message || 'Failed to add to wishlist', 'error');
             }
@@ -94,35 +94,36 @@ export class CommonProductGrid implements OnInit, OnDestroy {
         }
       });
     } else {
-      const isConfirmed = await this.alert.show({
-        title: 'Remove from Wishlist',
-        message: 'Are you sure you want to remove this item from your wishlist?',
-        confirmText: 'Remove',
-        cancelText: 'Cancel',
-        isDanger: true
-      });
+      this.toast.show('Go to wishlist', 'warning');
+      // const isConfirmed = await this.alert.show({
+      //   title: 'Remove from Wishlist',
+      //   message: 'Are you sure you want to remove this item from your wishlist?',
+      //   confirmText: 'Remove',
+      //   cancelText: 'Cancel',
+      //   isDanger: true
+      // });
 
-      if (!isConfirmed) return;
+      // if (!isConfirmed) return;
 
-      this.http.removeWishlistItems(product.productId).subscribe({
-        next: (res: any) => {
-          this.zone.run(() => {
-            if (res.status) {
-              product.isWishlist = false;
-              this.toast.show(res.message || 'Removed from wishlist', 'success');
-            } else {
-              this.toast.show(res.message || 'Failed to remove from wishlist', 'error');
-            }
-            this.cdr.detectChanges();
-          });
-        },
-        error: () => {
-          this.zone.run(() => {
-            this.toast.show('Something went wrong. Please try again!', 'error');
-            this.cdr.detectChanges();
-          });
-        }
-      });
+      // this.http.removeWishlistItems(product.productId).subscribe({
+      //   next: (res: any) => {
+      //     this.zone.run(() => {
+      //       if (res.status) {
+      //         product.isWishlist = false;
+      //         this.toast.show(res.message || 'Removed from wishlist', 'success');
+      //       } else {
+      //         this.toast.show(res.message || 'Failed to remove from wishlist', 'error');
+      //       }
+      //       this.cdr.detectChanges();
+      //     });
+      //   },
+      //   error: () => {
+      //     this.zone.run(() => {
+      //       this.toast.show('Something went wrong. Please try again!', 'error');
+      //       this.cdr.detectChanges();
+      //     });
+      //   }
+      // });
     }
   }
 

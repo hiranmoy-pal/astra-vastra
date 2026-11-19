@@ -154,7 +154,10 @@
                 <div class="selection-header">
                     <h3>Select Size</h3>
                     @if (productDetails.size.sizeChart) {
-                    <button class="size-guide" (click)="toggleSizeGuide()">Size Guide</button>
+                    <button type="button" class="size-guide"
+                        (click)="openImageViewer(productDetails.size.sizeChart, 0, 'Size Chart')">
+                        Size Guide
+                    </button>
                     }
                 </div>
                 <div class="size-list">
@@ -170,17 +173,6 @@
                     }
                 </div>
             </section>
-            }
-
-            <!-- SIZE GUIDE POPUP MODAL -->
-            @if (showSizeGuide()) {
-            <div class="size-modal-overlay" (click)="toggleSizeGuide()">
-                <div class="size-modal-content" (click)="$event.stopPropagation()">
-                    <button class="close-modal" (click)="toggleSizeGuide()">&times;</button>
-                    <h3>Size Chart</h3>
-                    <img [src]="productDetails.size.sizeChart" alt="Size Chart">
-                </div>
-            </div>
             }
 
             <!-- ACTION BUTTONS -->

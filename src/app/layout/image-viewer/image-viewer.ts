@@ -84,13 +84,14 @@ export class ImageViewer implements OnChanges, OnDestroy {
 
       Object.assign(el, {
         initialSlide: this.currentIndex,
+        cssMode: true,
         slidesPerView: 1,
         spaceBetween: 20,
         loop: false,
         zoom: {
           maxRatio: 3,
           minRatio: 1,
-          toggle: true, // Enables double-tap / double-click zoom in & out
+          toggle: true,
         },
         navigation: this.isMultiple
           ? { nextEl: '.iv-nav-next', prevEl: '.iv-nav-prev' }

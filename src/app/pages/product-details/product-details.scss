@@ -519,64 +519,6 @@
     }
 }
 
-/* =========================================
-   MODALS
-========================================= */
-.size-modal-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    background: rgba(0, 0, 0, 0.75);
-    z-index: 9999;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    backdrop-filter: blur(5px);
-}
-
-.size-modal-content {
-    position: relative;
-    background: var(--surface);
-    padding: 2rem;
-    border-radius: 16px;
-    max-width: 90%;
-    max-height: 90vh;
-    overflow: auto;
-    text-align: center;
-    box-shadow: var(--shadow-medium);
-
-    h3 {
-        margin-top: 0;
-        margin-bottom: 1.5rem;
-        font-family: var(--font-headline);
-        color: var(--text-primary);
-    }
-
-    img {
-        max-width: 100%;
-        height: auto;
-        border-radius: 8px;
-    }
-}
-
-.close-modal {
-    position: absolute;
-    top: 15px;
-    right: 20px;
-    font-size: 28px;
-    border: none;
-    background: transparent;
-    cursor: pointer;
-    color: var(--text-primary);
-    transition: 0.2s;
-
-    &:hover {
-        color: var(--danger);
-    }
-}
-
 .action-buttons {
     display: grid;
     grid-template-columns: 1fr 1fr;
