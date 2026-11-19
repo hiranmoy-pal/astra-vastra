@@ -1,6 +1,11 @@
-import { Component, CUSTOM_ELEMENTS_SCHEMA, Input } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { RouterLink } from '@angular/router';
+import { ChangeDetectorRef, Component, CUSTOM_ELEMENTS_SCHEMA, inject, Input, NgZone, OnDestroy, OnInit, PLATFORM_ID } from '@angular/core';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
+import { Router, RouterLink } from '@angular/router';
+import { Subscription } from 'rxjs';
+import { Http } from '../../core/services/api/http';
+import { Storage } from '../../core/services/storage/storage';
+import { Alert } from '../../core/services/alert/alert';
+import { Toast } from '../../core/services/toast/toast';
 
 @Component({
   selector: 'app-common-product-grid',
@@ -10,12 +15,116 @@ import { RouterLink } from '@angular/router';
   templateUrl: './common-product-grid.html',
   styleUrl: './common-product-grid.scss',
 })
-export class CommonProductGrid {
+export class CommonProductGrid implements OnInit, OnDestroy {
   @Input() title: string = '';
   @Input() products: any[] = [];
   @Input() customClass: string = '';
 
+  isLoggedIn: boolean = false;
   hoverTimers = new WeakMap<any, any>();
+  private authStateSub!: Subscription;
+
+  private http = inject(Http);
+  private storage = inject(Storage);
+  private alert = inject(Alert);
+  private toast = inject(Toast);
+  private router = inject(Router);
+  private platformId = inject(PLATFORM_ID);
+  private cdr = inject(ChangeDetectorRef);
+  private zone = inject(NgZone);
+
+  ngOnInit() {
+    if (isPlatformBrowser(this.platformId)) {
+      this.storage.get('accessToken').then(token => {
+        this.zone.run(() => {
+          this.isLoggedIn = !!token;
+          this.cdr.detectChanges();
+        });
+      });
+
+      this.authStateSub = this.http.authStateChange$.subscribe((status) => {
+        this.zone.run(() => {
+          this.isLoggedIn = status;
+          this.cdr.detectChanges();
+        });
+      });
+    }
+  }
+
+  ngOnDestroy() {
+    if (this.authStateSub) this.authStateSub.unsubscribe();
+  }
+
+  async toggleWishlist(event: Event, product: any) {
+    event.preventDefault();
+    event.stopPropagation();
+
+    if (!this.isLoggedIn) {
+      const isConfirmed = await this.alert.show({
+        title: 'Login Required',
+        message: 'You have to login to add items to your wishlist.',
+        confirmText: 'Login',
+        cancelText: 'Cancel'
+      });
+
+      if (isConfirmed) {
+        this.router.navigate(['/login']);
+      }
+      return;
+    }
+
+    if (!product.isWishlist) {
+      this.http.addToWishlist({ productId: [Number(product.productId)] }).subscribe({
+        next: (res: any) => {
+          this.zone.run(() => {
+            if (res.status) {
+              product.isWishlist = true;
+              this.toast.show(res.message || 'Added to wishlist', 'success');
+            } else {
+              this.toast.show(res.message || 'Failed to add to wishlist', 'error');
+            }
+            this.cdr.detectChanges();
+          });
+        },
+        error: () => {
+          this.zone.run(() => {
+            this.toast.show('Something went wrong. Please try again!', 'error');
+            this.cdr.detectChanges();
+          });
+        }
+      });
+    } else {
+      const isConfirmed = await this.alert.show({
+        title: 'Remove from Wishlist',
+        message: 'Are you sure you want to remove this item from your wishlist?',
+        confirmText: 'Remove',
+        cancelText: 'Cancel',
+        isDanger: true
+      });
+
+      if (!isConfirmed) return;
+
+      this.http.removeWishlistItems(product.productId).subscribe({
+        next: (res: any) => {
+          this.zone.run(() => {
+            if (res.status) {
+              product.isWishlist = false;
+              this.toast.show(res.message || 'Removed from wishlist', 'success');
+            } else {
+              this.toast.show(res.message || 'Failed to remove from wishlist', 'error');
+            }
+            this.cdr.detectChanges();
+          });
+        },
+        error: () => {
+          this.zone.run(() => {
+            this.toast.show('Something went wrong. Please try again!', 'error');
+            this.cdr.detectChanges();
+          });
+        }
+      });
+    }
+  }
 
   startSwiper(event: any) {
     const container = event.currentTarget;

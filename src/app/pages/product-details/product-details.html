@@ -195,9 +195,12 @@
                 </button>
                 }
 
-                <button class="wishlist-btn">
-                    <i class="fa fa-heart-o"></i> WISHLIST
+                <button type="button" class="wishlist-btn" [class.wishlisted]="isWishlisted()"
+                    (click)="toggleWishlist()">
+                    <i class="fa" [ngClass]="isWishlisted() ? 'fa-heart' : 'fa-heart-o'"></i>
+                    <span>{{ isWishlisted() ? 'REMOVE' : 'WISHLIST' }}</span>
                 </button>
+                
             </section>
 
             <!-- DELIVERY -->

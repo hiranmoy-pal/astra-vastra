@@ -1,8 +1,8 @@
-import { CommonModule } from '@angular/common';
-import { Component, ElementRef, OnDestroy, OnInit, QueryList, signal, ViewChildren } from '@angular/core';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
+import { Component, ElementRef, inject, OnDestroy, OnInit, PLATFORM_ID, QueryList, signal, ViewChildren } from '@angular/core';
 import { Header } from '../../layout/header/header';
 import { Footer } from '../../layout/footer/footer';
-import { Router, RouterLink, RouterModule } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink, RouterModule } from '@angular/router';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Http } from '../../core/services/api/http';
 import { Toast } from '../../core/services/toast/toast';
@@ -52,18 +52,36 @@ export class Login implements OnInit, OnDestroy {
 
   registrationToken: string | null = null;
 
+  returnUrl: string = '/';
+  private platformId = inject(PLATFORM_ID);
+  private route = inject(ActivatedRoute);
+
   constructor(
     private fb: FormBuilder, private authService: Http, public toastService: Toast, public loadingService: Loading, private storage: Storage, private router: Router
   ) {
     this.InitializeoginForm();
     this.initializeOtpForm();
     this.initializeRegisterForm();
+
+    // Capture the page the user came from (e.g. /wishlist, /cart, /product-details/...)
+    const prevUrl = this.router.getCurrentNavigation()?.previousNavigation?.finalUrl?.toString();
+    const queryReturnUrl = this.route.snapshot.queryParams['returnUrl'];
+
+    const targetUrl = queryReturnUrl || prevUrl || '/';
+    // Never redirect back to /login itself
+    this.returnUrl = targetUrl.startsWith('/login') ? '/' : targetUrl;
   }
 
   ngOnInit(): void {
-
+    // Failsafe for direct URL entry / SSR hydration if already logged in
+    if (isPlatformBrowser(this.platformId)) {
+      this.storage.get('accessToken').then(token => {
+        if (token) {
+          this.router.navigateByUrl('/', { replaceUrl: true });
+        }
+      });
+    }
   }
-
   ngOnDestroy(): void {
     if (this.resendTimerSubscription) {
       this.resendTimerSubscription.unsubscribe();
@@ -222,11 +240,11 @@ export class Login implements OnInit, OnDestroy {
             await this.storage.set('refreshToken', response.refreshToken);
             this.authService.authStateChange$.next(true);
             setTimeout(() => {
-              // this.otpForm.reset();
-              // this.showLogin = false;
-              // this.showOtp = false;
-              // this.showRegister = false;
-              this.router.navigate(['/']);
+              this.otpForm.reset();
+              this.showLogin = false;
+              this.showOtp = false;
+              this.showRegister = false;
+              this.router.navigateByUrl(this.returnUrl, { replaceUrl: true });
               this.toastService.show('OTP verified successfully', 'success');
             }, 1000);
           } else {
@@ -414,7 +432,7 @@ export class Login implements OnInit, OnDestroy {
           this.showLogin = false;
           this.showOtp = false;
           this.showRegister = false;
-          this.router.navigate(['/']);
+          this.router.navigateByUrl(this.returnUrl, { replaceUrl: true });
           this.toastService.show(response.message, 'success');
         } else {
           this.toastService.show(response.message, 'error');

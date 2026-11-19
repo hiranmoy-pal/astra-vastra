@@ -1,4 +1,4 @@
-import { AfterViewInit, ChangeDetectorRef, Component, CUSTOM_ELEMENTS_SCHEMA, inject, OnInit, PLATFORM_ID } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, CUSTOM_ELEMENTS_SCHEMA, inject, NgZone, OnDestroy, OnInit, PLATFORM_ID } from '@angular/core';
 import { Header } from '../../layout/header/header';
 import { Footer } from '../../layout/footer/footer';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
@@ -8,6 +8,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonProductListLayout } from '../../layout/common-product-list-layout/common-product-list-layout';
 import { Http } from '../../core/services/api/http';
 import { Loading } from '../../core/services/loading/loading';
+import { Subscription } from 'rxjs';
+import { Storage } from '../../core/services/storage/storage';
 
 @Component({
   selector: 'app-product-list',
@@ -19,7 +21,7 @@ import { Loading } from '../../core/services/loading/loading';
   templateUrl: './product-list.html',
   styleUrl: './product-list.scss',
 })
-export class ProductList implements OnInit, AfterViewInit {
+export class ProductList implements OnInit, AfterViewInit, OnDestroy {
 
   slug: string = '';
   categoryTitle: string = 'Collections';
@@ -52,6 +54,10 @@ export class ProductList implements OnInit, AfterViewInit {
   selectedDiscount: any;
   currentSortValue: string = 'recommended';
 
+  isAuthChecked: boolean = false;
+  isLoggedIn: boolean = false;
+  private authStateSub!: Subscription;
+
   private fallbackCategories = [
     { id: 100, slug: 'clothing', name: 'Clothing' },
     { id: 122, slug: 'footwear', name: 'Footwear' },
@@ -66,13 +72,14 @@ export class ProductList implements OnInit, AfterViewInit {
   private router = inject(Router);
   private loadingService = inject(Loading);
   private platformId = inject(PLATFORM_ID);
+  private storage = inject(Storage);
+  private zone = inject(NgZone);
 
   private encodeName(name: string): string { return name ? name.replace(/ /g, '-') : ''; }
   private decodeName(name: string): string { return name ? name.replace(/-/g, ' ') : ''; }
 
   ngOnInit(): void {
     this.route.params.subscribe((params: any) => {
-      // 🔥 FIX: Removed setTimeout. The server will now properly wait for this to resolve.
       this.slug = params.slug;
       this.isLoading = true;
 
@@ -87,12 +94,17 @@ export class ProductList implements OnInit, AfterViewInit {
       this.activeFilters = [];
 
       this.breadcrumbs = [];
-      this.categoryTitle = this.slug ? this.slug.split('-').map((word: string) => word.charAt(0).toUpperCase() + word.slice(1)).join(' ') : 'Loading...';
+      this.categoryTitle = this.slug
+        ? this.slug.split('-').map((word: string) => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')
+        : 'Loading...';
 
       this.clearLocalFilters();
-
       this.lastQueryParamsString = JSON.stringify(this.route.snapshot.queryParams);
-      this.getCategoryId();
+
+      // Only fetch immediately if auth is already resolved (SSR or subsequent route changes)
+      if (this.isAuthChecked) {
+        this.getCategoryId();
+      }
       this.cdr.detectChanges();
     });
 
@@ -105,6 +117,43 @@ export class ProductList implements OnInit, AfterViewInit {
         this.fetchFilteredProducts();
       }
     });
+
+    if (isPlatformBrowser(this.platformId)) {
+      this.checkAuthAndLoadData();
+
+      this.authStateSub = this.http.authStateChange$.subscribe((loggedInStatus) => {
+        this.zone.run(() => {
+          this.isLoggedIn = loggedInStatus;
+          if (this.categoryId) {
+            this.fetchFilteredProducts();
+          }
+          this.cdr.detectChanges();
+        });
+      });
+    } else {
+      // SSR: load immediately without auth
+      this.isAuthChecked = true;
+      if (this.slug) {
+        this.getCategoryId();
+      }
+    }
+  }
+
+  checkAuthAndLoadData() {
+    this.storage.get('accessToken').then(token => {
+      this.zone.run(() => {
+        this.isAuthChecked = true;
+        this.isLoggedIn = !!token;
+        if (this.slug) {
+          this.getCategoryId();
+        }
+        this.cdr.detectChanges();
+      });
+    });
+  }
+
+  ngOnDestroy(): void {
+    if (this.authStateSub) this.authStateSub.unsubscribe();
   }
 
   syncFiltersFromUrl(params: any) {
@@ -378,9 +427,8 @@ export class ProductList implements OnInit, AfterViewInit {
     const payload = this.buildFilterPayload();
     this.updateUrlWithFilters(payload);
 
-    this.http.getProductList(catId, payload, this.limit, this.offset).subscribe({
+    this.http.getProductList(catId, payload, this.limit, this.offset, this.isLoggedIn).subscribe({
       next: (res: any) => {
-        // 🔥 FIX: Removed setTimeout. Angular's natural change detection handles this perfectly without breaking Hydration.
         this.totalCount = res.metadata?.totalItems || 0;
 
         if (res.metadata?.breadcrumb) {

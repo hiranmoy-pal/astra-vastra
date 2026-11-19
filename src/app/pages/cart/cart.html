@@ -2,12 +2,105 @@
 @if (isAuthChecked) {
 @if (isLoggedIn) {
 <main class="cart-page" ngSkipHydration>
-
     @if (isCartLoading && !cartData) {
     <div style="min-height: 60vh; display: flex; justify-content: center; align-items: center;">
         <i class="fa fa-spinner fa-spin" style="font-size: 2.5rem; color: var(--primary-solid, #BA284C);"></i>
     </div>
     } @else if (cartData && cartData.items?.length) {
+
+    <!-- Delivery Address Section -->
+    <section class="delivery-address-wrapper">
+        @if (!isAddressLoading) {
+        @if (selectedAddress) {
+        <div class="delivery-bar">
+            <div class="delivery-info">
+                <div class="delivery-icon">
+                    <i class="fa fa-map-marker"></i>
+                </div>
+                <div class="delivery-text">
+                    <div class="delivery-top">
+                        <span class="label">Deliver to:</span>
+                        <strong class="recipient">
+                            {{ selectedAddress.firstName }} {{ selectedAddress.lastName }}, {{ selectedAddress.pinCode
+                            }}
+                        </strong>
+                        <span class="address-type-badge">{{ selectedAddress.addressType }}</span>
+                    </div>
+                    <p class="delivery-sub">
+                        {{ selectedAddress.address }}, {{ selectedAddress.postOffice }},
+                        {{ selectedAddress.district }}, {{ selectedAddress.state }}
+                        @if (selectedAddress.landmark) {
+                        <span> ({{ selectedAddress.landmark }})</span>
+                        }
+                    </p>
+                </div>
+            </div>
+
+            <button type="button" class="change-address-btn" (click)="toggleAddressDropdown()">
+                <span>{{ isAddressDropdownOpen ? 'CLOSE' : 'CHANGE' }}</span>
+                <i class="fa" [ngClass]="isAddressDropdownOpen ? 'fa-chevron-up' : 'fa-chevron-down'"></i>
+            </button>
+        </div>
+
+        <!-- Address Selection Dropdown -->
+        @if (isAddressDropdownOpen) {
+        <div class="address-dropdown">
+            <div class="dropdown-header">
+                <span>Select Delivery Address</span>
+                <button type="button" class="manage-link" (click)="openAddAddressModal()"
+                    style="background: none; border: none; cursor: pointer;">
+                    <i class="fa fa-plus"></i> Add New Address
+                </button>
+            </div>
+
+            <div class="dropdown-list">
+                @for (addr of addressList; track addr.addressId) {
+                <div class="dropdown-item" [class.active]="selectedAddress?.addressId === addr.addressId"
+                    (click)="selectAddress(addr)">
+                    <div class="radio-indicator">
+                        <span class="dot"></span>
+                    </div>
+                    <div class="item-info">
+                        <div class="item-top">
+                            <strong>{{ addr.firstName }} {{ addr.lastName }}</strong>
+                            <span class="type-pill">{{ addr.addressType }}</span>
+                            @if (addr.default) {
+                            <span class="default-pill">DEFAULT</span>
+                            }
+                        </div>
+                        <p class="item-address">
+                            {{ addr.address }}, {{ addr.postOffice }}, {{ addr.district }}, {{ addr.state }} -
+                            <strong>{{ addr.pinCode }}</strong>
+                        </p>
+                        <span class="item-phone">
+                            <i class="fa fa-phone"></i> {{ addr.phone }}
+                        </span>
+                    </div>
+                </div>
+                }
+            </div>
+        </div>
+        }
+        } @else {
+        <!-- Empty Address State -->
+        <div class="delivery-bar empty-address">
+            <div class="delivery-info">
+                <div class="delivery-icon empty">
+                    <i class="fa fa-map-marker"></i>
+                </div>
+                <div class="delivery-text">
+                    <strong class="recipient">No delivery address found</strong>
+                    <p class="delivery-sub">You haven't added any address yet. Add one to proceed with your order.</p>
+                </div>
+            </div>
+            <button type="button" class="add-address-btn" (click)="openAddAddressModal()">
+                <i class="fa fa-plus"></i> ADD ADDRESS
+            </button>
+        </div>
+        }
+        }
+    </section>
+
     <section class="cart-layout">
 
         <!-- Left Section: Cart Items -->
@@ -23,12 +116,26 @@
                     <strong>{{ cartData.selectedItems }}/{{ cartData.totalItems }} ITEMS SELECTED</strong>
                 </label>
                 <div class="header-actions">
-                    <button class="action-link" (click)="removeSelectedItems()" title="Remove">
-                        <i class="fa fa-trash-o mobile-icon"></i>
+                    <button type="button" class="action-link remove-action" (click)="removeSelectedItems()"
+                        title="Remove">
+                        <i class="fa fa-trash-o action-icon"></i>
                         <span class="desktop-text">REMOVE</span>
                     </button>
-                    <button class="action-link" (click)="moveToWishlistSelected()" title="Move to Wishlist">
-                        <i class="fa fa-heart-o mobile-icon"></i>
+                    <button type="button" class="action-link wishlist-action" (click)="moveToWishlistSelected()"
+                        title="Move to Wishlist">
+                        <svg class="wishlist-svg action-icon" width="18px" height="16px" viewBox="0 0 18 16">
+                            <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                <path
+                                    d="M14.868 4.36c.125-3.57-4.54-6.06-7.394-2.843C3.968-2.777-2.68 2.973 1.156 7.251c2.557 2.852 4.657 5.02 6.298 6.503a114.06 114.06 0 004.885-4.982"
+                                    stroke="currentColor" stroke-width="1.25" stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    transform="translate(-231 -269) translate(228 264) translate(4.5 6)"></path>
+                                <path
+                                    d="M13.783 5.98A4.118 4.118 0 0115 8.912v.049a.54.54 0 01-1.079 0v-.05c0-.816-.318-1.587-.901-2.169a3.047 3.047 0 00-2.169-.903H8.818l1.879 1.888a.538.538 0 01-.76.761l-2.749-2.76A.537.537 0 017 5.317a.537.537 0 01.188-.411l2.737-2.75a.538.538 0 01.76.762L8.852 4.761h2a4.12 4.12 0 012.93 1.219z"
+                                    fill="currentColor"
+                                    transform="translate(-231 -269) translate(228 264) translate(4.5 6)"></path>
+                            </g>
+                        </svg>
                         <span class="desktop-text">MOVE TO WISHLIST</span>
                     </button>
                 </div>
@@ -45,19 +152,43 @@
                     </label>
                 </div>
 
-                <figure class="item-image">
-                    <img [src]="item.imageUrl" [alt]="item.productName">
-                </figure>
+                <a style="text-decoration: none; color: inherit;" [routerLink]="['/', item.productUrl]">
+                    <figure class="item-image">
+                        <img [src]="item.imageUrl" [alt]="item.productName">
+                    </figure>
+                </a>
 
                 <div class="item-details">
                     <div class="item-header">
-                        <h3 class="brand">{{ item.brand }}</h3>
-                        <button class="remove-btn" (click)="removeCartItem(item.cartItemId)">
-                            <i class="fa fa-times"></i>
-                        </button>
+                        <a style="text-decoration: none; color: inherit;" [routerLink]="['/', item.productUrl]">
+                            <h3 class="brand">{{ item.brand }}</h3>
+                        </a>
+                        <div class="item-actions">
+                            <button type="button" class="item-action-btn wishlist-btn"
+                                (click)="moveToWishlistItem(item)" title="Move to Wishlist">
+                                <svg class="wishlist-svg" width="18px" height="16px" viewBox="0 0 18 16">
+                                    <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                        <path
+                                            d="M14.868 4.36c.125-3.57-4.54-6.06-7.394-2.843C3.968-2.777-2.68 2.973 1.156 7.251c2.557 2.852 4.657 5.02 6.298 6.503a114.06 114.06 0 004.885-4.982"
+                                            stroke="currentColor" stroke-width="1.25" stroke-linecap="round"
+                                            stroke-linejoin="round"
+                                            transform="translate(-231 -269) translate(228 264) translate(4.5 6)"></path>
+                                        <path
+                                            d="M13.783 5.98A4.118 4.118 0 0115 8.912v.049a.54.54 0 01-1.079 0v-.05c0-.816-.318-1.587-.901-2.169a3.047 3.047 0 00-2.169-.903H8.818l1.879 1.888a.538.538 0 01-.76.761l-2.749-2.76A.537.537 0 017 5.317a.537.537 0 01.188-.411l2.737-2.75a.538.538 0 01.76.762L8.852 4.761h2a4.12 4.12 0 012.93 1.219z"
+                                            fill="currentColor"
+                                            transform="translate(-231 -269) translate(228 264) translate(4.5 6)"></path>
+                                    </g>
+                                </svg>
+                            </button>
+                            <button type="button" class="item-action-btn delete-btn"
+                                (click)="removeCartItem(item.cartItemId)" title="Remove from Cart">
+                                <i class="fa fa-trash-o"></i>
+                            </button>
+                        </div>
                     </div>
-                    <p class="name">{{ item.productName }}</p>
-
+                    <a style="text-decoration: none; color: inherit;" [routerLink]="['/', item.productUrl]">
+                        <p class="name">{{ item.productName }}</p>
+                    </a>
                     <!-- Variant Selectors -->
                     <div class="variant-selectors">
                         <div class="selector" (change)="onSizeChange(item, $event)">
@@ -89,17 +220,19 @@
                     </div>
 
                     <!-- Pricing -->
-                    <div class="pricing">
-                        <span class="offer-price">₹{{ item.offerPrice }}</span>
-                        <span class="original-price">₹{{ item.price }}</span>
-                        @if (item.discount > 0) {
-                        <span class="discount">{{ item.discount | number:'1.0-0' }}% OFF</span>
-                        }
-                    </div>
+                    <a style="text-decoration: none; color: inherit;" [routerLink]="['/', item.productUrl]">
+                        <div class="pricing">
+                            <span class="offer-price">₹{{ item.offerPrice }}</span>
+                            <span class="original-price">₹{{ item.price }}</span>
+                            @if (item.discount > 0) {
+                            <span class="discount">{{ item.discount | number:'1.0-0' }}% OFF</span>
+                            }
+                        </div>
 
-                    <div class="return-policy">
-                        <i class="fa fa-undo"></i> <strong>14 days</strong> return available
-                    </div>
+                        <div class="return-policy">
+                            <i class="fa fa-undo"></i> <strong>14 days</strong> return available
+                        </div>
+                    </a>
                 </div>
             </article>
             }
@@ -144,22 +277,17 @@
     <section class="explore">
         <div class="container">
             <div class="explore__card">
-
                 <div class="explore__icon">
                     ✨
                 </div>
-
                 <h2 class="explore__title">Continue the Search</h2>
-
                 <p class="explore__desc">
                     Discover our latest editorial collections and find more
                     pieces to add to your curation.
                 </p>
-
-                <button class="explore__btn">
-                    Explore Collections →
-                </button>
-
+                <a style="text-decoration: none; color: inherit;" routerLink="/">
+                    <button class="explore__btn"> Explore Collections →</button>
+                </a>
             </div>
         </div>
     </section>
@@ -176,3 +304,9 @@
 }
 
 <app-footer></app-footer>
+
+@if (isLoggedIn) {
+<app-address-modal [isOpen]="isAddressModalOpen" [editAddress]="null" [totalAddresses]="addressList.length"
+    (closed)="closeAddAddressModal()" (saved)="onAddressSaved()">
+</app-address-modal>
+}

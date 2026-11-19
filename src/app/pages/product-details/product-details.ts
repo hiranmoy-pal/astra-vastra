@@ -37,6 +37,7 @@ export interface IProductDetails {
   sellerName: string;
   productDetails: IDetailedInfo;
   customerReview: ICustomerReview[];
+  isWishlist?: boolean;
 }
 
 @Component({
@@ -64,6 +65,8 @@ export class ProductDetails implements OnInit, AfterViewInit {
   isAuthChecked: boolean = false;
   isLoggedIn: boolean = false;
   isAddedToCart = signal<boolean>(false);
+
+  isWishlisted = signal<boolean>(false);
 
   products = [
     {
@@ -259,7 +262,12 @@ export class ProductDetails implements OnInit, AfterViewInit {
   ngOnInit() {
     this.route.params.subscribe((params: any) => {
       this.productId = params.productId;
-      this.getProductDetails(this.productId);
+      this.isAddedToCart.set(false);
+      this.isWishlisted.set(false);
+
+      if (this.isAuthChecked) {
+        this.getProductDetails(this.productId);
+      }
     });
 
     if (isPlatformBrowser(this.platformId)) {
@@ -268,11 +276,17 @@ export class ProductDetails implements OnInit, AfterViewInit {
       this.authStateSub = this.http.authStateChange$.subscribe((loggedInStatus) => {
         setTimeout(() => {
           this.isLoggedIn = loggedInStatus;
+          if (this.productId) {
+            this.getProductDetails(this.productId);
+          }
           this.cdr.detectChanges();
         }, 0);
       });
     } else {
       this.isAuthChecked = true;
+      if (this.productId) {
+        this.getProductDetails(this.productId);
+      }
     }
   }
 
@@ -284,34 +298,47 @@ export class ProductDetails implements OnInit, AfterViewInit {
     this.storage.get('accessToken').then(token => {
       setTimeout(() => {
         this.isAuthChecked = true;
-        if (token) {
-          this.isLoggedIn = true;
-        } else {
-          this.isLoggedIn = false;
+        this.isLoggedIn = !!token;
+        if (this.productId) {
+          this.getProductDetails(this.productId);
         }
-
         this.cdr.detectChanges();
       }, 0);
     });
   }
 
-  getProductDetails(productId: any) {
-    this.loadingService.show();
-    this.http.getProductDetails(productId).subscribe({
+  getProductDetails(productId: any, silent: boolean = false) {
+    const showLoader = !silent && !this.productDetails;
+    if (showLoader) {
+      this.loadingService.show();
+    }
+
+    this.http.getProductDetails(productId, this.isLoggedIn).subscribe({
       next: (res: any) => {
         const data = res.data || res;
         if (data && Object.keys(data).length > 0) {
+          const isFirstRender = !this.productDetails;
           this.productDetails = data;
-          this.initializeSwipers();
-        } else {
+          this.isWishlisted.set(!!data.isWishlist);
+
+          if (isFirstRender) {
+            this.initializeSwipers();
+          }
+        } else if (!silent) {
           this.toastService.show(res.message || 'Product details not found', 'error');
         }
-        this.loadingService.hide();
+        if (showLoader) {
+          this.loadingService.hide();
+        }
         this.cdr.detectChanges();
       },
       error: () => {
-        this.toastService.show('Something went wrong. Please try again.', 'error');
-        this.loadingService.hide();
+        if (!silent) {
+          this.toastService.show('Something went wrong. Please try again.', 'error');
+        }
+        if (showLoader) {
+          this.loadingService.hide();
+        }
         this.cdr.detectChanges();
       }
     });
@@ -423,5 +450,64 @@ export class ProductDetails implements OnInit, AfterViewInit {
         this.cdr.detectChanges();
       }
     });
+  }
+
+  async toggleWishlist() {
+    if (!this.isLoggedIn) {
+      const isConfirmed = await this.alertService.show({
+        title: 'Login Required',
+        message: 'You have to login to add items to your wishlist.',
+        confirmText: 'Login',
+        cancelText: 'Cancel'
+      });
+
+      if (isConfirmed) {
+        this.router.navigate(['/login']);
+      }
+      return;
+    }
+
+    if (!this.isWishlisted()) {
+      // Add to Wishlist
+      this.loadingService.show();
+      this.http.addToWishlist({ productId: [Number(this.productId)] }).subscribe({
+        next: (res: any) => {
+          this.loadingService.hide();
+          if (res.status) {
+            this.isWishlisted.set(true);
+            this.toastService.show(res.message || 'Added to wishlist', 'success');
+          } else {
+            this.toastService.show(res.message || 'Failed to add to wishlist', 'error');
+          }
+          this.cdr.detectChanges();
+        },
+        error: () => {
+          this.loadingService.hide();
+          this.toastService.show('Something went wrong. Please try again!', 'error');
+          this.cdr.detectChanges();
+        }
+      });
+    } else {
+      // Remove from Wishlist
+      const idToRemove = Number(this.productId);
+      this.loadingService.show();
+      this.http.removeWishlistItems(idToRemove).subscribe({
+        next: (res: any) => {
+          this.loadingService.hide();
+          if (res.status) {
+            this.isWishlisted.set(false);
+            this.toastService.show(res.message || 'Removed from wishlist', 'success');
+          } else {
+            this.toastService.show(res.message || 'Failed to remove from wishlist', 'error');
+          }
+          this.cdr.detectChanges();
+        },
+        error: () => {
+          this.loadingService.hide();
+          this.toastService.show('Something went wrong. Please try again!', 'error');
+          this.cdr.detectChanges();
+        }
+      });
+    }
   }
 }

@@ -1,78 +1,115 @@
 <app-header></app-header>
 
-<main class="main">
+@if (isAuthChecked) {
+@if (isLoggedIn) {
+<main class="main" ngSkipHydration>
+
+    @if (isWishlistLoading) {
+    <div style="min-height: 60vh; display: flex; justify-content: center; align-items: center;">
+        <i class="fa fa-spinner fa-spin" style="font-size: 2.5rem; color: var(--primary-solid, #BA284C);"></i>
+    </div>
+    } @else if (wishlistItems.length > 0) {
     <section class="trending">
         <div class="container">
             <header class="trending__header">
-                <h2>Checkout Your Favorite One</h2>
+                <h2>Checkout Your Favorite One ({{ wishlistItems.length }})</h2>
             </header>
+
             <div class="trending__grid">
-                <article class="product-card" *ngFor="let product of products" (mouseenter)="startSwiper($event)"
-                    (mouseleave)="resetSwiper($event)">
+                @for (item of wishlistItems; track item.wishlistItemId) {
+                <article class="product-card">
                     <div class="product-card__media">
-                        <img class="product-card__image default" [src]="product.images[0]" [alt]="product.name"
-                            loading="lazy" />
-                        <swiper-container class="product-card__swiper">
-                            <swiper-slide *ngFor="let img of product.images">
-                                <img [src]="img" [alt]="product.name" loading="lazy" />
-                            </swiper-slide>
-                        </swiper-container>
-                        <span class="product-card__rating">
-                            {{ product.rating }}
-                            <i class="fa fa-star"></i>
-                            <span class="count">| {{ product.count }}</span>
-                        </span>
-                        <button class="product-card__wishlist" type="button" aria-label="Add to wishlist">
+                        <a [routerLink]="['/', item.productUrl]">
+                            <img class="product-card__image default" [src]="item.imageUrl" [alt]="item.productName"
+                                loading="lazy" />
+                        </a>
+
+                        <button class="product-card__wishlist" type="button" aria-label="Remove from wishlist"
+                            (click)="removeWishlistItem(item.productId)">
                             <i class="fa fa-close"></i>
                         </button>
                     </div>
 
-                    <div class="product-card__content">
-                        <h3 class="brand">{{ product.brand }}</h3>
-                        <p class="name">{{ product.name }}</p>
-                        <div class="price">
-                            <span class="current">₹{{ product.price }}</span>
-                            <span class="original">₹{{ product.original }}</span>
-                            <span class="discount">{{ product.discount }}</span>
+                    <a style="text-decoration: none;" [routerLink]="['/', item.productUrl]">
+                        <div class="product-card__content">
+                            <h3 class="brand">{{ item.brand }}</h3>
+                            <p class="name">{{ item.productName }}</p>
+                            <div class="price">
+                                <span class="current">₹{{ item.offerPrice }}</span>
+                                @if (item.price > item.offerPrice) {
+                                <span class="original">₹{{ item.price }}</span>
+                                }
+                                @if (item.discount > 0) {
+                                <span class="discount">{{ item.discount | number:'1.0-0' }}% OFF</span>
+                                }
+                            </div>
+                            @if (item.sizes?.length) {
+                            <p class="size">Sizes: {{ getSizesText(item.sizes) }}</p>
+                            }
                         </div>
-                        <p class="size">Sizes: {{ product.size }}</p>
-                    </div>
+                    </a>
 
-                    <a routerLink="" style="text-decoration: none;">
-                        <button class="product-card__cart">
+                    <!-- Move to Cart & Size Selector Dropdown -->
+                    <div class="move-to-cart-wrapper">
+                        @if (activeSizeDropdownId === item.wishlistItemId) {
+                        <div class="size-dropdown-panel">
+                            <div class="size-dropdown-header">
+                                <span>Select Size</span>
+                                <button type="button" class="close-size-btn" (click)="closeSizeDropdown()">
+                                    <i class="fa fa-times"></i>
+                                </button>
+                            </div>
+                            <div class="size-options">
+                                @for (s of item.sizes; track s.variantId) {
+                                <button type="button" class="size-pill" [disabled]="!s.inStock"
+                                    (click)="onSelectSizeAndMoveToCart(item, s)">
+                                    {{ s.size }}
+                                </button>
+                                }
+                            </div>
+                        </div>
+                        }
+
+                        <button type="button" class="product-card__cart"
+                            (click)="toggleSizeDropdown(item.wishlistItemId)">
                             <i class="fa fa-shopping-cart"></i>
                             <span>Move to Cart</span>
                         </button>
-                    </a>
-
+                    </div>
                 </article>
-
+                }
             </div>
         </div>
     </section>
-    
+    } @else {
     <section class="explore">
         <div class="container">
             <div class="explore__card">
-
                 <div class="explore__icon">
                     ✨
                 </div>
-
                 <h2 class="explore__title">Continue the Search</h2>
-
                 <p class="explore__desc">
                     Discover our latest editorial collections and find more
                     pieces to add to your curation.
                 </p>
-
-                <button class="explore__btn">
-                    Explore Collections →
-                </button>
-
+                <a style="text-decoration: none; color: inherit;" routerLink="/">
+                    <button class="explore__btn"> Explore Collections →</button>
+                </a>
             </div>
         </div>
     </section>
+    }
+
 </main>
+} @else {
+<section class="profile__content address" ngSkipHydration>
+    <app-common-messege heading="Save Your Favorites"
+        message="Log in to save items to your wishlist and access them from any device."
+        buttonText="Login to View Wishlist" buttonLink="/login" iconClass="fa-heart">
+    </app-common-messege>
+</section>
+}
+}
 
 <app-footer></app-footer>

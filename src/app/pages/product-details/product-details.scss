@@ -629,6 +629,31 @@
         color: var(--primary);
         border-color: var(--primary);
     }
+
+    &.wishlisted {
+        border-color: var(--primary-solid, #BA284C);
+        background: var(--primary-soft);
+        color: var(--primary-solid, #BA284C);
+
+        i {
+            color: var(--primary-solid, #BA284C);
+            animation: heartPop 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+    }
+}
+
+@keyframes heartPop {
+    0% {
+        transform: scale(0.7);
+    }
+
+    50% {
+        transform: scale(1.25);
+    }
+
+    100% {
+        transform: scale(1);
+    }
 }
 
 /* =========================================

@@ -60,110 +60,55 @@
         --overlay-bg: rgba(26, 17, 19, 0.55);
 }
 
-// .dark-theme {
-//         /* =========================================
-//            DARK THEME (Obsidian Green & Neon Green)
-//         ========================================= */
-//         --primary: #00e676;
-//         /* Vibrant Neon Green */
-//         --primary-light: #33ff99;
-//         /* Brighter Green for hovers */
-//         --primary-soft: rgba(0, 230, 118, 0.12);
-//         /* Subtle green tint */
-
-//         /* Backgrounds & Surfaces (Deep Forest Black / Obsidian Green) */
-//         --background: #040a07;
-//         /* Replaced Navy with Pitch-Black Green */
-//         --surface: #050505;
-//         /* Replaced blue-surface with dark mossy black */
-//         --surface-elevated: #112217;
-//         /* Replaced blue-elevated with subtle deep green */
-
-//         /* Category/Alt Surfaces */
-//         --category-bg: #050505;
-//         /* Replaced blueish category bg */
-//         --category-card-bg: #0a140d;
-//         /* Matches the new surface */
-
-//         /* Text Colors */
-//         --text-primary: #ffffff;
-//         --text-secondary: #94ab9c;
-//         /* Changed from blue-gray to a soft sage-gray */
-//         --text-tertiary: #040a07;
-//         /* Deep green-black text on neon green buttons */
-//         --category-title: #ffffff;
-//         --category-text: #c0d1c6;
-//         /* Light sage for category text */
-
-//         /* Semantic Status Colors */
-//         --danger: #ff3b5c;
-//         --danger-hover: #ff123b;
-//         --danger-soft: rgba(255, 59, 92, 0.15);
-//         --success: #00e676;
-//         --warning: #ffab00;
-//         --info: #00b0ff;
-
-//         /* Borders & Outlines (Tinted with Neon Green to act as reflections) */
-//         --border: rgba(0, 230, 118, 0.15);
-//         --outline: rgba(0, 230, 118, 0.3);
-
-//         /* Interactions */
-//         --hover-soft: rgba(0, 230, 118, 0.08);
-//         --hover-medium: rgba(0, 230, 118, 0.16);
-//         --active: rgba(0, 230, 118, 0.24);
-
-//         /* Shadows (Deep black base + Subtle Neon Green Ambient Glow) */
-//         --shadow-soft: 0 8px 24px rgba(0, 0, 0, 0.6), 0 0 12px rgba(0, 230, 118, 0.04);
-//         --shadow-medium: 0 16px 40px rgba(0, 0, 0, 0.8), 0 0 30px rgba(0, 230, 118, 0.08);
-
-//         /* Cyber Green Spotlight Gradient */
-//         --hero-gradient: radial-gradient(circle at top center, rgba(0, 230, 118, 0.12) 0%, #040a07 60%, #020503 100%);
-//         --overlay-bg: rgba(4, 10, 7, 0.85);
-//         /* Matched overlay to the new background */
-// }
-
-//  Another dark theme good : 
-
 .dark-theme {
         /* =========================================
-           DARK THEME (Midnight Violet & Maroon)
+           DARK THEME (Cyber Sakura / Obsidian Plum)
         ========================================= */
-        --primary: linear-gradient(to right, #BA284C 0%, #641386 100%);
-        --primary-light: linear-gradient(to right, #D84C71 0%, #8D36B3 100%);
-        --primary-soft: rgba(186, 40, 76, 0.15);
+        --primary: linear-gradient(90deg, #E62E6B 0%, #9B2CF3 100%);
+        --primary-light: linear-gradient(90deg, #FF4D88 0%, #B34DFF 100%);
+        --primary-solid: #E62E6B;
+        --primary-soft: rgba(230, 46, 107, 0.14);
 
-        --background: #0B090F;
-        --surface: #141118;
-        --surface-elevated: #1D1824;
+        /* Backgrounds & Surfaces (Deep Warm Obsidian-Plum) */
+        --background: #0D090C;
+        --surface: #161115;
+        --surface-elevated: #211920;
 
-        --category-bg: #0B090F;
-        --category-card-bg: #141118;
+        /* Category/Alt Surfaces */
+        --category-bg: #120D11;
+        --category-card-bg: #161115;
 
-        --text-primary: #F3F0F8;
-        --text-secondary: #A79EBA;
+        /* Text Colors (Warm Off-White & Muted Rose-Gray) */
+        --text-primary: #F7F2F5;
+        --text-secondary: #A696A0;
         --text-tertiary: #FFFFFF;
-        --category-title: #F3F0F8;
-        --category-text: #B7AFCA;
+        --category-title: #F7F2F5;
+        --category-text: #C9BAC3;
 
-        --danger: #FF5252;
-        --danger-hover: #FF1744;
-        --danger-soft: rgba(255, 82, 82, 0.15);
-        --success: #00E676;
-        --warning: #FFCA28;
-        --info: #40C4FF;
+        /* Semantic Status Colors (Matched to Reference Badges & Ratings) */
+        --danger: #FF4D6D;
+        --danger-hover: #FF244C;
+        --danger-soft: rgba(255, 77, 109, 0.15);
+        --success: #10D9A0;
+        --warning: #F5B731;
+        --info: #38BDF8;
 
-        --border: rgba(167, 158, 186, 0.12);
-        --outline: rgba(167, 158, 186, 0.25);
+        /* Borders & Outlines (Crisp Editorial Framing) */
+        --border: #2C2129;
+        --outline: rgba(230, 46, 107, 0.42);
 
-        --hover-soft: rgba(186, 40, 76, 0.1);
-        --hover-medium: rgba(186, 40, 76, 0.18);
-        --active: rgba(186, 40, 76, 0.25);
+        /* Interactions */
+        --hover-soft: rgba(230, 46, 107, 0.09);
+        --hover-medium: rgba(230, 46, 107, 0.18);
+        --active: rgba(155, 44, 243, 0.24);
 
-        --shadow-soft: 0 8px 24px rgba(0, 0, 0, 0.6), 0 0 12px rgba(100, 19, 134, 0.05);
-        --shadow-medium: 0 16px 40px rgba(0, 0, 0, 0.8), 0 0 30px rgba(100, 19, 134, 0.15);
+        /* Shadows (Deep Black Base + Subtle Magenta/Violet Ambient Glow) */
+        --shadow-soft: 0 8px 24px rgba(0, 0, 0, 0.65), 0 0 12px rgba(230, 46, 107, 0.05);
+        --shadow-medium: 0 16px 40px rgba(0, 0, 0, 0.85), 0 0 28px rgba(155, 44, 243, 0.16);
 
-        --hero-gradient: radial-gradient(circle at top center, rgba(100, 19, 134, 0.15) 0%, #0B090F 60%, #050407 100%);
-        --overlay-bg: rgba(11, 9, 15, 0.85);
+        /* Ambient Plum-Magenta Hero Gradient */
+        --hero-gradient: radial-gradient(circle at top center, rgba(230, 46, 107, 0.14) 0%, #0D090C 55%, #070507 100%);
+        --overlay-bg: rgba(13, 9, 12, 0.86);
 }
 
 /* =========================================
@@ -189,7 +134,7 @@ body.modal-open {
 }
 
 /* =========================================
-   GLOBAL product grid card
+   GLOBAL PRODUCT GRID & CARD
 ========================================= */
 .trending {
         width: 100%;
@@ -209,12 +154,10 @@ body.modal-open {
 
         &__header {
                 text-align: center;
-                margin-bottom: 24px;
-                /* Tighter header margin */
+                margin-bottom: 28px;
 
                 h2 {
                         font-size: 24px;
-                        /* Slightly smaller header */
                         font-weight: 800;
                         color: var(--text-primary);
                         text-transform: uppercase;
@@ -225,10 +168,10 @@ body.modal-open {
                         &::after {
                                 content: '';
                                 position: absolute;
-                                bottom: -6px;
+                                bottom: -8px;
                                 left: 50%;
                                 transform: translateX(-50%);
-                                width: 30px;
+                                width: 36px;
                                 height: 3px;
                                 background: var(--primary);
                                 border-radius: 2px;
@@ -237,214 +180,214 @@ body.modal-open {
         }
 }
 
-/* =========================================
-   GLOBAL product grid card PRODUCT CARD (Ultra-Compact)
-========================================= */
 .product-card {
-        background: var(--category-card-bg);
-        border-radius: 4px;
+        position: relative;
+        background: var(--surface);
+        border-radius: 6px;
         overflow: hidden;
         cursor: pointer;
-        transition: all 0.3s ease;
         display: flex;
         flex-direction: column;
         height: 100%;
         width: 100%;
+        min-width: 0;
         border: 1px solid var(--border);
+        transition: box-shadow 0.25s ease, transform 0.25s ease, border-color 0.25s ease;
+
+        &__link {
+                text-decoration: none;
+                color: inherit;
+                display: flex;
+                flex-direction: column;
+                flex: 1;
+                height: 100%;
+                min-width: 0;
+        }
 
         &:hover {
-                background: var(--hero-gradient);
-                box-shadow: var(--shadow-soft);
                 transform: translateY(-3px);
-                /* Subtle lift */
-
-                .product-card__content {
-                        transform: translateY(-2px);
-                }
+                box-shadow: var(--shadow-medium);
+                border-color: var(--outline);
 
                 .product-card__wishlist {
-                        transform: translateX(0);
                         opacity: 1;
-                }
-
-                .product-card__swiper {
-                        opacity: 1;
-                }
-
-                .product-card__image.default {
-                        opacity: 1;
+                        transform: scale(1);
                 }
         }
 
-        /* ── Image Area (Compact Height) ── */
+        /* ── Full-Bleed Image Area (Matches Reference) ── */
         &__media {
                 position: relative;
-                height: 220px;
-                /* 🔥 FIX: Much shorter height for that ultra-compact look */
+                width: 100%;
+                aspect-ratio: 4 / 5;
                 overflow: hidden;
+                background: var(--surface-elevated);
         }
 
-        &__image {
+        &__image.default {
                 width: 100%;
                 height: 100%;
                 object-fit: cover;
-                object-position: center top;
+                object-position: top center;
+                display: block;
+                transition: opacity 0.3s ease;
+                opacity: 1;
+                z-index: 1;
         }
 
-        /* ── Content Area (Tighter spacing) ── */
+        /* ── Content Area ── */
         &__content {
-                padding: 8px 6px;
-                /* Ultra-tight padding */
+                padding: 10px 10px 12px;
                 flex: 1;
                 display: flex;
                 flex-direction: column;
-                gap: 2px;
+                gap: 3px;
+                background: var(--surface);
+                min-width: 0;
 
                 .brand {
-                        font-size: 0.8rem;
+                        margin: 0;
+                        font-size: 0.9rem;
                         font-weight: 700;
-                        color: var(--category-text);
-                        margin-bottom: 0;
-                        line-height: 1.2;
+                        color: var(--text-primary);
+                        line-height: 1.25;
+                        white-space: nowrap;
+                        overflow: hidden;
+                        text-overflow: ellipsis;
                 }
 
                 .name {
-                        font-size: 0.72rem;
-                        line-height: 1.3;
-                        color: var(--category-text);
-                        opacity: 0.75;
-                        display: -webkit-box;
-                        -webkit-line-clamp: 2;
-                        -webkit-box-orient: vertical;
+                        margin: 0;
+                        font-size: 0.8rem;
+                        line-height: 1.35;
+                        color: var(--text-secondary);
+                        white-space: nowrap;
                         overflow: hidden;
-                        margin-top: 1px;
+                        text-overflow: ellipsis;
                 }
 
                 .price {
                         display: flex;
-                        align-items: center;
-                        gap: 4px;
-                        margin-top: 2px;
+                        align-items: baseline;
+                        flex-wrap: wrap;
+                        gap: 6px;
+                        margin-top: 3px;
 
                         .current {
                                 font-weight: 700;
-                                font-size: 0.85rem;
-                                color: var(--category-text);
+                                font-size: 0.88rem;
+                                color: var(--text-primary);
                         }
 
                         .original {
                                 text-decoration: line-through;
-                                font-size: 0.7rem;
-                                color: var(--category-text);
-                                opacity: 0.5;
+                                font-size: 0.74rem;
+                                color: var(--text-secondary);
+                                opacity: 0.7;
                         }
 
                         .discount {
-                                color: var(--danger);
+                                color: #ff905a;
                                 font-weight: 600;
-                                font-size: 0.7rem;
+                                font-size: 0.74rem;
                         }
                 }
 
                 .size {
-                        margin-top: 0;
-                        font-size: 0.65rem;
-                        color: var(--category-text);
-                        opacity: 0.6;
-                }
-        }
+                        margin: 4px 0 0;
+                        font-size: 0.72rem;
+                        color: var(--text-secondary);
+                        white-space: nowrap;
+                        overflow: hidden;
+                        text-overflow: ellipsis;
 
-        &__rating {
-                position: absolute;
-                bottom: 8px;
-                left: 8px;
-                background: var(--primary);
-                color: var(--text-tertiary);
-                padding: 2px 6px;
-                font-size: 0.7rem;
-                border-radius: 4px;
-                font-weight: 600;
-                display: flex;
-                align-items: center;
-                gap: 4px;
-                z-index: 5;
-
-                i {
-                        color: gold;
-                        font-size: 12px;
-                }
-        }
-
-        &__wishlist {
-                position: absolute;
-                top: 10px;
-                right: 10px;
-                width: 28px;
-                height: 28px;
-                border-radius: 50%;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                background: transparent;
-                border: 1px solid var(--border);
-                cursor: pointer;
-                box-shadow: var(--shadow-soft);
-                transform: translateX(120%);
-                opacity: 0;
-                transition: all 0.35s ease;
-                z-index: 5;
-
-                i {
-                        color: var(--primary);
-                        font-size: 14px;
-                }
-
-                &:hover {
-                        background: var(--primary);
-                        border-color: var(--primary);
-
-                        i {
-                                color: var(--text-tertiary);
+                        span {
+                                color: var(--text-primary);
+                                font-weight: 600;
                         }
                 }
         }
 
+        /* ── Rating Badge (White Pill with Teal Star like Reference) ── */
+        &__rating {
+                position: absolute;
+                bottom: 10px;
+                left: 10px;
+                background: rgba(255, 255, 255, 0.92);
+                color: #282c3f;
+                padding: 3px 7px;
+                font-size: 0.72rem;
+                border-radius: 3px;
+                font-weight: 700;
+                display: inline-flex;
+                align-items: center;
+                gap: 4px;
+                z-index: 5;
+                box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
 
-        &__cart {
+                i {
+                        color: #14958f;
+                        font-size: 11px;
+                }
+
+                .count {
+                        color: #535766;
+                        font-weight: 600;
+                }
+        }
+
+        /* ── Wishlist Button ── */
+        &__wishlist {
+                position: absolute;
+                top: 10px;
+                right: 10px;
+                width: 32px;
+                height: 32px;
+                border-radius: 50%;
                 display: flex;
                 align-items: center;
                 justify-content: center;
-                gap: 6px;
-                width: 100%;
-                padding: 12px;
-                background: var(--primary);
-                color: var(--text-tertiary);
-                border: none;
-                border-top: 1px solid var(--border);
+                background: rgba(255, 255, 255, 0.92);
+                border: 1px solid rgba(0, 0, 0, 0.08);
                 cursor: pointer;
-                font-size: 0.82rem;
-                font-weight: 700;
-                transition: all 0.25s ease;
-                font-family: var(--font-body);
+                box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+                opacity: 0.9;
+                transform: scale(0.95);
+                transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+                z-index: 10;
+
+                i {
+                        color: #4B5563;
+                        font-size: 14px;
+                        transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), color 0.2s ease;
+                }
 
                 &:hover {
-                        background: var(--primary-light);
-                        transform: translateY(-1px);
-                        box-shadow: var(--shadow-soft);
+                        transform: scale(1.08);
+                        border-color: var(--primary-solid, #BA284C);
+
+                        i {
+                                color: var(--primary-solid, #BA284C);
+                        }
+                }
+
+                &.wishlisted {
+                        opacity: 1;
+                        transform: scale(1);
+                        background: #ffffff;
+                        border-color: var(--primary-solid, #BA284C);
+
+                        i {
+                                color: var(--primary-solid, #BA284C);
+                                animation: cardHeartPop 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+                        }
+                }
+
+                &:active {
+                        transform: scale(0.88);
                 }
         }
 }
-
-.product-card__image.default {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        object-position: center top;
-        transition: opacity 0.3s ease;
-        opacity: 1;
-        z-index: 1;
-}
-
 
 .product-card__swiper {
         position: absolute;
@@ -458,7 +401,8 @@ body.modal-open {
                 width: 100%;
                 height: 100%;
                 object-fit: cover;
-                object-position: center top;
+                object-position: top center;
+                display: block;
         }
 
         swiper-slide {
@@ -471,8 +415,8 @@ body.modal-open {
         }
 
         &::part(bullet) {
-                width: 4px;
-                height: 4px;
+                width: 5px;
+                height: 5px;
                 opacity: 0.5;
         }
 
@@ -482,7 +426,7 @@ body.modal-open {
         }
 }
 
-.product-card__media.swiper-active {
+.product-card.swiper-active {
         .product-card__swiper {
                 opacity: 1;
         }
@@ -492,77 +436,95 @@ body.modal-open {
         }
 }
 
+@keyframes cardHeartPop {
+        0% {
+                transform: scale(0.6);
+        }
+
+        50% {
+                transform: scale(1.3);
+        }
+
+        100% {
+                transform: scale(1);
+        }
+}
 
 /* =========================================
    RESPONSIVE DESIGN
 ========================================= */
-@media (max-width: 992px) {
-        .product-card__media {
-                height: 260px;
-                /* Reduced for tablet */
-        }
-}
-
 @media (max-width: 768px) {
         .trending {
-                padding: 1.5rem 0 2.5rem;
+                padding: 1.25rem 0 2rem;
 
                 .container {
-                        padding: 0 16px;
+                        padding: 0 12px;
                 }
 
-                &__header h2 {
-                        font-size: 18px;
+                &__header {
+                        margin-bottom: 16px;
+
+                        h2 {
+                                font-size: 18px;
+                        }
                 }
         }
 
         .product-card {
-                &__media {
-                        height: 160px;
-                        /* Highly compact mobile height */
+                border-radius: 5px;
+
+                &:hover {
+                        transform: none;
+                }
+
+                &__rating {
+                        bottom: 6px;
+                        left: 6px;
+                        padding: 2px 5px;
+                        font-size: 0.65rem;
                 }
 
                 &__wishlist {
-                        transform: translateX(0);
+                        top: 6px;
+                        right: 6px;
+                        width: 28px;
+                        height: 28px;
                         opacity: 1;
+                        transform: scale(1);
+
+                        i {
+                                font-size: 12px;
+                        }
                 }
 
                 &__content {
-                        padding: 6px;
+                        padding: 8px;
+                        gap: 2px;
 
                         .brand {
-                                font-size: 0.75rem;
-                        }
-
-                        .name {
-                                font-size: 0.65rem;
-                        }
-
-                        .price .current {
                                 font-size: 0.8rem;
                         }
 
-                        .price .original,
-                        .price .discount,
+                        .name {
+                                font-size: 0.72rem;
+                        }
+
+                        .price {
+                                gap: 4px;
+
+                                .current {
+                                        font-size: 0.82rem;
+                                }
+
+                                .original,
+                                .discount {
+                                        font-size: 0.66rem;
+                                }
+                        }
+
                         .size {
                                 font-size: 0.65rem;
                         }
-                }
-
-                &__cart {
-                        height: 44px;
-                        font-size: 0.75rem;
-                }
-        }
-
-        .similar_product {
-                .trending-swiper {
-                        padding-bottom: 10px;
-                }
-
-                .custom-swiper-prev,
-                .custom-swiper-next {
-                        display: none;
                 }
         }
 }
@@ -570,10 +532,5 @@ body.modal-open {
 @media (max-width: 480px) {
         .trending {
                 padding: 1rem 0 1.5rem;
-        }
-
-        .product-card__media {
-                height: 260px;
-                /* Extra compact for very small phones */
         }
 }

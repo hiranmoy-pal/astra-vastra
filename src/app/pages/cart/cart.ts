@@ -7,18 +7,19 @@ import { ProfileMenu } from '../../layout/profile-menu/profile-menu';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Toast } from '../../core/services/toast/toast';
 import { Loading } from '../../core/services/loading/loading';
-import { Subscription } from 'rxjs';
+import { forkJoin, Subscription } from 'rxjs';
 import { Http } from '../../core/services/api/http';
 import { Storage } from '../../core/services/storage/storage';
 import { Alert } from '../../core/services/alert/alert';
 import { CommonMessege } from '../../layout/common-messege/common-messege';
+import { AddressModal } from '../../layout/address-modal/address-modal';
 
 @Component({
   selector: 'app-cart',
   standalone: true,
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   imports: [
-    Header, Footer, CommonModule, RouterModule, RouterLink, ProfileMenu, ReactiveFormsModule, FormsModule, CommonMessege
+    Header, Footer, CommonModule, RouterModule, RouterLink, ProfileMenu, ReactiveFormsModule, FormsModule, CommonMessege, AddressModal
   ],
   templateUrl: './cart.html',
   styleUrl: './cart.scss',
@@ -27,10 +28,16 @@ export class Cart implements OnInit, AfterViewInit, OnDestroy {
 
   isAuthChecked: boolean = false;
   isLoggedIn: boolean = false;
-  isCartLoading: boolean = true; // 🔥 ADDED: Tracks the API loading state
+  isCartLoading: boolean = true;
 
   cartData: any = null;
   selectionPayload: { cartItemId: number; selected: boolean }[] = [];
+
+  addressList: any[] = [];
+  selectedAddress: any = null;
+  isAddressDropdownOpen: boolean = false;
+  isAddressLoading: boolean = true;
+  isAddressModalOpen: boolean = false;
 
   private authStateSub!: Subscription;
   private http = inject(Http);
@@ -51,18 +58,17 @@ export class Cart implements OnInit, AfterViewInit, OnDestroy {
           this.isLoggedIn = loggedInStatus;
           if (this.isLoggedIn) {
             this.fetchCartList();
+            this.fetchAddressList();
           } else {
             this.cartData = null;
             this.isCartLoading = false;
+            this.addressList = [];
+            this.selectedAddress = null;
           }
           this.cdr.detectChanges();
         });
       });
     }
-  }
-
-  ngOnDestroy() {
-    if (this.authStateSub) this.authStateSub.unsubscribe();
   }
 
   checkAuthAndLoadData() {
@@ -72,12 +78,68 @@ export class Cart implements OnInit, AfterViewInit, OnDestroy {
         this.isLoggedIn = !!token;
         if (this.isLoggedIn) {
           this.fetchCartList();
+          this.fetchAddressList();
         } else {
-          this.isCartLoading = false; // Turn off loader if logged out
+          this.isCartLoading = false;
+          this.isAddressLoading = false;
         }
         this.cdr.detectChanges();
       });
     });
+  }
+
+  ngOnDestroy() {
+    if (this.authStateSub) this.authStateSub.unsubscribe();
+  }
+
+  fetchAddressList() {
+    this.isAddressLoading = true;
+    this.http.getAddressList().subscribe({
+      next: (res: any) => {
+        this.zone.run(() => {
+          if (res.status && res.data && res.data.length > 0) {
+            this.addressList = res.data;
+            // Auto-select default address, or fallback to the first address
+            this.selectedAddress = this.addressList.find((a: any) => a.default) || this.addressList[0];
+          } else {
+            this.addressList = [];
+            this.selectedAddress = null;
+          }
+          this.isAddressLoading = false;
+          this.cdr.detectChanges();
+        });
+      },
+      error: () => {
+        this.zone.run(() => {
+          this.addressList = [];
+          this.selectedAddress = null;
+          this.isAddressLoading = false;
+          this.cdr.detectChanges();
+        });
+      }
+    });
+  }
+
+  toggleAddressDropdown() {
+    this.isAddressDropdownOpen = !this.isAddressDropdownOpen;
+  }
+
+  selectAddress(address: any) {
+    this.selectedAddress = address;
+    this.isAddressDropdownOpen = false;
+  }
+
+  openAddAddressModal() {
+    this.isAddressDropdownOpen = false;
+    this.isAddressModalOpen = true;
+  }
+
+  closeAddAddressModal() {
+    this.isAddressModalOpen = false;
+  }
+
+  onAddressSaved() {
+    this.fetchAddressList();
   }
 
   fetchCartList() {
@@ -252,17 +314,99 @@ export class Cart implements OnInit, AfterViewInit, OnDestroy {
   }
 
   async moveToWishlistSelected() {
-    const selectedIds = this.cartData?.items?.filter((i: any) => i.selected) || [];
-    if (!selectedIds.length) {
+    const selectedItems = this.cartData?.items?.filter((i: any) => i.selected) || [];
+    if (!selectedItems.length) {
       this.toast.show('Please select items first', 'warning');
       return;
     }
-    await this.alert.show({
+
+    const isConfirmed = await this.alert.show({
       title: 'Move to Wishlist',
       message: 'Are you sure you want to move selected items to your wishlist?',
       confirmText: 'Move',
       cancelText: 'Cancel'
     });
+
+    if (isConfirmed) {
+      this.executeMoveToWishlist(selectedItems);
+    }
+  }
+
+  async moveToWishlistItem(item: any) {
+    const isConfirmed = await this.alert.show({
+      title: 'Move to Wishlist',
+      message: 'Are you sure you want to move this item to your wishlist?',
+      confirmText: 'Move',
+      cancelText: 'Cancel'
+    });
+
+    if (isConfirmed) {
+      this.executeMoveToWishlist([item]);
+    }
+  }
+
+  executeMoveToWishlist(items: any[]) {
+    console.log('Selected items for wishlist:', items);
+
+    const cartItemIds: number[] = items.map((i: any) => i.cartItemId);
+
+    // Explicitly check for false (handles boolean false, string "false", null, or undefined)
+    const productIdsToWishlist: number[] = Array.from(
+      new Set(
+        items
+          .filter((i: any) => i.isWishlist !== true && i.isWishlist !== 'true')
+          .map((i: any) => i.productId)
+          .filter((id: any) => id !== null && id !== undefined)
+      )
+    );
+
+    console.log('productIdsToWishlist:', productIdsToWishlist);
+
+    this.loading.show();
+
+    if (productIdsToWishlist.length > 0) {
+      // Call addToWishlist first, then remove from cart
+      this.http.addToWishlist({ productId: productIdsToWishlist }).subscribe({
+        next: (wishRes: any) => {
+          this.http.removeCartItems({ cartItemId: cartItemIds }).subscribe({
+            next: (removeRes: any) => {
+              this.zone.run(() => {
+                this.fetchCartList();
+                this.toast.show(wishRes?.message || removeRes?.message || 'Moved to wishlist successfully', 'success');
+              });
+            },
+            error: () => {
+              this.zone.run(() => {
+                this.loading.hide();
+                this.toast.show('Added to wishlist, but failed to remove from cart', 'error');
+              });
+            }
+          });
+        },
+        error: () => {
+          this.zone.run(() => {
+            this.loading.hide();
+            this.toast.show('Failed to add item(s) to wishlist', 'error');
+          });
+        }
+      });
+    } else {
+      // All selected items are already in wishlist -> only remove from cart
+      this.http.removeCartItems({ cartItemId: cartItemIds }).subscribe({
+        next: (res: any) => {
+          this.zone.run(() => {
+            this.fetchCartList();
+            this.toast.show(res?.message || 'Removed from cart (already in wishlist)', 'success');
+          });
+        },
+        error: () => {
+          this.zone.run(() => {
+            this.loading.hide();
+            this.toast.show('Failed to remove item from cart', 'error');
+          });
+        }
+      });
+    }
   }
 
   ngAfterViewInit() { }

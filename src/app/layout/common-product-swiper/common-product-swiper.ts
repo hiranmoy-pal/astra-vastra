@@ -1,6 +1,11 @@
-import { AfterViewInit, Component, CUSTOM_ELEMENTS_SCHEMA, ElementRef, Inject, Input, PLATFORM_ID, signal, ViewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, CUSTOM_ELEMENTS_SCHEMA, ElementRef, inject, Inject, Input, NgZone, OnDestroy, OnInit, PLATFORM_ID, signal, ViewChild } from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
+import { Subscription } from 'rxjs';
+import { Http } from '../../core/services/api/http';
+import { Storage } from '../../core/services/storage/storage';
+import { Alert } from '../../core/services/alert/alert';
+import { Toast } from '../../core/services/toast/toast';
 
 @Component({
   selector: 'app-common-product-swiper',
@@ -10,12 +15,22 @@ import { RouterLink } from '@angular/router';
   templateUrl: './common-product-swiper.html',
   styleUrl: './common-product-swiper.scss',
 })
-export class CommonProductSwiper implements AfterViewInit {
+export class CommonProductSwiper implements OnInit, AfterViewInit, OnDestroy {
   @Input() title: string = 'Explore More';
   @Input() products: any[] = [];
 
   @ViewChild('swiperSimilarProduct') swiperSimilarProduct!: ElementRef;
+  isLoggedIn: boolean = false;
   hoverTimers = new WeakMap<any, any>();
+  private authStateSub!: Subscription;
+
+  private http = inject(Http);
+  private storage = inject(Storage);
+  private alert = inject(Alert);
+  private toast = inject(Toast);
+  private router = inject(Router);
+  private cdr = inject(ChangeDetectorRef);
+  private zone = inject(NgZone);
 
   trendingSwiperConfig = signal({
     cssMode: true,
@@ -34,12 +49,105 @@ export class CommonProductSwiper implements AfterViewInit {
 
   constructor(@Inject(PLATFORM_ID) private platformId: Object) { }
 
+  ngOnInit() {
+    if (isPlatformBrowser(this.platformId)) {
+      this.storage.get('accessToken').then(token => {
+        this.zone.run(() => {
+          this.isLoggedIn = !!token;
+          this.cdr.detectChanges();
+        });
+      });
+
+      this.authStateSub = this.http.authStateChange$.subscribe((status) => {
+        this.zone.run(() => {
+          this.isLoggedIn = status;
+          this.cdr.detectChanges();
+        });
+      });
+    }
+  }
+
   ngAfterViewInit() {
     if (isPlatformBrowser(this.platformId) && this.swiperSimilarProduct) {
       setTimeout(() => {
         Object.assign(this.swiperSimilarProduct.nativeElement, this.trendingSwiperConfig());
         this.swiperSimilarProduct.nativeElement.initialize();
       }, 400);
+    }
+  }
+
+  ngOnDestroy() {
+    if (this.authStateSub) this.authStateSub.unsubscribe();
+  }
+
+  async toggleWishlist(event: Event, product: any) {
+    event.preventDefault();
+    event.stopPropagation();
+
+    if (!this.isLoggedIn) {
+      const isConfirmed = await this.alert.show({
+        title: 'Login Required',
+        message: 'You have to login to add items to your wishlist.',
+        confirmText: 'Login',
+        cancelText: 'Cancel'
+      });
+
+      if (isConfirmed) {
+        this.router.navigate(['/login']);
+      }
+      return;
+    }
+
+    if (!product.isWishlist) {
+      this.http.addToWishlist({ productId: [Number(product.productId)] }).subscribe({
+        next: (res: any) => {
+          this.zone.run(() => {
+            if (res.status) {
+              product.isWishlist = true;
+              this.toast.show(res.message || 'Added to wishlist', 'success');
+            } else {
+              this.toast.show(res.message || 'Failed to add to wishlist', 'error');
+            }
+            this.cdr.detectChanges();
+          });
+        },
+        error: () => {
+          this.zone.run(() => {
+            this.toast.show('Something went wrong. Please try again!', 'error');
+            this.cdr.detectChanges();
+          });
+        }
+      });
+    } else {
+      const isConfirmed = await this.alert.show({
+        title: 'Remove from Wishlist',
+        message: 'Are you sure you want to remove this item from your wishlist?',
+        confirmText: 'Remove',
+        cancelText: 'Cancel',
+        isDanger: true
+      });
+
+      if (!isConfirmed) return;
+
+      this.http.removeWishlistItems(product.productId).subscribe({
+        next: (res: any) => {
+          this.zone.run(() => {
+            if (res.status) {
+              product.isWishlist = false;
+              this.toast.show(res.message || 'Removed from wishlist', 'success');
+            } else {
+              this.toast.show(res.message || 'Failed to remove from wishlist', 'error');
+            }
+            this.cdr.detectChanges();
+          });
+        },
+        error: () => {
+          this.zone.run(() => {
+            this.toast.show('Something went wrong. Please try again!', 'error');
+            this.cdr.detectChanges();
+          });
+        }
+      });
     }
   }
 

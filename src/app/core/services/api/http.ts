@@ -71,12 +71,26 @@ export class Http {
     return this.http.get(this.baseUrl + '/api/categories/categoryId/' + id, { context: new HttpContext().set(SKIP_AUTH, true) });
   }
 
-  getProductList(catId: any, payload: any, limit: number, offset: number) {
-    return this.http.post(this.baseUrl + '/api/products/filter/categoryid/' + catId + "/limit/" + limit + "/offset/" + offset, payload, { context: new HttpContext().set(SKIP_AUTH, true) });
+  // ================== PUBLIC & PROTECTED APIs =================== //
+
+  getProductDetails(productId: any, isLoggedIn: boolean = false) {
+    const options = isLoggedIn
+      ? {}
+      : { context: new HttpContext().set(SKIP_AUTH, true) };
+
+    return this.http.get(this.baseUrl + '/api/products/' + productId + '/details', options);
   }
 
-  getProductDetails(productId: any) {
-    return this.http.get(this.baseUrl + '/api/products/' + productId + '/details', { context: new HttpContext().set(SKIP_AUTH, true) });
+  getProductList(catId: any, payload: any, limit: number, offset: number, isLoggedIn: boolean = false) {
+    const options = isLoggedIn
+      ? {}
+      : { context: new HttpContext().set(SKIP_AUTH, true) };
+
+    return this.http.post(
+      this.baseUrl + '/api/products/filter/categoryid/' + catId + '/limit/' + limit + '/offset/' + offset,
+      payload,
+      options
+    );
   }
 
   // ================== PROTECTED APIs =================== //
@@ -138,6 +152,18 @@ export class Http {
 
   removeCartItems(payload: { cartItemId: number[] }) {
     return this.http.delete(this.baseUrl + '/api/cart/items/remove', { body: payload });
+  }
+
+  addToWishlist(payload: any) {
+    return this.http.post(this.baseUrl + '/api/wishlist/add-items', payload);
+  }
+
+  getWishlist() {
+    return this.http.get(this.baseUrl + '/api/wishlist/get-items');
+  }
+
+  removeWishlistItems(id: any) {
+    return this.http.delete(this.baseUrl + '/api/wishlist/remove/' + id);
   }
 
 }
