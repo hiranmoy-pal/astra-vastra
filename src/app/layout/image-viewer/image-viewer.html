@@ -1,0 +1,67 @@
+@if (isOpen && imageList.length) {
+<div class="iv-overlay" (click)="close()">
+    <!-- Top Header Toolbar -->
+    <header class="iv-topbar" (click)="$event.stopPropagation()">
+        <div class="iv-meta">
+            @if (isMultiple) {
+            <span class="iv-counter">{{ currentIndex + 1 }} / {{ imageList.length }}</span>
+            }
+            @if (title) {
+            <span class="iv-title">{{ title }}</span>
+            }
+        </div>
+
+        <div class="iv-controls">
+            <button type="button" class="iv-tool-btn" (click)="zoomOut()" [disabled]="!isZoomed" title="Zoom Out">
+                <i class="fa fa-search-minus"></i>
+            </button>
+            <button type="button" class="iv-tool-btn" (click)="zoomIn()" [disabled]="isZoomed" title="Zoom In">
+                <i class="fa fa-search-plus"></i>
+            </button>
+            <button type="button" class="iv-tool-btn close" (click)="close()" title="Close (Esc)">
+                <i class="fa fa-times"></i>
+            </button>
+        </div>
+    </header>
+
+    <!-- Main Zoomable Stage -->
+    <div class="iv-stage" (click)="$event.stopPropagation()">
+        @if (isMultiple) {
+        <button type="button" class="iv-arrow left iv-nav-prev" aria-label="Previous image">
+            <i class="fa fa-angle-left"></i>
+        </button>
+        }
+
+        <swiper-container #viewerSwiper class="iv-swiper" init="false">
+            @for (img of imageList; track $index) {
+            <swiper-slide>
+                <div class="swiper-zoom-container">
+                    <img [src]="img" [alt]="title || 'Preview image ' + ($index + 1)" />
+                </div>
+            </swiper-slide>
+            }
+        </swiper-container>
+
+        @if (isMultiple) {
+        <button type="button" class="iv-arrow right iv-nav-next" aria-label="Next image">
+            <i class="fa fa-angle-right"></i>
+        </button>
+        }
+    </div>
+
+    <!-- Bottom Hint & Thumbnails (Only shown if multiple images) -->
+    <footer class="iv-footer" (click)="$event.stopPropagation()">
+        <p class="iv-hint">Double-tap or pinch to zoom</p>
+
+        @if (isMultiple) {
+        <div class="iv-thumbs">
+            @for (img of imageList; track $index) {
+            <button type="button" class="iv-thumb" [class.active]="currentIndex === $index" (click)="goToSlide($index)">
+                <img [src]="img" [alt]="'Thumbnail ' + ($index + 1)" />
+            </button>
+            }
+        </div>
+        }
+    </footer>
+</div>
+}

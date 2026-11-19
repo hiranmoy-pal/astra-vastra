@@ -19,7 +19,8 @@
             </aside>
 
             <!-- MAIN IMAGE -->
-            <figure class="main-image">
+            <figure class="main-image" style="cursor: zoom-in;"
+                (click)="openImageViewer(productDetails.images, activeIndex(), productDetails.name)">
                 <swiper-container #mainSwiper class="main-swiper" init="false">
                     @for (image of productDetails.images; track $index) {
                     <swiper-slide>
@@ -29,10 +30,10 @@
                 </swiper-container>
 
                 @if (productDetails.images.length > 1) {
-                <button class="gallery-arrow left gallery-prev">
+                <button class="gallery-arrow left gallery-prev" (click)="$event.stopPropagation()">
                     <i class="fa fa-angle-left"></i>
                 </button>
-                <button class="gallery-arrow right gallery-next">
+                <button class="gallery-arrow right gallery-next" (click)="$event.stopPropagation()">
                     <i class="fa fa-angle-right"></i>
                 </button>
                 }
@@ -200,7 +201,7 @@
                     <i class="fa" [ngClass]="isWishlisted() ? 'fa-heart' : 'fa-heart-o'"></i>
                     <span>{{ isWishlisted() ? 'REMOVE' : 'WISHLIST' }}</span>
                 </button>
-                
+
             </section>
 
             <!-- DELIVERY -->
@@ -332,3 +333,7 @@
 
 </main>
 <app-footer></app-footer>
+
+<app-image-viewer [isOpen]="isViewerOpen()" [images]="viewerImages()" [initialIndex]="viewerInitialIndex()"
+    [title]="viewerTitle()" (closed)="closeImageViewer()">
+</app-image-viewer>

@@ -13,6 +13,7 @@ import { Http } from '../../core/services/api/http';
 import { Storage } from '../../core/services/storage/storage';
 import { Subscription } from 'rxjs';
 import { Alert } from '../../core/services/alert/alert';
+import { ImageViewer } from '../../layout/image-viewer/image-viewer';
 
 export interface IBreadcrumb { id: number | null; name: string; slug: string; }
 export interface IRatingDivision { rating: number; count: number; percentage: number; }
@@ -46,7 +47,7 @@ export interface IProductDetails {
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   imports: [
     Header, Footer, CommonModule, RouterModule, RouterLink, ProfileMenu, ReactiveFormsModule,
-    CommonProductGrid, CommonProductSwiper
+    CommonProductGrid, CommonProductSwiper, ImageViewer
   ],
   templateUrl: './product-details.html',
   styleUrl: './product-details.scss',
@@ -67,6 +68,11 @@ export class ProductDetails implements OnInit, AfterViewInit {
   isAddedToCart = signal<boolean>(false);
 
   isWishlisted = signal<boolean>(false);
+
+  isViewerOpen = signal<boolean>(false);
+  viewerImages = signal<string | string[]>([]);
+  viewerInitialIndex = signal<number>(0);
+  viewerTitle = signal<string>('');
 
   products = [
     {
@@ -510,4 +516,16 @@ export class ProductDetails implements OnInit, AfterViewInit {
       });
     }
   }
+
+  openImageViewer(images: string | string[], index: number = 0, title: string = '') {
+    this.viewerImages.set(images);
+    this.viewerInitialIndex.set(index);
+    this.viewerTitle.set(title);
+    this.isViewerOpen.set(true);
+  }
+
+  closeImageViewer() {
+    this.isViewerOpen.set(false);
+  }
+
 }

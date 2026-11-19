@@ -1,0 +1,266 @@
+.iv-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 10000;
+    background: rgba(10, 8, 12, 0.94);
+    backdrop-filter: blur(10px);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    user-select: none;
+    animation: ivFadeIn 0.22s ease-out;
+}
+
+/* ── Top Toolbar ── */
+.iv-topbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    padding: 14px 20px;
+    z-index: 10;
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.65), transparent);
+}
+
+.iv-meta {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    min-width: 0;
+
+    .iv-counter {
+        padding: 4px 10px;
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.14);
+        color: #ffffff;
+        font-size: 0.8rem;
+        font-weight: 700;
+        flex-shrink: 0;
+    }
+
+    .iv-title {
+        color: rgba(255, 255, 255, 0.88);
+        font-size: 0.92rem;
+        font-weight: 600;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+}
+
+.iv-controls {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-shrink: 0;
+}
+
+.iv-tool-btn {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    background: rgba(255, 255, 255, 0.1);
+    color: #ffffff;
+    font-size: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+
+    &:hover:not(:disabled) {
+        background: var(--primary);
+        border-color: transparent;
+        transform: scale(1.06);
+    }
+
+    &:disabled {
+        opacity: 0.35;
+        cursor: not-allowed;
+    }
+
+    &.close:hover {
+        background: var(--danger, #e11d48);
+    }
+}
+
+/* ── Center Stage & Zoom Container ── */
+.iv-stage {
+    position: relative;
+    flex: 1;
+    width: 100%;
+    min-height: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.iv-swiper {
+    width: 100%;
+    height: 100%;
+
+    swiper-slide {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .swiper-zoom-container {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 12px;
+        box-sizing: border-box;
+
+        img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+            border-radius: 8px;
+            cursor: zoom-in;
+        }
+    }
+}
+
+.iv-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 10;
+    width: 46px;
+    height: 46px;
+    border-radius: 50%;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    background: rgba(255, 255, 255, 0.12);
+    color: #ffffff;
+    font-size: 1.4rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+
+    &:hover {
+        background: var(--primary);
+        border-color: transparent;
+    }
+
+    &.left {
+        left: 20px;
+    }
+
+    &.right {
+        right: 20px;
+    }
+}
+
+/* ── Bottom Thumbnails & Hint ── */
+.iv-footer {
+    padding: 10px 16px 18px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    z-index: 10;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.7), transparent);
+
+    .iv-hint {
+        margin: 0;
+        font-size: 0.75rem;
+        color: rgba(255, 255, 255, 0.55);
+    }
+}
+
+.iv-thumbs {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    max-width: 100%;
+    overflow-x: auto;
+    padding: 4px;
+    scrollbar-width: none;
+
+    &::-webkit-scrollbar {
+        display: none;
+    }
+}
+
+.iv-thumb {
+    width: 54px;
+    height: 68px;
+    padding: 0;
+    border-radius: 10px;
+    overflow: hidden;
+    border: 2px solid transparent;
+    background: rgba(255, 255, 255, 0.08);
+    opacity: 0.55;
+    cursor: pointer;
+    flex-shrink: 0;
+    transition: all 0.2s ease;
+
+    img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+    }
+
+    &:hover {
+        opacity: 0.85;
+    }
+
+    &.active {
+        opacity: 1;
+        border-color: #ffffff;
+        transform: translateY(-2px);
+    }
+}
+
+@keyframes ivFadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+/* ── Responsive: iPad & Mobile ── */
+@media (max-width: 768px) {
+    .iv-topbar {
+        padding: 12px 14px;
+    }
+
+    .iv-tool-btn {
+        width: 36px;
+        height: 36px;
+        font-size: 0.9rem;
+    }
+
+    .iv-arrow {
+        width: 36px;
+        height: 36px;
+        font-size: 1.1rem;
+
+        &.left {
+            left: 10px;
+        }
+
+        &.right {
+            right: 10px;
+        }
+    }
+
+    .iv-thumb {
+        width: 44px;
+        height: 56px;
+        border-radius: 8px;
+    }
+}
