@@ -152,7 +152,7 @@
                     </label>
                 </div>
 
-                <a style="text-decoration: none; color: inherit;" [routerLink]="['/', item.productUrl]">
+                <a style="text-decoration: none; color: inherit;" [routerLink]="'/' + item.productUrl">
                     <figure class="item-image">
                         <img [src]="item.imageUrl" [alt]="item.productName">
                     </figure>
@@ -160,7 +160,7 @@
 
                 <div class="item-details">
                     <div class="item-header">
-                        <a style="text-decoration: none; color: inherit;" [routerLink]="['/', item.productUrl]">
+                        <a style="text-decoration: none; color: inherit;" [routerLink]="'/' + item.productUrl">
                             <h3 class="brand">{{ item.brand }}</h3>
                         </a>
                         <div class="item-actions">
@@ -186,7 +186,7 @@
                             </button>
                         </div>
                     </div>
-                    <a style="text-decoration: none; color: inherit;" [routerLink]="['/', item.productUrl]">
+                    <a style="text-decoration: none; color: inherit;" [routerLink]="'/' + item.productUrl">
                         <p class="name">{{ item.productName }}</p>
                     </a>
                     <!-- Variant Selectors -->
@@ -220,7 +220,7 @@
                     </div>
 
                     <!-- Pricing -->
-                    <a style="text-decoration: none; color: inherit;" [routerLink]="['/', item.productUrl]">
+                    <a style="text-decoration: none; color: inherit;" [routerLink]="'/' + item.productUrl">
                         <div class="pricing">
                             <span class="offer-price">₹{{ item.offerPrice }}</span>
                             <span class="original-price">₹{{ item.price }}</span>

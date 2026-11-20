@@ -19,7 +19,7 @@
                 @for (item of wishlistItems; track item.wishlistItemId) {
                 <article class="product-card">
                     <div class="product-card__media">
-                        <a [routerLink]="['/', item.productUrl]">
+                        <a [routerLink]="'/' + item.productUrl">
                             <img class="product-card__image default" [src]="item.imageUrl" [alt]="item.productName"
                                 loading="lazy" />
                         </a>
@@ -30,7 +30,7 @@
                         </button>
                     </div>
 
-                    <a style="text-decoration: none;" [routerLink]="['/', item.productUrl]">
+                    <a style="text-decoration: none;" [routerLink]="'/' + item.productUrl">
                         <div class="product-card__content">
                             <h3 class="brand">{{ item.brand }}</h3>
                             <p class="name">{{ item.productName }}</p>
