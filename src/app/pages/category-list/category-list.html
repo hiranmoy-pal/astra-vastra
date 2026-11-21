@@ -25,8 +25,9 @@
     </app-common-category>
     }
 
-    @if (brands && brands.length > 0) {
-    <app-common-category heading="Explore Top Brands" [data]="brands" customClass="brands-design">
+    @if (brandList && brandList.length > 0) {
+    <app-common-category heading="Explore Top Barnds" [data]="brandList" customClass="brands-design"
+        [gender]="formattedGender">
     </app-common-category>
     }
 
@@ -35,7 +36,7 @@
     </app-common-category>
     }
 
-    @if (categoryList?.length === 0 && subCategoryList?.length === 0 && brands?.length === 0) {
+    @if (categoryList?.length === 0 && subCategoryList?.length === 0 && brandList?.length === 0) {
     <div class="category-empty">
         <i class="fa fa-box-open"></i>
         <h3>No Categories Found</h3>

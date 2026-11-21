@@ -14,4 +14,20 @@ export class CommonCategory {
   @Input() heading: string = 'Shop By Category';
   @Input() data: any[] = [];
   @Input() customClass: string = '';
+  @Input() gender: string = '';
+
+  getQueryParams(item: any): Record<string, string> | null {
+    if (this.customClass !== 'brands-design') {
+      return null;
+    }
+    const params: Record<string, string> = { brands: item.name };
+    if (this.gender) {
+      if (this.gender === "Kids") {
+        params['gender'] = "Boys";
+      } else {
+        params['gender'] = this.gender;
+      }
+    }
+    return params;
+  }
 }

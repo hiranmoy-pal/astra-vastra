@@ -1,12 +1,13 @@
 /* =========================================
-   GLOBAL FIXES & DEFAULT CATEGORY
+   SECTION WRAPPER & EDITORIAL HEADER
 ========================================= */
 .category {
     width: 100%;
     max-width: 100%;
     overflow-x: hidden;
     box-sizing: border-box;
-    padding: 2rem 0 3rem;
+    padding: 2.25rem 0 3.25rem;
+    font-family: var(--font-body);
 
     .container {
         width: 100%;
@@ -18,178 +19,309 @@
 
     &__header {
         text-align: center;
-        margin-bottom: 32px;
+        margin-bottom: 34px;
 
         h2 {
-            font-size: 28px;
+            font-family: var(--font-headline);
+            font-size: clamp(20px, 2.4vw, 28px);
             font-weight: 800;
             color: var(--text-primary);
             text-transform: uppercase;
-            letter-spacing: 3px;
+            letter-spacing: 2.5px;
             position: relative;
             display: inline-block;
+            margin: 0;
+            padding-bottom: 12px;
 
             &::after {
                 content: '';
                 position: absolute;
-                bottom: -8px;
+                bottom: 0;
                 left: 50%;
                 transform: translateX(-50%);
-                width: 40px;
-                height: 3px;
+                width: 48px;
+                height: 3.5px;
                 background: var(--primary);
-                border-radius: 2px;
+                border-radius: 999px;
+                box-shadow: 0 2px 10px var(--primary-soft);
             }
         }
     }
 
     &__grid {
         display: grid;
-        grid-template-columns: repeat(6, 1fr);
-        gap: 24px;
+        grid-template-columns: repeat(6, minmax(0, 1fr));
+        gap: 20px;
         width: 100%;
         box-sizing: border-box;
     }
 }
 
-/* ── Base Card Styles (Main Category) ── */
+/* =========================================
+   1. DEFAULT CATEGORY (Gen-Z Bento Drop Cards)
+========================================= */
 .category-card {
     display: flex;
     flex-direction: column;
     text-decoration: none;
     position: relative;
-    background: transparent;
-    border: none;
-    outline: none;
     min-width: 0;
-
-    /* 🔥 FIX: The entire card lifts smoothly now, no gaps at the bottom! */
-    transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+    padding: 8px;
+    border-radius: 20px;
+    background: var(--surface);
+    border: 1.5px solid var(--border);
+    box-shadow: var(--shadow-soft);
+    transition: transform 0.38s cubic-bezier(0.34, 1.56, 0.64, 1),
+        box-shadow 0.35s ease,
+        border-color 0.3s ease;
 
     &:hover {
-        transform: translateY(-6px);
+        transform: translateY(-7px);
+        border-color: var(--primary-solid, #BA284C);
+        box-shadow: var(--shadow-medium);
 
         .category-card__image {
-            box-shadow: var(--shadow-medium);
-            border-color: var(--outline);
-
             img {
                 transform: scale(1.08);
             }
+
+            &::after {
+                transform: translateX(180%) skewX(-22deg);
+            }
         }
 
-        h3 {
-            background: var(--primary);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+        .category-card__content {
+            h3 {
+                background: var(--primary);
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+            }
+
+            &::after {
+                background: var(--primary);
+                color: var(--text-tertiary);
+                border-color: transparent;
+                transform: translate(2px, -2px) scale(1.06);
+                box-shadow: 0 4px 12px var(--hover-medium);
+            }
         }
     }
 
-    /* Square Image Container */
+    &:active {
+        transform: translateY(-2px) scale(0.97);
+    }
+
+    /* Square Image Container with Glossy Sheen */
     &__image {
         width: 100%;
         aspect-ratio: 1 / 1;
-        border-radius: 16px;
+        border-radius: 14px;
         overflow: hidden;
         position: relative;
-        background: var(--surface);
-        border: 1px solid var(--border);
-        box-shadow: var(--shadow-soft);
-        transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+        background: var(--surface-elevated);
 
         img {
             width: 100%;
             height: 100%;
             object-fit: cover;
+            object-position: center top;
             display: block;
-            transition: transform 0.6s cubic-bezier(0.25, 0.8, 0.25, 1);
+            transition: transform 0.65s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        /* Subtle light-sheen sweep on hover */
+        &::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -90%;
+            width: 55%;
+            height: 100%;
+            background: linear-gradient(90deg,
+                    transparent 0%,
+                    rgba(255, 255, 255, 0.28) 50%,
+                    transparent 100%);
+            transform: skewX(-22deg);
+            transition: transform 0.75s cubic-bezier(0.16, 1, 0.3, 1);
+            pointer-events: none;
         }
     }
 
     &__content {
-        padding: 16px 4px 0;
-        text-align: left;
+        padding: 12px 4px 4px;
         display: flex;
-        flex-direction: column;
+        align-items: center;
+        justify-content: space-between;
+        gap: 8px;
 
         h3 {
-            font-size: 16px;
+            font-family: var(--font-headline);
+            font-size: 14.5px;
             font-weight: 700;
             color: var(--text-primary);
-            margin: 0 0 4px;
-            white-space: normal;
-            word-wrap: break-word;
-            overflow-wrap: break-word;
-            transition: all 0.3s ease;
+            margin: 0;
+            line-height: 1.3;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            transition: color 0.3s ease;
         }
 
-        .offer {
+        /* Tactile Micro-Arrow Badge */
+        &::after {
+            content: '↗';
+            flex-shrink: 0;
+            width: 26px;
+            height: 26px;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
             font-size: 13px;
-            font-weight: 600;
-            color: var(--danger);
-            margin: 0;
+            font-weight: 700;
+            background: var(--primary-soft);
+            color: var(--primary-solid, #BA284C);
+            border: 1px solid var(--border);
+            transition: all 0.32s cubic-bezier(0.34, 1.56, 0.64, 1);
         }
     }
 }
 
-
 /* =========================================
    2. BRANDS DESIGN (.brands-design)
+   Neon Story-Ring Halo + Pill Badge
 ========================================= */
 .brands-design {
     background: var(--hero-gradient);
-    padding: 3rem 0;
+    padding: 3rem 0 3.5rem;
     border-top: 1px solid var(--border);
     border-bottom: 1px solid var(--border);
 
+    .category__grid {
+        gap: 24px 18px;
+    }
+
     .category-card {
+        background: transparent;
+        border: none;
+        box-shadow: none;
+        padding: 4px;
+        border-radius: 0;
+        align-items: center;
+
         &__image {
-            width: 80%;
+            width: 84%;
+            aspect-ratio: 1 / 1;
             margin: 0 auto;
             border-radius: 50%;
-            padding: 4px;
-            border: 2px solid var(--border);
-            box-shadow: 0 4px 12px var(--primary-soft);
+            padding: 3.5px;
+            background: var(--border);
+            box-shadow: var(--shadow-soft);
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.38s cubic-bezier(0.34, 1.56, 0.64, 1),
+                box-shadow 0.35s ease;
+
+            /* Animated Gradient Ring Layer */
+            &::before {
+                content: '';
+                position: absolute;
+                inset: -6px;
+                background: var(--primary);
+                opacity: 0.4;
+                transition: opacity 0.35s ease;
+                z-index: 0;
+            }
+
+            /* Disable square sheen on circles */
+            &::after {
+                display: none;
+            }
 
             img {
+                position: relative;
+                z-index: 1;
+                width: 100%;
+                height: 100%;
                 border-radius: 50%;
+                border: 3px solid var(--surface);
+                box-sizing: border-box;
+                object-fit: cover;
+                background: var(--surface);
+                transition: transform 0.5s ease;
+            }
+        }
+
+        &__content {
+            padding: 14px 0 0;
+            justify-content: center;
+            width: 100%;
+
+            &::after {
+                display: none;
+            }
+
+            h3 {
+                font-size: 13px;
+                font-weight: 700;
+                letter-spacing: 0.3px;
+                color: var(--text-primary);
+                background: var(--surface);
+                border: 1px solid var(--border);
+                padding: 5px 14px;
+                border-radius: 999px;
+                max-width: 100%;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                display: inline-block;
+                box-shadow: var(--shadow-soft);
+                transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
             }
         }
 
         &:hover {
-            /* Reset transform for brands since it grows instead of lifting */
-            transform: translateY(0);
-        }
-
-        &:hover .category-card__image {
+            transform: none;
+            box-shadow: none;
             border-color: transparent;
-            background: var(--primary);
-            padding: 4px;
-            box-shadow: 0 8px 24px var(--hover-medium);
-            transform: translateY(-4px);
+
+            .category-card__image {
+                transform: translateY(-6px) scale(1.05);
+                box-shadow: 0 12px 28px var(--hover-medium);
+
+                &::before {
+                    opacity: 1;
+                    animation: spinHalo 2.8s linear infinite;
+                }
+
+                img {
+                    transform: scale(1);
+                }
+            }
+
+            .category-card__content h3 {
+                background: var(--primary);
+                color: var(--text-tertiary);
+                -webkit-background-clip: border-box;
+                -webkit-text-fill-color: var(--text-tertiary);
+                border-color: transparent;
+                transform: translateY(-2px);
+                box-shadow: 0 6px 18px var(--hover-medium);
+            }
         }
 
-        &__content {
-            padding-top: 16px;
-            text-align: center;
-
-            h3 {
-                font-size: 15px;
-                font-weight: 700;
-                color: var(--text-primary);
-                margin: 0;
-            }
-
-            .offer {
-                display: none;
-            }
+        &:active {
+            transform: scale(0.95);
         }
     }
 }
 
-
 /* =========================================
-   3. SUB-CATEGORY DESIGN (Premium Luxe)
+   3. SUB-CATEGORY DESIGN (.sub-cat-design)
+   Editorial Poster + Floating Frosted Glass Pill
 ========================================= */
 .sub-cat-design {
     .category__grid {
@@ -197,89 +329,149 @@
     }
 
     .category-card {
-        border-radius: 0;
-        border: 4px solid var(--text-primary);
-        position: relative;
+        padding: 0;
+        border-radius: 22px;
+        border: 1.5px solid var(--border);
         background: var(--surface-elevated);
         overflow: hidden;
         box-shadow: var(--shadow-soft);
 
-        &:hover {
-            box-shadow: var(--shadow-medium);
-
-            h3 {
-                background: none;
-                color: var(--primary);
-            }
+        /* Subtle inner rim glow on hover */
+        &::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: 20px;
+            border: 2px solid var(--primary-solid, #BA284C);
+            opacity: 0;
+            z-index: 4;
+            pointer-events: none;
+            transition: opacity 0.35s ease;
         }
 
         &__image {
             width: 100%;
             aspect-ratio: 3 / 4;
             border-radius: 0;
-            border: none;
-            box-shadow: none;
-            position: relative;
-            background: transparent;
-            overflow: hidden;
+            background: var(--surface-elevated);
 
             img {
-                border-radius: 0;
                 width: 100%;
                 height: 100%;
                 object-fit: cover;
-                transition: transform 0.8s cubic-bezier(0.25, 0.8, 0.25, 1);
+                object-position: center top;
+                transition: transform 0.75s cubic-bezier(0.16, 1, 0.3, 1),
+                    filter 0.45s ease;
             }
 
+            /* Editorial bottom vignette */
             &::after {
                 content: '';
                 position: absolute;
                 inset: 0;
-                background: linear-gradient(to top, var(--overlay-bg) 0%, rgba(0, 0, 0, 0.1) 50%, transparent 70%);
+                left: 0;
+                width: 100%;
+                transform: none;
+                background: linear-gradient(to top,
+                        rgba(13, 9, 12, 0.78) 0%,
+                        rgba(13, 9, 12, 0.18) 42%,
+                        transparent 72%);
+                transition: opacity 0.35s ease;
                 pointer-events: none;
             }
         }
 
+        /* Floating Frosted Glass Pill */
         &__content {
             position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            z-index: 2;
-            padding: 24px 16px;
+            bottom: 12px;
+            left: 12px;
+            right: 12px;
+            z-index: 3;
+            padding: 10px 14px;
+            border-radius: 14px;
+            background: rgba(18, 13, 17, 0.56);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            justify-content: center;
             text-align: center;
+            transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1),
+                background 0.3s ease,
+                border-color 0.3s ease;
+
+            &::after {
+                display: none;
+            }
 
             h3 {
                 color: #FFFFFF;
-                font-size: 19px;
-                font-weight: 600;
-                margin: 0 0 6px;
-                letter-spacing: 0.5px;
-                background: none;
                 -webkit-text-fill-color: #FFFFFF;
-                text-shadow: 0 4px 12px rgba(0, 0, 0, 0.8);
+                background: none;
+                font-size: 15px;
+                font-weight: 700;
+                letter-spacing: 0.4px;
+                margin: 0;
+                text-shadow: 0 2px 8px rgba(0, 0, 0, 0.45);
+                -webkit-line-clamp: 1;
+            }
+        }
+
+        &:hover {
+            transform: translateY(-7px);
+            border-color: transparent;
+            box-shadow: var(--shadow-medium);
+
+            &::before {
+                opacity: 1;
             }
 
-            .offer {
-                display: block;
-                color: rgba(255, 255, 255, 0.9);
-                font-size: 12px;
-                font-weight: 600;
-                text-transform: uppercase;
-                letter-spacing: 2px;
-                margin: 0;
+            .category-card__image {
+                img {
+                    transform: scale(1.09);
+                    filter: saturate(1.08);
+                }
+
+                &::after {
+                    transform: none;
+                }
+            }
+
+            .category-card__content {
+                transform: translateY(-3px);
+                background: var(--primary);
+                border-color: rgba(255, 255, 255, 0.35);
+
+                h3 {
+                    background: none;
+                    -webkit-text-fill-color: #FFFFFF;
+                    color: #FFFFFF;
+                }
             }
         }
     }
 }
 
+/* =========================================
+   KEYFRAMES
+========================================= */
+@keyframes spinHalo {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
 
 /* =========================================
-   RESPONSIVE GRID RULES
+   RESPONSIVE: IPAD & MOBILE
 ========================================= */
 @media (max-width: 1200px) {
     .category__grid {
-        grid-template-columns: repeat(4, 1fr);
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 18px;
     }
 }
 
@@ -288,52 +480,130 @@
         padding: 1.5rem 0 2.5rem;
 
         .container {
-            padding: 0 20px;
+            padding: 0 18px;
+        }
+
+        &__header {
+            margin-bottom: 24px;
+        }
+
+        &__grid {
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 14px;
         }
     }
 
-    .category__grid {
-        grid-template-columns: repeat(3, minmax(0, 1fr));
-        gap: 16px;
+    .category-card {
+        padding: 6px;
+        border-radius: 16px;
+
+        &:hover {
+            transform: none;
+        }
+
+        &__image {
+            border-radius: 12px;
+        }
+
+        &__content {
+            padding: 10px 2px 2px;
+
+            h3 {
+                font-size: 13.5px;
+            }
+
+            &::after {
+                width: 22px;
+                height: 22px;
+                font-size: 11px;
+            }
+        }
     }
 
-    .category-card__content h3 {
-        font-size: 14px;
+    .brands-design {
+        padding: 2.25rem 0 2.5rem;
+
+        .category-card__content h3 {
+            font-size: 12px;
+            padding: 4px 10px;
+        }
     }
 
-    .category__header h2 {
-        font-size: 20px;
+    .sub-cat-design .category-card {
+        border-radius: 18px;
+
+        &__content {
+            bottom: 8px;
+            left: 8px;
+            right: 8px;
+            padding: 8px 10px;
+            border-radius: 12px;
+
+            h3 {
+                font-size: 13.5px;
+            }
+        }
     }
 }
 
 @media (max-width: 480px) {
     .category {
-        padding: 1.5rem 0 2rem;
+        padding: 1.25rem 0 2rem;
 
         .container {
-            padding: 0 16px;
+            padding: 0 14px;
+        }
+
+        &__grid {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 12px;
         }
     }
 
-    .category__grid {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-        gap: 16px;
+    .brands-design {
+        .category__grid {
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 14px 10px;
+        }
+
+        .category-card__image {
+            width: 90%;
+            padding: 3px;
+
+            img {
+                border-width: 2.5px;
+            }
+        }
+
+        .category-card__content {
+            padding-top: 10px;
+
+            h3 {
+                font-size: 11px;
+                padding: 4px 8px;
+            }
+        }
     }
 
-    .brands-design .category__grid {
-        grid-template-columns: repeat(3, minmax(0, 1fr));
-        gap: 12px;
-    }
+    .sub-cat-design {
+        .category__grid {
+            gap: 12px;
+        }
 
-    .brands-design .category-card__image {
-        width: 90%;
-    }
+        .category-card {
+            border-radius: 16px;
 
-    .sub-cat-design .category-card__content {
-        padding: 16px 8px;
+            &__content {
+                bottom: 8px;
+                left: 8px;
+                right: 8px;
+                padding: 7px 8px;
+                border-radius: 10px;
 
-        h3 {
-            font-size: 16px;
+                h3 {
+                    font-size: 13px;
+                }
+            }
         }
     }
 }

@@ -25,8 +25,11 @@ import { CommonCategory } from '../../layout/common-category/common-category';
 export class Home implements OnInit, AfterViewInit {
 
   @ViewChild('swiperRefBanner') swiperRefBanner!: ElementRef;
-  @ViewChild('swiperRefBrand') swiperRefBrand!: ElementRef;
   hoverTimers = new WeakMap<any, any>();
+  currentYear: number = new Date().getFullYear();
+  private readonly heroWord = 'Fluidity.';
+  typedWord = signal<string>(this.heroWord);
+  private typingTimer: any;
 
 
   banners = [
@@ -38,14 +41,14 @@ export class Home implements OnInit, AfterViewInit {
   ];
 
   brands: any = [
-    { "id": 1100, "name": "Puma", "image": 'https://m.media-amazon.com/images/G/31/IMG25/Fashion/BAU/Flip/MF/PC/Brands/Clothing/Puma_390x537._CB798874077_.png', "path": "puma" },
-    { "id": 1100, "name": "Raymond", "image": 'https://m.media-amazon.com/images/G/31/IMG25/Fashion/BAU/Flip/MF/PC/Brands/Clothing/Raymond_390x537._CB798874077_.png', "path": "nike" },
-    { "id": 1100, "name": "Addidas", "image": 'https://m.media-amazon.com/images/G/31/IMG25/Fashion/BAU/Flip/MF/PC/Brands/Clothing/New_Adidas._CB797111257_.png', "path": "addidas" },
-    { "id": 1100, "name": "Us Polo", "image": 'https://m.media-amazon.com/images/G/31/IMG25/Fashion/BAU/Flip/MF/PC/Brands/Clothing/USPA_390x537._CB798874077_.png', "path": "us-polo" },
-    { "id": 1100, "name": "Woodland", "image": 'https://m.media-amazon.com/images/G/31/IMG25/Fashion/BAU/Flip/MF/Brands/Footwear_Woodland_412x621._CB798826132_.png', "path": "lee-cooper" },
-    { "id": 1100, "name": "Fastrack", "image": 'https://m.media-amazon.com/images/G/31/IMG25/Fashion/Winterflip/WF/Watch/Watches___Fastrack_412x621._CB797026381_.png', "path": "fastrack" },
-    { "id": 1100, "name": "Highlander", "image": 'https://m.media-amazon.com/images/G/31/IMG25/Fashion/BAU/Flip/Serve/Highlander_382x599._CB798872528_.png', "path": "roadster" },
-    { "id": 1100, "name": "Levis", "image": 'https://m.media-amazon.com/images/G/31/IMG25/Fashion/BAU/Flip/MF/PC/Brands/Clothing/Levis_390x537._CB798874077_.png', "path": "french-connection" },
+    { "id": 1100, "name": "Puma", "image": 'https://m.media-amazon.com/images/G/31/IMG25/Fashion/BAU/Flip/MF/PC/Brands/Clothing/Puma_390x537._CB798874077_.png', "path": "clothing" },
+    { "id": 1100, "name": "Raymond", "image": 'https://m.media-amazon.com/images/G/31/IMG25/Fashion/BAU/Flip/MF/PC/Brands/Clothing/Raymond_390x537._CB798874077_.png', "path": "clothing" },
+    { "id": 1100, "name": "Adidas", "image": 'https://m.media-amazon.com/images/G/31/IMG25/Fashion/BAU/Flip/MF/PC/Brands/Clothing/New_Adidas._CB797111257_.png', "path": "clothing" },
+    { "id": 1100, "name": "Us Polo", "image": 'https://m.media-amazon.com/images/G/31/IMG25/Fashion/BAU/Flip/MF/PC/Brands/Clothing/USPA_390x537._CB798874077_.png', "path": "clothing" },
+    { "id": 1100, "name": "Woodland", "image": 'https://m.media-amazon.com/images/G/31/IMG25/Fashion/BAU/Flip/MF/Brands/Footwear_Woodland_412x621._CB798826132_.png', "path": "clothing" },
+    { "id": 1100, "name": "Fastrack", "image": 'https://m.media-amazon.com/images/G/31/IMG25/Fashion/Winterflip/WF/Watch/Watches___Fastrack_412x621._CB797026381_.png', "path": "clothing" },
+    { "id": 1100, "name": "Highlander", "image": 'https://m.media-amazon.com/images/G/31/IMG25/Fashion/BAU/Flip/Serve/Highlander_382x599._CB798872528_.png', "path": "clothing" },
+    { "id": 1100, "name": "Levis", "image": 'https://m.media-amazon.com/images/G/31/IMG25/Fashion/BAU/Flip/MF/PC/Brands/Clothing/Levis_390x537._CB798874077_.png', "path": "clothing" },
   ];
 
   categories: any = [
@@ -216,71 +219,45 @@ export class Home implements OnInit, AfterViewInit {
     }
   ];
 
-  brandSwiperConfig = signal({
-    spaceBetween: 40,
-    loop: true,
-    autoplay: {
-      delay: 2000,
-      disableOnInteraction: false
-    },
-    navigation: {
-      nextEl: '.swiper-button-next',
-      prevEl: '.swiper-button-prev'
-    },
-    breakpoints: {
-      0: {
-        slidesPerView: 2
-      },
-      576: {
-        slidesPerView: 2
-      },
-      768: {
-        slidesPerView: 2
-      },
-      1024: {
-        slidesPerView: 4
-      },
-      1200: {
-        slidesPerView: 6
-      },
-      1280: {
-        slidesPerView: 6
-      }
-    }
-  });
-
   bannerSwiperConfig = signal({
-    spaceBetween: 10,
+    cssMode: true,
+    spaceBetween: 16,
     loop: true,
+    speed: 650,
+    grabCursor: true,
     autoplay: {
-      delay: 3000,
-      disableOnInteraction: false
+      delay: 3500,
+      disableOnInteraction: false,
+      pauseOnMouseEnter: true
     },
     pagination: {
+      el: '.banner-pagination',
       clickable: true
     },
     navigation: {
-      nextEl: '.swiper-button-next',
-      prevEl: '.swiper-button-prev'
+      nextEl: '.banner-next',
+      prevEl: '.banner-prev'
     },
     breakpoints: {
       0: {
-        slidesPerView: 1
+        slidesPerView: 1.06,
+        spaceBetween: 12
       },
       576: {
-        slidesPerView: 1.2
+        slidesPerView: 1.25,
+        spaceBetween: 14
       },
       768: {
-        slidesPerView: 1.2
+        slidesPerView: 1.5,
+        spaceBetween: 16
       },
       1024: {
-        slidesPerView: 2.2
-      },
-      1200: {
-        slidesPerView: 2.2
+        slidesPerView: 2.15,
+        spaceBetween: 20
       },
       1280: {
-        slidesPerView: 2.2
+        slidesPerView: 2.25,
+        spaceBetween: 22
       }
     }
   });
@@ -294,17 +271,63 @@ export class Home implements OnInit, AfterViewInit {
   ) { }
 
   ngOnInit() {
-
-  }
-  ngAfterViewInit() {
     if (isPlatformBrowser(this.platformId)) {
+      this.startTypewriter();
+    }
+  }
+
+  ngAfterViewInit() {
+    if (isPlatformBrowser(this.platformId) && this.swiperRefBanner?.nativeElement) {
       setTimeout(() => {
         Object.assign(this.swiperRefBanner.nativeElement, this.bannerSwiperConfig());
         this.swiperRefBanner.nativeElement.initialize();
+      }, 200);
+    }
+  }
 
-        Object.assign(this.swiperRefBrand.nativeElement, this.brandSwiperConfig());
-        this.swiperRefBrand.nativeElement.initialize();
-      }, 400);
+  ngOnDestroy() {
+    if (this.typingTimer) {
+      clearTimeout(this.typingTimer);
+    }
+  }
+
+  private startTypewriter() {
+    let charIndex = this.heroWord.length;
+    let isDeleting = true;
+
+    const tick = () => {
+      if (isDeleting) {
+        charIndex--;
+        this.typedWord.set(this.heroWord.slice(0, charIndex));
+
+        if (charIndex === 0) {
+          isDeleting = false;
+          this.typingTimer = setTimeout(tick, 450); // Brief pause when invisible
+          return;
+        }
+        this.typingTimer = setTimeout(tick, 75);
+      } else {
+        charIndex++;
+        this.typedWord.set(this.heroWord.slice(0, charIndex));
+
+        if (charIndex === this.heroWord.length) {
+          isDeleting = true;
+          this.typingTimer = setTimeout(tick, 2200); // Hold full word before erasing
+          return;
+        }
+        this.typingTimer = setTimeout(tick, 115);
+      }
+    };
+
+    this.typingTimer = setTimeout(tick, 1800);
+  }
+
+  scrollToSection(sectionId: string) {
+    if (isPlatformBrowser(this.platformId)) {
+      const element = document.getElementById(sectionId);
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
     }
   }
 

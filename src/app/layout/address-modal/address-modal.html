@@ -1,6 +1,6 @@
 @if (isOpen) {
 <div class="address-modal">
-    <div class="address-modal__backdrop" (click)="closeModal()"></div>
+    <div class="address-modal__backdrop"></div>
     <div class="address-modal__container">
         <h2>{{ isEditMode ? 'Edit Address' : 'Add New Address' }}</h2>
         <form [formGroup]="addressForm" class="address-form">

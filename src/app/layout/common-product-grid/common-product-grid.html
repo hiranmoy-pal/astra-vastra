@@ -23,11 +23,13 @@
                         <img class="product-card__image default" [src]="product.images[0]" [alt]="product.name"
                             loading="lazy" />
 
-                        <swiper-container class="product-card__swiper">
-                            <swiper-slide *ngFor="let img of product.images">
-                                <img [src]="img" [alt]="product.name" loading="lazy" />
+                        @if (product.images?.length > 1) {
+                        <swiper-container class="product-card__swiper" init="false">
+                            <swiper-slide *ngFor="let img of product.images; let i = index">
+                                <img [src]="img" [alt]="product.name" [attr.loading]="i < 2 ? null : 'lazy'" />
                             </swiper-slide>
                         </swiper-container>
+                        }
 
                         @if (product.rating) {
                         <span class="product-card__rating">

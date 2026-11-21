@@ -21,17 +21,6 @@ import { CommonCategory } from '../../layout/common-category/common-category';
 })
 export class CategoryList implements OnInit, AfterViewInit {
 
-  brands: any = [
-    { "id": 1100, "name": "Puma", "image": 'https://m.media-amazon.com/images/G/31/IMG25/Fashion/BAU/Flip/MF/PC/Brands/Clothing/Puma_390x537._CB798874077_.png', "path": "puma" },
-    { "id": 1100, "name": "Raymond", "image": 'https://m.media-amazon.com/images/G/31/IMG25/Fashion/BAU/Flip/MF/PC/Brands/Clothing/Raymond_390x537._CB798874077_.png', "path": "nike" },
-    { "id": 1100, "name": "Addidas", "image": 'https://m.media-amazon.com/images/G/31/IMG25/Fashion/BAU/Flip/MF/PC/Brands/Clothing/New_Adidas._CB797111257_.png', "path": "addidas" },
-    { "id": 1100, "name": "Us Polo", "image": 'https://m.media-amazon.com/images/G/31/IMG25/Fashion/BAU/Flip/MF/PC/Brands/Clothing/USPA_390x537._CB798874077_.png', "path": "us-polo" },
-    { "id": 1100, "name": "Woodland", "image": 'https://m.media-amazon.com/images/G/31/IMG25/Fashion/BAU/Flip/MF/Brands/Footwear_Woodland_412x621._CB798826132_.png', "path": "lee-cooper" },
-    { "id": 1100, "name": "Fastrack", "image": 'https://m.media-amazon.com/images/G/31/IMG25/Fashion/Winterflip/WF/Watch/Watches___Fastrack_412x621._CB797026381_.png', "path": "fastrack" },
-    { "id": 1100, "name": "Highlander", "image": 'https://m.media-amazon.com/images/G/31/IMG25/Fashion/BAU/Flip/Serve/Highlander_382x599._CB798872528_.png', "path": "roadster" },
-    { "id": 1100, "name": "Levis", "image": 'https://m.media-amazon.com/images/G/31/IMG25/Fashion/BAU/Flip/MF/PC/Brands/Clothing/Levis_390x537._CB798874077_.png', "path": "french-connection" },
-  ];
-
   categoryList: any[] = [];
   subCategoryList: any[] = [];
   brandList: any[] = [];
@@ -97,7 +86,7 @@ export class CategoryList implements OnInit, AfterViewInit {
           if (res.status && res.data) {
             this.categoryList = res.data?.categoryList || [];
             this.subCategoryList = res.data?.subCategoryList || [];
-            this.brandList = res.data?.brandList || [];
+            this.brandList = res.data?.brands || [];
           }
           this.isLoading = false;
           this.cdr.detectChanges();
@@ -111,6 +100,11 @@ export class CategoryList implements OnInit, AfterViewInit {
         });
       }
     });
+  }
+
+  get formattedGender(): string {
+    if (!this.slug) return '';
+    return this.slug.charAt(0).toUpperCase() + this.slug.slice(1).toLowerCase();
   }
 
   ngAfterViewInit() { }

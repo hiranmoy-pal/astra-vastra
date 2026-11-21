@@ -6,10 +6,10 @@
         </header>
         }
         <div class="category__grid">
-            @for (item of data; track $index){
-            <a class="category-card" [routerLink]="['/', item.path]">
+            @for (item of data; track $index) {
+            <a class="category-card" [routerLink]="['/', item.path]" [queryParams]="getQueryParams(item)">
                 <div class="category-card__image">
-                    <img [src]="item.image" alt="{{ item.name }}" />
+                    <img [src]="item.image" [alt]="item.name" />
                 </div>
                 <div class="category-card__content">
                     <h3>{{ item.name }}</h3>

@@ -1,35 +1,61 @@
 <app-header></app-header>
 
 <main class="home">
-
   <!-- HERO -->
   <section class="hero">
+    <div class="hero__orb hero__orb--1"></div>
+    <div class="hero__orb hero__orb--2"></div>
+
     <div class="container hero__content">
       <div class="hero__text">
-        <p class="hero__tag">CURATED COLLECTION 2024</p>
+        <div class="hero__badge">
+          <span class="pulse-dot"></span>
+          <span>CURATED COLLECTION {{ currentYear }}</span>
+        </div>
+
         <h1 class="hero__title">
           The Art of <br />
-          <span class="gradient-text">Fluidity.</span>
+          <span class="typewriter-wrap">
+            <span class="gradient-text">{{ typedWord() }}</span>
+            <span class="type-cursor" aria-hidden="true"></span>
+          </span>
         </h1>
+
         <p class="hero__desc">
           Experience a digital marketplace where luxury meets enterprise reliability.
-          Curated for the modern professional.
+          Curated drops built for modern aesthetics.
         </p>
+
         <div class="hero__actions">
-          <a routerLink="/category"><button class="btn primary"> Shop Collections</button></a>
-          <a routerLink="/category"><button class="btn link">
-              View Lookbook <i class="fa fa-arrow-right"></i>
-            </button></a>
+          <button type="button" class="btn primary" (click)="scrollToSection('top-categories-section')">
+            <span class="btn__label">View Top Categories</span>
+            <i class="fa fa-th-large btn__icon"></i>
+          </button>
+
+          <button type="button" class="btn ghost" (click)="scrollToSection('top-brands-section')">
+            <span class="btn__label">View Top Brands</span>
+            <i class="fa fa-arrow-down btn__icon"></i>
+          </button>
         </div>
       </div>
+
       <div class="hero__image">
-        <div class="image-card">
-          <img
-            src="https://rukminim2.flixcart.com/image/612/612/xif0q/sari/s/y/w/free-tiranga9601-smc-sareemall-unstitched-original-imah8eqbkzewzq6z.jpeg?q=70"
-            alt="Hero" />
-          <div class="image-card__info">
-            <p class="tag">New Arrival</p>
-            <p class="title">Linear Sculpture Dress</p>
+        <div class="image-card-wrap">
+          <div class="floating-pill">
+            <i class="fa fa-bolt"></i> Trending Drop
+          </div>
+          <div class="image-card">
+            <img
+              src="https://rukminim2.flixcart.com/image/612/612/xif0q/sari/s/y/w/free-tiranga9601-smc-sareemall-unstitched-original-imah8eqbkzewzq6z.jpeg?q=70"
+              alt="Hero" />
+            <div class="image-card__info">
+              <p class="tag">New Arrival • {{ currentYear }}</p>
+              <p class="title">Linear Sculpture Dress</p>
+              <button type="button" class="hero-card-btn" (click)="scrollToSection('explore-more-section')">
+                <span>View Trending Product</span>
+                <i class="fa fa-arrow-right"></i>
+              </button>
+            </div>
           </div>
         </div>
       </div>
@@ -38,33 +64,46 @@
 
   <!-- Banner Section -->
   <section class="banner">
-    <div class="container">
-      <swiper-container #swiperRefBanner class="banner__swiper" init="false">
-        <swiper-slide *ngFor="let img of banners">
-          <img [src]="img" class="banner-img" />
-        </swiper-slide>
-        <!-- <div class="swiper-pagination"></div> -->
-      </swiper-container>
-      <div class="swiper-button-prev"></div>
-      <div class="swiper-button-next"></div>
+    <div class="container banner__wrapper">
+      <div class="banner__stage">
+        <button type="button" class="banner-nav banner-prev" aria-label="Previous banner">
+          <i class="fa fa-angle-left"></i>
+        </button>
+        <swiper-container #swiperRefBanner class="banner__swiper" init="false">
+          @for (img of banners; track $index) {
+          <swiper-slide>
+            <div class="banner-slide-card">
+              <img [src]="img" class="banner-img" alt="Featured offer banner" loading="lazy" />
+            </div>
+          </swiper-slide>
+          }
+        </swiper-container>
+        <button type="button" class="banner-nav banner-next" aria-label="Next banner">
+          <i class="fa fa-angle-right"></i>
+        </button>
+      </div>
+      <div class="banner-pagination"></div>
     </div>
   </section>
 
-  <!-- BRANDS -->
-  <app-common-category heading="Explore Top Brands" [data]="brands" customClass="brands-design">
-  </app-common-category>
+  <!-- BRANDS (Untouched) -->
+  <div id="top-brands-section" class="scroll-anchor">
+    <app-common-category heading="Explore Top Brands" [data]="brands" customClass="brands-design">
+    </app-common-category>
+  </div>
 
+  <!-- TRENDING CATEGORIES (Untouched) -->
+  <div id="top-categories-section" class="scroll-anchor">
+    <app-common-category heading="Explore Top Categories" [data]="categories">
+    </app-common-category>
+  </div>
 
-  <!-- TRENDING CATEGORIES -->
-  <app-common-category heading="Explore Top Categories" [data]="categories" customClass="sub-cat-design">
-  </app-common-category>
+  <!-- PRODUCTS (Untouched) -->
+  <app-common-product-swiper title="Deals For You" [products]="products"></app-common-product-swiper>
 
-  <!-- PRODUCTS -->
-
-  <app-common-product-swiper title="Explore Similar Products" [products]="products"></app-common-product-swiper>
-
-  <app-common-product-grid title="Explore More" [products]="products"></app-common-product-grid>
-
+  <div id="explore-more-section" class="scroll-anchor">
+    <app-common-product-grid title="Trending Products" [products]="products"></app-common-product-grid>
+  </div>
 </main>
 
 <app-footer></app-footer>
