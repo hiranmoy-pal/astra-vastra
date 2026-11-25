@@ -1,8 +1,7 @@
 import { CommonModule, isPlatformBrowser } from '@angular/common';
-import { AfterViewInit, Component, CUSTOM_ELEMENTS_SCHEMA, ElementRef, Inject, OnInit, PLATFORM_ID, signal, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, CUSTOM_ELEMENTS_SCHEMA, ElementRef, inject, NgZone, OnDestroy, OnInit, PLATFORM_ID, signal, ViewChild } from '@angular/core';
 import { Header } from '../../layout/header/header';
 import { Footer } from '../../layout/footer/footer';
-import { Theme } from '../../core/services/theme/theme';
 import { Toast } from '../../core/services/toast/toast';
 import { Loading } from '../../core/services/loading/loading';
 import { RouterLink, RouterModule } from '@angular/router';
@@ -10,6 +9,9 @@ import { Http } from '../../core/services/api/http';
 import { CommonProductSwiper } from '../../layout/common-product-swiper/common-product-swiper';
 import { CommonProductGrid } from '../../layout/common-product-grid/common-product-grid';
 import { CommonCategory } from '../../layout/common-category/common-category';
+import { Subscription } from 'rxjs';
+import { Storage } from '../../core/services/storage/storage';
+import { Alert } from '../../core/services/alert/alert';
 
 @Component({
   selector: 'app-home',
@@ -21,8 +23,7 @@ import { CommonCategory } from '../../layout/common-category/common-category';
   templateUrl: './home.html',
   styleUrl: './home.scss',
 })
-
-export class Home implements OnInit, AfterViewInit {
+export class Home implements OnInit, OnDestroy {
 
   @ViewChild('swiperRefBanner') swiperRefBanner!: ElementRef;
   hoverTimers = new WeakMap<any, any>();
@@ -30,194 +31,41 @@ export class Home implements OnInit, AfterViewInit {
   private readonly heroWord = 'Fluidity.';
   typedWord = signal<string>(this.heroWord);
   private typingTimer: any;
+  private isBannerInitialized = false;
 
+  isAuthChecked: boolean = false;
+  isLoggedIn: boolean = false;
 
-  banners = [
-    'https://rukminim2.flixcart.com/fk-p-flap/3160/1540/image/d17697e94e3af1ff.jpg?q=60',
-    'https://rukminim2.flixcart.com/fk-p-flap/3160/1540/image/5017a43fc014e1f6.png?q=60',
-    'https://rukminim2.flixcart.com/fk-p-flap/3160/1540/image/c966eebea8d80fcb.png?q=60',
-    'https://rukminim2.flixcart.com/fk-p-flap/3160/1540/image/4e25a99384af1be3.png?q=60',
-    'https://rukminim2.flixcart.com/fk-p-flap/3160/1540/image/428ea77977271cc4.png?q=60'
-  ];
+  // Independent loading states for Home 1 (fast) & Home 2 (slower)
+  isHome1Loading: boolean = true;
+  isHome2Loading: boolean = true;
 
-  brands: any = [
-    { "id": 1100, "name": "Puma", "image": 'https://m.media-amazon.com/images/G/31/IMG25/Fashion/BAU/Flip/MF/PC/Brands/Clothing/Puma_390x537._CB798874077_.png', "path": "clothing" },
-    { "id": 1100, "name": "Raymond", "image": 'https://m.media-amazon.com/images/G/31/IMG25/Fashion/BAU/Flip/MF/PC/Brands/Clothing/Raymond_390x537._CB798874077_.png', "path": "clothing" },
-    { "id": 1100, "name": "Adidas", "image": 'https://m.media-amazon.com/images/G/31/IMG25/Fashion/BAU/Flip/MF/PC/Brands/Clothing/New_Adidas._CB797111257_.png', "path": "clothing" },
-    { "id": 1100, "name": "Us Polo", "image": 'https://m.media-amazon.com/images/G/31/IMG25/Fashion/BAU/Flip/MF/PC/Brands/Clothing/USPA_390x537._CB798874077_.png', "path": "clothing" },
-    { "id": 1100, "name": "Woodland", "image": 'https://m.media-amazon.com/images/G/31/IMG25/Fashion/BAU/Flip/MF/Brands/Footwear_Woodland_412x621._CB798826132_.png', "path": "clothing" },
-    { "id": 1100, "name": "Fastrack", "image": 'https://m.media-amazon.com/images/G/31/IMG25/Fashion/Winterflip/WF/Watch/Watches___Fastrack_412x621._CB797026381_.png', "path": "clothing" },
-    { "id": 1100, "name": "Highlander", "image": 'https://m.media-amazon.com/images/G/31/IMG25/Fashion/BAU/Flip/Serve/Highlander_382x599._CB798872528_.png', "path": "clothing" },
-    { "id": 1100, "name": "Levis", "image": 'https://m.media-amazon.com/images/G/31/IMG25/Fashion/BAU/Flip/MF/PC/Brands/Clothing/Levis_390x537._CB798874077_.png', "path": "clothing" },
-  ];
+  // Skeleton placeholder counts
+  readonly brandSkeletons = Array(6).fill(0);
+  readonly categorySkeletons = Array(6).fill(0);
+  readonly productSwiperSkeletons = Array(4).fill(0);
+  readonly productGridSkeletons = Array(8).fill(0);
 
-  categories: any = [
-    { "id": 3100, "name": "Boys Clothing", "image": "https://m.media-amazon.com/images/G/31/img19/Apparel/KA/GW/Sub-Nav/2._CB469401627_.jpg", "path": "boy-clothing" },
-    { "id": 3200, "name": "Girls Clothing", "image": "https://m.media-amazon.com/images/G/31/img19/Apparel/KA/GW/Sub-Nav/girls._CB469401626_.jpg", "path": "girl-clothing" },
-    { "id": 3300, "name": "Footwear", "image": "https://assets.myntassets.com/f_webp,dpr_1.5,q_60,w_210,c_limit,fl_progressive/assets/images/2026/JULY/24/nSJ3HglB_f961fb26091e413c90d31d10b07f411d.jpg", "path": "kids-footwear" },
-    { "id": 3400, "name": "Toys & Games", "image": "https://assets.myntassets.com/f_webp,dpr_2.0,q_60,w_210,c_limit,fl_progressive/assets/images/2026/JANUARY/30/PDEUZWeo_5146578cfad24decbb1ed8fe41568374.jpg", "path": "toys-and-games" },
-    { "id": 3500, "name": "Infants", "image": "https://assets.myntassets.com/f_webp,dpr_2.0,q_60,w_210,c_limit,fl_progressive/assets/images/2026/JUNE/5/SsSUB4Cr_186dedbce5384855a000bfc74e380a6b.jpg", "path": "Infants" },
-    { "id": 3600, "name": "Kids Accessories", "image": "https://assets.myntassets.com/f_webp,dpr_2.0,q_60,w_210,c_limit,fl_progressive/assets/images/2025/SEPTEMBER/20/pSPyA36f_85b5c36d55ec4201b4b3ecf0063cec8a.jpg", "path": "kids-accessories" },
-    { "id": 3403, "name": "Soft Toys", "image": "https://assets.myntassets.com/f_webp,dpr_2.0,q_60,w_210,c_limit,fl_progressive/assets/images/2025/SEPTEMBER/26/Jg13GWpQ_04dc87c53c7948438a04d65ce40c2a07.jpg", "path": "kids-soft-toys" },
-    { "id": 3501, "name": "Bodysuits", "image": "https://assets.myntassets.com/f_webp,dpr_2.0,q_60,w_210,c_limit,fl_progressive/assets/images/2026/APRIL/7/Mx1klLS6_32c935625de64ade839aa3739414aeb7.jpg", "path": "kids-bodysuits" },
-    { "id": 3502, "name": "Rompers & Sleepsuits", "image": "https://assets.myntassets.com/f_webp,dpr_2.0,q_60,w_210,c_limit,fl_progressive/assets/images/2026/AUGUST/17/aee29e18245449a4afabe79114a000b8.jpg", "path": "kids-rompers-and-sleepsuits" },
-    { "id": 3601, "name": "Bags & Backpacks", "image": "https://assets.myntassets.com/f_webp,dpr_2.0,q_60,w_210,c_limit,fl_progressive/assets/images/2026/JULY/6/15fnIJSo_0af9475072af434e8b016df6074b44de.jpg", "path": "kids-bags-and-backpacks" },
-    { "id": 3602, "name": "Watches", "image": "https://assets.myntassets.com/f_webp,dpr_2.0,q_60,w_210,c_limit,fl_progressive/assets/images/2025/AUGUST/26/RMg5Zj8S_a13cb22cac6640ebb7c208cadeb67950.jpg", "path": "kids-watches" },
-    { "id": 3603, "name": "Jewellery & Hair accessory", "image": "https://assets.myntassets.com/f_webp,dpr_2.0,q_60,w_210,c_limit,fl_progressive/assets/images/2025/DECEMBER/4/mlaqp089_6237aee069c1427899846ff4d6c4a5db.jpg", "path": "kids-jewellery-and-hair-accessory" }
-  ];
+  // Home 1 Data
+  latestProductImage: string = '';
+  private readonly fallbackHeroImage = 'https://rukminim2.flixcart.com/image/612/612/xif0q/sari/s/y/w/free-tiranga9601-smc-sareemall-unstitched-original-imah8eqbkzewzq6z.jpeg?q=70';
+  banners: any[] = [];
+  brands: any[] = [];
+  categories: any[] = [];
 
-  products = [
-    {
-      brand: 'Keepfit',
-      name: 'Round Neck Leg Suit Round Neck Leg Suit Round Neck Leg Suit',
-      price: 1398,
-      original: 3499,
-      discount: '(60% OFF)',
-      size: 'S, M, L',
-      rating: 4.7,
-      count: '31',
-      images: [
-        'https://rukminim1.flixcart.com/image/1536/1536/xif0q/shoe/5/2/q/-original-imahgcs8chzjtsmz.jpeg?q=90',
-        'https://rukminim1.flixcart.com/image/1536/1536/xif0q/shoe/k/c/6/-original-imahjhjpv7txxxsu.jpeg?q=90',
-        'https://rukminim1.flixcart.com/image/1536/1536/xif0q/shoe/h/m/l/-original-imahjhjpzftwmgbb.jpeg?q=90'
-      ]
-    },
-    {
-      brand: 'Keepfit',
-      name: 'Round Neck Leg Suit',
-      price: 1398,
-      original: 3499,
-      discount: '(60% OFF)',
-      size: 'S, M, L',
-      rating: 4.7,
-      count: '31',
-      images: [
-        'https://rukminim1.flixcart.com/image/1536/1536/xif0q/shoe/5/2/q/-original-imahgcs8chzjtsmz.jpeg?q=90',
-        'https://rukminim1.flixcart.com/image/1536/1536/xif0q/shoe/k/c/6/-original-imahjhjpv7txxxsu.jpeg?q=90',
-        'https://rukminim1.flixcart.com/image/1536/1536/xif0q/shoe/h/m/l/-original-imahjhjpzftwmgbb.jpeg?q=90'
-      ]
-    },
-    {
-      brand: 'Keepfit',
-      name: 'Round Neck Leg Suit',
-      price: 1398,
-      original: 3499,
-      discount: '(60% OFF)',
-      size: 'S, M, L',
-      rating: 4.7,
-      count: '31',
-      images: [
-        'https://rukminim1.flixcart.com/image/1536/1536/xif0q/shoe/5/2/q/-original-imahgcs8chzjtsmz.jpeg?q=90',
-        'https://rukminim1.flixcart.com/image/1536/1536/xif0q/shoe/k/c/6/-original-imahjhjpv7txxxsu.jpeg?q=90',
-        'https://rukminim1.flixcart.com/image/1536/1536/xif0q/shoe/h/m/l/-original-imahjhjpzftwmgbb.jpeg?q=90'
-      ]
-    },
-    {
-      brand: 'Keepfit',
-      name: 'Round Neck Leg Suit',
-      price: 1398,
-      original: 3499,
-      discount: '(60% OFF)',
-      size: 'S, M, L',
-      rating: 4.7,
-      count: '31',
-      images: [
-        'https://rukminim1.flixcart.com/image/1536/1536/xif0q/shoe/5/2/q/-original-imahgcs8chzjtsmz.jpeg?q=90',
-        'https://rukminim1.flixcart.com/image/1536/1536/xif0q/shoe/k/c/6/-original-imahjhjpv7txxxsu.jpeg?q=90',
-        'https://rukminim1.flixcart.com/image/1536/1536/xif0q/shoe/h/m/l/-original-imahjhjpzftwmgbb.jpeg?q=90'
-      ]
-    },
-    {
-      brand: 'Keepfit',
-      name: 'Round Neck Leg Suit',
-      price: 1398,
-      original: 3499,
-      discount: '(60% OFF)',
-      size: 'S, M, L',
-      rating: 4.7,
-      count: '31',
-      images: [
-        'https://rukminim1.flixcart.com/image/1536/1536/xif0q/shoe/5/2/q/-original-imahgcs8chzjtsmz.jpeg?q=90',
-        'https://rukminim1.flixcart.com/image/1536/1536/xif0q/shoe/k/c/6/-original-imahjhjpv7txxxsu.jpeg?q=90',
-        'https://rukminim1.flixcart.com/image/1536/1536/xif0q/shoe/h/m/l/-original-imahjhjpzftwmgbb.jpeg?q=90'
-      ]
-    },
-    {
-      brand: 'Keepfit',
-      name: 'Round Neck Leg Suit',
-      price: 1398,
-      original: 3499,
-      discount: '(60% OFF)',
-      size: 'S, M, L',
-      rating: 4.7,
-      count: '31',
-      images: [
-        'https://rukminim1.flixcart.com/image/1536/1536/xif0q/shoe/5/2/q/-original-imahgcs8chzjtsmz.jpeg?q=90',
-        'https://rukminim1.flixcart.com/image/1536/1536/xif0q/shoe/k/c/6/-original-imahjhjpv7txxxsu.jpeg?q=90',
-        'https://rukminim1.flixcart.com/image/1536/1536/xif0q/shoe/h/m/l/-original-imahjhjpzftwmgbb.jpeg?q=90'
-      ]
-    },
-    {
-      brand: 'Keepfit',
-      name: 'Round Neck Leg Suit',
-      price: 1398,
-      original: 3499,
-      discount: '(60% OFF)',
-      size: 'S, M, L',
-      rating: 4.7,
-      count: '31',
-      images: [
-        'https://rukminim1.flixcart.com/image/1536/1536/xif0q/shoe/5/2/q/-original-imahgcs8chzjtsmz.jpeg?q=90',
-        'https://rukminim1.flixcart.com/image/1536/1536/xif0q/shoe/k/c/6/-original-imahjhjpv7txxxsu.jpeg?q=90',
-        'https://rukminim1.flixcart.com/image/1536/1536/xif0q/shoe/h/m/l/-original-imahjhjpzftwmgbb.jpeg?q=90'
-      ]
-    },
-    {
-      brand: 'Keepfit',
-      name: 'Round Neck Leg Suit',
-      price: 1398,
-      original: 3499,
-      discount: '(60% OFF)',
-      size: 'S, M, L',
-      rating: 4.7,
-      count: '31',
-      images: [
-        'https://rukminim1.flixcart.com/image/1536/1536/xif0q/shoe/5/2/q/-original-imahgcs8chzjtsmz.jpeg?q=90',
-        'https://rukminim1.flixcart.com/image/1536/1536/xif0q/shoe/k/c/6/-original-imahjhjpv7txxxsu.jpeg?q=90',
-        'https://rukminim1.flixcart.com/image/1536/1536/xif0q/shoe/h/m/l/-original-imahjhjpzftwmgbb.jpeg?q=90'
-      ]
-    },
-    {
-      brand: 'Keepfit',
-      name: 'Round Neck Leg Suit',
-      price: 1398,
-      original: 3499,
-      discount: '(60% OFF)',
-      size: 'S, M, L',
-      rating: 4.7,
-      count: '31',
-      images: [
-        'https://rukminim1.flixcart.com/image/1536/1536/xif0q/shoe/5/2/q/-original-imahgcs8chzjtsmz.jpeg?q=90',
-        'https://rukminim1.flixcart.com/image/1536/1536/xif0q/shoe/k/c/6/-original-imahjhjpv7txxxsu.jpeg?q=90',
-        'https://rukminim1.flixcart.com/image/1536/1536/xif0q/shoe/h/m/l/-original-imahjhjpzftwmgbb.jpeg?q=90'
-      ]
-    },
-    {
-      brand: 'Keepfit',
-      name: 'Round Neck Leg Suit',
-      price: 1398,
-      original: 3499,
-      discount: '(60% OFF)',
-      size: 'S, M, L',
-      rating: 4.7,
-      count: '31',
-      images: [
-        'https://rukminim1.flixcart.com/image/1536/1536/xif0q/shoe/5/2/q/-original-imahgcs8chzjtsmz.jpeg?q=90',
-        'https://rukminim1.flixcart.com/image/1536/1536/xif0q/shoe/k/c/6/-original-imahjhjpv7txxxsu.jpeg?q=90',
-        'https://rukminim1.flixcart.com/image/1536/1536/xif0q/shoe/h/m/l/-original-imahjhjpzftwmgbb.jpeg?q=90'
-      ]
-    }
-  ];
+  // Home 2 Data
+  trendingProducts: any[] = [];
+  discountedProducts: any[] = [];
+
+  private authStateSub!: Subscription;
+  private http = inject(Http);
+  private toast = inject(Toast);
+  private loading = inject(Loading);
+  private platformId = inject(PLATFORM_ID);
+  private cdr = inject(ChangeDetectorRef);
+  private storage = inject(Storage);
+  private zone = inject(NgZone);
+  private alert = inject(Alert);
 
   bannerSwiperConfig = signal({
     cssMode: true,
@@ -240,52 +88,137 @@ export class Home implements OnInit, AfterViewInit {
     },
     breakpoints: {
       0: {
-        slidesPerView: 1.06,
+        slidesPerView: 1,
         spaceBetween: 12
       },
       576: {
-        slidesPerView: 1.25,
+        slidesPerView: 1,
         spaceBetween: 14
       },
       768: {
-        slidesPerView: 1.5,
+        slidesPerView: 1,
         spaceBetween: 16
       },
       1024: {
-        slidesPerView: 2.15,
+        slidesPerView: 1,
         spaceBetween: 20
       },
       1280: {
-        slidesPerView: 2.25,
+        slidesPerView: 1,
         spaceBetween: 22
       }
     }
   });
-
-  constructor(
-    private http: Http,
-    public themeService: Theme,
-    public toastService: Toast,
-    public loadingService: Loading,
-    @Inject(PLATFORM_ID) private platformId: Object,
-  ) { }
+  
+  constructor() { }
 
   ngOnInit() {
+    // 1. Always fetch Home 1 (Runs on both Server & Browser via Angular TransferCache)
+    this.getHome1Data();
+
     if (isPlatformBrowser(this.platformId)) {
       this.startTypewriter();
+      this.checkAuthAndLoadData();
+
+      this.authStateSub = this.http.authStateChange$.subscribe((loggedInStatus) => {
+        this.zone.run(() => {
+          this.isLoggedIn = loggedInStatus;
+          this.getHome2Data(this.isLoggedIn);
+          this.cdr.detectChanges();
+        });
+      });
+    } else {
+      // 2. SSR: Fetch public Home 2 immediately for instant SEO & first paint
+      this.getHome2Data(false);
     }
   }
 
-  ngAfterViewInit() {
-    if (isPlatformBrowser(this.platformId) && this.swiperRefBanner?.nativeElement) {
-      setTimeout(() => {
+  checkAuthAndLoadData() {
+    this.storage.get('accessToken').then(token => {
+      this.zone.run(() => {
+        this.isAuthChecked = true;
+        this.isLoggedIn = !!token;
+        this.getHome2Data(this.isLoggedIn);
+        this.cdr.detectChanges();
+      });
+    });
+  }
+
+  getHome1Data() {
+    if (this.banners.length === 0) {
+      this.isHome1Loading = true;
+    }
+
+    this.http.getHome1().subscribe({
+      next: (res: any) => {
+        if (res.status && res.data) {
+          this.latestProductImage = res.data.latestProductImage || this.fallbackHeroImage;
+          this.banners = res.data.banners || [];
+          this.brands = res.data.topBrands || [];
+          this.categories = res.data.topCategories || [];
+        } else {
+          this.latestProductImage = this.fallbackHeroImage;
+        }
+
+        this.isHome1Loading = false;
+        this.cdr.detectChanges();
+
+        if (isPlatformBrowser(this.platformId) && this.banners.length > 0) {
+          this.initBannerSwiper();
+        }
+      },
+      error: (err) => {
+        console.error('Failed to load Home 1 data:', err);
+        this.latestProductImage = this.fallbackHeroImage;
+        this.isHome1Loading = false;
+        this.cdr.detectChanges();
+      }
+    });
+  }
+
+  getHome2Data(isLoggedIn: boolean) {
+    // Only show skeleton if products are not already rendered (prevents SSR hydration flicker)
+    if (this.trendingProducts.length === 0 && this.discountedProducts.length === 0) {
+      this.isHome2Loading = true;
+    }
+
+    this.http.getHome2(isLoggedIn).subscribe({
+      next: (res: any) => {
+        if (res.status && res.data) {
+          const mapProduct = (p: any) => ({
+            ...p,
+            original: p.price,
+            price: p.offerPrice,
+            discount: p.discount > 0 ? `(${p.discount}% OFF)` : '',
+            size: p.availableSizes ? p.availableSizes.join(', ') : ''
+          });
+
+          this.trendingProducts = (res.data.trendingProducts || []).map(mapProduct);
+          this.discountedProducts = (res.data.discountedProducts || []).map(mapProduct);
+        }
+        this.isHome2Loading = false;
+        this.cdr.detectChanges();
+      },
+      error: (err) => {
+        console.error('Failed to load Home 2 data:', err);
+        this.isHome2Loading = false;
+        this.cdr.detectChanges();
+      }
+    });
+  }
+
+  private initBannerSwiper() {
+    setTimeout(() => {
+      if (this.swiperRefBanner?.nativeElement && !this.isBannerInitialized) {
         Object.assign(this.swiperRefBanner.nativeElement, this.bannerSwiperConfig());
         this.swiperRefBanner.nativeElement.initialize();
-      }, 200);
-    }
+        this.isBannerInitialized = true;
+      }
+    }, 100);
   }
 
   ngOnDestroy() {
+    if (this.authStateSub) this.authStateSub.unsubscribe();
     if (this.typingTimer) {
       clearTimeout(this.typingTimer);
     }
@@ -302,7 +235,7 @@ export class Home implements OnInit, AfterViewInit {
 
         if (charIndex === 0) {
           isDeleting = false;
-          this.typingTimer = setTimeout(tick, 450); // Brief pause when invisible
+          this.typingTimer = setTimeout(tick, 450);
           return;
         }
         this.typingTimer = setTimeout(tick, 75);
@@ -312,7 +245,7 @@ export class Home implements OnInit, AfterViewInit {
 
         if (charIndex === this.heroWord.length) {
           isDeleting = true;
-          this.typingTimer = setTimeout(tick, 2200); // Hold full word before erasing
+          this.typingTimer = setTimeout(tick, 2200);
           return;
         }
         this.typingTimer = setTimeout(tick, 115);
@@ -330,5 +263,4 @@ export class Home implements OnInit, AfterViewInit {
       }
     }
   }
-
 }

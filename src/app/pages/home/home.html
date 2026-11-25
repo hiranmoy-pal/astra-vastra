@@ -45,9 +45,11 @@
             <i class="fa fa-bolt"></i> Trending Drop
           </div>
           <div class="image-card">
-            <img
-              src="https://rukminim2.flixcart.com/image/612/612/xif0q/sari/s/y/w/free-tiranga9601-smc-sareemall-unstitched-original-imah8eqbkzewzq6z.jpeg?q=70"
-              alt="Hero" />
+            @if (isHome1Loading && !latestProductImage) {
+            <div class="skeleton-box hero-img-skeleton"></div>
+            } @else {
+            <img [src]="latestProductImage" alt="Hero" />
+            }
             <div class="image-card__info">
               <p class="tag">New Arrival • {{ currentYear }}</p>
               <p class="title">Linear Sculpture Dress</p>
@@ -62,19 +64,22 @@
     </div>
   </section>
 
-  <!-- Banner Section -->
+  <!-- BANNER SECTION (1 at a time, full image) -->
   <section class="banner">
     <div class="container banner__wrapper">
+      @if (isHome1Loading) {
+      <div class="skeleton-box skeleton-banner"></div>
+      } @else if (banners.length > 0) {
       <div class="banner__stage">
         <button type="button" class="banner-nav banner-prev" aria-label="Previous banner">
           <i class="fa fa-angle-left"></i>
         </button>
         <swiper-container #swiperRefBanner class="banner__swiper" init="false">
-          @for (img of banners; track $index) {
+          @for (banner of banners; track $index) {
           <swiper-slide>
-            <div class="banner-slide-card">
-              <img [src]="img" class="banner-img" alt="Featured offer banner" loading="lazy" />
-            </div>
+            <a [routerLink]="banner.path" class="banner-slide-card">
+              <img [src]="banner.bannerImage" class="banner-img" alt="Featured offer banner" loading="lazy" />
+            </a>
           </swiper-slide>
           }
         </swiper-container>
@@ -83,26 +88,93 @@
         </button>
       </div>
       <div class="banner-pagination"></div>
+      }
     </div>
   </section>
 
-  <!-- BRANDS (Untouched) -->
+  <!-- BRANDS -->
   <div id="top-brands-section" class="scroll-anchor">
+    @if (isHome1Loading) {
+    <section class="home-skeleton-section">
+      <div class="skeleton-box skeleton-heading"></div>
+      <div class="skeleton-grid skeleton-grid--brands">
+        @for (item of brandSkeletons; track $index) {
+        <div class="skeleton-brand-card">
+          <div class="skeleton-box skeleton-circle"></div>
+          <div class="skeleton-box skeleton-line-sm"></div>
+        </div>
+        }
+      </div>
+    </section>
+    } @else if (brands.length > 0) {
     <app-common-category heading="Explore Top Brands" [data]="brands" customClass="brands-design">
     </app-common-category>
+    }
   </div>
 
-  <!-- TRENDING CATEGORIES (Untouched) -->
+  <!-- TRENDING CATEGORIES -->
   <div id="top-categories-section" class="scroll-anchor">
+    @if (isHome1Loading) {
+    <section class="home-skeleton-section">
+      <div class="skeleton-box skeleton-heading"></div>
+      <div class="skeleton-grid skeleton-grid--categories">
+        @for (item of categorySkeletons; track $index) {
+        <div class="skeleton-cat-card">
+          <div class="skeleton-box skeleton-square"></div>
+          <div class="skeleton-box skeleton-line-md"></div>
+          <div class="skeleton-box skeleton-line-xs"></div>
+        </div>
+        }
+      </div>
+    </section>
+    } @else if (categories.length > 0) {
     <app-common-category heading="Explore Top Categories" [data]="categories">
     </app-common-category>
+    }
   </div>
 
-  <!-- PRODUCTS (Untouched) -->
-  <app-common-product-swiper title="Deals For You" [products]="products"></app-common-product-swiper>
+  <!-- DEALS FOR YOU (HOME 2) -->
+  @if (isHome2Loading) {
+  <section class="home-skeleton-section">
+    <div class="skeleton-box skeleton-heading"></div>
+    <div class="skeleton-grid skeleton-grid--products">
+      @for (item of productSwiperSkeletons; track $index) {
+      <div class="skeleton-product-card">
+        <div class="skeleton-box skeleton-product-img"></div>
+        <div class="skeleton-product-body">
+          <div class="skeleton-box skeleton-line-xs"></div>
+          <div class="skeleton-box skeleton-line-lg"></div>
+          <div class="skeleton-box skeleton-line-sm"></div>
+        </div>
+      </div>
+      }
+    </div>
+  </section>
+  } @else if (discountedProducts.length > 0) {
+  <app-common-product-swiper title="Deals For You" [products]="discountedProducts"></app-common-product-swiper>
+  }
 
+  <!-- TRENDING PRODUCTS (HOME 2) -->
   <div id="explore-more-section" class="scroll-anchor">
-    <app-common-product-grid title="Trending Products" [products]="products"></app-common-product-grid>
+    @if (isHome2Loading) {
+    <section class="home-skeleton-section">
+      <div class="skeleton-box skeleton-heading"></div>
+      <div class="skeleton-grid skeleton-grid--products">
+        @for (item of productGridSkeletons; track $index) {
+        <div class="skeleton-product-card">
+          <div class="skeleton-box skeleton-product-img"></div>
+          <div class="skeleton-product-body">
+            <div class="skeleton-box skeleton-line-xs"></div>
+            <div class="skeleton-box skeleton-line-lg"></div>
+            <div class="skeleton-box skeleton-line-sm"></div>
+          </div>
+        </div>
+        }
+      </div>
+    </section>
+    } @else if (trendingProducts.length > 0) {
+    <app-common-product-grid title="Trending Products" [products]="trendingProducts"></app-common-product-grid>
+    }
   </div>
 </main>
 

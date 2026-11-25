@@ -2,8 +2,8 @@
 <main class="product-list-page">
     <app-common-product-list-layout [title]="categoryTitle" [breadcrumbs]="breadcrumbs" [totalCount]="totalCount"
         [categories]="categories" [brands]="brands" [colors]="colors" [sizes]="sizes" [products]="products"
-        [ratings]="ratings" [discounts]="discounts" [genders]="genders" [isFetchingMore]="isFetchingMore"
-        [hasMoreData]="hasMoreData" [(minPrice)]="minPrice" [(maxPrice)]="maxPrice"
+        [ratings]="ratings" [discounts]="discounts" [genders]="genders" [isLoading]="isLoading"
+        [isFetchingMore]="isFetchingMore" [hasMoreData]="hasMoreData" [(minPrice)]="minPrice" [(maxPrice)]="maxPrice"
         [(selectedDiscount)]="selectedDiscount" [activeFilters]="activeFilters" (filterChange)="fetchFilteredProducts()"
         (sortChange)="onSortChanged($event)" (scrolledToBottom)="onScroll()" (removeFilter)="onRemoveFilter($event)"
         (clearFilters)="clearAllFilters()">

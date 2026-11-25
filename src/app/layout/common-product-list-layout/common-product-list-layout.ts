@@ -47,6 +47,23 @@ export class CommonProductListLayout implements OnChanges {
   @Output() filterChange = new EventEmitter<void>();
   @Output() sortChange = new EventEmitter<string>();
 
+  // Add inside CommonProductListLayout class:
+  @Input() isLoading: boolean = false;
+
+  readonly productSkeletons = Array(8).fill(0);
+  readonly sidebarSkeletonGroups = Array(4).fill(0);
+  readonly sidebarSkeletonRows = Array(5).fill(0);
+
+  get isInitialLoading(): boolean {
+    return (
+      this.isLoading &&
+      this.products.length === 0 &&
+      this.categories.length === 0 &&
+      this.brands.length === 0 &&
+      this.colors.length === 0
+    );
+  }
+
   @ViewChild('gridScrollContainer')
   gridScrollContainer!: ElementRef<HTMLElement>;
 

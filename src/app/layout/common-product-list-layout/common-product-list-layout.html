@@ -1,177 +1,215 @@
 <section class="collection-header">
     <div class="collection-header__content">
-        <div class="header-left">
-            <nav class="breadcrumb">
-                <ng-container *ngFor="let crumb of breadcrumbs; let last = last">
-                    <a [routerLink]="crumb.slug === '/' ? ['/'] : ['/', crumb.slug]" [queryParams]="{}"
-                        [class.active]="last">
-                        {{ crumb.name }}
-                    </a>
-                    <span *ngIf="!last">/</span>
-                </ng-container>
-            </nav>
-        </div>
-        <h1 class="collection-title-center">{{ title }}</h1>
-        <div class="collection-meta">
-            <span class="product-count">{{ totalCount }} Products</span>
-
-            <div class="sort-dropdown" (mouseleave)="isSortOpen = false">
-                <button class="sort-btn" (click)="toggleSort()" [class.active]="isSortOpen">
-                    Sort by : <strong>{{ selectedSortTitle }}</strong>
-                    <i class="fa fa-angle-down" [class.rotated]="isSortOpen"></i>
-                </button>
-
-                <ul class="sort-menu" *ngIf="isSortOpen">
-                    <li *ngFor="let option of sortOptions" [class.selected]="option.title === selectedSortTitle"
-                        (click)="selectSortOption(option)">
-                        {{ option.title }}
-                    </li>
-                </ul>
+        <ng-container *ngIf="isInitialLoading; else loadedHeader">
+            <div class="header-left">
+                <div class="pl-skel pl-skel--crumb"></div>
             </div>
-        </div>
+            <div class="collection-title-center pl-skel pl-skel--title"></div>
+            <div class="collection-meta">
+                <div class="pl-skel pl-skel--count"></div>
+                <div class="pl-skel pl-skel--sort"></div>
+            </div>
+        </ng-container>
+
+        <ng-template #loadedHeader>
+            <div class="header-left">
+                <nav class="breadcrumb">
+                    <ng-container *ngFor="let crumb of breadcrumbs; let last = last">
+                        <a [routerLink]="crumb.slug === '/' ? ['/'] : ['/', crumb.slug]" [queryParams]="{}"
+                            [class.active]="last">
+                            {{ crumb.name }}
+                        </a>
+                        <span *ngIf="!last">/</span>
+                    </ng-container>
+                </nav>
+            </div>
+            <h1 class="collection-title-center">{{ title }}</h1>
+            <div class="collection-meta">
+                <span class="product-count">{{ totalCount }} Products</span>
+
+                <div class="sort-dropdown" (mouseleave)="isSortOpen = false">
+                    <button class="sort-btn" (click)="toggleSort()" [class.active]="isSortOpen">
+                        Sort by : <strong>{{ selectedSortTitle }}</strong>
+                        <i class="fa fa-angle-down" [class.rotated]="isSortOpen"></i>
+                    </button>
+
+                    <ul class="sort-menu" *ngIf="isSortOpen">
+                        <li *ngFor="let option of sortOptions" [class.selected]="option.title === selectedSortTitle"
+                            (click)="selectSortOption(option)">
+                            {{ option.title }}
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </ng-template>
     </div>
 </section>
 
 <section class="catalog-layout">
+    <!-- Mobile & iPad Filter Bar -->
     <div class="mobile-filter-bar">
-        <button class="mobile-filter-btn" (click)="isFilterOpen = true">
+        <div *ngIf="isInitialLoading" class="pl-skel pl-skel--mobile-filter"></div>
+        <button *ngIf="!isInitialLoading" class="mobile-filter-btn" (click)="isFilterOpen = true">
             <i class="fa fa-sliders"></i><span>Filters</span>
         </button>
     </div>
 
-    <aside class="filters-sidebar" [class.active]="isFilterOpen">
+    <!-- Desktop Sidebar Skeleton (Hidden automatically on iPad/Mobile <= 992px) -->
+    <aside class="filters-sidebar filters-sidebar--skeleton" *ngIf="isInitialLoading; else loadedSidebar">
         <div class="filters-top">
-            <h2>Filters</h2>
-            <button class="mobile-close-filter" (click)="isFilterOpen = false">
-                <i class="fa fa-times"></i>
-            </button>
-            <button class="clear-btn" (click)="clearFilters.emit(); isFilterOpen = false">Clear All</button>
+            <div class="pl-skel pl-skel--sidebar-head"></div>
+            <div class="pl-skel pl-skel--clear-btn"></div>
         </div>
 
-        <section class="filter-group" *ngIf="genders.length > 0">
-            <button class="filter-title" (click)="toggleFilter('gender')">
-                <span>Gender</span>
-                <i class="fa" [ngClass]="filterStates['gender'] ? 'fa-angle-up' : 'fa-angle-down'"></i>
-            </button>
-            <div class="filter-options" *ngIf="filterStates['gender']">
-                <label class="radio-option" *ngFor="let item of genders; trackBy: trackByFn">
-                    <input type="radio" name="gender_selection" [checked]="item.selected"
-                        (change)="genders.forEach(g => g.selected = false); item.selected = true; onFilterUpdate()">
-                    <span class="radio-circle"></span>
-                    <span class="label" [class.active]="item.selected">{{ item.name }}</span>
-                    <small>{{ item.count }}</small>
-                </label>
-            </div>
-        </section>
-
-        <section class="filter-group" *ngIf="categories.length > 0">
-            <button class="filter-title" (click)="toggleFilter('category')">
-                <span>Category</span>
-                <i class="fa" [ngClass]="filterStates['category'] ? 'fa-angle-up' : 'fa-angle-down'"></i>
-            </button>
-            <div class="filter-options" *ngIf="filterStates['category']">
-                <label class="filter-option" *ngFor="let item of categories; trackBy: trackByFn">
-                    <div class="checkbox-wrapper">
-                        <input type="checkbox" [name]="'cat_' + item.id" [(ngModel)]="item.selected"
-                            (ngModelChange)="onFilterUpdate()">
-                        <span class="checkmark"></span>
-                    </div>
-                    <span class="label" [class.active]="item.selected">{{ item.name }} </span>
-                    <small>{{ item.count }}</small>
-                </label>
-            </div>
-        </section>
-
-        <section class="filter-group" *ngIf="brands.length > 0">
-            <button class="filter-title" (click)="toggleFilter('brand')">
-                <span>Brand</span>
-                <i class="fa" [ngClass]="filterStates['brand'] ? 'fa-angle-up' : 'fa-angle-down'"></i>
-            </button>
-            <div class="filter-options" *ngIf="filterStates['brand']">
-                <label class="filter-option" *ngFor="let item of brands; trackBy: trackByFn">
-                    <div class="checkbox-wrapper">
-                        <input type="checkbox" [name]="'brand_' + item.id" [(ngModel)]="item.selected"
-                            (ngModelChange)="onFilterUpdate()">
-                        <span class="checkmark"></span>
-                    </div>
-                    <span class="label" [class.active]="item.selected">{{ item.name }}</span>
-                    <small>{{ item.count }}</small>
-                </label>
-            </div>
-        </section>
-
-        <section class="filter-group" *ngIf="colors.length > 0">
-            <button class="filter-title" (click)="toggleFilter('color')">
-                <span>Color</span>
-                <i class="fa" [ngClass]="filterStates['color'] ? 'fa-angle-up' : 'fa-angle-down'"></i>
-            </button>
-            <div class="color-options-grid" *ngIf="filterStates['color']">
-                <label class="color-swatch-wrapper" *ngFor="let item of colors; trackBy: trackByFn">
-                    <input type="checkbox" [name]="'color_' + item.name" [(ngModel)]="item.selected"
-                        (ngModelChange)="onFilterUpdate()">
-                    <span class="color-swatch" [style.background]="item.code || item.name"
-                        [class.selected]="item.selected">
-                        <i class="fa fa-check check-icon" *ngIf="item.selected"></i>
-                    </span>
-                    <span class="color-label" [class.active]="item.selected">{{ item.name }}</span>
-                    <small>{{ item.count }}</small>
-                </label>
-            </div>
-        </section>
-
-        <section class="filter-group" *ngIf="sizes.length > 0">
-            <button class="filter-title" (click)="toggleFilter('size')">
-                <span>Size</span>
-                <i class="fa" [ngClass]="filterStates['size'] ? 'fa-angle-up' : 'fa-angle-down'"></i>
-            </button>
-            <div class="sizes-grid" *ngIf="filterStates['size']">
-                <button *ngFor="let size of sizes; trackBy: trackByFn" [class.active]="size.selected"
-                    (click)="toggleSize(size)">
-                    {{ size.name }}
-                </button>
-            </div>
-        </section>
-
-        <section class="filter-group">
-            <button class="filter-title" (click)="toggleFilter('price')">
-                <span>Price Range</span>
-                <i class="fa" [ngClass]="filterStates['price'] ? 'fa-angle-up' : 'fa-angle-down'"></i>
-            </button>
-            <div class="filter-options" *ngIf="filterStates['price']">
-                <div class="price-slider">
-                    <div class="slider-track"></div>
-                    <div class="slider-range" [style.left.%]="(minPrice / maxRange) * 100"
-                        [style.right.%]="100 - ((maxPrice / maxRange) * 100)"></div>
-                    <input type="range" min="0" [max]="maxRange" [(ngModel)]="minPrice" (change)="onMinPriceChange()">
-                    <input type="range" min="0" [max]="maxRange" [(ngModel)]="maxPrice" (change)="onMaxPriceChange()">
-                </div>
-                <div class="price-values">
-                    <span>₹{{ minPrice }}</span>
-                    <span>₹{{ maxPrice }}</span>
+        <div class="filter-group" *ngFor="let grp of sidebarSkeletonGroups">
+            <div class="pl-skel pl-skel--group-title"></div>
+            <div class="pl-skel-rows">
+                <div class="pl-skel-row" *ngFor="let row of sidebarSkeletonRows">
+                    <div class="pl-skel pl-skel--checkbox"></div>
+                    <div class="pl-skel pl-skel--label"></div>
+                    <div class="pl-skel pl-skel--badge"></div>
                 </div>
             </div>
-        </section>
-
-        <section class="filter-group" *ngIf="discounts.length > 0">
-            <button class="filter-title" (click)="toggleFilter('discount')">
-                <span>Discount</span>
-                <i class="fa" [ngClass]="filterStates['discount'] ? 'fa-angle-up' : 'fa-angle-down'"></i>
-            </button>
-            <div class="filter-options" *ngIf="filterStates['discount']">
-                <label class="radio-option" *ngFor="let item of discounts; trackBy: trackByFn">
-                    <input type="radio" name="discount" [value]="item.value" [(ngModel)]="selectedDiscount"
-                        (ngModelChange)="onDiscountChange()">
-                    <span class="radio-circle"></span>
-                    <span class="label" [class.active]="selectedDiscount === item.value">{{ item.label }}</span>
-                </label>
-            </div>
-        </section>
+        </div>
     </aside>
+
+    <!-- Loaded Filters Sidebar -->
+    <ng-template #loadedSidebar>
+        <aside class="filters-sidebar" [class.active]="isFilterOpen">
+            <div class="filters-top">
+                <h2>Filters</h2>
+                <button class="mobile-close-filter" (click)="isFilterOpen = false">
+                    <i class="fa fa-times"></i>
+                </button>
+                <button class="clear-btn" (click)="clearFilters.emit(); isFilterOpen = false">Clear All</button>
+            </div>
+
+            <section class="filter-group" *ngIf="genders.length > 0">
+                <button class="filter-title" (click)="toggleFilter('gender')">
+                    <span>Gender</span>
+                    <i class="fa" [ngClass]="filterStates['gender'] ? 'fa-angle-up' : 'fa-angle-down'"></i>
+                </button>
+                <div class="filter-options" *ngIf="filterStates['gender']">
+                    <label class="radio-option" *ngFor="let item of genders; trackBy: trackByFn">
+                        <input type="radio" name="gender_selection" [checked]="item.selected"
+                            (change)="genders.forEach(g => g.selected = false); item.selected = true; onFilterUpdate()">
+                        <span class="radio-circle"></span>
+                        <span class="label" [class.active]="item.selected">{{ item.name }}</span>
+                        <small>{{ item.count }}</small>
+                    </label>
+                </div>
+            </section>
+
+            <section class="filter-group" *ngIf="categories.length > 0">
+                <button class="filter-title" (click)="toggleFilter('category')">
+                    <span>Category</span>
+                    <i class="fa" [ngClass]="filterStates['category'] ? 'fa-angle-up' : 'fa-angle-down'"></i>
+                </button>
+                <div class="filter-options" *ngIf="filterStates['category']">
+                    <label class="filter-option" *ngFor="let item of categories; trackBy: trackByFn">
+                        <div class="checkbox-wrapper">
+                            <input type="checkbox" [name]="'cat_' + item.id" [(ngModel)]="item.selected"
+                                (ngModelChange)="onFilterUpdate()">
+                            <span class="checkmark"></span>
+                        </div>
+                        <span class="label" [class.active]="item.selected">{{ item.name }} </span>
+                        <small>{{ item.count }}</small>
+                    </label>
+                </div>
+            </section>
+
+            <section class="filter-group" *ngIf="brands.length > 0">
+                <button class="filter-title" (click)="toggleFilter('brand')">
+                    <span>Brand</span>
+                    <i class="fa" [ngClass]="filterStates['brand'] ? 'fa-angle-up' : 'fa-angle-down'"></i>
+                </button>
+                <div class="filter-options" *ngIf="filterStates['brand']">
+                    <label class="filter-option" *ngFor="let item of brands; trackBy: trackByFn">
+                        <div class="checkbox-wrapper">
+                            <input type="checkbox" [name]="'brand_' + item.id" [(ngModel)]="item.selected"
+                                (ngModelChange)="onFilterUpdate()">
+                            <span class="checkmark"></span>
+                        </div>
+                        <span class="label" [class.active]="item.selected">{{ item.name }}</span>
+                        <small>{{ item.count }}</small>
+                    </label>
+                </div>
+            </section>
+
+            <section class="filter-group" *ngIf="colors.length > 0">
+                <button class="filter-title" (click)="toggleFilter('color')">
+                    <span>Color</span>
+                    <i class="fa" [ngClass]="filterStates['color'] ? 'fa-angle-up' : 'fa-angle-down'"></i>
+                </button>
+                <div class="color-options-grid" *ngIf="filterStates['color']">
+                    <label class="color-swatch-wrapper" *ngFor="let item of colors; trackBy: trackByFn">
+                        <input type="checkbox" [name]="'color_' + item.name" [(ngModel)]="item.selected"
+                            (ngModelChange)="onFilterUpdate()">
+                        <span class="color-swatch" [style.background]="item.code || item.name"
+                            [class.selected]="item.selected">
+                            <i class="fa fa-check check-icon" *ngIf="item.selected"></i>
+                        </span>
+                        <span class="color-label" [class.active]="item.selected">{{ item.name }}</span>
+                        <small>{{ item.count }}</small>
+                    </label>
+                </div>
+            </section>
+
+            <section class="filter-group" *ngIf="sizes.length > 0">
+                <button class="filter-title" (click)="toggleFilter('size')">
+                    <span>Size</span>
+                    <i class="fa" [ngClass]="filterStates['size'] ? 'fa-angle-up' : 'fa-angle-down'"></i>
+                </button>
+                <div class="sizes-grid" *ngIf="filterStates['size']">
+                    <button *ngFor="let size of sizes; trackBy: trackByFn" [class.active]="size.selected"
+                        (click)="toggleSize(size)">
+                        {{ size.name }}
+                    </button>
+                </div>
+            </section>
+
+            <section class="filter-group">
+                <button class="filter-title" (click)="toggleFilter('price')">
+                    <span>Price Range</span>
+                    <i class="fa" [ngClass]="filterStates['price'] ? 'fa-angle-up' : 'fa-angle-down'"></i>
+                </button>
+                <div class="filter-options" *ngIf="filterStates['price']">
+                    <div class="price-slider">
+                        <div class="slider-track"></div>
+                        <div class="slider-range" [style.left.%]="(minPrice / maxRange) * 100"
+                            [style.right.%]="100 - ((maxPrice / maxRange) * 100)"></div>
+                        <input type="range" min="0" [max]="maxRange" [(ngModel)]="minPrice"
+                            (change)="onMinPriceChange()">
+                        <input type="range" min="0" [max]="maxRange" [(ngModel)]="maxPrice"
+                            (change)="onMaxPriceChange()">
+                    </div>
+                    <div class="price-values">
+                        <span>₹{{ minPrice }}</span>
+                        <span>₹{{ maxPrice }}</span>
+                    </div>
+                </div>
+            </section>
+
+            <section class="filter-group" *ngIf="discounts.length > 0">
+                <button class="filter-title" (click)="toggleFilter('discount')">
+                    <span>Discount</span>
+                    <i class="fa" [ngClass]="filterStates['discount'] ? 'fa-angle-up' : 'fa-angle-down'"></i>
+                </button>
+                <div class="filter-options" *ngIf="filterStates['discount']">
+                    <label class="radio-option" *ngFor="let item of discounts; trackBy: trackByFn">
+                        <input type="radio" name="discount" [value]="item.value" [(ngModel)]="selectedDiscount"
+                            (ngModelChange)="onDiscountChange()">
+                        <span class="radio-circle"></span>
+                        <span class="label" [class.active]="selectedDiscount === item.value">{{ item.label }}</span>
+                    </label>
+                </div>
+            </section>
+        </aside>
+    </ng-template>
 
     <div class="filter-overlay" [class.active]="isFilterOpen" (click)="isFilterOpen = false"></div>
 
     <div #gridScrollContainer class="grid-container">
-
         <div class="active-filters-container" *ngIf="activeFilters.length > 0">
             <div class="filter-chips">
                 <span class="filter-chip" *ngFor="let chip of activeFilters; trackBy: trackByFn">
@@ -181,13 +219,30 @@
             </div>
         </div>
 
-        <app-common-product-grid [products]="products" customClass="product-list-grid"> </app-common-product-grid>
-
-        <div #loadMoreTrigger class="load-more-indicator">
-            <div *ngIf="isFetchingMore" class="infinite-spinner"></div>
-            <span *ngIf="!hasMoreData && products.length > 0" class="end-text">
-                You've reached the end!
-            </span>
+        <!-- Product Grid Skeleton (Initial Load & Filter/Sort Refresh) -->
+        <div class="pl-skeleton-grid" *ngIf="isLoading; else loadedProducts">
+            <div class="pl-skeleton-card" *ngFor="let card of productSkeletons">
+                <div class="pl-skel pl-skel--img"></div>
+                <div class="pl-skeleton-card__body">
+                    <div class="pl-skel pl-skel--brand"></div>
+                    <div class="pl-skel pl-skel--name"></div>
+                    <div class="pl-skel-price-row">
+                        <div class="pl-skel pl-skel--price"></div>
+                        <div class="pl-skel pl-skel--discount"></div>
+                    </div>
+                </div>
+            </div>
         </div>
+
+        <ng-template #loadedProducts>
+            <app-common-product-grid [products]="products" customClass="product-list-grid"></app-common-product-grid>
+
+            <div #loadMoreTrigger class="load-more-indicator">
+                <div *ngIf="isFetchingMore" class="infinite-spinner"></div>
+                <span *ngIf="!hasMoreData && products.length > 0" class="end-text">
+                    You've reached the end!
+                </span>
+            </div>
+        </ng-template>
     </div>
 </section>

@@ -14,6 +14,9 @@ export class Http {
   public authStateChange$ = new Subject<boolean>();
   public profileUpdate$ = new Subject<void>();
   private menuCache$: Observable<any> | null = null;
+  private home1Cache$: Observable<any> | null = null;
+  private home2Cache$: Observable<any> | null = null;
+  private lastHome2AuthState: boolean | null = null;
 
   constructor(private http: HttpClient) { }
 
@@ -71,7 +74,48 @@ export class Http {
     return this.http.get(this.baseUrl + '/api/categories/categoryId/' + id, { context: new HttpContext().set(SKIP_AUTH, true) });
   }
 
+  getHome1(): Observable<any> {
+    if (this.home1Cache$) {
+      return this.home1Cache$;
+    }
+    this.home1Cache$ = this.http.get(this.baseUrl + '/api/home/page1', {
+      context: new HttpContext().set(SKIP_AUTH, true)
+    }).pipe(
+      shareReplay(1),
+      catchError(err => {
+        this.home1Cache$ = null;
+        throw err;
+      })
+    );
+    return this.home1Cache$;
+  }
+
   // ================== PUBLIC & PROTECTED APIs =================== //
+
+  getHome2(isLoggedIn: boolean = false): Observable<any> {
+    // Refresh cache if auth state changed (to get updated isWishlist flags)
+    if (this.home2Cache$ && this.lastHome2AuthState === isLoggedIn) {
+      return this.home2Cache$;
+    }
+    this.lastHome2AuthState = isLoggedIn;
+
+    const options = isLoggedIn
+      ? {}
+      : { context: new HttpContext().set(SKIP_AUTH, true) };
+
+    this.home2Cache$ = this.http.get(this.baseUrl + '/api/home/page2', options).pipe(
+      shareReplay(1),
+      catchError(err => {
+        this.home2Cache$ = null;
+        throw err;
+      })
+    );
+    return this.home2Cache$;
+  }
+
+  clearHome2Cache() {
+    this.home2Cache$ = null;
+  }
 
   getProductDetails(productId: any, isLoggedIn: boolean = false) {
     const options = isLoggedIn

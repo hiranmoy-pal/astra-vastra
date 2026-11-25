@@ -1459,3 +1459,289 @@
         transition: none !important;
     }
 }
+
+/* =====================================
+   SKELETON LOADERS (DESKTOP, IPAD, TAB, MOBILE)
+===================================== */
+.pl-skel {
+    position: relative;
+    overflow: hidden;
+    background: var(--border);
+    border-radius: 10px;
+
+    &::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        transform: translateX(-100%);
+        background: linear-gradient(90deg,
+                transparent 0%,
+                rgba(255, 255, 255, 0.24) 50%,
+                transparent 100%);
+        animation: plSkeletonShimmer 1.35s infinite;
+    }
+}
+
+/* Header Skeleton Elements */
+.pl-skel--crumb {
+    width: 190px;
+    height: 18px;
+    border-radius: 999px;
+}
+
+.pl-skel--title {
+    width: 170px;
+    height: 24px;
+    border-radius: 8px;
+    background: var(--border) !important;
+    -webkit-text-fill-color: initial;
+}
+
+.pl-skel--count {
+    width: 108px;
+    height: 30px;
+    border-radius: 999px;
+}
+
+.pl-skel--sort {
+    width: 175px;
+    height: 40px;
+    border-radius: 999px;
+}
+
+.pl-skel--mobile-filter {
+    width: 112px;
+    height: 40px;
+    border-radius: 12px;
+}
+
+/* Sidebar Skeleton Elements */
+.pl-skel--sidebar-head {
+    width: 90px;
+    height: 18px;
+    border-radius: 6px;
+}
+
+.pl-skel--clear-btn {
+    width: 68px;
+    height: 24px;
+    border-radius: 999px;
+}
+
+.pl-skel--group-title {
+    width: 110px;
+    height: 14px;
+    margin: 6px 8px 12px;
+    border-radius: 6px;
+}
+
+.pl-skel-rows {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 0 8px;
+}
+
+.pl-skel-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.pl-skel--checkbox {
+    width: 18px;
+    height: 18px;
+    border-radius: 6px;
+    flex-shrink: 0;
+}
+
+.pl-skel--label {
+    flex: 1;
+    height: 13px;
+    border-radius: 6px;
+}
+
+.pl-skel--badge {
+    width: 28px;
+    height: 16px;
+    border-radius: 999px;
+    flex-shrink: 0;
+}
+
+/* Product Grid Skeleton */
+.pl-skeleton-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 18px;
+    width: 100%;
+}
+
+.pl-skeleton-card {
+    border-radius: 14px;
+    border: 1px solid var(--border);
+    background: var(--surface);
+    overflow: hidden;
+    box-shadow: var(--shadow-soft);
+
+    .pl-skel--img {
+        width: 100%;
+        aspect-ratio: 4 / 5;
+        border-radius: 0;
+    }
+
+    &__body {
+        padding: 12px;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .pl-skel--brand {
+        width: 44%;
+        height: 12px;
+        border-radius: 6px;
+    }
+
+    .pl-skel--name {
+        width: 88%;
+        height: 14px;
+        border-radius: 6px;
+    }
+
+    .pl-skel-price-row {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin-top: 2px;
+    }
+
+    .pl-skel--price {
+        width: 36%;
+        height: 15px;
+        border-radius: 6px;
+    }
+
+    .pl-skel--discount {
+        width: 28%;
+        height: 13px;
+        border-radius: 6px;
+    }
+}
+
+@keyframes plSkeletonShimmer {
+    100% {
+        transform: translateX(100%);
+    }
+}
+
+/* ── Small Desktop & iPad Landscape (<= 1280px) ── */
+@media (max-width: 1280px) {
+    .pl-skeleton-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 16px;
+    }
+}
+
+/* ── iPad & Tablet (<= 992px) ── */
+@media (max-width: 992px) {
+    .filters-sidebar--skeleton {
+        display: none !important;
+    }
+
+    .pl-skel--crumb {
+        width: 160px;
+        height: 15px;
+    }
+
+    .pl-skel--title {
+        width: 145px;
+        height: 22px;
+    }
+
+    .pl-skel--sort {
+        width: 150px;
+        height: 36px;
+    }
+
+    .pl-skeleton-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 14px;
+    }
+}
+
+/* ── Mobile (<= 768px) ── */
+@media (max-width: 768px) {
+    .pl-skel--crumb {
+        width: 140px;
+        height: 14px;
+    }
+
+    .pl-skel--title {
+        width: 130px;
+        height: 20px;
+    }
+
+    .pl-skel--count {
+        width: 92px;
+        height: 26px;
+    }
+
+    .pl-skel--sort {
+        width: 138px;
+        height: 34px;
+    }
+
+    .pl-skel--mobile-filter {
+        width: 100%;
+        height: 38px;
+    }
+
+    .pl-skeleton-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 10px;
+        padding: 0 10px;
+    }
+
+    .pl-skeleton-card {
+        border-radius: 10px;
+
+        &__body {
+            padding: 8px 9px 10px;
+            gap: 6px;
+        }
+
+        .pl-skel--brand {
+            height: 10px;
+        }
+
+        .pl-skel--name {
+            height: 12px;
+        }
+
+        .pl-skel--price {
+            height: 12px;
+        }
+
+        .pl-skel--discount {
+            height: 10px;
+        }
+    }
+}
+
+/* ── Small Phones (<= 540px) ── */
+@media (max-width: 540px) {
+    .pl-skel--sort {
+        width: 122px;
+    }
+
+    .pl-skeleton-grid {
+        gap: 8px;
+        padding: 0 8px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .pl-skel::after {
+        animation: none !important;
+    }
+}

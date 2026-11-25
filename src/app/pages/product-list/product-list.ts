@@ -89,11 +89,15 @@ export class ProductList implements OnInit, AfterViewInit, OnDestroy {
       this.currentPage = 1;
       this.offset = 0;
       this.hasMoreData = true;
-
       this.products = [];
       this.activeFilters = [];
-
       this.breadcrumbs = [];
+      this.categories = [];
+      this.brands = [];
+      this.colors = [];
+      this.sizes = [];
+      this.genders = [];
+      this.discounts = [];
       this.categoryTitle = this.slug
         ? this.slug.split('-').map((word: string) => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')
         : 'Loading...';
@@ -420,7 +424,7 @@ export class ProductList implements OnInit, AfterViewInit, OnDestroy {
     } else {
       this.isLoading = true;
       if (isPlatformBrowser(this.platformId)) {
-        this.loadingService.show();
+        // this.loadingService.show();
       }
     }
 
@@ -503,7 +507,7 @@ export class ProductList implements OnInit, AfterViewInit, OnDestroy {
         this.isFetchingMore = false;
 
         if (isPlatformBrowser(this.platformId)) {
-          this.loadingService.hide();
+          // this.loadingService.hide();
         }
         this.cdr.detectChanges();
       },
@@ -512,7 +516,7 @@ export class ProductList implements OnInit, AfterViewInit, OnDestroy {
         this.isLoading = false;
         this.isFetchingMore = false;
         if (isPlatformBrowser(this.platformId)) {
-          this.loadingService.hide();
+          // this.loadingService.hide();
         }
         this.cdr.detectChanges();
       }

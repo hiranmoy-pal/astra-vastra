@@ -1,6 +1,6 @@
 <app-header></app-header>
+@if (productDetails) {
 <main class="product-details-page">
-    @if (productDetails) {
     <section class="product-container">
         <!-- ==================== GALLERY SECTION ======================= -->
         @if (productDetails.images?.length) {
@@ -318,13 +318,14 @@
             }
         </section>
     </section>
-    }
 
     <app-common-product-swiper title="Explore Similar Products" [products]="products"></app-common-product-swiper>
     <app-common-product-grid title="Explore More" [products]="products"></app-common-product-grid>
 
+
 </main>
 <app-footer></app-footer>
+}
 
 <app-image-viewer [isOpen]="isViewerOpen()" [images]="viewerImages()" [initialIndex]="viewerInitialIndex()"
     [title]="viewerTitle()" (closed)="closeImageViewer()">
