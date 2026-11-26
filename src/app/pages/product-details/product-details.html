@@ -86,24 +86,24 @@
                 <p>350 people bought this in last 7 days</p>
             </section>
 
-            <!-- PRICE -->
-            @if (productDetails.price) {
+           <!-- PRICE -->
+            @if (activePrice; as currentPrice) {
             <section class="pricing-section">
                 <div class="price-row">
-                    @if(productDetails.price.offerPrice >= 0){
-                    <h2 class="price">₹{{ productDetails.price.offerPrice }}</h2>
+                    @if (currentPrice.offerPrice >= 0) {
+                    <h2 class="price">₹{{ currentPrice.offerPrice }}</h2>
                     }
-                    @if(productDetails.price.price >= 0){
-                    <span class="old-price">₹{{ productDetails.price.price }}</span>
+                    @if (currentPrice.price > currentPrice.offerPrice) {
+                    <span class="old-price">₹{{ currentPrice.price }}</span>
                     }
-                    @if(productDetails.price.discount){
-                    <span class="discount">{{ productDetails.price.discount }}% OFF</span>
+                    @if (currentPrice.discount > 0) {
+                    <span class="discount">{{ currentPrice.discount }}% OFF</span>
                     }
                 </div>
                 <p class="tax-text">Inclusive of all taxes</p>
-                @if(productDetails.price.offerPrice >= 0){
+                @if (currentPrice.offerPrice >= 0) {
                 <div class="offer-price">
-                    Get it for as low as ₹{{ productDetails.price.offerPrice }}
+                    Get it for as low as ₹{{ currentPrice.offerPrice }}
                 </div>
                 }
             </section>
@@ -166,7 +166,7 @@
                         <button [class.active]="selectedSize() === s.size" [disabled]="!s.available"
                             [title]="s.product_left || ''" (click)="selectSize(s.size, s.available)">
                             <span class="size-label">{{ s.size }}</span>
-                            <span class="size-price">Rs. {{ s.price }}</span>
+                            <span class="size-price">Rs. {{ s.offerPrice }}</span>
                         </button>
                         <p *ngIf="s.product_left">Only {{ s.product_left }}</p>
                     </div>

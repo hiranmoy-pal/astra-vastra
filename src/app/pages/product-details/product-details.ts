@@ -20,7 +20,15 @@ export interface IRatingDivision { rating: number; count: number; percentage: nu
 export interface IRating { averageRating: number; totalCount: number; ratingDivision: IRatingDivision[]; }
 export interface IPrice { price: number; offerPrice: number; discount: number; }
 export interface IColor { name: string; checked: boolean; image: string; url: string; }
-export interface ISizeOption { id: number | null; size: string; price: number | null; available: boolean; product_left: string; }
+export interface ISizeOption {
+  id: number | null;
+  size: string;
+  price: number | null;
+  offerPrice?: number | null;
+  discount?: number | null;
+  available: boolean;
+  product_left: string | null;
+}
 export interface ISize { sizeChart: string; sizeList: ISizeOption[]; }
 export interface ISpecification { label: string; value: string; }
 export interface IDetailedInfo { description: string; specification: ISpecification[]; }
@@ -228,9 +236,28 @@ export class ProductDetails implements OnInit, AfterViewInit {
     return Array(Math.round(rating || 0)).fill(0).map((_, i) => i + 1);
   }
 
+  get activePrice(): IPrice | null {
+    if (!this.productDetails) return null;
+
+    const selected = this.productDetails.size?.sizeList?.find(
+      s => s.size === this.selectedSize()
+    );
+
+    if (selected && (selected.offerPrice != null || selected.price != null)) {
+      return {
+        price: selected.price ?? this.productDetails.price?.price ?? 0,
+        offerPrice: selected.offerPrice ?? selected.price ?? this.productDetails.price?.offerPrice ?? 0,
+        discount: selected.discount ?? 0
+      };
+    }
+
+    return this.productDetails.price || null;
+  }
+
   selectSize(size: string, available: boolean) {
     if (available) {
       this.selectedSize.set(size);
+      this.isAddedToCart.set(false);
     }
   }
 
