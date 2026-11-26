@@ -319,9 +319,10 @@
         </section>
     </section>
 
+    @if (products && products?.length>0) {
     <app-common-product-swiper title="Explore Similar Products" [products]="products"></app-common-product-swiper>
     <app-common-product-grid title="Explore More" [products]="products"></app-common-product-grid>
-
+    }
 
 </main>
 <app-footer></app-footer>
